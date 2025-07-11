@@ -60,6 +60,16 @@ fun destStringConstant exp = let
   val StringConstant (_, s) = exp
 in SOME s end handle Bind => NONE
 
+fun destList exp = let
+  val List {elems, ...} = exp
+  val {args, ...} = elems
+in SOME args end handle Bind => NONE  
+
+fun destOpen dec = let
+  val DecOpen {elems, ...} = dec
+  val openNames = map #2 elems
+in SOME openNames end handle Bind => NONE
+
 fun isCallTo fname dec =
   case destCall dec of SOME (cname, _) => fname = cname | _ => false
 
@@ -87,6 +97,28 @@ fun filterDecs filter decs =
 
 fun sing xs = case xs of [x] => x | _ => raise Bind
 
+fun stripStringQuotes s = String.substring (s, 1, String.size s - 2)
+
+fun stripTheory s = String.substring (s, 0, String.size s - 6)
+
+fun mapOption _ [] = SOME []
+  | mapOption f (x::xs) = 
+    case f x of
+        NONE => NONE
+      | SOME y => 
+        case mapOption f xs of
+            NONE => NONE
+          | SOME ys => SOME (y::ys)
+
+fun mem _ [] = false
+  | mem y (x::xs) = if x = y then true else mem y xs
+;
+
+fun lookup _ [] = raise Option
+  | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
+
+datatype attr = IgnoreGrammar | NoBind
+
 ;
 
 val newTheoryCall = filterDecs (isCallTo "new_theory") decs;
@@ -95,11 +127,57 @@ val theoryName =
   newTheoryCall
   |> List.filter (not o isSemi)
   |> sing |> destCall |> Option.valOf |> #2
-  |> destStringConstant |> Option.valOf;
-
-val setGrammarAncestryCall = filterDecs (isCallTo "set_grammar_ancestry") decs;
+  |> destStringConstant |> Option.valOf
+  |> stripStringQuotes;
 
 val openDecs = filterDecs isOpen decs;
 
+val (openTheories, openLibs) =
+  openDecs
+  |> List.filter (not o isSemi)
+  |> mapOption destOpen |> Option.valOf
+  |> List.concat
+  |> List.partition (String.isSuffix "Theory")
+
 val localOpenDecs = filterDecs isLocalOpen decs;
+
+val (localOpenTheories, localOpenLibs) =
+  localOpenDecs
+  |> List.filter (not o isSemi)
+  |> mapOption destLocal |> Option.valOf
+  |> map #1 |> List.concat
+  |> mapOption destOpen |> Option.valOf
+  |> List.concat
+  |> List.partition (String.isSuffix "Theory")
+
+val localOpenTheories =
+  List.filter (fn x => not (mem x openTheories)) localOpenTheories
+  |> map (fn x => (stripTheory x, [NoBind]))
+
+val openTheories: (string * attr list) list =
+  map (fn x => (stripTheory x, [])) openTheories
+
+val _ = if localOpenLibs <> [] then raise Fail "localOpenLibs not empty" else ()
+
+val allTheories = openTheories @ localOpenTheories
+
+val setGrammarAncestryCall = filterDecs (isCallTo "set_grammar_ancestry") decs;
+
+val grammarAncestry =
+  setGrammarAncestryCall
+  |> List.filter (not o isSemi)
+  |> sing |> destCall |> Option.valOf |> #2
+  |> destList |> Option.valOf
+  |> mapOption destStringConstant |> Option.valOf
+  |> map stripStringQuotes
+
+val grammarTheories =
+  map (fn n => (n, lookup n allTheories)) grammarAncestry
+
+val ignoreGrammarTheories =
+  List.filter (fn (x,_) => not (mem x grammarAncestry)) allTheories
+  |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar]))
+
+val exportTheoryCall = filterDecs (isCallTo "export_theory") decs;
+
 
