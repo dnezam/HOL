@@ -180,4 +180,14 @@ val ignoreGrammarTheories =
 
 val exportTheoryCall = filterDecs (isCallTo "export_theory") decs;
 
+(* TODO 
+    - find beginning where we want to insert block
+    - implement case where there is no set_grammar_ancestry
+    - implement warning function if there is a comment within
+      or around block we are going to delete
+    - implement deletion function
+    - implement function that actually writes the block
+    - implement auto-fill for names
+*)
+
 
