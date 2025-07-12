@@ -5,12 +5,18 @@ open Parser
 
 exception Fail of string
 
+val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
+val file = "./testScript.sml"
+
+val s = TextIO.openIn file
+
+fun readFile acc = case TextIO.inputLine s of
+  SOME line => readFile (line :: acc)
+| NONE => (TextIO.closeIn s; concat (rev acc))
+
+val body = readFile []
+
 fun parse file = let
-  val s = TextIO.openIn file
-  fun readFile acc = case TextIO.inputLine s of
-    SOME line => readFile (line :: acc)
-  | NONE => (TextIO.closeIn s; concat (rev acc))
-  val body = readFile []
   val infixes =
     map (fn x => (x, 0, false)) ["++", "&&", "|->", "THEN", "THEN1",
       "THENL", "THEN_LT", "THENC", "ORELSE", "ORELSE_LT", "ORELSEC", "THEN_TCL",
@@ -38,8 +44,6 @@ fun parse file = let
     SOME dec => pull (dec :: acc)
   | NONE => List.rev acc
 in pull [] end;
-
-val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
 
 val decs = parse file;
 
@@ -92,10 +96,36 @@ fun filterDecs filter decs =
     if filter dec1 then (
       if isSemi dec2
       then dec1::dec2::(filterDecs filter rest)
-      else dec1::(filterDecs filter rest))
+      else dec1::(filterDecs filter (dec2::rest)))
     else filterDecs filter (dec2::rest)
 
-fun sing xs = case xs of [x] => x | _ => raise Bind
+fun identStop (start, content) = start + String.size content
+
+fun boundingBox dec =
+  case dec of
+    DecSemi s => (s, s+1)
+  | DecVal {val_, elems, ...} => raise Fail "todo"
+  | DecOpen {open_, elems} => (case elems of
+      [] => (open_, open_ + 4)
+    | _ => (open_, identStop (List.last elems)))
+  | DecLocal {local_, end_, ...} =>  raise Fail "todo"
+  | _ => raise Fail "unsupported for now"
+
+fun boundingBoxes decs =
+  case decs of
+    [] => []
+  | [dec] => [boundingBox dec]
+  | dec1::dec2::rest => case dec2 of
+      DecSemi i => let
+      val (start, _) = boundingBox dec1
+    in (start, i + 1)::boundingBoxes rest end
+    | _ => boundingBox dec1::boundingBoxes (dec2::rest)
+
+fun expandBox (start, stop) = raise Fail "todo"
+
+fun hasComment (start, stop) = raise Fail "todo"
+
+fun sing xs = (case xs of [x] => x | _ => raise Bind)
 
 fun stripStringQuotes s = String.substring (s, 1, String.size s - 2)
 
@@ -119,7 +149,73 @@ fun lookup _ [] = raise Option
 
 datatype attr = IgnoreGrammar | NoBind
 
+(* yoinked from mario *)
+fun mkLineCounter str = let
+  fun loop i ls =
+    if i >= String.size str then Vector.fromList (List.rev ls)
+    else
+      let val c = String.sub (str, i)
+      in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
+  in loop 0 [] end
+
+fun partitionPoint len pred = let
+  fun loop start len =
+    if len = 0 then start
+    else let
+      val half = len div 2
+      val middle = start + half
+      in
+        if pred middle
+        then loop (middle + 1) (len - (half + 1))
+        else loop start half
+      end
+  in loop 0 len end
+
+fun getLineCol lines index = let
+  val line = partitionPoint (Vector.length lines) (fn i => Vector.sub (lines, i) <= index)
+  in (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1))) end
+
+fun fromLineCol lines (line, col) =
+  if line = 0 then col else Vector.sub (lines, line - 1) + col
+
+val lines = mkLineCounter body
+
+fun subTotal i = String.sub (body, i) handle Subscript => #"\000"
+
+fun substringTotal i j =
+  String.substring (body, i, j) handle Subscript => "\000"
+
+fun isWhitespace c =
+  c = #" " orelse c =  #"\t"
+
+fun expandRight start = let
+  fun loop i = if isWhitespace $ subTotal i then loop (i + 1) else i
+  in loop start end
+
+fun expandLeft start = let
+  fun loop i = if isWhitespace $ subTotal (i - 1)then loop (i - 1) else i
+  in loop start end
+
+fun expandBox (start, stop) = (expandLeft start, expandRight stop)
+
+fun maybeContainsComment (start, stop) = let
+  val s = String.substring (body, start, stop - start)
+  in String.isSubstring "(*" s orelse String.isSubstring "*)" s end
+
+(* After expandBox, the next "token" is either a newline, or something else *)
+fun checkCommentLeft start = let
+  fun loop i =
+    if substringTotal (i - 2) 2 = "*)" then SOME (i - 2)
+    else if subTotal (i - 1) = #"\n" then NONE
+    else if subTotal (i - 1) = #"\000" then NONE
+    else checkCommentLeft (i - 1)
+  in
+    if subTotal (start - 1) = #"\n" then loop (start - 1)
+    else loop start end
+
 ;
+
+(* new_theory call *)
 
 val newTheoryCall = filterDecs (isCallTo "new_theory") decs;
 
@@ -130,7 +226,23 @@ val theoryName =
   |> destStringConstant |> Option.valOf
   |> stripStringQuotes;
 
+  
+(* open decs *)
+
+fun getLineColBox (start, stop) =
+  (getLineCol lines start, getLineCol lines stop)
+
 val openDecs = filterDecs isOpen decs;
+
+val openBoxes = openDecs |> boundingBoxes |> map expandBox
+
+val test =
+  openBoxes
+  |> List.mapPartial (fn (l,_) => checkCommentLeft l)
+  |> map $ getLineCol lines
+
+val warnDeletingComment =
+  openBoxes |> List.filter maybeContainsComment
 
 val (openTheories, openLibs) =
   openDecs
