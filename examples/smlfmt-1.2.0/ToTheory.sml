@@ -3,7 +3,7 @@ open Parser
 val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
 
 (* fun apply file = let *)
-  (* SML/HOL parsing *)
+  (** SML/HOL parsing *************************************************)
   val s = TextIO.openIn file
   fun readFile acc = case TextIO.inputLine s of
     SOME line => readFile (line :: acc)
@@ -39,7 +39,7 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
   in pull [] end;
   val decs = parse file;
 
-  (* General helpers *)
+  (** General helpers *************************************************)
   fun fail msg = raise Fail msg
   
   fun assert b msg = if not b then fail msg else ()
@@ -61,7 +61,7 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
   fun lookup _ [] = fail "lookup: Did not find element"
     | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
 
-  (* Parsing *)
+  (** Parsing *********************************************************)
   fun isEOF i = String.size body <= i
   fun isWhitespace c = (c = #" " orelse c =  #"\t")
 
@@ -92,7 +92,7 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
     val s = String.substring (body, start, stop - start)
     in String.isSubstring "(*" s orelse String.isSubstring "*)" s end
 
-  (* AST *)
+  (** HOL/SML AST *****************************************************)
   fun destStringConstant exp = let
     val StringConstant (_, s) = exp
   in SOME s end handle Bind => NONE
@@ -144,26 +144,43 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
         else dec1::(filterDecs filter (dec2::rest)))
       else filterDecs filter (dec2::rest)
 
-  (* Attributes *)
+  (** Attributes ******************************************************)
   datatype attr = IgnoreGrammar | NoBind
 
-  (* Bounding boxes *)
+  (** Bounding boxes **************************************************)
   (* (start [inclusive], stop [exclusive]) *)
 
   (* Find bounding boxes *)
   fun identStop (start, content) = start + String.size content
 
+  fun expStop exp =
+    case exp of
+      Unit {right, ...} => right + 1 
+    | StringConstant (start, content) => start + String.size content
+    | Ident {id, ...} => identStop id
+    | App (_, e2) => expStop e2
+    | List {right = SOME right, ...} => right + 1
+    | _ => raise Fail "unsupported for now"
+
   fun boundingBox dec =
     case dec of
       DecSemi s => (s, s+1)
-    | DecVal {val_, elems, ...} => raise Fail "todo"
+    | DecVal {val_, elems, ...} => let
+      val {args = [vb], ...} = elems
+      val {eq = SOME ({exp, ...}), ...} = vb
+      in (val_, expStop exp) end
     | DecOpen {open_, elems} => (case elems of
         [] => (open_, open_ + 4)
       | _ => (open_, identStop (List.last elems)))
-    | DecLocal {local_, end_, ...} =>  raise Fail "todo"
-    | _ => raise Fail "unsupported for now"
+    | DecLocal {local_, end_ = SOME end_pos, ...} => (local_, end_pos + 3)
+    | _ => fail "unsupported for now"
 
-  (* Merge boxes of declaration and semicolon that follow immediately *)
+  (* Merge boxes of declaration and semicolon that follow immediately -
+   * we are mainly worried about things like
+   * open foo                                          ;
+   * here - we want to consider that whitespace as part of the
+   * declaration. No guarantees this is not necessary though, or does
+   * not already happen.*)
   fun boundingBoxes decs =
     case decs of
       [] => []
@@ -209,7 +226,7 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
       else if substring start 2 = "(*" then SOME start
       else NONE end
 
-  (* offset => (line, col) *)
+  (** offset => (line, col) *******************************************)
   (* yoinked from Mario *)
   fun mkLineCounter str = let
     fun loop i ls =
@@ -241,6 +258,29 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
 
   val lines = mkLineCounter body
 
+  (** Deleting slices *************************************************)
+  (* Merges slices and returns them in increasing start order *)
+  fun mergeSlices (slices: (int * int) list) : (int * int) list = let
+    fun merge [] = []
+      | merge [x] = [x]
+      | merge ((s1, e1) :: (s2, e2) :: rest) =
+          if s2 <= e1 then  (* Overlapping or adjacent *)
+            merge ((s1, Int.max (e1, e2)) :: rest)
+          else
+            (s1, e1) :: merge ((s2, e2) :: rest)
+    val sortedSlices =
+      Listsort.sort (fn ((s1,_),(s2,_)) => Int.compare (s1,s2)) slices      
+    in merge sortedSlices end
+
+  (* Assumes that slices are not overlapping and sorted in increasing
+   * order (and maybe that there is some relation between start and stop
+   * - who knows :D) *)
+  (* Basic idea from Mario, mistakes from me *)
+  fun deleteSlices s slices = let
+    fun aux _ _ [] acc = Substring.concat (rev acc)
+    | aux s p ((start, stop) :: rest) acc =
+    aux s stop rest (Substring.substring (s, p, start - p) :: acc)
+    in aux s 0 slices [] end
 
   (*** "main" body ****************************************************)
 
@@ -338,7 +378,8 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
     exportTheoryCall
     ]
   
-  val trashBoxes = trash |> boundingBoxes |> map expandBox
+  val trashBoxes =
+    trash |> boundingBoxes |> map expandBox |> mergeSlices
 
   val maybeDeletedComment = trashBoxes |> List.filter maybeContainsComment
 
@@ -347,9 +388,19 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
     trashBoxes
     |> map (fn (l,r) => [checkCommentLeft l, checkCommentRight r])
     |> List.concat |> List.filter isSome |> List.map valOf
+    (* Hack to avoid initial comment to be recognized as stray *)
+    |> List.filter (fn x => x <> (top - 3)) 
 
   (* Delete declarations **********************************************)
+  val cleanBody = deleteSlices body trashBoxes
 
   (* Write new syntax *************************************************)
+  
+  (* Sanity check: Make sure top position has not been invalidated by
+   * deleting things around there *)
+  val _ = assert (List.null trashBoxes orelse top < #2 (List.hd trashBoxes))
+    "Position where we wanted to insert the new header was invalidated"
 
   (* in () end   *)
+
+  (** scratchpad **)
