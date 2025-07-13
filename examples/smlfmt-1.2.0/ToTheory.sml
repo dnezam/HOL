@@ -1,8 +1,6 @@
 open Parser
 
-val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
-
-(* fun apply file = let *)
+fun apply file = let
   (** SML/HOL parsing *************************************************)
   val s = TextIO.openIn file
   fun readFile acc = case TextIO.inputLine s of
@@ -192,15 +190,23 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
       | _ => boundingBox dec1::boundingBoxes (dec2::rest)
 
   (* Expand bounding boxes to contain trailing whitespace *)
-  fun expandRight start = let
-    fun loop i = if isWhitespace $ sub i then loop (i + 1) else i
-    in loop start end
+  fun expandBox (start, stop) = let
+    fun expandRight start = let
+        fun loop i = if isWhitespace $ sub i then loop (i + 1) else i
+        in loop start end
+    fun expandLeft start = let
+      fun loop i = if isWhitespace $ sub (i - 1) then loop (i - 1) else i
+      in loop start end
+    in (expandLeft start, expandRight stop) end
 
-  fun expandLeft start = let
-    fun loop i = if isWhitespace $ sub (i - 1)then loop (i - 1) else i
-    in loop start end
-
-  fun expandBox (start, stop) = (expandLeft start, expandRight stop)
+  (* We want to also deleted trailing newlines on the right side.
+   * If we do this in expandRight already, checkCommentRight might start
+   * to report comments that are on the left of something else. *)
+  fun consumeSpace (start, stop) = let
+    fun consumeSpaceRight start = let
+      fun loop i = if Char.isSpace $ sub i then loop (i + 1) else i
+      in loop start end
+    in (start, consumeSpaceRight stop) end
 
   (* After expandBox we want to find comments that are immediately
    * before start *)
@@ -225,38 +231,6 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
       if sub start = #"\n" then loop (start + 1)
       else if substring start 2 = "(*" then SOME start
       else NONE end
-
-  (** offset => (line, col) *******************************************)
-  (* yoinked from Mario *)
-  fun mkLineCounter str = let
-    fun loop i ls =
-      if i >= String.size str then Vector.fromList (List.rev ls)
-      else
-        let val c = String.sub (str, i)
-        in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
-    in loop 0 [] end
-
-  fun partitionPoint len pred = let
-    fun loop start len =
-      if len = 0 then start
-      else let
-        val half = len div 2
-        val middle = start + half
-        in
-          if pred middle
-          then loop (middle + 1) (len - (half + 1))
-          else loop start half
-        end
-    in loop 0 len end
-
-  fun getLineCol lines index = let
-    val line = partitionPoint (Vector.length lines)
-      (fn i => Vector.sub (lines, i) <= index)
-    in
-      (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1)))
-    end
-
-  val lines = mkLineCounter body
 
   (** Deleting slices *************************************************)
   (* Merges slices and returns them in increasing start order *)
@@ -406,7 +380,8 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
   val trashBoxes =
     trash |> boundingBoxes |> map expandBox |> mergeSlices
 
-  val maybeDeletedComment = trashBoxes |> List.filter maybeContainsComment
+  val maybeDeletedComment =
+    trashBoxes |> List.filter maybeContainsComment
 
   (* Reports comments immediately before and after deleted elements *)
   val maybeStrayComments =
@@ -414,7 +389,11 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
     |> map (fn (l,r) => [checkCommentLeft l, checkCommentRight r])
     |> List.concat |> List.filter isSome |> List.map valOf
     (* Hack to avoid initial comment to be recognized as stray *)
-    |> List.filter (fn x => x <> (top - 3)) 
+    |> List.filter (fn x => x <> (top - 3))
+
+  (* We have collected the warnings, so now we can consume trailing
+   * whitespace more aggressively. *)
+   val trashBoxes = trashBoxes |> map consumeSpace
 
   (* Delete declarations **********************************************)
   val cleanBody = deleteSlices body trashBoxes
@@ -435,10 +414,59 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
 
   val newBody = String.concat [
     String.substring (cleanBody, 0, top),
-    newHeader,
+    newHeader, "\n\n",
     String.extract (cleanBody, top, NONE)
     ]
-  (* in () end   *)
+  in {
+    newBody = newBody,
+    maybeDeletedComment = maybeDeletedComment,
+    maybeStrayComments = maybeStrayComments}
+  end  
 
-  (** scratchpad **)
 
+
+(*** scratchpad *******************************************************)
+
+  val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
+
+  val r = apply file
+
+  fun writeStringToFile file content = let
+    val outstream = TextIO.openOut file
+    in TextIO.output(outstream, content); TextIO.closeOut outstream end
+
+(* val _ = writeStringToFile file newBody *)
+
+ (** offset => (line, col) *******************************************)
+  (* yoinked from Mario *)
+  fun mkLineCounter str = let
+    fun loop i ls =
+      if i >= String.size str then Vector.fromList (List.rev ls)
+      else
+        let val c = String.sub (str, i)
+        in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
+    in loop 0 [] end
+
+  fun partitionPoint len pred = let
+    fun loop start len =
+      if len = 0 then start
+      else let
+        val half = len div 2
+        val middle = start + half
+        in
+          if pred middle
+          then loop (middle + 1) (len - (half + 1))
+          else loop start half
+        end
+    in loop 0 len end
+
+  fun getLineCol lines index = let
+    val line = partitionPoint (Vector.length lines)
+      (fn i => Vector.sub (lines, i) <= index)
+    in
+      (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1)))
+    end
+
+
+  (********************************************************************)
+  
