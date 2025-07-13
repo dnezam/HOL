@@ -44,8 +44,9 @@ fun apply file = let
 
   fun sing xs = (case xs of [x] => x | _ => fail "sing: Not a singleton")
 
-  fun mem _ [] = false
-    | mem y (x::xs) = if x = y then true else mem y xs
+  fun mem y xs = List.exists (fn x => x = y) xs
+
+  fun isNotIn xs y = not (List.exists (fn x => x = y) xs)
 
   fun mapOption _ [] = SOME []
     | mapOption f (x::xs) = 
@@ -55,9 +56,6 @@ fun apply file = let
           case mapOption f xs of
               NONE => NONE
             | SOME ys => SOME (y::ys)
-
-  fun lookup _ [] = fail "lookup: Did not find element"
-    | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
 
   (** Parsing *********************************************************)
   fun isEOF i = String.size body <= i
@@ -373,6 +371,10 @@ fun apply file = let
   (* If a call to set_grammar_ancestry exists, we need to list theories
      in that order and add ignore_grammar to those not listed *)
   fun processSetGrammarAncestry sgac theories = let
+    (* This case occurs if something is mentioned in set_grammar_ancestry,
+     * but has not been explicitly opened. *)
+    fun lookup _ [] = [NoBind]
+      | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
     val sgac = List.filter (not o isSemi) sgac
     val count = List.length sgac in
     if count = 0 then theories
@@ -396,7 +398,10 @@ fun apply file = let
     (openTheories @ localOpenTheories)
   val theoryStrings = theoryList |> map theoryWithAttrToString |> fillRegion 65
 
-  val libList = openLibs @ localOpenLibs
+  val libList =
+    openLibs @ localOpenLibs
+    (* Since we do not use bare, we don't need to mention these *)
+    |> List.filter (isNotIn ["HolKernel", "Parse", "boolLib", "bossLib"])
   val libStrings = libList |> fillRegion 65
     
   (* export_theory call ***********************************************)
@@ -440,12 +445,11 @@ fun apply file = let
   val _ = assert (List.null trashBoxes orelse top < #2 (List.hd trashBoxes))
     "Position where we wanted to insert the new header was invalidated"
 
-  val newHeader = String.concatWith "\n" (
-    ["Theory " ^ theoryName] @
-    ["Ancestors"] @
-    theoryStrings @
-    ["Libs"] @
-    libStrings)
+  val newHeader =
+    "Theory " ^ theoryName ^ "\nAncestors\n" ^ 
+    String.concatWith "\n" theoryStrings ^
+    (if List.null libStrings then "" 
+    else "\nLibs\n" ^ String.concatWith "\n" libStrings)
 
   val newBody = String.concat [
     String.substring (cleanBody, 0, top),
