@@ -279,6 +279,40 @@ fun apply file = let
           else aux ("  " ^ s) rest (cur::acc)
       in aux ("  " ^ s) rest [] end
 
+  (** offset => (line, col) *******************************************)
+  (* yoinked from Mario *)
+  fun mkLineCounter str = let
+    fun loop i ls =
+      if i >= String.size str then Vector.fromList (List.rev ls)
+      else
+        let val c = String.sub (str, i)
+        in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
+    in loop 0 [] end
+
+  val lines = mkLineCounter body
+
+  fun partitionPoint len pred = let
+    fun loop start len =
+      if len = 0 then start
+      else let
+        val half = len div 2
+        val middle = start + half
+        in
+          if pred middle
+          then loop (middle + 1) (len - (half + 1))
+          else loop start half
+        end
+    in loop 0 len end
+
+  fun getLineCol index = let
+    val line = partitionPoint (Vector.length lines)
+      (fn i => Vector.sub (lines, i) <= index)
+    in
+      (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1)))
+    end
+
+  fun getLineColBox (start, stop) = (getLineCol start, getLineCol stop)
+
   (*** "main" body ****************************************************)
 
   (** Location of new header ******************************************)
@@ -381,7 +415,7 @@ fun apply file = let
     trash |> boundingBoxes |> map expandBox |> mergeSlices
 
   val maybeDeletedComment =
-    trashBoxes |> List.filter maybeContainsComment
+    trashBoxes |> List.filter maybeContainsComment |> map getLineColBox
 
   (* Reports comments immediately before and after deleted elements *)
   val maybeStrayComments =
@@ -390,6 +424,7 @@ fun apply file = let
     |> List.concat |> List.filter isSome |> List.map valOf
     (* Hack to avoid initial comment to be recognized as stray *)
     |> List.filter (fn x => x <> (top - 3))
+    |> map getLineCol
 
   (* We have collected the warnings, so now we can consume trailing
    * whitespace more aggressively. *)
@@ -427,46 +462,17 @@ fun apply file = let
 
 (*** scratchpad *******************************************************)
 
-  val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
+fun writeStringToFile file content = let
+  val outstream = TextIO.openOut file
+  in TextIO.output(outstream, content); TextIO.closeOut outstream end
 
-  val r = apply file
-
-  fun writeStringToFile file content = let
-    val outstream = TextIO.openOut file
-    in TextIO.output(outstream, content); TextIO.closeOut outstream end
-
-(* val _ = writeStringToFile file newBody *)
-
- (** offset => (line, col) *******************************************)
-  (* yoinked from Mario *)
-  fun mkLineCounter str = let
-    fun loop i ls =
-      if i >= String.size str then Vector.fromList (List.rev ls)
-      else
-        let val c = String.sub (str, i)
-        in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
-    in loop 0 [] end
-
-  fun partitionPoint len pred = let
-    fun loop start len =
-      if len = 0 then start
-      else let
-        val half = len div 2
-        val middle = start + half
-        in
-          if pred middle
-          then loop (middle + 1) (len - (half + 1))
-          else loop start half
-        end
-    in loop 0 len end
-
-  fun getLineCol lines index = let
-    val line = partitionPoint (Vector.length lines)
-      (fn i => Vector.sub (lines, i) <= index)
-    in
-      (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1)))
-    end
-
-
-  (********************************************************************)
-  
+fun applyToFile file = let
+  val {newBody, maybeDeletedComment, maybeStrayComments} = apply file
+  val _ = if maybeDeletedComment <> []
+    then (print "\nDeleted?\n"; PolyML.print maybeDeletedComment; ())
+    else ()
+  val _ = if maybeStrayComments <> []
+    then (print "\nStray?\n"; PolyML.print maybeStrayComments; ())
+    else ()
+  val _ = writeStringToFile file newBody
+  in () end
