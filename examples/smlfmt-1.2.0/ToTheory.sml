@@ -282,6 +282,29 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
     aux s stop rest (Substring.substring (s, p, start - p) :: acc)
     in aux s 0 slices [] end
 
+  (** ToString ********************************************************)
+  fun theoryWithAttrToString (name, attrs) = let
+    fun attrToString attr =
+      case attr of NoBind => "no_bind" | IgnoreGrammar => "ignore_grammar"
+    fun attrsToString attrs =
+      case attrs of
+        [] => ""
+      | _ => "[" ^ String.concatWith ", " (map attrToString attrs) ^ "]"
+    in name ^ attrsToString attrs end
+
+  (* Returns a list of strings that start with two spaces as indent
+   * and have their total length mostly restricted to max. *)
+  fun fillRegion max ss =
+    case ss of
+      [] => []
+    | (s::rest) => let
+      fun aux cur [] acc = List.rev (cur::acc)
+        | aux cur (s::rest) acc =
+          if String.size cur + String.size s + 1 <= max then
+            aux (cur ^ " " ^ s) rest acc
+          else aux ("  " ^ s) rest (cur::acc)
+      in aux ("  " ^ s) rest [] end
+
   (*** "main" body ****************************************************)
 
   (** Location of new header ******************************************)
@@ -363,8 +386,10 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
 
   val theoryList = processSetGrammarAncestry setGrammarAncestryCall
     (openTheories @ localOpenTheories)
+  val theoryStrings = theoryList |> map theoryWithAttrToString |> fillRegion 65
 
   val libList = openLibs @ localOpenLibs
+  val libStrings = libList |> fillRegion 65
     
   (* export_theory call ***********************************************)
   val exportTheoryCall = filterDecs (isCallTo "export_theory") decs;
@@ -395,12 +420,25 @@ val file = "/home/daniel/code/cakeml/semantics/astScript.sml";
   val cleanBody = deleteSlices body trashBoxes
 
   (* Write new syntax *************************************************)
-  
+
   (* Sanity check: Make sure top position has not been invalidated by
    * deleting things around there *)
   val _ = assert (List.null trashBoxes orelse top < #2 (List.hd trashBoxes))
     "Position where we wanted to insert the new header was invalidated"
 
+  val newHeader = String.concatWith "\n" (
+    ["Theory " ^ theoryName] @
+    ["Ancestory"] @
+    theoryStrings @
+    ["Libs"] @
+    libStrings)
+
+  val newBody = String.concat [
+    String.substring (cleanBody, 0, top),
+    newHeader,
+    String.extract (cleanBody, top, NONE)
+    ]
   (* in () end   *)
 
   (** scratchpad **)
+
