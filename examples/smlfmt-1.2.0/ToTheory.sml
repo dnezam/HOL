@@ -407,7 +407,7 @@ fun apply file = let
 
   val newHeader = String.concatWith "\n" (
     ["Theory " ^ theoryName] @
-    ["Ancestory"] @
+    ["Ancestors"] @
     theoryStrings @
     ["Libs"] @
     libStrings)
