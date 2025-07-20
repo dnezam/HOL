@@ -263,14 +263,15 @@ fun apply file = let
     in aux s 0 slices [] end
 
   (** ToString ********************************************************)
-  fun theoryWithAttrToString (name, attrs) = let
-    fun attrToString attr =
+  fun attrToString attr =
       case attr of Qualified => "qualified" | IgnoreGrammar => "ignore_grammar"
-    fun attrsToString attrs =
+
+  fun attrsToString attrs =
       case attrs of
-        [] => ""
-      | _ => "[" ^ String.concatWith ", " (map attrToString attrs) ^ "]"
-    in name ^ attrsToString attrs end
+          [] => ""
+        | _ => "[" ^ String.concatWith ", " (map attrToString attrs) ^ "]"
+
+  fun theoryWithAttrToString (name, attrs) = name ^ attrsToString attrs
 
   (* Returns a list of strings that start with two spaces as indent
    * and have their total length mostly restricted to max. *)
@@ -400,7 +401,8 @@ fun apply file = let
       val grammarTheories =
         map (fn n => (n, lookup n theories)) grammarAncestry
       val ignoreGrammarTheories =
-        List.filter (fn (x,_) => not (mem x grammarAncestry)) theories
+          List.filter (fn (x,_) => not (mem x grammarAncestry)) theories
+          |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar]))
       in (grammarTheories, ignoreGrammarTheories) end
     end
 
@@ -408,10 +410,32 @@ fun apply file = let
       processSetGrammarAncestry setGrammarAncestryCall
                                 (openTheories @ localOpenTheories)
 
-  val grammarThyStrings =
-      grammarTheories |> map theoryWithAttrToString |> fillRegion 65
-  val ignoreGrammarThyStrings =
-      ignoreGrammarTheories |> map theoryWithAttrToString |> fillRegion 65
+  fun factorAttrs (xs : (string * attr list) list) : attr list * (string * attr list) list =
+    let
+      fun intersect (xs, ys) = List.filter (fn x => List.exists (fn y => x = y) ys) xs
+      fun commonAttrs [] = []
+        | commonAttrs ((_, attrs)::rest) =
+          List.foldl (fn ((_, attrs2), acc) => intersect (acc, attrs2)) attrs rest
+      fun removeAttrs attrs commons =
+          List.filter (fn a => not (List.exists (fn c => a = c) commons)) attrs
+      val commons = commonAttrs xs
+      val stripped = List.map (fn (s, attrs) => (s, removeAttrs attrs commons)) xs
+    in (commons, stripped) end
+
+  val (commonGrammarAttrs, grammarThyStrings) = factorAttrs grammarTheories
+  val grammarThyStrings = grammarThyStrings |> map theoryWithAttrToString |> fillRegion 65
+  val ancestorString =
+      if List.null grammarThyStrings then ""
+      else "\nAncestors" ^ attrsToString commonGrammarAttrs ^ "\n" ^
+           String.concatWith "\n" grammarThyStrings
+
+  val (commonIgnoreGrammarAttrs, ignoreGrammarThyStrings) = factorAttrs ignoreGrammarTheories
+  val ignoreGrammarThyStrings = ignoreGrammarThyStrings |> map theoryWithAttrToString |> fillRegion 65
+  val ancestorIgnoreGrammarString =
+      if List.null ignoreGrammarThyStrings then ""
+      else "\nAncestors" ^ attrsToString commonIgnoreGrammarAttrs ^ "\n" ^
+           String.concatWith "\n" ignoreGrammarThyStrings
+
 
   val libList =
     openLibs @ localOpenLibs
@@ -462,12 +486,8 @@ fun apply file = let
 
   val newHeader =
       "Theory " ^ theoryName ^
-      (if List.null grammarThyStrings then ""
-       else "\nAncestors\n" ^
-            String.concatWith "\n" grammarThyStrings) ^
-      (if List.null ignoreGrammarThyStrings then ""
-       else "\nAncestors[ignore_grammar]\n" ^
-            String.concatWith "\n" ignoreGrammarThyStrings) ^
+      ancestorString ^
+      ancestorIgnoreGrammarString ^
       (if List.null libStrings then ""
        else "\nLibs\n" ^
             String.concatWith "\n" libStrings)
@@ -504,7 +524,22 @@ fun applyToFile file = let
           | _  => print "Unhandled exception"
 in () end
 
-fun applyToScriptsInDir (rootDir : string) =
+fun applyToScriptsInDir dir =
+    let
+        val d = OS.FileSys.openDir dir
+        fun loop () =
+            case OS.FileSys.readDir d of
+                NONE => ()
+              | SOME f =>
+                    (if String.isSuffix "Script.sml" f then
+                         applyToFile (OS.Path.concat (dir, f))
+                     else ();
+                     loop ())
+    in
+        loop () before OS.FileSys.closeDir d
+    end
+
+fun applyToScriptsInDirRec (rootDir : string) =
   let
     val targetSuffix = "Script.sml"
     fun traverse (currentPath : string) =
