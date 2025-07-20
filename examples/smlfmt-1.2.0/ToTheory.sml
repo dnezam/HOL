@@ -389,7 +389,7 @@ fun apply file = let
       | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
     val sgac = List.filter (not o isSemi) sgac
     val count = List.length sgac in
-    if count = 0 then raise NoSgac
+    if count = 0 then (* (theories, []) *) raise NoSgac
     else if 1 < count then
       fail "Multiple calls to set_grammar_ancestry"
     else let
@@ -520,7 +520,9 @@ fun applyToFile file = let
           | Ready (newBody, maybeDeletedComment, maybeStrayComments) =>
             if maybeDeletedComment = [] andalso maybeStrayComments = [] then
                 (writeStringToFile file newBody; print "OK\n")
-            else (print "Warnings detected; Skipped")
+            else (writeStringToFile file newBody; print "MANUALLY CHECK\n";
+                  print "0-indexed (line, col):\n"; PolyML.print maybeDeletedComment; PolyML.print maybeStrayComments;
+                 print "\n")
           | _  => print "Unhandled exception"
 in () end
 
