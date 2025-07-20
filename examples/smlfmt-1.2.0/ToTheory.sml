@@ -1,5 +1,10 @@
 open Parser
 
+(** Return shenanigans **********************************************)
+exception AlreadyTheory
+exception NoSgac
+exception Ready of (string * (((int * int) * (int * int)) list) * ((int * int) list))
+
 fun apply file = let
   (** SML/HOL parsing *************************************************)
   val s = TextIO.openIn file
@@ -39,7 +44,7 @@ fun apply file = let
 
   (** General helpers *************************************************)
   fun fail msg = raise Fail msg
-  
+
   fun assert b msg = if not b then fail msg else ()
 
   fun sing xs = (case xs of [x] => x | _ => fail "sing: Not a singleton")
@@ -49,10 +54,10 @@ fun apply file = let
   fun isNotIn xs y = not (List.exists (fn x => x = y) xs)
 
   fun mapOption _ [] = SOME []
-    | mapOption f (x::xs) = 
+    | mapOption f (x::xs) =
       case f x of
           NONE => NONE
-        | SOME y => 
+        | SOME y =>
           case mapOption f xs of
               NONE => NONE
             | SOME ys => SOME (y::ys)
@@ -70,7 +75,7 @@ fun apply file = let
     fun loop i depth =
       if substring i 2 = "(*" then
         loop (i + 2) (depth + 1)
-      else if substring i 2 = "*)" then 
+      else if substring i 2 = "*)" then
         if depth <= 0 then (start, i + 2) else loop (i + 2) (depth - 1)
       else if isEOF i then raise Fail "Unterminated comment"
       else loop (i + 1) depth
@@ -114,7 +119,7 @@ fun apply file = let
   fun destList exp = let
     val List {elems, ...} = exp
     val {args, ...} = elems
-  in SOME args end handle Bind => NONE  
+  in SOME args end handle Bind => NONE
 
   fun isOpen dec = case dec of DecOpen _ => true | _ => false
   fun isSemi dec = case dec of DecSemi _ => true | _ => false
@@ -127,6 +132,9 @@ fun apply file = let
 
   fun isCallTo fname dec =
     case destCall dec of SOME (cname, _) => fname = cname | _ => false
+
+  fun isTheoryDec (HOLTheory {...}) = true
+    | isTheoryDec _ = false
 
   (* Include semicolons that follow *)
   fun filterDecs filter decs =
@@ -141,7 +149,7 @@ fun apply file = let
       else filterDecs filter (dec2::rest)
 
   (** Attributes ******************************************************)
-  datatype attr = IgnoreGrammar | NoBind
+  datatype attr = IgnoreGrammar | Qualified
 
   (** Bounding boxes **************************************************)
   (* (start [inclusive], stop [exclusive]) *)
@@ -151,7 +159,7 @@ fun apply file = let
 
   fun expStop exp =
     case exp of
-      Unit {right, ...} => right + 1 
+      Unit {right, ...} => right + 1
     | StringConstant (start, content) => start + String.size content
     | Ident {id, ...} => identStop id
     | App (_, e2) => expStop e2
@@ -241,7 +249,7 @@ fun apply file = let
           else
             (s1, e1) :: merge ((s2, e2) :: rest)
     val sortedSlices =
-      Listsort.sort (fn ((s1,_),(s2,_)) => Int.compare (s1,s2)) slices      
+      Listsort.sort (fn ((s1,_),(s2,_)) => Int.compare (s1,s2)) slices
     in merge sortedSlices end
 
   (* Assumes that slices are not overlapping and sorted in increasing
@@ -257,7 +265,7 @@ fun apply file = let
   (** ToString ********************************************************)
   fun theoryWithAttrToString (name, attrs) = let
     fun attrToString attr =
-      case attr of NoBind => "no_bind" | IgnoreGrammar => "ignore_grammar"
+      case attr of Qualified => "qualified" | IgnoreGrammar => "ignore_grammar"
     fun attrsToString attrs =
       case attrs of
         [] => ""
@@ -313,6 +321,9 @@ fun apply file = let
 
   (*** "main" body ****************************************************)
 
+  val _ = if List.exists isTheoryDec decs
+          then raise AlreadyTheory else ()
+
   (** Location of new header ******************************************)
   val (_, top) = parseComment 0
   val top =
@@ -359,25 +370,25 @@ fun apply file = let
 
   (* theories opened in a local block result in no_bind attribute *)
   val localOpenTheories =
-    localOpenTheories |> map (fn x => (stripTheory x, [NoBind]))
+    localOpenTheories |> map (fn x => (stripTheory x, [Qualified]))
 
   (* Sanity check *)
   val _ = assert (localOpenLibs = []) "localOpenLibs not empty"
 
   (* Deal with set_grammar_ancestry ***********************************)
   val setGrammarAncestryCall =
-    filterDecs (isCallTo "set_grammar_ancestry") decs;   
+    filterDecs (isCallTo "set_grammar_ancestry") decs;
 
   (* If a call to set_grammar_ancestry exists, we need to list theories
      in that order and add ignore_grammar to those not listed *)
   fun processSetGrammarAncestry sgac theories = let
     (* This case occurs if something is mentioned in set_grammar_ancestry,
      * but has not been explicitly opened. *)
-    fun lookup _ [] = [NoBind]
+    fun lookup _ [] = [Qualified]
       | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
     val sgac = List.filter (not o isSemi) sgac
     val count = List.length sgac in
-    if count = 0 then theories
+    if count = 0 then raise NoSgac
     else if 1 < count then
       fail "Multiple calls to set_grammar_ancestry"
     else let
@@ -390,32 +401,36 @@ fun apply file = let
         map (fn n => (n, lookup n theories)) grammarAncestry
       val ignoreGrammarTheories =
         List.filter (fn (x,_) => not (mem x grammarAncestry)) theories
-        |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar]))
-      in grammarTheories @ ignoreGrammarTheories end
-    end 
+      in (grammarTheories, ignoreGrammarTheories) end
+    end
 
-  val theoryList = processSetGrammarAncestry setGrammarAncestryCall
-    (openTheories @ localOpenTheories)
-  val theoryStrings = theoryList |> map theoryWithAttrToString |> fillRegion 65
+  val (grammarTheories, ignoreGrammarTheories) =
+      processSetGrammarAncestry setGrammarAncestryCall
+                                (openTheories @ localOpenTheories)
+
+  val grammarThyStrings =
+      grammarTheories |> map theoryWithAttrToString |> fillRegion 65
+  val ignoreGrammarThyStrings =
+      ignoreGrammarTheories |> map theoryWithAttrToString |> fillRegion 65
 
   val libList =
     openLibs @ localOpenLibs
     (* Since we do not use bare, we don't need to mention these *)
     |> List.filter (isNotIn ["HolKernel", "Parse", "boolLib", "bossLib"])
   val libStrings = libList |> fillRegion 65
-    
+
   (* export_theory call ***********************************************)
   val exportTheoryCall = filterDecs (isCallTo "export_theory") decs;
 
   (* Collect warnings *************************************************)
   val trash = List.concat [
     newTheoryCall,
-    openDecs, 
+    openDecs,
     localOpenDecs,
     setGrammarAncestryCall,
     exportTheoryCall
     ]
-  
+
   val trashBoxes =
     trash |> boundingBoxes |> map expandBox |> mergeSlices
 
@@ -446,21 +461,28 @@ fun apply file = let
     "Position where we wanted to insert the new header was invalidated"
 
   val newHeader =
-    "Theory " ^ theoryName ^ "\nAncestors\n" ^ 
-    String.concatWith "\n" theoryStrings ^
-    (if List.null libStrings then "" 
-    else "\nLibs\n" ^ String.concatWith "\n" libStrings)
+      "Theory " ^ theoryName ^
+      (if List.null grammarThyStrings then ""
+       else "\nAncestors\n" ^
+            String.concatWith "\n" grammarThyStrings) ^
+      (if List.null ignoreGrammarThyStrings then ""
+       else "\nAncestors[ignore_grammar]\n" ^
+            String.concatWith "\n" ignoreGrammarThyStrings) ^
+      (if List.null libStrings then ""
+       else "\nLibs\n" ^
+            String.concatWith "\n" libStrings)
 
   val newBody = String.concat [
     String.substring (cleanBody, 0, top),
     newHeader, "\n\n",
     String.extract (cleanBody, top, NONE)
     ]
-  in {
-    newBody = newBody,
-    maybeDeletedComment = maybeDeletedComment,
-    maybeStrayComments = maybeStrayComments}
-  end  
+in
+  raise Ready (
+      newBody,
+      maybeDeletedComment,
+      maybeStrayComments)
+end
 
 
 
@@ -468,15 +490,51 @@ fun apply file = let
 
 fun writeStringToFile file content = let
   val outstream = TextIO.openOut file
-  in TextIO.output(outstream, content); TextIO.closeOut outstream end
+in TextIO.output(outstream, content); TextIO.closeOut outstream end
 
 fun applyToFile file = let
-  val {newBody, maybeDeletedComment, maybeStrayComments} = apply file
-  val _ = if maybeDeletedComment <> []
-    then (print "\nDeleted?\n"; PolyML.print maybeDeletedComment; ())
-    else ()
-  val _ = if maybeStrayComments <> []
-    then (print "\nStray?\n"; PolyML.print maybeStrayComments; ())
-    else ()
-  val _ = writeStringToFile file newBody
-  in () end
+  val _ = print (file ^ ": ")
+  val _ = apply file handle
+            AlreadyTheory => print "Nothing to do\n"
+          | NoSgac => print "Missing set_grammar_ancestry\n"
+          | Ready (newBody, maybeDeletedComment, maybeStrayComments) =>
+            if maybeDeletedComment = [] andalso maybeStrayComments = [] then
+                (writeStringToFile file newBody; print "OK\n")
+            else (print "Warnings detected; Skipped")
+          | _  => print "Unhandled exception"
+in () end
+
+fun applyToScriptsInDir (rootDir : string) =
+  let
+    val targetSuffix = "Script.sml"
+    fun traverse (currentPath : string) =
+      if OS.FileSys.isDir currentPath then
+        let
+          val dirStream = OS.FileSys.openDir currentPath
+                          handle OS.SysErr (msg, _) =>
+                                 (print ("Error opening " ^ currentPath ^ ": " ^ msg ^ "\n"); raise OS.SysErr (msg, NONE))
+          fun loop () =
+            case OS.FileSys.readDir dirStream of
+              NONE => ()
+            | SOME entry =>
+                if entry <> "." andalso entry <> ".." then
+                  let
+                    val fullPath = OS.Path.joinDirFile {dir = currentPath, file = entry}
+                  in
+                    if OS.FileSys.isDir fullPath handle _ => false then
+                      traverse fullPath
+                    else if String.isSuffix targetSuffix fullPath then
+                      applyToFile fullPath
+                    else
+                      ();
+
+                    loop ()
+                  end
+                else
+                  loop ()
+        in
+          loop ();
+          OS.FileSys.closeDir dirStream
+        end
+      else ()
+  in traverse rootDir end

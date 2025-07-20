@@ -1041,9 +1041,9 @@ fun parseSML file body parseError: scope -> result = let
           case token () of
             tk as (start, IdentTk) => (case identKind start of
               ("Ancestors", HolKeyword) =>
-              parseHeaders (HOLAncestors {ancestors_ = start, elems = parseHeader []} :: acc)
+              (parseAttrs parseKVals; parseHeaders (HOLAncestors {ancestors_ = start, elems = parseHeader []} :: acc))
             | ("Libs", HolKeyword) =>
-              parseHeaders (HOLLibs {libs_ = start, elems = parseHeader []} :: acc)
+              (parseAttrs parseKVals; parseHeaders (HOLLibs {libs_ = start, elems = parseHeader []} :: acc))
             | _ => (unread tk; rev acc))
           | tk => (unread tk; rev acc)
         in HOLTheory {theory_ = start, id = id, attrs = attrs, elems = parseHeaders []} end)
