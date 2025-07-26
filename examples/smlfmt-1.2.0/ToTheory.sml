@@ -71,6 +71,9 @@ fun apply file = let
   fun substring i j =
     String.substring (body, i, j) handle Subscript => "\000"
 
+  fun skipSpace i =
+    if Char.isSpace (sub i) then skipSpace (i + 1) else i
+
   fun parseComment start = let
     fun loop i depth =
       if substring i 2 = "(*" then
@@ -83,6 +86,18 @@ fun apply file = let
       if substring start 2 = "(*"
       then loop (start + 2) 0
       else fail "Expected comment" end
+
+  fun findTop () = let
+    (* Loop to consume all comments *)
+    fun loop (start, end_) =
+      let val afterSpace = skipSpace end_ in
+        if substring afterSpace 2 = "(*" then
+          let val (_, end_) = loop (parseComment afterSpace) in (start, end_) end
+        else (start, end_) end
+    val afterSpace = skipSpace 0
+  in
+      if (not $ substring afterSpace 2 = "(*") then (0,0)
+      else loop (parseComment afterSpace) end
 
   fun stripStringQuotes s = String.substring (s, 1, String.size s - 2)
   fun stripTheory s = String.substring (s, 0, String.size s - 6)
@@ -257,7 +272,9 @@ fun apply file = let
    * - who knows :D) *)
   (* Basic idea from Mario, mistakes from me *)
   fun deleteSlices s slices = let
-    fun aux _ _ [] acc = Substring.concat (rev acc)
+    fun aux _ stop [] acc =
+        Substring.concat (rev acc) ^
+        String.extract (s, stop, NONE)
     | aux s p ((start, stop) :: rest) acc =
     aux s stop rest (Substring.substring (s, p, start - p) :: acc)
     in aux s 0 slices [] end
@@ -326,9 +343,8 @@ fun apply file = let
           then raise AlreadyTheory else ()
 
   (** Location of new header ******************************************)
-  val (_, top) = parseComment 0
-  val top =
-    if sub top = #"\n" then top + 1 else fail "Expected newline after comment"
+  val (_, top) = findTop ()
+  val top = if sub top = #"\n" then top + 1 else top
 
   (** Figure out theory name ******************************************)
   val newTheoryCall = filterDecs (isCallTo "new_theory") decs
@@ -389,7 +405,7 @@ fun apply file = let
       | lookup y ((x,v)::xs) = if x = y then v else lookup y xs
     val sgac = List.filter (not o isSemi) sgac
     val count = List.length sgac in
-    if count = 0 then (* (theories, []) *) raise NoSgac
+    if count = 0 then (theories, []) (* raise NoSgac *)
     else if 1 < count then
       fail "Multiple calls to set_grammar_ancestry"
     else let
@@ -402,8 +418,13 @@ fun apply file = let
         map (fn n => (n, lookup n theories)) grammarAncestry
       val ignoreGrammarTheories =
           List.filter (fn (x,_) => not (mem x grammarAncestry)) theories
-          |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar]))
-      in (grammarTheories, ignoreGrammarTheories) end
+      val _ = if List.null ignoreGrammarTheories then ()
+              else print "[IGNORE_GRAMMAR OMITTED] "
+      (* ignore_grammar does not actually ignore grammars that ancestors
+         that are already part of the grammar depend on. Probably (?) better
+         to use temp_set_grammar_ancestry or something. *)
+          (* |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar])) *)
+      in (grammarTheories @ ignoreGrammarTheories, []) end
     end
 
   val (grammarTheories, ignoreGrammarTheories) =
@@ -485,7 +506,7 @@ fun apply file = let
     "Position where we wanted to insert the new header was invalidated"
 
   val newHeader =
-      "Theory " ^ theoryName ^
+      "Theory " ^ theoryName ^ (* "[bare]" ^ *)
       ancestorString ^
       ancestorIgnoreGrammarString ^
       (if List.null libStrings then ""
@@ -523,7 +544,7 @@ fun applyToFile file = let
             else (writeStringToFile file newBody; print "MANUALLY CHECK\n";
                   print "0-indexed (line, col):\n"; PolyML.print maybeDeletedComment; PolyML.print maybeStrayComments;
                  print "\n")
-          | _  => print "Unhandled exception"
+          | e  => (PolyML.print e; print "Unhandled exception\n")
 in () end
 
 fun applyToScriptsInDir dir =
