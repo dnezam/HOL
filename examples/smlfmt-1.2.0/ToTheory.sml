@@ -63,7 +63,7 @@ fun apply file = let
             | SOME ys => SOME (y::ys)
 
   (** Parsing *********************************************************)
-  fun isEOF i = String.size body <= i
+  fun isOOF i = i < 0 orelse String.size body <= i
   fun isWhitespace c = (c = #" " orelse c =  #"\t")
 
   fun sub i = String.sub (body, i) handle Subscript => #"\000"
@@ -80,7 +80,7 @@ fun apply file = let
         loop (i + 2) (depth + 1)
       else if substring i 2 = "*)" then
         if depth <= 0 then (start, i + 2) else loop (i + 2) (depth - 1)
-      else if isEOF i then raise Fail "Unterminated comment"
+      else if isOOF i then raise Fail "Unterminated comment"
       else loop (i + 1) depth
     in
       if substring start 2 = "(*"
@@ -235,7 +235,7 @@ fun apply file = let
     fun loop i =
       if substring (i - 2) 2 = "*)" then SOME (i - 2)
       else if sub (i - 1) = #"\n" then NONE
-      else if isEOF (i - 1) then NONE
+      else if isOOF (i - 1) then NONE
       else loop (i - 1)
     in
       if sub (start - 1) = #"\n" then loop (start - 1)
@@ -246,7 +246,7 @@ fun apply file = let
     fun loop i =
       if substring i 2 = "(*" then SOME i
       else if sub i = #"\n" then NONE
-      else if isEOF i then NONE
+      else if isOOF i then NONE
       else loop (i + 1)
     in
       if sub start = #"\n" then loop (start + 1)
