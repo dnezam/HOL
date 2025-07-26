@@ -389,9 +389,6 @@ fun apply file = let
   val localOpenTheories =
     localOpenTheories |> map (fn x => (stripTheory x, [Qualified]))
 
-  (* Sanity check *)
-  val _ = assert (localOpenLibs = []) "localOpenLibs not empty"
-
   (* Deal with set_grammar_ancestry ***********************************)
   val setGrammarAncestryCall =
     filterDecs (isCallTo "set_grammar_ancestry") decs;
@@ -458,11 +455,14 @@ fun apply file = let
            String.concatWith "\n" ignoreGrammarThyStrings
 
 
+  val openLibs = openLibs |> map (fn x => (x, []))
+  val localOpenLibs = localOpenLibs |> map (fn x => (x, [Qualified]))
+
   val libList =
     openLibs @ localOpenLibs
     (* Since we do not use bare, we don't need to mention these *)
-    |> List.filter (isNotIn ["HolKernel", "Parse", "boolLib", "bossLib"])
-  val libStrings = libList |> fillRegion 65
+    |> List.filter (fn (x, _) => isNotIn ["HolKernel", "Parse", "boolLib", "bossLib"] x)
+  val libStrings = libList |> map theoryWithAttrToString |> fillRegion 65
 
   (* export_theory call ***********************************************)
   val exportTheoryCall = filterDecs (isCallTo "export_theory") decs;
