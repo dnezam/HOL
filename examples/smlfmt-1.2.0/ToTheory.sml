@@ -406,22 +406,15 @@ fun apply file = let
     else if 1 < count then
       fail "Multiple calls to set_grammar_ancestry"
     else let
-      val grammarAncestry = sgac
+      val sgaTheoryNames = sgac
         |> sing |> destCall |> Option.valOf |> #2
         |> destList |> Option.valOf
         |> mapOption destStringConstant |> Option.valOf
         |> map stripStringQuotes
-      val grammarTheories =
-        map (fn n => (n, lookup n theories)) grammarAncestry
-      val ignoreGrammarTheories =
-          List.filter (fn (x,_) => not (mem x grammarAncestry)) theories
-      val _ = if List.null ignoreGrammarTheories then ()
-              else print "[IGNORE_GRAMMAR OMITTED] "
-      (* ignore_grammar does not actually ignore grammars that ancestors
-         that are already part of the grammar depend on. Probably (?) better
-         to use temp_set_grammar_ancestry or something. *)
-          (* |> map (fn (x,attrs) => (x,attrs @ [IgnoreGrammar])) *)
-      in (grammarTheories @ ignoreGrammarTheories, []) end
+      val sgaTheories = map (fn n => (n, lookup n theories)) sgaTheoryNames
+      val restTheories =
+          List.filter (fn (x,_) => not (mem x sgaTheoryNames)) theories
+      in (restTheories @ sgaTheories, []) end
     end
 
   val (grammarTheories, ignoreGrammarTheories) =
