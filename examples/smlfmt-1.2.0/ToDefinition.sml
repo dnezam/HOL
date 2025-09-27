@@ -136,7 +136,11 @@ fun computeUpdates file body = let
     (* =, function name, opening quote*)
     val eq_upd = removeBox eq_box
     val fname_upd = removeBoxSandwich eq_box fname_box openq_box
-    val openq_upd = removeBox openq_box
+    (* If Define and ‘ are on different lines, then we probably want to
+     * replace the quote with a space instead of deleting it to preserve
+     * alignment. *)
+    val openq_upd = if getLineBox fname_box <> getLineBox openq_box
+                    then (openq_box, " ") else removeBox openq_box
     (* Closing quote *)
     val endkw_str = if getColBox closeq_box = 0 then "End" else "\nEnd"
     val closeq_upd = (closeq_box, endkw_str)
