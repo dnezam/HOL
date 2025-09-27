@@ -1,3 +1,2 @@
-Definition isLower_def:          
-  isLower c <=> ^(ordn #"a") <= ORD c /\ ORD c <= ^(ordn #"z")
-End;
+(* 2 pow (2 EXP ^pbias_tm) is too big to EVAL directly *)
+val foo = ``^a + ^(``^b - ^c``)``

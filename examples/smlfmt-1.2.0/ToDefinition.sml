@@ -1,10 +1,10 @@
 open Parser
 
 val file = "/home/daniel/code/HOL-to-theory/examples/smlfmt-1.2.0/test.txt";
+val body = fileToString file
 
 (** offset => (line, col) *******************************************)
-(* yoinked from Mario *)
-fun mkLineCounter str = let
+fun mkLineCounter str = let  (* yoinked from Mario *)
   fun loop i ls =
     if i >= String.size str then Vector.fromList (List.rev ls)
     else
@@ -12,7 +12,7 @@ fun mkLineCounter str = let
       in loop (i+1) (if c = #"\n" then i+1::ls else ls) end
 in loop 0 [] end
 
-fun partitionPoint len pred = let
+fun partitionPoint len pred = let  (* yoinked from Mario *)
   fun loop start len =
     if len = 0 then start
     else let
@@ -25,15 +25,15 @@ fun partitionPoint len pred = let
     end
 in loop 0 len end
 
-fun apply file = let
-  (** SML/HOL parsing *************************************************)
+fun fileToString file = let
   val s = TextIO.openIn file
   fun readFile acc = case TextIO.inputLine s of
     SOME line => readFile (line :: acc)
   | NONE => (TextIO.closeIn s; concat (rev acc))
-  val body = readFile []
-  fun parse file = let
-    val infixes =
+in readFile [] end
+
+fun parse file body = let
+  val infixes =
       map (fn x => (x, 0, false)) ["++", "&&", "|->", "THEN", "THEN1",
         "THENL", "THEN_LT", "THENC", "ORELSE", "ORELSE_LT", "ORELSEC", "THEN_TCL",
         "ORELSE_TCL", "?>", "|>", "|>>", "||>", "||->",
@@ -46,20 +46,23 @@ fun apply file = let
         ((false, 4), ["=", "<>", ">", ">=", "<", "<="]),
         ((false, 3), [":=", "o"]),
         ((false, 0), ["before"])])
-    val sc = foldl
+  val sc = foldl
       (fn ((k, n, r), b) => Binarymap.insert (b, k, (n, r)))
       (Binarymap.mkDict String.compare) infixes
-    val {parseDec, ...} = Parser.parseSML file body
+  val {parseDec, ...} = Parser.parseSML file body
       (fn (start, stop) => fn err =>
         (print (concat ["error ", Int.toString start, "-",
           Int.toString stop, ": ", err, "\n"])
           ; raise Bind
           ))
       sc
-    fun pull acc = case parseDec () of
-      SOME dec => pull (dec :: acc)
+  fun pull acc = case parseDec () of
+     SOME dec => (PolyML.print dec; pull (dec :: acc))
     | NONE => List.rev acc
-  in pull [] end
+in pull [] end
+
+fun computeUpdates file body = let
+  val decs = parse file body
   fun isOOF i = i < 0 orelse String.size body <= i
   fun isWhitespace c = (c = #" " orelse c =  #"\t")
   fun sub i = String.sub (body, i) handle Subscript => #"\000"
@@ -68,7 +71,7 @@ fun apply file = let
   in loop start end
   fun expandBoxLeft (start, stop) = (expandLeft start, stop)
   val lines = mkLineCounter body
-  fun getLineCol index = let
+  fun getLineCol index = let  (* yoinked from Mario *)
     val line = partitionPoint (Vector.length lines)
       (fn i => Vector.sub (lines, i) <= index)
     in
@@ -78,7 +81,7 @@ fun apply file = let
   fun identBox id = (#1 id, (#1 id) + String.size (#2 id))
   fun boxLength (start, stop) = stop - start
   fun spaceString len = String.implode (List.tabulate (len, fn _ => #" "))
-  fun spaceUpdate box = (box, spaceString $ boxLength box)
+  fun removeBox box = (box, "")
   (* val vname = fname arg *)
   fun destCall dec = let
     val DecVal {val_, elems, ...} = dec
@@ -90,7 +93,7 @@ fun apply file = let
   fun destQuote q = let
     val HOLQuote {head, end_tok = SOME end_tok, ...} = q
   in (head, end_tok) end
-  fun applyDec dec = let
+  fun computeUpdatesDec dec = let
     (* Destruct: val vname = fname ‘...’ *)
     val (val_, vname, eq, fname, arg) = destCall dec
     val (openq, closeq) = destQuote arg
@@ -112,42 +115,57 @@ fun apply file = let
     val _ = if #2 vname = "_" then raise Bind else ()
     val defn_str = #2 vname ^ ":"
     val vname_upd = (vname_box, defn_str)
-    (* =, function name (e.g., Define) and opening quote are replaced by space.
-     * That way, we can stay faithful to the current indent (I think); just need
-     * to make sure to delete trailing whitespace with the power of something like sed *)
-    val eq_upd = spaceUpdate eq_box
-    val fname_upd = spaceUpdate fname_box
-    val openq_upd = spaceUpdate openq_box
+    val eq_upd = removeBox eq_box
+    val fname_upd = removeBox fname_box
+    val openq_upd = removeBox openq_box
     (* Closing quote *)
     val endkw_str = if isBoxCol0 closeq_box then "End" else "\nEnd"
     val closeq_upd = (closeq_box, endkw_str)
-  in [(val_upd, vname_upd, eq_upd, fname_upd, openq_upd, closeq_upd)] end handle Bind => []
-in applyDec $ List.nth (parse file, 0) end
+  in [val_upd, vname_upd, eq_upd, fname_upd, openq_upd, closeq_upd] end handle Bind => []
+in List.concat $ map computeUpdatesDec $ decs end
 
-(*** scratchpad *******************************************************)
+(* By doing the last update first, an update cannot mess with
+ * the indices of other updates *)
+fun sortUpdates upds =
+  Listsort.sort (fn (((s1,_),_),((s2,_),_)) => Int.compare (s2,s1)) upds
+
+fun applyUpdate (((start, stop), replacement), str) =
+  String.substring (str, 0, start) ^
+  replacement ^
+  String.extract (str, stop, NONE)
+
+fun applyUpdates (str, updates) = foldl applyUpdate str updates
+
+fun updatedString file = let
+  val body = fileToString file
+  val upds = sortUpdates $ computeUpdates file body
+in applyUpdates (body, upds) end
 
 fun writeStringToFile file content = let
   val outstream = TextIO.openOut file
 in TextIO.output(outstream, content); TextIO.closeOut outstream end
 
-(* Requires postprocessing:
-   - \nEnd;* => \nEnd;
-   - delete trailing whitespace *)
+fun runCommand cmd = let
+  val proc = Unix.execute ("/bin/sh", ["-c", cmd])
+in ignore (Unix.reap proc) end
+
+fun removeTrailingWhitespace file =
+  runCommand $ "sed -i 's/[[:space:]]\\+$//' " ^ file
+
+fun removeSemicolonAfterEnd file =
+  runCommand $ "sed -i 's/^End[[:space:];]*/End/' " ^ file
 
 fun applyToFile file = let
   val _ = print (file ^ ": ")
-  val _ = apply file
-          (*       handle *)
-          (*   AlreadyTheory => print "Nothing to do\n" *)
-          (* | NoSgac => print "Missing set_grammar_ancestry\n" *)
-          (* | Ready (newBody, maybeDeletedComment, maybeStrayComments) => *)
-          (*   if maybeDeletedComment = [] andalso maybeStrayComments = [] then *)
-          (*       (writeStringToFile file newBody; print "OK\n") *)
-          (*   else (writeStringToFile file newBody; print "MANUALLY CHECK\n"; *)
-          (*         print "0-indexed (line, col):\n"; PolyML.print maybeDeletedComment; PolyML.print maybeStrayComments; *)
-          (*        print "\n") *)
-          (* | e  => (PolyML.print e; print "Unhandled exception\n") *)
+  val new = updatedString file
+  val _ = writeStringToFile file new
+  val _ = removeSemicolonAfterEnd file
+  val _ = removeTrailingWhitespace file
+  val _ = print "Done.\n"
 in () end
+
+(*** scratchpad *******************************************************)
+
 
 fun applyToScriptsInDir dir =
     let
