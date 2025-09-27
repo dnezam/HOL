@@ -731,66 +731,62 @@ fun parseSML file body parseError: scope -> result = let
     fun expected () = "expected [" ^ String.concatWith ", " s ^ "]"
 
     fun push i p acc = if i = p then acc else let
-      val (_, line, col) = (updatePosLineCol i; !posLineCol)
+      val (_, line, col) = (updatePosLineCol start; !posLineCol)
       val value = Substring.substring (body, i, p - i)
       in QuoteLiteral {line = line, col = col, value = value} :: acc end
 
     fun go i acc =
-        case qtoken 0 of (p, tk) =>
-          (* push reads state that could be modified when parsing the rest;
-           * so we compute the next accumulator as soon as possible *)
-          let val nextAcc = push i p acc in
-            case tk of
-              EOF => (parseError (start, p) "unclosed quotation"; (rev nextAcc, p))
-            | StrongEndTk => (
-              if mem (ident p) s then () else parseError (start, p) (expected ());
-              (rev nextAcc, p))
-            | EndTk => if mem (ident p) s then (rev nextAcc, p) else go i acc
-            | AntiqIdent => let
-              val exp = case identKind (p + 1) of
-                (s, Regular) => Ident {op_ = NONE, id = (p+1, s)}
-              | _ => (parseError (p+1, !pos) "expected identifier"; BadExp {start = p+1, stop = !pos})
-              in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: nextAcc) end
-            | AntiqParen => let
-              val e = parseParen sc false (p+1)
-              val stop = case e of
-                Unit {right, ...} => right+1
-              | Parens {stop, ...} => stop
-              | Tuple {stop, ...} => stop
-              | Sequence {stop, ...} => stop
-              | _ => raise Unreachable
-              in go stop (QuoteAntiq {caret_ = p, exp = e} :: nextAcc) end
-            | OpenBrack => let
-              val _ = ws ()
-              val label =
-                if checkKW "/\\" 0 then
-                  SOME (HOLConjLabel (!pos, (nextn 2; ident (!pos - 2))))
-                else if checkKW "\226\136\167" 0 then
-                  SOME (HOLConjLabel (!pos, (nextn 3; ident (!pos - 3))))
-                else if cur () = #"~" andalso isIdRest (ahead 1) then
-                  case !pos + 1 of start => SOME (HOLLabel {
-                    tilde_ = SOME (!pos),
-                    id = (start, (nextn 2; takeWhile isIdRest; ident start)) })
-                else if Char.isAlpha (cur ()) then
-                  case !pos of start => SOME (HOLLabel {
-                    tilde_ = NONE,
-                    id = (start, (nextn 2; takeWhile isIdRest; ident start)) })
-                else NONE
-              val args = case parseSymbol #"[" NONE of
-                NONE => NONE
-              | SOME left => let
-                val (ids, right, stop) = parseDelimitedClose [] [] {
-                  elem = fn () => parseIdentifier false,
-                  delim = fn (_, Symbol #",") => SOME true | _ => NONE,
-                  close = fn (_, Symbol #"]") => SOME true | _ => NONE }
-                in SOME {left = left, ids = ids, right = right, stop = stop} end
-              val colon = parseKeyword ":" NONE
-              val (right, stop) = parseStop (parseSymbol #"]") 1 "expected ']'"
-              val _ = pos := stop
-              val r = DefinitionLabel {
-                left = p, label = label, args = args,
-                colon = colon, right = right, stop = stop }
-              in go stop (r :: nextAcc) end end
+      case qtoken 0 of
+        (p, EOF) => (parseError (start, p) "unclosed quotation"; (rev (push i p acc), p))
+      | (p, StrongEndTk) => (
+        if mem (ident p) s then () else parseError (start, p) (expected ());
+        (rev acc, p))
+      | (p, EndTk) => if mem (ident p) s then (rev acc, p) else go i acc
+      | (p, AntiqIdent) => let
+        val exp = case identKind (p + 1) of
+          (s, Regular) => Ident {op_ = NONE, id = (p+1, s)}
+        | _ => (parseError (p+1, !pos) "expected identifier"; BadExp {start = p+1, stop = !pos})
+        in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: push i p acc) end
+      | (p, AntiqParen) => let
+        val e = parseParen sc false (p+1)
+        val stop = case e of
+          Unit {right, ...} => right+1
+        | Parens {stop, ...} => stop
+        | Tuple {stop, ...} => stop
+        | Sequence {stop, ...} => stop
+        | _ => raise Unreachable
+        in go stop (QuoteAntiq {caret_ = p, exp = e} :: push i p acc) end
+      | (p, OpenBrack) => let
+        val _ = ws ()
+        val label =
+          if checkKW "/\\" 0 then
+            SOME (HOLConjLabel (!pos, (nextn 2; ident (!pos - 2))))
+          else if checkKW "\226\136\167" 0 then
+            SOME (HOLConjLabel (!pos, (nextn 3; ident (!pos - 3))))
+          else if cur () = #"~" andalso isIdRest (ahead 1) then
+            case !pos + 1 of start => SOME (HOLLabel {
+              tilde_ = SOME (!pos),
+              id = (start, (nextn 2; takeWhile isIdRest; ident start)) })
+          else if Char.isAlpha (cur ()) then
+            case !pos of start => SOME (HOLLabel {
+              tilde_ = NONE,
+              id = (start, (nextn 2; takeWhile isIdRest; ident start)) })
+          else NONE
+        val args = case parseSymbol #"[" NONE of
+          NONE => NONE
+        | SOME left => let
+          val (ids, right, stop) = parseDelimitedClose [] [] {
+            elem = fn () => parseIdentifier false,
+            delim = fn (_, Symbol #",") => SOME true | _ => NONE,
+            close = fn (_, Symbol #"]") => SOME true | _ => NONE }
+          in SOME {left = left, ids = ids, right = right, stop = stop} end
+        val colon = parseKeyword ":" NONE
+        val (right, stop) = parseStop (parseSymbol #"]") 1 "expected ']'"
+        val _ = pos := stop
+        val r = DefinitionLabel {
+          left = p, label = label, args = args,
+          colon = colon, right = right, stop = stop }
+        in go stop (r :: push i p acc) end
     in go qstart [] end
 
   and parseDec (inSig: bool) sc: (scope * dec) option = let
