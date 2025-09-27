@@ -1,2 +1,1 @@
-(* 2 pow (2 EXP ^pbias_tm) is too big to EVAL directly *)
-val foo = ``^a + ^(``^b - ^c``)``
+`^a ^(`^b ^c`)`

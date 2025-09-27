@@ -78,11 +78,26 @@ fun computeUpdates file body = let
     in
       (line, index - (if line = 0 then 0 else Vector.sub (lines, line - 1)))
   end
-  fun isBoxCol0 (start, _) = (#2 (getLineCol start)) = 0
+  fun getColBox (start, _) = #2 (getLineCol start)
+  fun getLineBox (start, _) = #1 (getLineCol start)
   fun identBox id = (#1 id, (#1 id) + String.size (#2 id))
   fun boxLength (start, stop) = stop - start
   fun spaceString len = String.implode (List.tabulate (len, fn _ => #" "))
   fun removeBox box = (box, "")
+  (* Sometimes, there is code that looks like:
+     * val foo =
+     *  Define
+     *    ‘...’
+     * In which case, we want to remove the Define line *)
+  fun removeBoxSandwich bu bm bd =
+    if getLineBox bu <> getLineBox bm
+       andalso getLineBox bm <> getLineBox bd
+    then let
+      val (start, stop) = bm
+      val start = expandLeft start
+      val start = if sub (start - 1) = #"\n" then start - 1 else start
+    in removeBox (start, stop) end
+    else removeBox bm
   (* val vname = fname arg *)
   fun destCall dec = let
     val DecVal {val_, elems, ...} = dec
@@ -113,16 +128,17 @@ fun computeUpdates file body = let
     val closeq_box = expandBoxLeft $ identBox closeq
     (** Compute the updates *)
     (* val *)
-    val defkw_str = if isBoxCol0 val_box then "Definition" else "\nDefinition"
+    val defkw_str = if getColBox val_box = 0 then "Definition" else "\nDefinition"
     val val_upd = (val_box, defkw_str)
     (* vname *)
     val defn_str = #2 vname ^ ":"
     val vname_upd = (vname_box, defn_str)
+    (* =, function name, opening quote*)
     val eq_upd = removeBox eq_box
-    val fname_upd = removeBox fname_box
+    val fname_upd = removeBoxSandwich eq_box fname_box openq_box
     val openq_upd = removeBox openq_box
     (* Closing quote *)
-    val endkw_str = if isBoxCol0 closeq_box then "End" else "\nEnd"
+    val endkw_str = if getColBox closeq_box = 0 then "End" else "\nEnd"
     val closeq_upd = (closeq_box, endkw_str)
   in [val_upd, vname_upd, eq_upd, fname_upd, openq_upd, closeq_upd] end handle Bind => []
 in List.concat $ map computeUpdatesDec $ decs end
