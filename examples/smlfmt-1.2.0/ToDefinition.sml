@@ -1,6 +1,14 @@
 open Parser
 
 val file = "/home/daniel/code/HOL-to-theory/examples/smlfmt-1.2.0/test.txt";
+
+fun fileToString file = let
+  val s = TextIO.openIn file
+  fun readFile acc = case TextIO.inputLine s of
+    SOME line => readFile (line :: acc)
+  | NONE => (TextIO.closeIn s; concat (rev acc))
+in readFile [] end
+
 val body = fileToString file
 
 (** offset => (line, col) *******************************************)
@@ -24,13 +32,6 @@ fun partitionPoint len pred = let  (* yoinked from Mario *)
       else loop start half
     end
 in loop 0 len end
-
-fun fileToString file = let
-  val s = TextIO.openIn file
-  fun readFile acc = case TextIO.inputLine s of
-    SOME line => readFile (line :: acc)
-  | NONE => (TextIO.closeIn s; concat (rev acc))
-in readFile [] end
 
 fun parse file body = let
   val infixes =
@@ -57,7 +58,7 @@ fun parse file body = let
           ))
       sc
   fun pull acc = case parseDec () of
-     SOME dec => (PolyML.print dec; pull (dec :: acc))
+     SOME dec => pull (dec :: acc)
     | NONE => List.rev acc
 in pull [] end
 
@@ -96,6 +97,10 @@ fun computeUpdates file body = let
   fun computeUpdatesDec dec = let
     (* Destruct: val vname = fname ‘...’ *)
     val (val_, vname, eq, fname, arg) = destCall dec
+    (* Give up for now if the SML name is _ *)
+    val _ = if #2 vname = "_" then raise Bind else ()
+    (* Only update calls to Define *)
+    val _ = if not $ (#2 fname) = "Define" then raise Bind else ()
     val (openq, closeq) = destQuote arg
     (* Convert to boxes [start, stop) *)
     val val_box = expandBoxLeft (val_, val_ + 3)
@@ -111,8 +116,6 @@ fun computeUpdates file body = let
     val defkw_str = if isBoxCol0 val_box then "Definition" else "\nDefinition"
     val val_upd = (val_box, defkw_str)
     (* vname *)
-    (* Give up for now if the SML name is _ *)
-    val _ = if #2 vname = "_" then raise Bind else ()
     val defn_str = #2 vname ^ ":"
     val vname_upd = (vname_box, defn_str)
     val eq_upd = removeBox eq_box
@@ -162,7 +165,7 @@ fun applyToFile file = let
   val _ = removeSemicolonAfterEnd file
   val _ = removeTrailingWhitespace file
   val _ = print "Done.\n"
-in () end
+in () end handle _ => print "FAIL\n"
 
 (*** scratchpad *******************************************************)
 
