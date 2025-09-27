@@ -731,7 +731,7 @@ fun parseSML file body parseError: scope -> result = let
     fun expected () = "expected [" ^ String.concatWith ", " s ^ "]"
 
     fun push i p acc = if i = p then acc else let
-      val (_, line, col) = (updatePosLineCol start; !posLineCol)
+      val (_, line, col) = (updatePosLineCol i; !posLineCol)
       val value = Substring.substring (body, i, p - i)
       in QuoteLiteral {line = line, col = col, value = value} :: acc end
 
@@ -740,14 +740,17 @@ fun parseSML file body parseError: scope -> result = let
         (p, EOF) => (parseError (start, p) "unclosed quotation"; (rev (push i p acc), p))
       | (p, StrongEndTk) => (
         if mem (ident p) s then () else parseError (start, p) (expected ());
-        (rev acc, p))
-      | (p, EndTk) => if mem (ident p) s then (rev acc, p) else go i acc
+        (rev (push i p acc), p))
+      | (p, EndTk) => if mem (ident p) s then (rev (push i p acc), p) else go i acc
       | (p, AntiqIdent) => let
+        val nextAcc = push i p acc
         val exp = case identKind (p + 1) of
           (s, Regular) => Ident {op_ = NONE, id = (p+1, s)}
         | _ => (parseError (p+1, !pos) "expected identifier"; BadExp {start = p+1, stop = !pos})
-        in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: push i p acc) end
+        in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: nextAcc) end
       | (p, AntiqParen) => let
+        (* We must push here, as push reads state that may be changed in parseParen (I think) *)
+        val nextAcc = push i p acc
         val e = parseParen sc false (p+1)
         val stop = case e of
           Unit {right, ...} => right+1
@@ -755,8 +758,9 @@ fun parseSML file body parseError: scope -> result = let
         | Tuple {stop, ...} => stop
         | Sequence {stop, ...} => stop
         | _ => raise Unreachable
-        in go stop (QuoteAntiq {caret_ = p, exp = e} :: push i p acc) end
+        in go stop (QuoteAntiq {caret_ = p, exp = e} :: nextAcc) end
       | (p, OpenBrack) => let
+        val nextAcc = push i p acc
         val _ = ws ()
         val label =
           if checkKW "/\\" 0 then
@@ -786,7 +790,7 @@ fun parseSML file body parseError: scope -> result = let
         val r = DefinitionLabel {
           left = p, label = label, args = args,
           colon = colon, right = right, stop = stop }
-        in go stop (r :: push i p acc) end
+        in go stop (r :: nextAcc) end
     in go qstart [] end
 
   and parseDec (inSig: bool) sc: (scope * dec) option = let
