@@ -1,0 +1,3 @@
+Definition isLower_def:          
+  isLower c <=> ^(ordn #"a") <= ORD c /\ ORD c <= ^(ordn #"z")
+End;
