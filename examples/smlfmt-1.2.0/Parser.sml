@@ -743,14 +743,14 @@ fun parseSML file body parseError: scope -> result = let
         (rev (push i p acc), p))
       | (p, EndTk) => if mem (ident p) s then (rev (push i p acc), p) else go i acc
       | (p, AntiqIdent) => let
-        val nextAcc = push i p acc
+        val acc = push i p acc
         val exp = case identKind (p + 1) of
           (s, Regular) => Ident {op_ = NONE, id = (p+1, s)}
         | _ => (parseError (p+1, !pos) "expected identifier"; BadExp {start = p+1, stop = !pos})
-        in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: nextAcc) end
+        in go (!pos) (QuoteAntiq {caret_ = p, exp = exp} :: acc) end
       | (p, AntiqParen) => let
         (* We must push here, as push reads state that may be changed in parseParen (I think) *)
-        val nextAcc = push i p acc
+        val acc = push i p acc
         val e = parseParen sc false (p+1)
         val stop = case e of
           Unit {right, ...} => right+1
@@ -758,9 +758,9 @@ fun parseSML file body parseError: scope -> result = let
         | Tuple {stop, ...} => stop
         | Sequence {stop, ...} => stop
         | _ => raise Unreachable
-        in go stop (QuoteAntiq {caret_ = p, exp = e} :: nextAcc) end
+        in go stop (QuoteAntiq {caret_ = p, exp = e} :: acc) end
       | (p, OpenBrack) => let
-        val nextAcc = push i p acc
+        val acc = push i p acc
         val _ = ws ()
         val label =
           if checkKW "/\\" 0 then
@@ -790,7 +790,7 @@ fun parseSML file body parseError: scope -> result = let
         val r = DefinitionLabel {
           left = p, label = label, args = args,
           colon = colon, right = right, stop = stop }
-        in go stop (r :: nextAcc) end
+        in go stop (r :: acc) end
     in go qstart [] end
 
   and parseDec (inSig: bool) sc: (scope * dec) option = let
