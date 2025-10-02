@@ -488,7 +488,7 @@ fun parseSML file body parseError: scope -> result = let
       "`" => (false, "`")
     | "``" => (true, "``")
     | "\226\128\152" => (false, "\226\128\153")
-    | "\226\128\156" => (false, "\226\128\157")
+    | "\226\128\156" => (true, "\226\128\157")
     | _ => raise Unreachable
     fun findColon i =
       case ahead i of
