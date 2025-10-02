@@ -111,9 +111,11 @@ fun computeUpdates file body = let
     val [name, quote, proof] = args
     val [SOME comma0, SOME comma1] = delims
   in (left, name, comma0, quote, comma1, proof, right) end;
-  fun destQuote q = let
-    val HOLQuote {head, end_tok = SOME end_tok, ...} = q
-  in (head, end_tok) end
+  fun destQuote q =
+      case q of
+          HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
+        | HOLFullQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
+        | _ => raise Bind
   fun destString (StringConstant id) = id
   fun stringQuotes (i, s) = (i, i + String.size s - 1)
   fun updToCol0 box s =
@@ -121,12 +123,12 @@ fun computeUpdates file body = let
   fun computeUpdatesDec dec = let
     (* Destruct: val vname = fname arg *)
     val (val_, vname, eq, fname, arg) = destCall dec
-    (* Only update calls to Q.store_thm *)
+    (* Only update calls to store_thm *)
     val _ = if not $ (#2 fname) = "Q.store_thm" then raise Bind else ()
     val (left, name, comma0, quote, comma1, proof, right) = destTuple arg
     val (strQL, strQR) = stringQuotes $ destString name
     val (openq, closeq) = destQuote quote
-    (* val ... = Q.store_thm ("
+    (* val ... = store_thm ("
        ==>
        Theorem  *)
     val thm_box = expandBoxLeft (val_, strQL + 1)
@@ -136,7 +138,10 @@ fun computeUpdates file body = let
     val colon_upd = (colon_box, ":")
     (* Remove opening quote of HOL term *)
     val openq_box = identBox openq
-    val openq_upd = (openq_box, " ")
+    val openq_len = #2 openq_box - #1 openq_box
+    val openq_upd = if openq_len = 3
+                    then (openq_box, spaceString 1) (* It's a unicode quote *)
+                    else (openq_box, spaceString openq_len)
     (* `.., ==> Proof *)
     val proof_box = expandBoxLeft (#1 closeq, comma1 + 1)
     val proof_upd = updToCol0 proof_box "Proof"
