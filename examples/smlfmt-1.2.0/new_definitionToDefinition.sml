@@ -221,6 +221,9 @@ fun applyToScriptsInDir dir =
         loop () before OS.FileSys.closeDir d
     end
 
+fun deletedComments dir =
+  "git diff -G'\\(\\*' -- " ^ dir ^ " | awk '/^--- a\\// {file=$2; gsub(/^a\\//,\"\",file)} /^-.*\\(\\*/ && !/^---/ {print file \": \" $0}'"
+
 fun applyToScriptsInDirRec (rootDir : string) =
   let
     val targetSuffix = "Script.sml"
@@ -254,4 +257,7 @@ fun applyToScriptsInDirRec (rootDir : string) =
           OS.FileSys.closeDir dirStream
         end
       else ()
-  in traverse rootDir end
+  in traverse rootDir;
+     print "\nUse this command to check for deleted comments:\n";
+     print $ deletedComments rootDir;
+     print"\n" end
