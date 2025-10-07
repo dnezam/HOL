@@ -70,11 +70,7 @@ fun computeUpdates file body = let
   fun expandLeft start = let
     fun loop i = if isWhitespace $ sub (i - 1) then loop (i - 1) else i
   in loop start end
-  fun expandRight start = let
-    fun loop i = if isWhitespace $ sub i then loop (i + 1) else i
-  in loop start end
   fun expandBoxLeft (start, stop) = (expandLeft start, stop)
-  fun expandBox (start, stop) = (expandLeft start, expandRight stop)
   val lines = mkLineCounter body
   fun getLineCol index = let  (* yoinked from Mario *)
     val line = partitionPoint (Vector.length lines)
@@ -102,65 +98,66 @@ fun computeUpdates file body = let
       val start = if sub (start - 1) = #"\n" then start - 1 else start
     in removeBox (start, stop) end
     else removeBox bm
-  (* val pat = fname arg *)
+  (* val vname = fname arg *)
   fun destCall dec = let
     val DecVal {val_, elems, ...} = dec
     val {args = [vb], ...} = elems
     val {pat, eq = SOME ({eq, exp}), ...} = vb
+    val Ident {id = vname , ...} = pat
     val App (Ident {id = fname, ...}, arg) = exp
-  in (val_, eq, fname, arg) end;
+  in (val_, vname, eq, fname, arg) end;
   fun destTuple t = let
     val Tuple {left, elems = {args, delims}, right = SOME right, ...} = t
-    val [name, exp] = args
-    val [SOME comma0] = delims
-  in (left, name, comma0, exp, right) end;
+    val [name, quote, proof] = args
+    val [SOME comma0, SOME comma1] = delims
+  in (left, name, comma0, quote, comma1, proof, right) end;
   fun destQuote q =
       case q of
           HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | HOLFullQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | _ => raise Bind
+  fun destTermApp exp = let
+    val App (Ident {id = fname, ...}, arg) = exp
+    val _ = if not $ (#2 fname) = "Term" then raise Bind else ()
+    val (openq, closeq) = destQuote arg
+  in (#1 fname, openq, closeq) end
   fun destString (StringConstant id) = id
   fun stringQuotes (i, s) = (i, i + String.size s - 1)
   fun updToCol0 box s =
       if getColBox box = 0 then (box, s) else (box, "\n" ^ s)
   fun computeUpdatesDec dec = let
     (* Destruct: val vname = fname arg *)
-    val (val_, eq, fname, arg) = destCall dec
-    (* Only update calls to ... *)
-    val _ = if not $ (#2 fname) = "Q.new_definition" then raise Bind else ()
-    val (left, name, comma0, exp, right) = destTuple arg
+    val (val_, vname, eq, fname, arg) = destCall dec
+    (* Only update calls to store_thm *)
+    val _ = if not $ (#2 fname) = "store_thm" then raise Bind else ()
+    val (left, name, comma0, exp, comma1, proof, right) = destTuple arg
     val (strQL, strQR) = stringQuotes $ destString name
-    val (openq, closeq) = destQuote exp
-    (* val ... = ... ("
+    val (termStart, openq, closeq) = destTermApp exp
+    (* val ... = store_thm ("
        ==>
        Theorem  *)
     val thm_box = expandBoxLeft (val_, strQL + 1)
-    val thm_upd = updToCol0 thm_box "Definition "
+    val thm_upd = updToCol0 thm_box "Theorem "
     (* ...", ==> : *)
-    val eq_box = expandBoxLeft (strQR, comma0 + 1)
-    (* Potential position of a ] closing existing tags *)
-    val myb_sqc = (expandLeft (strQR-1))
-    val eq_upd = if sub myb_sqc  = #"]"
-                 then ((myb_sqc, #2 eq_box), ",nocompute]:")
-                 else (eq_box, "[nocompute]:")
-    (* `` ==>    *)
+    val colon_box = expandBoxLeft (strQR, comma0 + 1)
+    val colon_upd = (colon_box, ":")
     (* Remove opening quote of HOL term *)
     val openq_box = identBox openq
-    (* some code looks something like this:
-     val ASSOC_DEF = new_definition("ASSOC_DEF",
-         ``
-         ...
-     *)
-    val openq_upd = removeBoxSandwich eq_box openq_box (#2 openq_box+1, (#2 openq_box+2))
-    (* val openq_len = #2 openq_box - #1 openq_box *)
-    (* val openq_upd = if openq_len = 3 *)
-    (*                 then (openq_box, spaceString 1) (* It's a unicode quote *) *)
-    (*                 else (openq_box, spaceString openq_len) *)
-    (* ``) ==> End*)
-    val rpar_box = expandBoxLeft (#1 closeq, right + 1)
-    val rpar_upd = updToCol0 rpar_box "End"
-  in [thm_upd, eq_upd, openq_upd, rpar_upd] end handle Bind => []
-                                                    |  Match => []
+    val openq_len = #2 openq_box - #1 openq_box
+    val openq_len = if openq_len = 3
+                    then 1 (* It's a unicode quote *)
+                    else openq_len
+    (* Term‘ .. *)
+    val openq_box = (termStart, #2 openq_box)
+    val openq_upd = removeBoxSandwich colon_box openq_box (#2 openq_box+1, (#2 openq_box+2))
+    (* `.., ==> Proof *)
+    val proof_box = expandBoxLeft (#1 closeq, comma1 + 1)
+    val proof_upd = updToCol0 proof_box "Proof"
+    (* ) ==> QED *)
+    val qed_box = expandBoxLeft (right, right + 1)
+    val qed_upd = updToCol0 qed_box "QED"
+
+  in [thm_upd, colon_upd, openq_upd, proof_upd, qed_upd] end handle Bind => []
 in List.concat $ map computeUpdatesDec $ decs end
 
 (* By doing the last update first, an update cannot mess with
@@ -192,7 +189,7 @@ fun removeTrailingWhitespace file =
   runCommand $ "sed -i 's/[[:space:]]\\+$//' " ^ file
 
 fun removeSemicolonAfterEnd file =
-  runCommand $ "sed -i 's/^End[[:space:];]*/End/' " ^ file
+  runCommand $ "sed -i 's/^QED[[:space:];]*/QED/' " ^ file
 
 fun applyToFile file = let
   val _ = print (file ^ ": ")
@@ -220,9 +217,6 @@ fun applyToScriptsInDir dir =
     in
         loop () before OS.FileSys.closeDir d
     end
-
-fun deletedComments dir =
-  "git diff -G'\\(\\*' -- " ^ dir ^ " | awk '/^--- a\\// {file=$2; gsub(/^a\\//,\"\",file)} /^-.*\\(\\*/ && !/^---/ {print file \": \" $0}'"
 
 fun applyToScriptsInDirRec (rootDir : string) =
   let
@@ -257,7 +251,4 @@ fun applyToScriptsInDirRec (rootDir : string) =
           OS.FileSys.closeDir dirStream
         end
       else ()
-  in traverse rootDir;
-     print "\nUse this command to check for deleted comments:\n";
-     print $ deletedComments rootDir;
-     print"\n" end
+  in traverse rootDir end

@@ -119,6 +119,11 @@ fun computeUpdates file body = let
           HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | HOLFullQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | _ => raise Bind
+  fun destTermApp exp = let
+    val App (Ident {id = fname, ...}, arg) = exp
+    val _ = if not $ (#2 fname) = "Term" then raise Bind else ()
+    val (openq, closeq) = destQuote arg
+  in (#1 fname, openq, closeq) end
   fun destString (StringConstant id) = id
   fun stringQuotes (i, s) = (i, i + String.size s - 1)
   fun updToCol0 box s =
@@ -127,10 +132,10 @@ fun computeUpdates file body = let
     (* Destruct: val vname = fname arg *)
     val (val_, eq, fname, arg) = destCall dec
     (* Only update calls to ... *)
-    val _ = if not $ (#2 fname) = "Q.new_definition" then raise Bind else ()
+    val _ = if not $ (#2 fname) = "new_definition" then raise Bind else ()
     val (left, name, comma0, exp, right) = destTuple arg
     val (strQL, strQR) = stringQuotes $ destString name
-    val (openq, closeq) = destQuote exp
+    val (termStart, openq, closeq) = destTermApp exp
     (* val ... = ... ("
        ==>
        Theorem  *)
@@ -145,7 +150,9 @@ fun computeUpdates file body = let
                  else (eq_box, "[nocompute]:")
     (* `` ==>    *)
     (* Remove opening quote of HOL term *)
-    val openq_box = identBox openq
+    (* val openq_box = identBox openq *)
+    (* Remove Term ` ...*)
+    val openq_box = (termStart, #2 (identBox openq))
     (* some code looks something like this:
      val ASSOC_DEF = new_definition("ASSOC_DEF",
          ``
@@ -201,7 +208,7 @@ fun applyToFile file = let
   val _ = removeSemicolonAfterEnd file
   val _ = removeTrailingWhitespace file
   val _ = print "Done.\n"
-in () end handle _ => print "FAIL\n"
+in () end handle Bind => print "FAIL\n"
 
 (*** scratchpad *******************************************************)
 
