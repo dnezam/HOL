@@ -62,8 +62,11 @@ fun parse file body = let
     | NONE => List.rev acc
 in pull [] end
 
+fun localInDecs (DecLocal {dec1, dec2, ...}) = dec2
+  | localInDecs dec = [dec]
+
 fun computeUpdates file body = let
-  val decs = parse file body
+  val decs = List.concat $ map localInDecs $ parse file body
   fun isOOF i = i < 0 orelse String.size body <= i
   fun isWhitespace c = (c = #" " orelse c =  #"\t")
   fun sub i = String.sub (body, i) handle Subscript => #"\000"
@@ -80,7 +83,7 @@ fun computeUpdates file body = let
   end
   fun getColBox (start, _) = #2 (getLineCol start)
   fun getLineBox (start, _) = #1 (getLineCol start)
-  fun identBox id = (#1 id, (#1 id) + String.size (#2 id))
+  fun identBox (id: ident) = (#1 id, (#1 id) + String.size (#2 id))
   fun boxLength (start, stop) = stop - start
   fun spaceString len = String.implode (List.tabulate (len, fn _ => #" "))
   fun removeBox box = (box, "")
@@ -98,6 +101,8 @@ fun computeUpdates file body = let
       val start = if sub (start - 1) = #"\n" then start - 1 else start
     in removeBox (start, stop) end
     else removeBox bm
+  fun stripParens (Parens {exp, ...}) = stripParens exp
+    | stripParens exp = exp
   (* val vname = fname arg *)
   fun destCall dec = let
     val DecVal {val_, elems, ...} = dec
@@ -105,12 +110,12 @@ fun computeUpdates file body = let
     val {pat, eq = SOME ({eq, exp}), ...} = vb
     val Ident {id = vname , ...} = pat
     val App (Ident {id = fname, ...}, arg) = exp
-  in (val_, vname, eq, fname, arg) end;
+  in (val_, vname, eq, fname, stripParens arg) end;
   fun destTuple t = let
-    val Tuple {left, elems = {args, delims}, right = SOME right, ...} = t
+    val Tuple {left, elems = {args, delims,...}, right = SOME right, ...} = t
     val [name, quote, proof] = args
     val [SOME comma0, SOME comma1] = delims
-  in (left, name, comma0, quote, comma1, proof, right) end;
+  in (left, stripParens name, comma0, stripParens quote, comma1, stripParens proof, right) end;
   fun destQuote q =
       case q of
           HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
@@ -190,7 +195,7 @@ fun applyToFile file = let
   val _ = removeSemicolonAfterEnd file
   val _ = removeTrailingWhitespace file
   val _ = print "Done.\n"
-in () end handle _ => print "FAIL\n"
+in () end handle Bind => print "FAIL\n"
 
 (*** scratchpad *******************************************************)
 
