@@ -109,7 +109,7 @@ fun computeUpdates file body = let
     val App (Ident {id = fname, ...}, arg) = exp
   in (val_, eq, fname, arg) end;
   fun destTuple t = let
-    val Tuple {left, elems = {args, delims}, right = SOME right, ...} = t
+    val Tuple {left, elems = {args, delims,...}, right = SOME right, ...} = t
     val [name, exp] = args
     val [SOME comma0] = delims
   in (left, name, comma0, exp, right) end;
@@ -126,7 +126,7 @@ fun computeUpdates file body = let
     (* Destruct: val vname = fname arg *)
     val (val_, eq, fname, arg) = destCall dec
     (* Only update calls to store_thm *)
-    val _ = if not $ (#2 fname) = "Theory.save_thm" then raise Bind else ()
+    val _ = if not $ (#2 fname) = "save_thm" then raise Bind else ()
     val (left, name, comma0, exp, right) = destTuple arg
     val (strQL, strQR) = stringQuotes $ destString name
     (* val ... = ... ("

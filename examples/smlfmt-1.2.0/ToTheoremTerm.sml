@@ -101,21 +101,18 @@ fun computeUpdates file body = let
       val start = if sub (start - 1) = #"\n" then start - 1 else start
     in removeBox (start, stop) end
     else removeBox bm
-  (* val vname = fname arg *)
-  fun stripParens (Parens {exp, ...}) = stripParens exp
-    | stripParens exp = exp
   fun destCall dec = let
     val DecVal {val_, elems, ...} = dec
     val {args = [vb], ...} = elems
     val {pat, eq = SOME ({eq, exp}), ...} = vb
     val Ident {id = vname , ...} = pat
     val App (Ident {id = fname, ...}, arg) = exp
-  in (val_, vname, eq, fname, stripParens arg) end;
+  in (val_, vname, eq, fname, arg) end;
   fun destTuple t = let
     val Tuple {left, elems = {args, delims,...}, right = SOME right, ...} = t
     val [name, quote, proof] = args
     val [SOME comma0, SOME comma1] = delims
-  in (left, stripParens name, comma0, stripParens quote, comma1, stripParens proof, right) end;
+  in (left, name, comma0, quote, comma1, proof, right) end;
   fun destQuote q =
       case q of
           HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
@@ -137,6 +134,10 @@ fun computeUpdates file body = let
     val _ = if not $ (#2 fname) = "store_thm" then raise Bind else ()
     val (left, name, comma0, exp, comma1, proof, right) = destTuple arg
     val (strQL, strQR) = stringQuotes $ destString name
+    (* right parens should be deleted with deletion from quote to comma *)
+    val (paren_upd, exp) = case exp of
+      Parens {exp, left,...} => ([removeBox $ (left, left+1)], exp)
+    | exp => ([], exp)
     val (termStart, openq, closeq) = destTermApp exp
     (* val ... = store_thm ("
        ==>
@@ -162,7 +163,7 @@ fun computeUpdates file body = let
     val qed_box = expandBoxLeft (right, right + 1)
     val qed_upd = updToCol0 qed_box "QED"
 
-  in [thm_upd, colon_upd, openq_upd, proof_upd, qed_upd] end handle Bind => []
+  in paren_upd @ [thm_upd, colon_upd, openq_upd, proof_upd, qed_upd] end handle Bind => []
 in List.concat $ map computeUpdatesDec $ decs end
 
 (* By doing the last update first, an update cannot mess with

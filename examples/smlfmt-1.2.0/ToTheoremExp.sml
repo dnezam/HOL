@@ -128,11 +128,11 @@ fun computeUpdates file body = let
     val [name, quote, proof] = args
     val [SOME comma0, SOME comma1] = delims
   in (left, stripParens name, comma0, stripParens quote, comma1, stripParens proof, right) end;
-  fun destQuote q =
+  fun isQuote q =
       case q of
-          HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
-        | HOLFullQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
-        | _ => raise Bind
+          HOLQuote _ => true
+        | HOLFullQuote _ => true
+        | _ => false
   fun destString (StringConstant id) = id
   fun stringQuotes (i, s) = (i, i + String.size s - 1)
   fun updToCol0 box s =
@@ -143,6 +143,7 @@ fun computeUpdates file body = let
     (* Only update calls to store_thm *)
     val _ = if not $ (#2 fname) = "store_thm" then raise Bind else ()
     val (left, name, comma0, exp, comma1, proof, right) = destTuple arg
+    val _ = if isQuote exp then raise Bind else ()
     val (strQL, strQR) = stringQuotes $ destString name
     (* val ... = store_thm ("
        ==>
@@ -211,6 +212,9 @@ in () end handle Bind => print "FAIL\n"
 
 (*** scratchpad *******************************************************)
 
+fun deletedComments dir =
+  "git diff -G'\\(\\*' -- " ^ dir ^ " | awk '/^--- a\\// {file=$2; gsub(/^a\\//,\"\",file)} /^-.*\\(\\*/ && !/^---/ {print file \": \" $0}'"
+
 
 fun applyToScriptsInDir dir =
     let
@@ -260,4 +264,7 @@ fun applyToScriptsInDirRec (rootDir : string) =
           OS.FileSys.closeDir dirStream
         end
       else ()
-  in traverse rootDir end
+  in traverse rootDir;
+     print "\nUse this command to check for deleted comments:\n";
+     print $ deletedComments rootDir;
+     print"\n" end

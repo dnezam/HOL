@@ -62,11 +62,8 @@ fun parse file body = let
     | NONE => List.rev acc
 in pull [] end
 
-fun localInDecs (DecLocal {dec1, dec2, ...}) = dec2
-  | localInDecs dec = [dec]
-
 fun computeUpdates file body = let
-  val decs = List.concat $ map localInDecs $ parse file body
+  val decs = parse file body
   fun isOOF i = i < 0 orelse String.size body <= i
   fun isWhitespace c = (c = #" " orelse c =  #"\t")
   fun sub i = String.sub (body, i) handle Subscript => #"\000"
@@ -106,56 +103,34 @@ fun computeUpdates file body = let
     val DecVal {val_, elems, ...} = dec
     val {args = [vb], ...} = elems
     val {pat, eq = SOME ({eq, exp}), ...} = vb
-    val Ident {id = vname , ...} = pat
     val App (Ident {id = fname, ...}, arg) = exp
-  in (val_, vname, eq, fname, arg) end;
-  fun destTuple t = let
-    val Tuple {left, elems = {args, delims,...}, right = SOME right, ...} = t
-    val [name, quote, proof] = args
-    val [SOME comma0, SOME comma1] = delims
-  in (left, name, comma0, quote, comma1, proof, right) end;
+  in (val_, eq, fname, arg) end;
   fun destQuote q =
       case q of
           HOLQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | HOLFullQuote {head, end_tok = SOME end_tok, ...} => (head, end_tok)
         | _ => raise Bind
-  fun destString (StringConstant id) = id
-  fun stringQuotes (i, s) = (i, i + String.size s - 1)
-  fun updToCol0 box s =
-      if getColBox box = 0 then (box, s) else (box, "\n" ^ s)
   fun computeUpdatesDec dec = let
-    (* Destruct: val vname = fname arg *)
-    val (val_, vname, eq, fname, arg) = destCall dec
-    (* Only update calls to store_thm *)
-    val _ = if not $ (#2 fname) = "Q.store_thm" then raise Bind else ()
-    val (left, name, comma0, quote, comma1, proof, right) = destTuple arg
-    val (strQL, strQR) = stringQuotes $ destString name
-    val (paren_upd, quote) = case quote of
-      Parens {exp, left,...} => ([removeBox $ (left, left+1)], exp)
-    | exp => ([], exp)
-    val (openq, closeq) = destQuote quote
-    (* val ... = store_thm ("
-       ==>
-       Theorem  *)
-    val thm_box = expandBoxLeft (val_, strQL + 1)
-    val thm_upd = updToCol0 thm_box "Theorem "
-    (* ...", ==> : *)
-    val colon_box = expandBoxLeft (strQR, comma0 + 1)
-    val colon_upd = (colon_box, ":")
-    (* Remove opening quote of HOL term *)
+    (* Destruct: val vname = fname ‘...’ *)
+    val (val_, eq, fname, arg) = destCall dec
+    (* Only update calls to Define *)
+    val _ = if not $ (#2 fname) = "Datatype" then raise Bind else ()
+    val (openq, closeq) = destQuote arg
+    val val_box = expandBoxLeft (val_, #1 fname)
+    val fname_upd = removeBox $ identBox fname
     val openq_box = identBox openq
-    val openq_len = #2 openq_box - #1 openq_box
-    val openq_upd = if openq_len = 3
-                    then (openq_box, spaceString 1) (* It's a unicode quote *)
-                    else (openq_box, spaceString openq_len)
-    (* `.., ==> Proof *)
-    val proof_box = expandBoxLeft (#1 closeq, comma1 + 1)
-    val proof_upd = updToCol0 proof_box "Proof"
-    (* ) ==> QED *)
-    val qed_box = expandBoxLeft (right, right + 1)
-    val qed_upd = updToCol0 qed_box "QED"
-
-  in paren_upd @ [thm_upd, colon_upd, openq_upd, proof_upd, qed_upd] end handle Bind => []
+    (* I don't think putting space before the closing quote is meaningful;
+     * could be wrong though! *)
+    val closeq_box = expandBoxLeft $ identBox closeq
+    (** Compute the updates *)
+    (* val *)
+    val defkw_str = if getColBox val_box = 0 then "Datatype:" else "\nDatatype:"
+    val val_upd = (val_box, defkw_str)
+    val openq_upd = (openq_box, " ")
+    (* Closing quote *)
+    val endkw_str = if getColBox closeq_box = 0 then "End" else "\nEnd"
+    val closeq_upd = (closeq_box, endkw_str)
+  in [fname_upd, val_upd, openq_upd, closeq_upd] end handle Bind => []
 in List.concat $ map computeUpdatesDec $ decs end
 
 (* By doing the last update first, an update cannot mess with
@@ -187,7 +162,7 @@ fun removeTrailingWhitespace file =
   runCommand $ "sed -i 's/[[:space:]]\\+$//' " ^ file
 
 fun removeSemicolonAfterEnd file =
-  runCommand $ "sed -i 's/^QED[[:space:];]*/QED/' " ^ file
+  runCommand $ "sed -i 's/^End[[:space:];]*/End/' " ^ file
 
 fun applyToFile file = let
   val _ = print (file ^ ": ")
@@ -196,7 +171,7 @@ fun applyToFile file = let
   val _ = removeSemicolonAfterEnd file
   val _ = removeTrailingWhitespace file
   val _ = print "Done.\n"
-in () end handle Bind => print "FAIL\n"
+in () end handle _ => print "FAIL\n"
 
 (*** scratchpad *******************************************************)
 
@@ -215,6 +190,9 @@ fun applyToScriptsInDir dir =
     in
         loop () before OS.FileSys.closeDir d
     end
+
+fun deletedComments dir =
+  "git diff -G'\\(\\*' -- " ^ dir ^ " | awk '/^--- a\\// {file=$2; gsub(/^a\\//,\"\",file)} /^-.*\\(\\*/ && !/^---/ {print file \": \" $0}'"
 
 fun applyToScriptsInDirRec (rootDir : string) =
   let
@@ -249,4 +227,7 @@ fun applyToScriptsInDirRec (rootDir : string) =
           OS.FileSys.closeDir dirStream
         end
       else ()
-  in traverse rootDir end
+  in traverse rootDir;
+     print "\nUse this command to check for deleted comments:\n";
+     print $ deletedComments rootDir;
+     print"\n" end
