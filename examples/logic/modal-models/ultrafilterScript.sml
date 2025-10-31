@@ -51,15 +51,14 @@ Definition generated_filter_def:
 generated_filter E W = BIGINTER {G | E SUBSET G /\ filter G W}
 End
 
-val generated_filter_ind = save_thm(
-"generated_filter_ind",
+Theorem generated_filter_ind =
 ``e IN generated_filter E (A: 'a -> bool)``
 |> SIMP_CONV (srw_ss()) [generated_filter_def,filter_def]
 |> EQ_IMP_RULE |> #1
 |> UNDISCH |> SPEC_ALL |> UNDISCH
 |> DISCH ``e IN generated_filter E A``
 |> Q.GEN `e`
-|> DISCH_ALL |> Q.GEN `P`);
+|> DISCH_ALL |> Q.GEN `P`
 
 
 val generated_FT_FT = store_thm(

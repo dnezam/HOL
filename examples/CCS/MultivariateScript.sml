@@ -395,17 +395,15 @@ Proof
 QED
 
 (* a collection of all (forward) rules of `context` *)
-val context_rules = save_thm
-  ("context_rules",
+Theorem context_rules =
     LIST_CONJ [context_nil, context_var, context_prefix_rule,
                context_sum_rule, context_par_rule,
-               context_restr_rule, context_relab_rule]);
+               context_restr_rule, context_relab_rule]
 
 (* a collection of all backward rules of `context` *)
-val context_backward_rules = save_thm
-  ("context_backward_rules",
+Theorem context_backward_rules =
     LIST_CONJ [context_prefix, context_sum, context_par,
-               context_restr, context_relab, context_rec]);
+               context_restr, context_relab, context_rec]
 
 (* c.f. STRONG_EQUIV_SUBST_CONTEXT *)
 Theorem STRONG_EQUIV_subst_context :
@@ -922,26 +920,24 @@ Proof
 QED
 
 (* a collection of all (forward) rules of `weakly_guarded` *)
-val weakly_guarded_rules = save_thm
-  ("weakly_guarded_rules",
+Theorem weakly_guarded_rules =
     LIST_CONJ [weakly_guarded_nil,
                weakly_guarded_var_rule,
                weakly_guarded_prefix_rule,
                weakly_guarded_sum_rule,
                weakly_guarded_par_rule,
                weakly_guarded_restr_rule,
-               weakly_guarded_relab_rule]);
+               weakly_guarded_relab_rule]
 
 (* a collection of all backward rules of `weakly_guarded` *)
-val weakly_guarded_backward_rules = save_thm
-  ("weakly_guarded_backward_rules",
+Theorem weakly_guarded_backward_rules =
     LIST_CONJ [weakly_guarded_var,
                weakly_guarded_prefix,
                weakly_guarded_sum,
                weakly_guarded_par,
                weakly_guarded_restr,
                weakly_guarded_relab,
-               weakly_guarded_rec]);
+               weakly_guarded_rec]
 
 Theorem disjoint_imp_weakly_guarded :
     !Xs E. DISJOINT (FV E) Xs ==> weakly_guarded Xs E

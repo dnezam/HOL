@@ -287,8 +287,7 @@ val NEXT_TRUE_GE =
 (******************************************************************************
 * Structural induction rule for SEREs
 ******************************************************************************)
-val sere_induct = save_thm
-  ("sere_induct",
+Theorem sere_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -300,7 +299,7 @@ val sere_induct = save_thm
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\ (r,b). P r`,`\ (r1,r2). P r1 /\ P r2`]
-         (TypeBase.induction_of ``:'a sere``)))));
+         (TypeBase.induction_of ``:'a sere``))))
 
 (******************************************************************************
 * S_CLOCK_FREE r means r contains no clocking statements
@@ -352,9 +351,7 @@ val S_SEM_TRUE =
 (******************************************************************************
 * Structural induction rule for FL formulas
 ******************************************************************************)
-val fl_induct =
- save_thm
-  ("fl_induct",
+Theorem fl_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -366,7 +363,7 @@ val fl_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\ (r,f). P f`,`\ (f,b). P f`,`\ (f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a fl``)))));
+         (TypeBase.induction_of ``:'a fl``))))
 
 (******************************************************************************
 * Negated clocking of f with T! equal to clocking with T of F_NOT f:
@@ -1114,10 +1111,8 @@ val F_CLOCK_COMP_CORRECT =
 (******************************************************************************
 * w |=T f <==> w |= T^{T}(f)
 ******************************************************************************)
-val F_TRUE_COMP_CORRECT_LEMMA =
- save_thm
-  ("F_TRUE_COMP_CORRECT_LEMMA",
-    SIMP_CONV std_ss [B_SEM] ``B_SEM (ELEM w 0) B_TRUE``);
+Theorem F_TRUE_COMP_CORRECT_LEMMA =
+    SIMP_CONV std_ss [B_SEM] ``B_SEM (ELEM w 0) B_TRUE``
 
 val F_TRUE_CLOCK_COMP_ELIM =
  store_thm

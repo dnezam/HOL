@@ -128,7 +128,7 @@ val (arm_alloc_thm,def11) = decompile_arm "arm_alloc" `
   E5197008 (* ldr r7,[r9,#-8] *)
   E5198004 (* ldr r8,[r9,#-4] *)`;
 
-val _ = save_thm("arm_alloc_thm",arm_alloc_thm);
+Theorem arm_alloc_thm = arm_alloc_thm
 
 
 (* proof *)

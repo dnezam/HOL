@@ -358,7 +358,7 @@ Definition pop_def:
 End
 
 (* alternate form *)
-val pop_alt = save_thm("pop_alt", pop_def |> REWRITE_RULE [SUC_ONE_ADD]);
+Theorem pop_alt = pop_def |> REWRITE_RULE [SUC_ONE_ADD]
 (* val pop_alt = |- !n b. pop b n = if b <= 1 \/ n = 0 then 0 else 1 + pop b (n DIV b): thm *)
 
 (* Theorem: (b <= 1) \/ (n = 0) ==> (pop b n = 0) *)

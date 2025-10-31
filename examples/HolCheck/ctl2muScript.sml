@@ -43,18 +43,18 @@ Definition ctl2muks_def:   ctl2muks (M : ('prop,'state) kripke_structure) =
        L  := M.L |>
 End
 
-val REST_RESTN = save_thm("REST_RESTN",prove(``!p. REST p = RESTN p (1:num)``,
-Induct_on `p` THEN REWRITE_TAC [REST_def,RESTN_def,DECIDE ``1 = SUC 0``]));
+Theorem REST_RESTN = prove(``!p. REST p = RESTN p (1:num)``,
+Induct_on `p` THEN REWRITE_TAC [REST_def,RESTN_def,DECIDE ``1 = SUC 0``])
 
-val ELEM_REST = save_thm("ELEM_REST",prove(``!(p:'state path) (n:num). ELEM (REST p) n = ELEM p (n+1)``,
+Theorem ELEM_REST = prove(``!(p:'state path) (n:num). ELEM (REST p) n = ELEM p (n+1)``,
 Induct_on `p` THEN Induct_on `n` THENL [
 REWRITE_TAC [ELEM_def,RESTN_def,REST_def,DECIDE ``1 = SUC 0``, DECIDE ``0+1=SUC 0``], (* finite, 0 *)
 FULL_SIMP_TAC std_ss [ELEM_def,RESTN_def,REST_def,DECIDE ``SUC n + 1 = SUC (SUC n)``,DECIDE ``n+1 = SUC n``], (* finite, SUC n *)
 REWRITE_TAC [ELEM_def,RESTN_def,REST_def,DECIDE ``1 = SUC 0``, DECIDE ``0+1=SUC 0``], (* infinite, 0 *)
 FULL_SIMP_TAC std_ss [ELEM_def,RESTN_def,REST_def,DECIDE ``SUC n + 1 = SUC (SUC n)``,DECIDE ``n+1 = SUC n``] (* infinite, SUC n *)
-]));
+])
 
-val PATH_REST = save_thm("PATH_REST",prove(``!(p:'state path) (M: ('prop,'state) kripke_structure) (s:'state). PATH M p s ==> PATH M (REST p) (ELEM p 1)``,
+Theorem PATH_REST = prove(``!(p:'state path) (M: ('prop,'state) kripke_structure) (s:'state). PATH M p s ==> PATH M (REST p) (ELEM p 1)``,
 Induct_on `p` THENL [
  SIMP_TAC std_ss [PATH_def,IS_INFINITE_def],
  REWRITE_TAC [PATH_def]
@@ -63,7 +63,7 @@ Induct_on `p` THENL [
   SIMP_TAC arith_ss [ELEM_def,RESTN_INFINITE,HEAD_def],
   FULL_SIMP_TAC arith_ss [ELEM_def,RESTN_INFINITE,HEAD_def]
   THEN POP_ASSUM (fn t => ASSUME_TAC (SPEC ``(n:num)+1`` t))
-  THEN FULL_SIMP_TAC arith_ss []]]));
+  THEN FULL_SIMP_TAC arith_ss []]])
 
 val EG_LEMMA = prove(``!(M :('prop,'state) kripke_structure) (f:'prop ctl) (s:'state). C_SEM M (C_EG f) s = C_SEM M (C_AND(f,C_EX (C_EG f))) s``,
 REPEAT GEN_TAC THEN EQ_TAC THENL [
@@ -133,7 +133,7 @@ End
 
 Definition unc:   unc R = \x y. R(x,y)
 End(*FIXME: replace this with CURRY_DEF*)
-val unc_thm = save_thm("unc_thm",prove(``!P x y. P(x,y) = (unc P) x y``,PROVE_TAC [unc]));
+Theorem unc_thm = prove(``!P x y. P(x,y) = (unc P) x y``,PROVE_TAC [unc])
 
 val EU_LEMMA = prove(``!(M :('prop,'state) kripke_structure) (f:'prop ctl) (g:'prop ctl) (s:'state). TOTAL M.R ==>
                         (C_SEM M (C_EU(f,g)) s = C_SEM M (C_NOT(C_AND(C_NOT g,C_NOT(C_AND(f,C_EX (C_EU(f,g))))))) s)``,
@@ -282,12 +282,12 @@ val IMF_CTL_LEM8a = prove(
     ]
   ]);
 
-val FV_BEXP2MU =  save_thm("FV_BEXP2MU",prove(``!b. FV (BEXP2MU b) = {}``,
+Theorem FV_BEXP2MU = prove(``!b. FV (BEXP2MU b) = {}``,
 recInduct (theorem "BEXP2MU_ind")
 THEN FULL_SIMP_TAC std_ss [BEXP2MU_def,STATES_def,FV_def]
-THEN PROVE_TAC [EMPTY_UNION]));
+THEN PROVE_TAC [EMPTY_UNION])
 
-val FV_CTL2MU = save_thm("FV_CTL2MU",prove(``!(f: 'prop ctl). FV (CTL2MU f) = {}``,
+Theorem FV_CTL2MU = prove(``!(f: 'prop ctl). FV (CTL2MU f) = {}``,
 recInduct (theorem "CTL2MU_ind")
 THEN FULL_SIMP_TAC std_ss [FV_BEXP2MU,CTL2MU_def,STATES_def,FV_def]
 THEN REPEAT STRIP_TAC THENL [
@@ -297,12 +297,12 @@ THEN SIMP_TAC std_ss [EMPTY_DEF,SET_GSPEC],
 SIMP_TAC std_ss [UNION_DEF,DELETE_DEF,DIFF_DEF,SET_SPEC,NOT_IN_EMPTY]
 THEN SIMP_TAC std_ss [EMPTY_DEF,SET_GSPEC]
 ]
-));
+)
 
-val IMF_CTL_LEM =save_thm("IMF_CTL_LEM",prove(``!f Q. IMF (CTL2MU f) ==> ~SUBFORMULA (~RV Q) (NNF (CTL2MU f))``,
-GEN_TAC THEN SIMP_TAC std_ss [IMF_CTL_LEM8a,FV_CTL2MU,NOT_IN_EMPTY]));
+Theorem IMF_CTL_LEM = prove(``!f Q. IMF (CTL2MU f) ==> ~SUBFORMULA (~RV Q) (NNF (CTL2MU f))``,
+GEN_TAC THEN SIMP_TAC std_ss [IMF_CTL_LEM8a,FV_CTL2MU,NOT_IN_EMPTY])
 
-val IMF_CTL = save_thm("IMF_CTL",prove(``!f. IMF  (CTL2MU f)``,
+Theorem IMF_CTL = prove(``!f. IMF  (CTL2MU f)``,
 recInduct (theorem "CTL2MU_ind") THEN REPEAT CONJ_TAC THENL [
  REWRITE_TAC [CTL2MU_def]
  THEN recInduct (theorem "BEXP2MU_ind")
@@ -312,12 +312,12 @@ recInduct (theorem "CTL2MU_ind") THEN REPEAT CONJ_TAC THENL [
  SIMP_TAC std_ss [CTL2MU_def,IMF_def], (* C_EX *)
  SIMP_TAC std_ss ([CTL2MU_def,IMF_def,NNF_def,MU_SUB_def,RVNEG_def,IMF_CTL_LEM]@(tsimps ``:'a mu``)), (* C_EG *)
  SIMP_TAC std_ss ([CTL2MU_def,IMF_def,NNF_def,MU_SUB_def,RVNEG_def,IMF_CTL_LEM]@(tsimps ``:'a mu``))  (* C_EU *)
-]));
+])
 
 Definition Nf:   (Nf (R:'state # 'state -> bool) (s:'state) (q:'state) (0:num) = s) /\ (Nf R s q (SUC n) = if (n=0) then q else (@r. R(Nf R s q n,r)))
 End
 
-val STATES_FV_ENV_INV_SPEC = save_thm("STATES_FV_ENV_INV_SPEC",prove(``!(f: 'prop ctl) (M: ('prop,'state) kripke_structure) X.
+Theorem STATES_FV_ENV_INV_SPEC = prove(``!(f: 'prop ctl) (M: ('prop,'state) kripke_structure) X.
                                       (STATES (CTL2MU f) (ctl2muks M)  EMPTY_ENV[[["Q"<--X]]]
                                        = STATES (CTL2MU f) (ctl2muks M) EMPTY_ENV)``,
 recInduct (theorem "CTL2MU_ind") THEN SIMP_TAC std_ss [FV_CTL2MU,NOT_IN_EMPTY] THEN REPEAT CONJ_TAC THENL [
@@ -333,7 +333,7 @@ THEN SIMP_TAC std_ss [ENV_UPDATE],
 FULL_SIMP_TAC std_ss [STATES_def,CTL2MU_def]
 THEN REPEAT STRIP_TAC
 THEN SIMP_TAC std_ss [EXTENSION,SET_SPEC]
-THEN SIMP_TAC std_ss [ENV_UPDATE]]));
+THEN SIMP_TAC std_ss [ENV_UPDATE]])
 
 Definition Nf3:   (Nf3 (R:'state # 'state -> bool) (x:'state) (q:'state) (0:num) = x)
           /\ (Nf3 R x q (SUC n) = if (n=0) then q else (@r. R(Nf3 R x q n,r)))
@@ -672,15 +672,15 @@ Definition PREFIX_def:
 (PREFIX (INFINITE f) n = INF_PFX f n)
 End
 
-val INF_PREFIX_LENGTH = save_thm("INF_PREFIX_LENGTH",prove(``!f k. LENGTH (PREFIX (INFINITE f) k) = k``,
+Theorem INF_PREFIX_LENGTH = prove(``!f k. LENGTH (PREFIX (INFINITE f) k) = k``,
 REWRITE_TAC [PREFIX_def]
 THEN Induct_on `k` THENL [
 REWRITE_TAC [INF_PFX_def,LENGTH,SNOC],
 REWRITE_TAC [INF_PFX_def]
-THEN FULL_SIMP_TAC arith_ss [LENGTH,SNOC,LENGTH_SNOC]]));
+THEN FULL_SIMP_TAC arith_ss [LENGTH,SNOC,LENGTH_SNOC]])
 
-val IDX_BIGUNION = save_thm("IDX_BIGUNION",prove(``!P s. s IN BIGUNION {p | ?i. p = P i} = ?i. s IN P i``,
-SIMP_TAC std_ss [BIGUNION,SET_SPEC] THEN PROVE_TAC []));
+Theorem IDX_BIGUNION = prove(``!P s. s IN BIGUNION {p | ?i. p = P i} = ?i. s IN P i``,
+SIMP_TAC std_ss [BIGUNION,SET_SPEC] THEN PROVE_TAC [])
 
 val CTL_LFP_LEM = prove(``!(f: 'prop ctl) (g: 'prop ctl) (s:'state) (M: ('prop,'state) kripke_structure).
 C_SEM M (C_EU(f,g)) s ==> s IN BIGUNION {P | ?(i:num). P = LFP M f g i}``,
@@ -930,14 +930,14 @@ THEN EQ_TAC THENL [
                                       (ISPECL [``(M: ('prop,'state) kripke_structure)``,``f:'prop ctl``,``g:'prop ctl``]
                                                                      EU_LEMMA))]]]]);
 
-val CTL2MU = save_thm("CTL2MU",SIMP_RULE std_ss [IMF_CTL] CTL2MU_LEM);
+Theorem CTL2MU = SIMP_RULE std_ss [IMF_CTL] CTL2MU_LEM
 
-val CTL2MU_MODEL = save_thm("CTL2MU_MODEL",prove(``!(f: 'prop ctl) (M: ('prop,'state) kripke_structure).
+Theorem CTL2MU_MODEL = prove(``!(f: 'prop ctl) (M: ('prop,'state) kripke_structure).
                       (TOTAL M.R /\ wfKS (ctl2muks M) /\ FINITE (ctl2muks M).S) ==>
                       (CTL_MODEL_SAT M f = MU_MODEL_SAT (CTL2MU f) (ctl2muks M) EMPTY_ENV)``,
 REPEAT STRIP_TAC THEN REWRITE_TAC [MU_MODEL_SAT_def,CTL_MODEL_SAT_def]
 THEN CONV_TAC (RHS_CONV (QUANT_CONV (LAND_CONV (REWRITE_CONV[ctl2muks_def]))))
 THEN REWRITE_TAC [combinTheory.K_THM,KS_accfupds]
-THEN METIS_TAC [CTL2MU]))
+THEN METIS_TAC [CTL2MU])
 
 

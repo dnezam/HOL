@@ -482,11 +482,11 @@ val nth_thm = prove(
   SIMP_TAC bool_ss [nth_lemma,car_def,cdr_def,
     DECIDE ``(1 = SUC 0) /\ (2 = SUC 1) /\ (3 = SUC 2) /\ (4 = SUC 3)``]);
 
-val nth_1 = save_thm("nth_1",
-  SIMP_CONV bool_ss [GSYM (EVAL ``SUC 0``),nth_lemma] ``nth (nat 1) x``);
+Theorem nth_1 =
+  SIMP_CONV bool_ss [GSYM (EVAL ``SUC 0``),nth_lemma] ``nth (nat 1) x``
 
-val update_nth_1 = save_thm("update_nth_1",
-  SIMP_CONV bool_ss [GSYM (EVAL ``SUC 0``),update_nth_lemma] ``update_nth (nat 1) v list``);
+Theorem update_nth_1 =
+  SIMP_CONV bool_ss [GSYM (EVAL ``SUC 0``),update_nth_lemma] ``update_nth (nat 1) v list``
 
 val not_eq_nil = store_thm("not_eq_nil",
   ``!x. (not x = nil) = (|= x)``,

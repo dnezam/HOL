@@ -426,7 +426,7 @@ val x64_call_imm_raw_spec_1 = let
   val th = introduce_zMEMORY64 th
   in th end
 
-val x64_call_imm_spec_1 = save_thm("x64_call_imm_spec_1",let
+Theorem x64_call_imm_spec_1 = let
   val th = x64_call_imm_raw_spec_1
   val th = th |> RW [sw2sw_64_32,GSYM word_add_n2w,WORD_ADD_ASSOC]
   val th = th |> Q.INST [`r4`|->`rsp`,`df`|->`dm`,`f`|->`m`,`rip`|->`p`]
@@ -461,9 +461,9 @@ val x64_call_imm_spec_1 = save_thm("x64_call_imm_spec_1",let
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
   val th = RW [GSYM IMM32_def,GSYM word_add_n2w,WORD_ADD_ASSOC] th
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
-val x64_call_imm = save_thm("x64_call_imm",let
+Theorem x64_call_imm = let
   val ((th,_,_),_) = x64_spec_memory64 "48E8"
   val th = th |> RW [sw2sw_64_32,GSYM word_add_n2w,WORD_ADD_ASSOC]
   val th = th |> Q.INST [`r4`|->`rsp`,`df`|->`dm`,`f`|->`m`,`rip`|->`p`]
@@ -498,7 +498,7 @@ val x64_call_imm = save_thm("x64_call_imm",let
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
   val th = RW [GSYM IMM32_def,GSYM word_add_n2w,WORD_ADD_ASSOC] th
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
 fun x64_call (s,r,v) = save_thm("x64_call_" ^ s,let
   val ((th,_,_),_) = x64_spec_memory64 (x64_encode ("call " ^ s))
@@ -586,7 +586,7 @@ val imm32_lemma = prove(
   \\ `8 * k < 2147483648` by DECIDE_TAC
   \\ FULL_SIMP_TAC std_ss [LESS_DIV_EQ_ZERO]);
 
-val x64_pops = save_thm("x64_pops",let
+Theorem x64_pops = let
   val ((pops,_,_),_) = x64_spec "4881C4"
   val pops = RW [GSYM IMM32_def] pops
   val th = Q.INST [`imm32`|->`n2w (8*k)`,`rip`|->`p`]  pops
@@ -625,7 +625,7 @@ val x64_pops = save_thm("x64_pops",let
     \\ IMP_RES_TAC stack_ok_POPS
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
 (* ret *)
 
@@ -638,7 +638,7 @@ val x64_ret_raw_spec_1 = let
   val th = introduce_zMEMORY64 th
   in th end
 
-val x64_ret_spec_1 = save_thm("x64_ret_spec_1",let
+Theorem x64_ret_spec_1 = let
   val th = x64_ret_raw_spec_1
   val th = th |> Q.INST [`r4`|->`rsp`,`df`|->`dm`,`f`|->`m`,`rip`|->`p`]
   val th = SPEC_1_FRAME_RULE th ``
@@ -664,9 +664,9 @@ val x64_ret_spec_1 = save_thm("x64_ret_spec_1",let
     \\ IMP_RES_TAC stack_ok_POP
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
-val x64_ret = save_thm("x64_ret",let
+Theorem x64_ret = let
   val ((th,_,_),_) = x64_spec_memory64 (x64_encode "ret")
   val th = th |> Q.INST [`r4`|->`rsp`,`df`|->`dm`,`f`|->`m`,`rip`|->`p`]
   val th = SPEC_FRAME_RULE th ``
@@ -692,17 +692,17 @@ val x64_ret = save_thm("x64_ret",let
     \\ IMP_RES_TAC stack_ok_POP
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
 (* SPEC_1 jmp imm *)
 
-val x64_ret_raw_spec_1 = save_thm("x64_ret_raw_spec_1",let
+Theorem x64_ret_raw_spec_1 = let
   val th = x64_Lib.x64_step "48E9"
   val c = calc_code th
   val th = pre_process_thm th
   val th = RW [w2n_MOD] th
   val th = x64_prove_one_spec_1 th c
-  in th end);
+  in th end
 
 (* read/write stack *)
 
@@ -786,7 +786,7 @@ val stack_ok_REV_EL = store_thm("stack_ok_REV_EL",
   \\ Q.PAT_X_ASSUM `rsp && 0x7w = 0x0w` MP_TAC
   \\ blastLib.BBLAST_TAC);
 
-val x64_el_r0_r8 = save_thm("x64_el_r0_r8",let
+Theorem x64_el_r0_r8 = let
   val ((th,_,_),_) = x64_spec_memory64 (x64_encode "mov [rsp+r8], r0")
   val th = th |> RW [WORD_ADD_SUB]
   val th = Q.INST [`rip`|->`p`] th
@@ -817,9 +817,9 @@ val x64_el_r0_r8 = save_thm("x64_el_r0_r8",let
     \\ IMP_RES_TAC stack_ok_EL
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
-val x64_lupdate_r0_r8 = save_thm("x64_lupdate_r0_r8",let
+Theorem x64_lupdate_r0_r8 = let
   val ((th,_,_),_) = x64_spec_memory64 (x64_encode "mov r0, [rsp+r8]")
   val th = th |> RW [WORD_ADD_SUB]
   val th = Q.INST [`rip`|->`p`] th
@@ -849,7 +849,7 @@ val x64_lupdate_r0_r8 = save_thm("x64_lupdate_r0_r8",let
     \\ IMP_RES_TAC stack_ok_EL
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
 val imm32_lemma = prove(
   ``(k:num) < 2 ** 28 ==>
@@ -879,7 +879,7 @@ val stack_ok_EL_VAR = prove(
          \\ Q.PAT_X_ASSUM `rsp && 0x7w = 0x0w` MP_TAC \\ blastLib.BBLAST_TAC)
   \\ SEP_W_TAC \\ FULL_SIMP_TAC (std_ss++star_ss) []);
 
-val x64_el_r0_imm = save_thm("x64_el_r0_imm",let
+Theorem x64_el_r0_imm = let
   val ((th,_,_),_) = x64_spec_memory64 "488B8424"
   val th = RW [GSYM IMM32_def] th
   val th = Q.INST [`imm32`|->`n2w (8*k)`,`rip`|->`p`] th
@@ -918,9 +918,9 @@ val x64_el_r0_imm = save_thm("x64_el_r0_imm",let
     \\ IMP_RES_TAC stack_ok_EL_VAR
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
-val x64_lupdate_r0_imm = save_thm("x64_lupdate_r0_imm",let
+Theorem x64_lupdate_r0_imm = let
   val ((th,_,_),_) = x64_spec_memory64 "48898424"
   val th = RW [GSYM IMM32_def] th
   val th = Q.INST [`imm32`|->`n2w (8*k)`,`rip`|->`p`] th
@@ -960,7 +960,7 @@ val x64_lupdate_r0_imm = save_thm("x64_lupdate_r0_imm",let
     \\ IMP_RES_TAC stack_ok_EL_VAR
     \\ FULL_SIMP_TAC (std_ss++star_ss) [zR_def])
   val th = MP th lemma
-  in th |> stack_ss end);
+  in th |> stack_ss end
 
 
 (* I/O interface to C: getchar, putchar *)
@@ -1021,11 +1021,11 @@ val x64_getchar_thm = prove(
   \\ FULL_SIMP_TAC (std_ss++sep_cond_ss) [SPEC_MOVE_COND,SEP_CLAUSES]
   \\ FULL_SIMP_TAC std_ss [IO_ASSUMS_def]) |> RW [STAR_ASSOC,GSYM zR_def];
 
-val _ = save_thm("x64_getchar_thm",x64_getchar_thm);
-val _ = save_thm("x64_putchar_thm",x64_putchar_thm);
+Theorem x64_getchar_thm = x64_getchar_thm
+Theorem x64_putchar_thm = x64_putchar_thm
 
-val _ = save_thm("x64_getchar_r1_thm",
-  SPEC_COMPOSE_RULE [fetch "-" "x64_call_r1",x64_getchar_thm] |> RW [STAR_ASSOC]);
-val _ = save_thm("x64_putchar_r1_thm",
-  SPEC_COMPOSE_RULE [fetch "-" "x64_call_r1",x64_putchar_thm] |> RW [STAR_ASSOC]);
+Theorem x64_getchar_r1_thm =
+  SPEC_COMPOSE_RULE [fetch "-" "x64_call_r1",x64_getchar_thm] |> RW [STAR_ASSOC]
+Theorem x64_putchar_r1_thm =
+  SPEC_COMPOSE_RULE [fetch "-" "x64_call_r1",x64_putchar_thm] |> RW [STAR_ASSOC]
 

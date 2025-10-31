@@ -44,17 +44,15 @@ val Label_cases = TypeBase.nchotomy_of ``:'a Label``;
        !a a'. (coname a = coname a') <=> (a = a')
  *)
 val Label_distinct = TypeBase.distinct_of ``:'a Label``;
-val Label_distinct' = save_thm ("Label_distinct'", GSYM Label_distinct);
+Theorem Label_distinct' = GSYM Label_distinct
 
 (* |- !a' a. name a = coname a' <=> F *)
-val Label_not_eq = save_thm (
-   "Label_not_eq", STRIP_FORALL_RULE EQF_INTRO Label_distinct);
+Theorem Label_not_eq = STRIP_FORALL_RULE EQF_INTRO Label_distinct
 
 (* |- !a' a. coname a' = name a <=> F *)
-val Label_not_eq' = save_thm (
-   "Label_not_eq'", STRIP_FORALL_RULE
+Theorem Label_not_eq' = STRIP_FORALL_RULE
                         (PURE_REWRITE_RULE [SYM_CONV ``name s = coname s'``])
-                        Label_not_eq);
+                        Label_not_eq
 
 (* |- (!a a'. name a = name a' <=> a = a') /\
        !a a'. coname a = coname a' <=> a = a' *)
@@ -80,43 +78,35 @@ val _ = TeX_notation { hol = "Out", TeX = ("\\HOLTokenOutputAct", 1) };
 (* Define structural induction on actions
    !P. P tau /\ (!L. P (label L)) ==> !A. P A
  *)
-val Action_induction = save_thm (
-   "Action_induction", INST_TYPE [``:'a`` |-> ``:'a Label``] option_induction);
+Theorem Action_induction = INST_TYPE [``:'a`` |-> ``:'a Label``] option_induction
 
 (* The structural cases theorem for the type Action
    !AA. (AA = tau) \/ ?L. AA = label L
  *)
-val Action_cases = save_thm (
-   "Action_cases", INST_TYPE [``:'a`` |-> ``:'a Label``] option_nchotomy);
+Theorem Action_cases = INST_TYPE [``:'a`` |-> ``:'a Label``] option_nchotomy
 
 (* The distinction and injectivity theorems for the type Action
    !a. tau <> label a
    !a a'. (label a = label a') <=> (a = a')
  *)
-val Action_distinct = save_thm (
-   "Action_distinct", INST_TYPE [``:'a`` |-> ``:'a Label``] NOT_NONE_SOME);
+Theorem Action_distinct = INST_TYPE [``:'a`` |-> ``:'a Label``] NOT_NONE_SOME
 
-val Action_distinct_label = save_thm (
-   "Action_distinct_label", INST_TYPE [``:'a`` |-> ``:'a Label``] NOT_SOME_NONE);
+Theorem Action_distinct_label = INST_TYPE [``:'a`` |-> ``:'a Label``] NOT_SOME_NONE
 
-val Action_11 = save_thm (
-   "Action_11", INST_TYPE [``:'a`` |-> ``:'a Label``] SOME_11);
+Theorem Action_11 = INST_TYPE [``:'a`` |-> ``:'a Label``] SOME_11
 
 (* !A. A <> tau ==> ?L. A = label L *)
-val Action_no_tau_is_Label = save_thm (
-   "Action_no_tau_is_Label",
-    Q.GEN `A` (DISJ_IMP (Q.SPEC `A` Action_cases)));
+Theorem Action_no_tau_is_Label =
+    Q.GEN `A` (DISJ_IMP (Q.SPEC `A` Action_cases))
 
 (* Extract the label from a visible action, LABEL: Action -> Label. *)
 val _ = overload_on ("LABEL", ``THE :'a Label option -> 'a Label``);
 
 (* |- !x. LABEL (label x) = x *)
-val LABEL_def = save_thm (
-   "LABEL_def", INST_TYPE [``:'a`` |-> ``:'a Label``] THE_DEF);
+Theorem LABEL_def = INST_TYPE [``:'a`` |-> ``:'a Label``] THE_DEF
 
 (* |- (!x. IS_SOME (label x) <=> T) /\ (IS_SOME 't <=> F) *)
-val IS_LABEL_def = save_thm (
-   "IS_LABEL_def", INST_TYPE [``:'a`` |-> ``:'a Label``] IS_SOME_DEF);
+Theorem IS_LABEL_def = INST_TYPE [``:'a`` |-> ``:'a Label``] IS_SOME_DEF
 
 val _ = export_rewrites ["LABEL_def", "IS_LABEL_def"];
 
@@ -299,13 +289,12 @@ End
 (* !labl labl'.
      (RELAB labl = RELAB labl') <=> (Apply_Relab labl = Apply_Relab labl')
  *)
-val APPLY_RELAB_THM = save_thm (
-   "APPLY_RELAB_THM",
+Theorem APPLY_RELAB_THM =
     Q.GENL [`labl`, `labl'`]
       (REWRITE_RULE [GSYM RELAB_def]
         (MATCH_MP (MATCH_MP ABS_Relabeling_one_one
                             (Q.SPEC `labl` IS_RELABELING))
-                  (Q.SPEC `labl` IS_RELABELING))));
+                  (Q.SPEC `labl` IS_RELABELING)))
 
 (******************************************************************************)
 (*             Syntax of pure CCS (general formalization)                     *)
@@ -1034,13 +1023,13 @@ Theorem SUB_COMM = prove(
         (tpm [(x',y)] ([N/x] t) = [N/x] (tpm [(x',y)] t))”,
   srw_tac [][SUB_DEF, supp_fresh]);
 
-val SUB_THM = save_thm("SUB_THM",
+Theorem SUB_THM =
   let val (eqns,_) = CONJ_PAIR SUB_DEF
   in
     CONJ (REWRITE_RULE [GSYM CONJ_ASSOC]
                        (LIST_CONJ (SUB_THMv :: tl (CONJUNCTS eqns))))
          SUB_COMM
-  end);
+  end
 val _ = export_rewrites ["SUB_THM"];
 
 (* |- !Y X E. [E/X] (var Y) = if Y = X then E else var Y *)
@@ -1626,7 +1615,7 @@ Theorem ssub_thm[simp] = CONJUNCT1 ssub_def
 
 val _ = overload_on ("'", “ssub”);
 
-val tpm_ssub = save_thm("tpm_ssub", CONJUNCT2 ssub_def);
+Theorem tpm_ssub = CONJUNCT2 ssub_def
 
 Theorem single_ssub :
     !N. (FEMPTY |+ (s,M)) ' N = [M/s] N
@@ -2243,8 +2232,8 @@ val [PREFIX, SUM1, SUM2, PAR1, PAR2, PAR3, RESTR, RELABELING, REC] =
 (* Use SUB instead of CCS_Subst *)
 Theorem REC' = REWRITE_RULE [CCS_Subst] REC
 
-val TRANS_IND = save_thm ("TRANS_IND",
-    TRANS_ind |> (Q.SPEC `P`) |> GEN_ALL);
+Theorem TRANS_IND =
+    TRANS_ind |> (Q.SPEC `P`) |> GEN_ALL
 
 Theorem TRANS_tpm :
     !pi E u E'. TRANS E u E' ==> TRANS (tpm pi E) u (tpm pi E')
@@ -2427,9 +2416,8 @@ Proof
 QED
 
 (* !u E. nil --u-> E <=> F *)
-val NIL_NO_TRANS_EQF = save_thm (
-   "NIL_NO_TRANS_EQF",
-    Q.GENL [`u`, `E`] (EQF_INTRO (SPEC_ALL NIL_NO_TRANS)));
+Theorem NIL_NO_TRANS_EQF =
+    Q.GENL [`u`, `E`] (EQF_INTRO (SPEC_ALL NIL_NO_TRANS))
 
 (* If a process can do an action, the process is not `nil`. *)
 Theorem TRANS_IMP_NO_NIL :
@@ -2442,14 +2430,13 @@ QED
          rec X E --u-> E' <=>
          ?E'' X'. ((X = X') /\ (E = E'')) /\ [rec X' E''/X'] E'' --u-> E'
  *)
-val REC_cases_EQ = save_thm
-  ("REC_cases_EQ",
+Theorem REC_cases_EQ =
     TRANS_cases |> (Q.SPEC `rec X E`)
                 |> (REWRITE_RULE [CCS_distinct', CCS_one_one])
                 |> (Q.SPECL [`u`, `E'`])
-                |> (Q.GENL [`X`, `E`, `u`, `E'`]));
+                |> (Q.GENL [`X`, `E`, `u`, `E'`])
 
-val REC_cases = save_thm ("REC_cases", EQ_IMP_LR REC_cases_EQ);
+Theorem REC_cases = EQ_IMP_LR REC_cases_EQ
 
 Theorem TRANS_REC_EQ :
     !X E u E'. TRANS (rec X E) u E' <=> TRANS (CCS_Subst E (rec X E) X) u E'
@@ -2510,8 +2497,7 @@ Theorem TRANS_PREFIX_EQ =
                     |> Q.GENL [‘u’, ‘E’, ‘u'’, ‘E'’]
 
 (* !u E u' E'. u..E --u'-> E' ==> (u' = u) /\ (E' = E) *)
-val TRANS_PREFIX = save_thm (
-   "TRANS_PREFIX", EQ_IMP_LR TRANS_PREFIX_EQ);
+Theorem TRANS_PREFIX = EQ_IMP_LR TRANS_PREFIX_EQ
 
 (******************************************************************************)
 (*                                                                            *)
@@ -2529,8 +2515,7 @@ Theorem SUM_cases_EQ =
                     |> REWRITE_RULE [CCS_distinct', CCS_one_one]
                     |> Q.GENL [‘P’, ‘P'’, ‘u’, ‘P''’]
 
-val SUM_cases = save_thm (
-   "SUM_cases", EQ_IMP_LR SUM_cases_EQ);
+Theorem SUM_cases = EQ_IMP_LR SUM_cases_EQ
 
 Theorem TRANS_SUM_EQ :
     !E E' u E''. TRANS (sum E E') u E'' <=> TRANS E u E'' \/ TRANS E' u E''
@@ -2552,8 +2537,7 @@ val TRANS_SUM_EQ' = store_thm (
   ``!E1 E2 u E. TRANS (sum E1 E2) u E <=> TRANS E1 u E \/ TRANS E2 u E``,
     REWRITE_TAC [TRANS_SUM_EQ]);
 
-val TRANS_SUM = save_thm (
-   "TRANS_SUM", EQ_IMP_LR TRANS_SUM_EQ);
+Theorem TRANS_SUM = EQ_IMP_LR TRANS_SUM_EQ
 
 val TRANS_COMM_EQ = store_thm ("TRANS_COMM_EQ",
   ``!E E' E'' u. TRANS (sum E E') u E'' <=> TRANS (sum E' E) u E''``,
@@ -2598,8 +2582,7 @@ val TRANS_ASSOC_EQ = store_thm ("TRANS_ASSOC_EQ",
           MATCH_MP_TAC SUM2,
           MATCH_MP_TAC SUM2 ] >> art [] ] ]);
 
-val TRANS_ASSOC_RL = save_thm (
-   "TRANS_ASSOC_RL", EQ_IMP_RL TRANS_ASSOC_EQ);
+Theorem TRANS_ASSOC_RL = EQ_IMP_RL TRANS_ASSOC_EQ
 
 val TRANS_SUM_NIL_EQ = store_thm (
    "TRANS_SUM_NIL_EQ",
@@ -2615,7 +2598,7 @@ val TRANS_SUM_NIL_EQ = store_thm (
       MATCH_MP_TAC SUM1 >> art [] ]);
 
 (* !E u E'. E + nil --u-> E' ==> E --u-> E' *)
-val TRANS_SUM_NIL = save_thm ("TRANS_SUM_NIL", EQ_IMP_LR TRANS_SUM_NIL_EQ);
+Theorem TRANS_SUM_NIL = EQ_IMP_LR TRANS_SUM_NIL_EQ
 
 val TRANS_P_SUM_P_EQ = store_thm ("TRANS_P_SUM_P_EQ",
   ``!E u E'. TRANS (sum E E) u E' = TRANS E u E'``,
@@ -2626,15 +2609,14 @@ val TRANS_P_SUM_P_EQ = store_thm ("TRANS_P_SUM_P_EQ",
       DISCH_TAC \\
       MATCH_MP_TAC SUM1 >> art [] ]);
 
-val TRANS_P_SUM_P = save_thm
-  ("TRANS_P_SUM_P", EQ_IMP_LR TRANS_P_SUM_P_EQ);
+Theorem TRANS_P_SUM_P = EQ_IMP_LR TRANS_P_SUM_P_EQ
 
-val PAR_cases_EQ = save_thm ("PAR_cases_EQ",
+Theorem PAR_cases_EQ =
     Q.GENL [`P`, `P'`, `u`, `P''`]
         (REWRITE_RULE [CCS_distinct', CCS_one_one]
-                      (Q.SPECL [`par P P'`, `u`, `P''`] TRANS_cases)));
+                      (Q.SPECL [`par P P'`, `u`, `P''`] TRANS_cases))
 
-val PAR_cases = save_thm ("PAR_cases", EQ_IMP_LR PAR_cases_EQ);
+Theorem PAR_cases = EQ_IMP_LR PAR_cases_EQ
 
 (* NOTE: the shape of this theorem can be easily derived from above definition
    by replacing REWRITE_RULE with SIMP_RULE, however the inner existential
@@ -2667,7 +2649,7 @@ Proof
         Q.EXISTS_TAC `l` >> art [] ] ]
 QED
 
-val TRANS_PAR = save_thm ("TRANS_PAR", EQ_IMP_LR TRANS_PAR_EQ);
+Theorem TRANS_PAR = EQ_IMP_LR TRANS_PAR_EQ
 
 val TRANS_PAR_P_NIL = store_thm ("TRANS_PAR_P_NIL",
   ``!E u E'. TRANS (par E nil) u E' ==> (?E''. TRANS E u E'' /\ (E' = par E'' nil))``,
@@ -2691,14 +2673,12 @@ val TRANS_PAR_NO_SYNCR = store_thm ("TRANS_PAR_NO_SYNCR",
                       (ASSUME ``~(l = COMPL (l' :'a Label))``)) \\
       RW_TAC bool_ss [] ]);
 
-val RESTR_cases_EQ = save_thm (
-   "RESTR_cases_EQ",
+Theorem RESTR_cases_EQ =
     Q.GENL [`P'`, `u`, `L`, `P`]
            (REWRITE_RULE [CCS_distinct', CCS_one_one, Action_distinct, Action_11]
-                         (Q.SPECL [`restr L P`, `u`, `P'`] TRANS_cases)));
+                         (Q.SPECL [`restr L P`, `u`, `P'`] TRANS_cases))
 
-val RESTR_cases = save_thm (
-   "RESTR_cases", EQ_IMP_LR RESTR_cases_EQ);
+Theorem RESTR_cases = EQ_IMP_LR RESTR_cases_EQ
 
 Theorem TRANS_RESTR_EQ :
     !E L u E'.
@@ -2733,8 +2713,7 @@ Proof
   end
 QED
 
-val TRANS_RESTR = save_thm (
-   "TRANS_RESTR", EQ_IMP_LR TRANS_RESTR_EQ);
+Theorem TRANS_RESTR = EQ_IMP_LR TRANS_RESTR_EQ
 
 val TRANS_P_RESTR = store_thm (
    "TRANS_P_RESTR",
@@ -2812,14 +2791,13 @@ val RESTR_LABEL_NO_TRANS = store_thm ("RESTR_LABEL_NO_TRANS",
              ((E = E') /\ (rf = rf')) /\ (u = relabel rf' u') /\
              (P = relab E'' rf') /\ E' --u'-> E''
  *)
-val RELAB_cases_EQ = save_thm
-  ("RELAB_cases_EQ",
+Theorem RELAB_cases_EQ =
     TRANS_cases |> (Q.SPEC `relab E rf`)
                 |> (REWRITE_RULE [CCS_distinct', CCS_one_one])
                 |> (Q.SPECL [`u`, `P`])
-                |> (Q.GENL [`E`, `rf`, `u`, `P`]));
+                |> (Q.GENL [`E`, `rf`, `u`, `P`])
 
-val RELAB_cases = save_thm ("RELAB_cases", EQ_IMP_LR RELAB_cases_EQ);
+Theorem RELAB_cases = EQ_IMP_LR RELAB_cases_EQ
 
 Theorem TRANS_RELAB_EQ :
     !E rf u E'. TRANS (relab E rf) u E' <=>
@@ -2839,10 +2817,10 @@ Proof
       PURE_ONCE_ASM_REWRITE_TAC [] ]
 QED
 
-val TRANS_RELAB = save_thm ("TRANS_RELAB", EQ_IMP_LR TRANS_RELAB_EQ);
+Theorem TRANS_RELAB = EQ_IMP_LR TRANS_RELAB_EQ
 
-val TRANS_RELAB_labl = save_thm ("TRANS_RELAB_labl",
-    Q.GENL [`E`, `labl`] (Q.SPECL [`E`, `RELAB labl`] TRANS_RELAB));
+Theorem TRANS_RELAB_labl =
+    Q.GENL [`E`, `labl`] (Q.SPECL [`E`, `RELAB labl`] TRANS_RELAB)
 
 val RELAB_NIL_NO_TRANS = store_thm ("RELAB_NIL_NO_TRANS",
   ``!(rf :'a Relabeling) u E. ~(TRANS (relab nil rf) u E)``,

@@ -108,7 +108,7 @@ val _ = g `preserve_relation_mmu
            (λ(u1,u2,u3,u4). return ())))) (assert_mode 16w) (assert_mode 16w) priv_mode_constraints  priv_mode_similar`;
 val _ = e(FULL_SIMP_TAC (srw_ss()) [user_simp_par_or_eqv_rel_lem]);
 val _ = go_on 1;
-val store_return_state_instr_help_let_thm = save_thm ("store_return_state_instr_help_let_thm", top_thm());
+Theorem store_return_state_instr_help_let_thm = top_thm()
 
 
 val store_return_state_instr_help_let_comb_thm = store_thm ("store_return_state_instr_help_let_comb_thm",
@@ -362,10 +362,10 @@ val _ = e(STRIP_TAC);
 val _ = e(ASSUME_TAC (SPECL [``b2:bool``, ``b1:bool``, ``c0:word16``, ``n:word4``, ``b:bool``, ``enc:Encoding``, ``b0:bool``] (GEN_ALL store_multiple_part_simp)));
 val _ = e(FULL_SIMP_TAC (srw_ss()) [LET_DEF]);
 val _ = go_on 1;
-val store_multiple_part_thm = save_thm ("store_multiple_part_thm", top_thm());
-val store_multiple_part_thm_n = save_thm ("store_multiple_part_thm_n", (SPEC ``n:word4`` store_multiple_part_thm));
-val store_multiple_part_thm_13 = save_thm ("store_multiple_part_thm_13", (SIMP_RULE (srw_ss()) [] (SPEC ``13w:word4`` store_multiple_part_thm)));
-val store_multiple_part_thm_15 = save_thm ("store_multiple_part_thm_15", (SIMP_RULE (srw_ss()) [] (SPEC ``15w:word4`` store_multiple_part_thm)));
+Theorem store_multiple_part_thm = top_thm()
+Theorem store_multiple_part_thm_n = (SPEC ``n:word4`` store_multiple_part_thm)
+Theorem store_multiple_part_thm_13 = (SIMP_RULE (srw_ss()) [] (SPEC ``13w:word4`` store_multiple_part_thm))
+Theorem store_multiple_part_thm_15 = (SIMP_RULE (srw_ss()) [] (SPEC ``15w:word4`` store_multiple_part_thm))
 
 val _ = add_to_simplist store_multiple_part_thm;
 val _ = add_to_simplist store_multiple_part_thm_n;
@@ -444,8 +444,8 @@ val _ = e(ASSUME_TAC (SPECL [``n:word4``, load_multiple_part, ``(assert_mode 16w
 val _ = e(FULL_SIMP_TAC (srw_ss()) []);
 val _ = go_on 1;
 val load_multiple_part_thm = top_thm();
-val load_multiple_part_thm_13 = save_thm ("load_multiple_part_thm_13", (SIMP_RULE (srw_ss()) [] (SPEC ``13w:word4`` load_multiple_part_thm)));
-val load_multiple_part_thm_15 = save_thm ("load_multiple_part_thm_15", (SIMP_RULE (srw_ss()) [] (SPEC ``15w:word4`` load_multiple_part_thm)));
+Theorem load_multiple_part_thm_13 = (SIMP_RULE (srw_ss()) [] (SPEC ``13w:word4`` load_multiple_part_thm))
+Theorem load_multiple_part_thm_15 = (SIMP_RULE (srw_ss()) [] (SPEC ``15w:word4`` load_multiple_part_thm))
 val _ = add_to_simplist load_multiple_part_thm;
 val _ = add_to_simplist load_multiple_part_thm_13;
 val _ = add_to_simplist load_multiple_part_thm_15;

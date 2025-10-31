@@ -142,11 +142,11 @@ Definition basis_def:
 End
 
 (* Theorem: basis g [] = T *)
-val basis_nil = save_thm("basis_nil", basis_def |> CONJUNCT1);
+Theorem basis_nil = basis_def |> CONJUNCT1
 (* > val basis_nil = |- !g. basis g [] <=> T : thm *)
 
 (* Theorem: basis g (h::t) = h IN V /\ basis g t *)
-val basis_cons = save_thm("basis_cons", basis_def |> CONJUNCT2);
+Theorem basis_cons = basis_def |> CONJUNCT2
 (* > val basis_cons = |- !g h t. basis g (h::t) <=> h IN V /\ basis g t : thm *)
 
 (* Theorem: basis g b <=> !x. MEM x b ==> x IN V *)
@@ -257,11 +257,11 @@ End
 val _ = overload_on ("VSUM", ``VectorSum (g:'b group)``);
 
 (* Theorem: VSUM [] = |0| *)
-val vsum_nil = save_thm("vsum_nil", VectorSum_def |> CONJUNCT1);
+Theorem vsum_nil = VectorSum_def |> CONJUNCT1
 (* > val vsum_nil = |- !g. VSUM [] = |0| : thm *)
 
 (* Theorem: VSUM (h::t) = h || VSUM t *)
-val vsum_cons = save_thm("vsum_cons", VectorSum_def |> CONJUNCT2);
+Theorem vsum_cons = VectorSum_def |> CONJUNCT2
 (* > val vsum_cons = |- !g h t. VSUM (h::t) = h || VSUM t : thm *)
 
 (* ------------------------------------------------------------------------- *)

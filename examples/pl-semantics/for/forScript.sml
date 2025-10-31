@@ -295,7 +295,7 @@ Definition semantics_def:
       else Crash
 End
 
-val semantics_thm = save_thm("semantics_thm",semantics_def);
+Theorem semantics_thm = semantics_def
 
 
 (* === A simple type checker === *)
@@ -881,7 +881,7 @@ val simple_sem_t_reln_determ = Q.prove(
    res_tac>>fs[]>>imp_res_tac sem_e_reln_determ>>fs[]>>
    metis_tac[is_rval_def])
 
-val _ = save_thm("simple_sem_t_reln_determ", simple_sem_t_reln_determ)
+Theorem simple_sem_t_reln_determ = simple_sem_t_reln_determ
 
 (* Disjointness of simple_sem_t_reln and simple_sem_t_div*)
 val simple_sem_t_reln_not_div = Q.prove(
@@ -897,7 +897,7 @@ val simple_sem_t_reln_not_div = Q.prove(
     imp_res_tac sem_e_reln_determ>>fs[]>>
     imp_res_tac simple_sem_t_reln_determ>>fs[is_rval_def]))
 
-val _ = save_thm("simple_sem_t_reln_not_div", simple_sem_t_reln_not_div)
+Theorem simple_sem_t_reln_not_div = simple_sem_t_reln_not_div
 
 val simple_sem_t_reln_ignores_clock = Q.prove(
 `∀s t res.
@@ -925,7 +925,7 @@ val sem_t_reln_imp_simple_sem_t_reln = Q.prove(
  TRY(metis_tac[clock_rm,is_rval_def]))
 
 (* Functional big step not time out implies simple_sem_t_reln *)
-val sem_t_imp_simple_sem_t_reln = save_thm ("sem_t_imp_simple_sem_t_reln",sem_t_reln_imp_simple_sem_t_reln |> REWRITE_RULE[big_sem_correct_lem4,AND_IMP_INTRO]|>SIMP_RULE std_ss[FORALL_PROD])
+Theorem sem_t_imp_simple_sem_t_reln = sem_t_reln_imp_simple_sem_t_reln |> REWRITE_RULE[big_sem_correct_lem4,AND_IMP_INTRO]|>SIMP_RULE std_ss[FORALL_PROD]
 
 (* simple_sem_t_reln implies there exists a clock for sem_t that does not timeout *)
 
@@ -1058,7 +1058,7 @@ val sem_t_clock_inc = Q.prove(
     metis_tac[arithmeticTheory.LESS_EQ_ADD_SUB])
 end
 
-val _ = save_thm ("sem_t_clock_inc", sem_t_clock_inc |> SIMP_RULE std_ss [FORALL_PROD]);
+Theorem sem_t_clock_inc = sem_t_clock_inc |> SIMP_RULE std_ss [FORALL_PROD]
 
 (* If current clock times out, everything below it timesout *)
 val sem_t_clock_dec = Q.prove(
@@ -1182,7 +1182,7 @@ val simple_sem_t_div_iff_sem_t_div = Q.prove(
   simple_sem_t_div s t`,
   metis_tac[sem_t_div_simple_sem_t_div,simple_sem_t_div_sem_t_div])
 
-val _ = save_thm("simple_sem_t_div_iff_sem_t_div",simple_sem_t_div_iff_sem_t_div|>REWRITE_RULE[sem_t_div_def]);
+Theorem simple_sem_t_div_iff_sem_t_div = simple_sem_t_div_iff_sem_t_div|>REWRITE_RULE[sem_t_div_def]
 
 (* We can transfer the type soundness proof from FBS directly *)
 val reln_type_soundness = Q.prove(
@@ -1504,10 +1504,10 @@ val lemma2 = prove(
   ``OMIT (b1 \/ b2) <=> OMIT b1 \/ OMIT b2``,
   fs [OMIT_def]);
 
-val sample_cases_thm = save_thm("sample_cases_thm",
+Theorem sample_cases_thm =
   simple_sem_t_reln_cases
   |> Q.SPECL [`s`,`t`,`res`]
   |> Q.GENL [`s`,`t`,`res`]
   |> ONCE_REWRITE_RULE [lemma]
-  |> REWRITE_RULE [lemma2])
+  |> REWRITE_RULE [lemma2]
 

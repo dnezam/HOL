@@ -77,8 +77,8 @@ val (ConstMult_def,ConstMult_ind) =
    RW_TAC arith_ss [ZERO_def,RightShift_def,BYTE_TO_NUM_def] THEN
    RW_TAC arith_ss [B2N_def]);
 
-val _ = save_thm("ConstMult_def",ConstMult_def);
-val _ = save_thm("ConstMult_ind",ConstMult_ind);
+Theorem ConstMult_def = ConstMult_def
+Theorem ConstMult_ind = ConstMult_ind
 val _ = computeLib.add_persistent_funs ["ConstMult_def"];
 
 val ConstMultDistrib = Q.store_thm
@@ -110,8 +110,8 @@ val (IterConstMult_def,IterConstMult_ind) =
    RW_TAC arith_ss [ZERO_def,RightShift_def,BYTE_TO_NUM_def] THEN
    RW_TAC arith_ss [B2N_def]);
 
-val _ = save_thm("IterConstMult_def",IterConstMult_def);
-val _ = save_thm("IterConstMult_ind",IterConstMult_ind);
+Theorem IterConstMult_def = IterConstMult_def
+Theorem IterConstMult_ind = IterConstMult_ind
 val _ = computeLib.add_persistent_funs ["IterConstMult_def"];
 
 (*---------------------------------------------------------------------------*)

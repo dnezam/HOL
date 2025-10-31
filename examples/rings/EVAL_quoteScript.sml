@@ -32,9 +32,8 @@ Induct THEN Induct THEN
 RW_TAC bool_ss (index_compare_def :: index_discr));
 
 
-val compare_list_index = save_thm(
-  "compare_list_index",
-  MATCH_MP compare_equal compare_index_equal);
+Theorem compare_list_index =
+  MATCH_MP compare_equal compare_index_equal
 
 
 Definition index_lt_def:    index_lt i1 i2 = (index_compare i1 i2 = LESS)

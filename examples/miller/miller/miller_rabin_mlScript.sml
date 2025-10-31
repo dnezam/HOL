@@ -32,7 +32,7 @@ val Simplify = RW_TAC std_ss;
 (* Theorems.                                                                 *)
 (* ------------------------------------------------------------------------- *)
 
-val UNCURRY_ML = save_thm ("UNCURRY_ML", pairTheory.UNCURRY_DEF);
+Theorem UNCURRY_ML = pairTheory.UNCURRY_DEF
 
 val EVEN_ML = store_thm
   ("EVEN_ML",
@@ -97,9 +97,9 @@ val PROB_UNIFORM_CUT_ML = store_thm
    ++ Cases
    ++ RW_TAC std_ss [PROB_UNIFORM_CUT_MONAD, SUC_SUB1]);
 
-val FACTOR_TWOS_ML = save_thm ("FACTOR_TWOS_ML", factor_twos_def);
+Theorem FACTOR_TWOS_ML = factor_twos_def
 
-val MODEXP_ML = save_thm ("MODEXP_ML", modexp_def);
+Theorem MODEXP_ML = modexp_def
 
 val WITNESS_TAIL_ML = store_thm
   ("WITNESS_TAIL_ML",
@@ -113,11 +113,11 @@ val WITNESS_TAIL_ML = store_thm
    Cases_on `r`
    ++ RW_TAC std_ss [witness_tail_def, SUC_SUB1]);
 
-val WITNESS_ML = save_thm ("WITNESS_ML", witness_def);
+Theorem WITNESS_ML = witness_def
 
-val MILLER_RABIN_1_ML = save_thm ("MILLER_RABIN_1_ML", miller_rabin_1_def);
+Theorem MILLER_RABIN_1_ML = miller_rabin_1_def
 
-val MILLER_RABIN_ML = save_thm ("MILLER_RABIN_ML", miller_rabin_def);
+Theorem MILLER_RABIN_ML = miller_rabin_def
 
 (* non-interactive mode
 *)

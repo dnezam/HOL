@@ -499,22 +499,18 @@ val prims = [MUX,REG,FLIPFLOP,DEC,ADDER,ZERO_TEST,IS_ZERO,OR_GATE]
 
 
 (* Now use the unwinding rules.  *)
-val MULT_IMP_UNFOLD =
-  save_thm("MULT_IMP_UNFOLD",
-       unwindLib.UNFOLD_RIGHT_RULE prims MULT_IMP);
+Theorem MULT_IMP_UNFOLD =
+       unwindLib.UNFOLD_RIGHT_RULE prims MULT_IMP
 
-val MULT_IMP_UNWIND =
-  save_thm("MULT_IMP_UNWIND",
-       unwindLib.UNWIND_AUTO_RIGHT_RULE MULT_IMP_UNFOLD);
+Theorem MULT_IMP_UNWIND =
+       unwindLib.UNWIND_AUTO_RIGHT_RULE MULT_IMP_UNFOLD
 
-val MULT_IMP_PRUNE =
-  save_thm("MULT_IMP_PRUNE",
+Theorem MULT_IMP_PRUNE =
        unwindLib.PRUNE_RIGHT_RULE MULT_IMP_UNWIND
-       handle HOL_ERR _ => MULT_IMP_UNWIND);  (* pruning does nothing *)
+       handle HOL_ERR _ => MULT_IMP_UNWIND (* pruning does nothing *)
 
-val MULT_IMP_EXPAND =
-  save_thm("MULT_IMP_EXPAND",
-         unwindLib.EXPAND_AUTO_RIGHT_RULE prims MULT_IMP);
+Theorem MULT_IMP_EXPAND =
+         unwindLib.EXPAND_AUTO_RIGHT_RULE prims MULT_IMP
 
 val COND_ADD_LEMMA = store_thm("COND_ADD_LEMMA",
    “((if b then m else n) + p) = (if b then m + p else n + p)”,
@@ -549,7 +545,7 @@ val NEXT_THM' =
  INST_TYPE[alpha |-> Type`:num#num`, beta  |-> Type`:num#num#bool`] NEXT_THM;
 
 
-val NEXT_MULT_LEMMA1 = save_thm("NEXT_MULT_LEMMA1",
+Theorem NEXT_MULT_LEMMA1 =
    REWRITE_RULE []
         (CONV_RULE (DEPTH_CONV BETA_CONV)
                    (SPECL  [“MULT_FUN”,
@@ -560,7 +556,7 @@ val NEXT_MULT_LEMMA1 = save_thm("NEXT_MULT_LEMMA1",
                             “\x. ((o2:num->num) x,
                                     (o1:num->num) x,
                                     (done:num->bool) x)”]
-                           NEXT_THM')));
+                           NEXT_THM'))
 
 val NEXT_MULT_LEMMA2 = store_thm("NEXT_MULT_LEMMA2",
    “MULT_IMP(i1,i2,o1,o2,done)
@@ -573,25 +569,25 @@ val NEXT_MULT_LEMMA2 = store_thm("NEXT_MULT_LEMMA2",
 
 val PAIR = pairTheory.PAIR;
 
-val G_FUN_LEMMA = save_thm("G_FUN_LEMMA",
+Theorem G_FUN_LEMMA =
    PURE_REWRITE_RULE [PAIR]
        (SPECL [“FST(a:num#num)”,
                “SND(a:num#num)”,
                “FST(b:num#num#bool)”,
                “FST(SND(b:num#num#bool))”,
-               “SND(SND(b:num#num#bool))”]  G_FUN));
+               “SND(SND(b:num#num#bool))”]  G_FUN)
 
-val NEXT_MULT_LEMMA3 = save_thm("NEXT_MULT_LEMMA3",
+Theorem NEXT_MULT_LEMMA3 =
    PURE_REWRITE_RULE [PAIR,SYM G_FUN_LEMMA]
       (SPECL [“FST(a:num#num)”,
               “SND(a:num#num)”,
               “FST(b:num#num#bool)”,
               “FST(SND(b:num#num#bool))”,
-              “SND(SND(b:num#num#bool))”] MULT_FUN_EXPANDED_DEF));
+              “SND(SND(b:num#num#bool))”] MULT_FUN_EXPANDED_DEF)
 
-val NEXT_MULT_LEMMA4 = save_thm("NEXT_MULT_LEMMA4",
+Theorem NEXT_MULT_LEMMA4 =
    DISCH_ALL (REWRITE_RULE [UNDISCH NEXT_MULT_LEMMA2,SYM NEXT_MULT_LEMMA3]
-                           NEXT_MULT_LEMMA1));
+                           NEXT_MULT_LEMMA1)
 
 val MULT_FUN_LEMMA1 = MULT_FUN_LEMMA;
 

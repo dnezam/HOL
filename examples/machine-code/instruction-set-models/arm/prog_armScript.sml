@@ -325,8 +325,8 @@ val CODE_POOL_arm2set_1 = prove(
   \\ ASM_SIMP_TAC std_ss [DELETE_arm2set,EMPTY_arm2set,DIFF_INSERT]
   \\ ASM_SIMP_TAC std_ss [AC CONJ_COMM CONJ_ASSOC,DIFF_EMPTY,EMPTY_arm2set]);
 
-val CODE_POOL_arm2set = save_thm("CODE_POOL_arm2set",
-  CONJ CODE_POOL_arm2set_1 CODE_POOL_arm2set_2);
+Theorem CODE_POOL_arm2set =
+  CONJ CODE_POOL_arm2set_1 CODE_POOL_arm2set_2
 
 Definition ARM_WRITE_STS_def:
   ARM_WRITE_STS a x s = if a IN {psrN;psrZ;psrC;psrV;psrQ} then ARM_WRITE_STATUS a x s else s
@@ -368,7 +368,7 @@ val MASKED_CPSR_OF_UPDATES = prove(
 
 val ARM_READ_WRITE = LIST_CONJ [REG_OF_UPDATES,MEM_OF_UPDATES,MASKED_CPSR_OF_UPDATES,
                                 UNDEF_OF_UPDATES,CPSR_COMPONENTS_OF_UPDATES]
-val _ = save_thm("ARM_READ_WRITE",ARM_READ_WRITE);
+Theorem ARM_READ_WRITE = ARM_READ_WRITE
 
 val ARM_OK_WRITE_GE = prove(
   ``ARM_OK (ARM_WRITE_GE w4 s) = ARM_OK s``,
@@ -418,10 +418,10 @@ val IMP_ARM_SPEC_LEMMA = prove(
   \\ FULL_SIMP_TAC bool_ss [rel_sequence_def,ARM_NEXT_REL_def]
   \\ Q.EXISTS_TAC `SUC 0` \\ METIS_TAC [PAIR,optionTheory.SOME_11]);
 
-val IMP_ARM_SPEC = save_thm("IMP_ARM_SPEC",
+Theorem IMP_ARM_SPEC =
   (RW1 [STAR_COMM] o RW [ARM_SPEC_CODE] o
    SPECL [``CODE_POOL ARM_INSTR c * p'``,
-          ``CODE_POOL ARM_INSTR c * q'``]) IMP_ARM_SPEC_LEMMA);
+          ``CODE_POOL ARM_INSTR c * q'``]) IMP_ARM_SPEC_LEMMA
 
 val aS_HIDE = store_thm("aS_HIDE",
   ``~aS = ~aS1 psrN * ~aS1 psrZ * ~aS1 psrC * ~aS1 psrV``,
@@ -446,9 +446,9 @@ val aM_INTRO_LEMMA2 = prove(
   SIMP_TAC std_ss [GSYM aM_INTRO_LEMMA1,word_arith_lemma3,WORD_ADD_0,
      AC STAR_ASSOC STAR_COMM]);
 
-val aM_INTRO = save_thm("aM_INTRO",
+Theorem aM_INTRO =
   GEN_ALL (CONJ (Q.SPEC `a` aM_INTRO_LEMMA1)
-                (Q.SPEC `a` aM_INTRO_LEMMA2)));
+                (Q.SPEC `a` aM_INTRO_LEMMA2))
 
 
 (* ----------------------------------------------------------------------------- *)
@@ -616,8 +616,8 @@ val aMEMORY_INSERT_LEMMA = prove(
       \\ METIS_TAC []])
   \\ ASM_SIMP_TAC bool_ss [] \\ METIS_TAC []);
 
-val aMEMORY_INSERT = save_thm("aMEMORY_INSERT",
-  SIMP_RULE std_ss [aM_THM] aMEMORY_INSERT_LEMMA);
+Theorem aMEMORY_INSERT =
+  SIMP_RULE std_ss [aM_THM] aMEMORY_INSERT_LEMMA
 
 val aMEMORY_INTRO = store_thm("aMEMORY_INTRO",
   ``SPEC ARM_MODEL (aM a v * P) c (aM a w * Q) ==>
@@ -663,13 +663,13 @@ val aligned2_thm = store_thm("aligned2_thm",
   \\ ASM_SIMP_TAC std_ss []
   \\ DECIDE_TAC);
 
-val ADD_WITH_CARRY_SUB_n2w = save_thm("ADD_WITH_CARRY_SUB_n2w",
+Theorem ADD_WITH_CARRY_SUB_n2w =
   ((RAND_CONV o RAND_CONV o RATOR_CONV o RAND_CONV)
     (ONCE_REWRITE_CONV [GSYM WORD_NOT_NOT] THENC
      ONCE_REWRITE_CONV [word_1comp_n2w] THENC
      SIMP_CONV (std_ss++wordsLib.SIZES_ss) []) THENC
    REWRITE_CONV [ADD_WITH_CARRY_SUB])
-      ``add_with_carry (x:word32,n2w n,T)``);
+      ``add_with_carry (x:word32,n2w n,T)``
 
 val UPDATE_FCP = prove(
   ``!k b f. (k :+ b) ((FCP i. f i):'a word) = (FCP i. if i = k then b else f i):'a word``,

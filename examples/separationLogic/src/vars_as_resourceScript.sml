@@ -1039,14 +1039,14 @@ SIMP_TAC std_ss [VAR_RES_STACK_IS_SUBSTATE_def, ASL_IS_SUBSTATE___IS_PREORDER,
 
 
 
-val VAR_RES_STACK_IS_SUBSTATE___TRANS = save_thm ("VAR_RES_STACK_IS_SUBSTATE___TRANS",
+Theorem VAR_RES_STACK_IS_SUBSTATE___TRANS =
 CONJUNCT2 (
-REWRITE_RULE [PreOrder, transitive_def] VAR_RES_STACK_IS_SUBSTATE___IS_PREORDER));
+REWRITE_RULE [PreOrder, transitive_def] VAR_RES_STACK_IS_SUBSTATE___IS_PREORDER)
 
 
-val VAR_RES_STACK_IS_SUBSTATE___REFL = save_thm ("VAR_RES_STACK_IS_SUBSTATE___REFL",
+Theorem VAR_RES_STACK_IS_SUBSTATE___REFL =
 CONJUNCT1 (
-REWRITE_RULE [PreOrder, reflexive_def] VAR_RES_STACK_IS_SUBSTATE___IS_PREORDER));
+REWRITE_RULE [PreOrder, reflexive_def] VAR_RES_STACK_IS_SUBSTATE___IS_PREORDER)
 
 
 
@@ -1624,14 +1624,14 @@ SIMP_TAC std_ss [VAR_RES_COMBINATOR_def,
    asl_emp___VAR_RES_STACK_COMBINE, IN_SING]);
 
 
-val VAR_RES_COMBINATOR_REWRITE = save_thm ("VAR_RES_COMBINATOR_REWRITE",
+Theorem VAR_RES_COMBINATOR_REWRITE =
 let
    val thm0 = Q.GEN `f1` PRODUCT_SEPARATION_COMBINATOR_REWRITE
    val thm1 = ISPEC ``VAR_RES_STACK_COMBINE:('c, 'a) var_res_state bin_option_function`` thm0
    val thm2 = REWRITE_RULE [GSYM VAR_RES_COMBINATOR_def] thm1
 in
    thm2
-end);
+end
 
 
 Definition IS_VAR_RES_COMBINATOR_def:
@@ -1964,20 +1964,18 @@ Definition var_res_exp_full_prop_def:
 End
 
 
-val var_res_exp_is_defined_REWRITE = save_thm (
-"var_res_exp_is_defined_REWRITE",
+Theorem var_res_exp_is_defined_REWRITE =
 SIMP_RULE std_ss [var_res_stack_proposition_def]
-   var_res_exp_is_defined_def);
+   var_res_exp_is_defined_def
 
 Definition var_res_exp_weak_is_defined_def:
   var_res_exp_weak_is_defined (e:('a,'b,'c) var_res_expression) =
   var_res_stack_proposition ARB F (\st. IS_SOME (e st))
 End
 
-val var_res_exp_weak_is_defined_REWRITE = save_thm (
-"var_res_exp_weak_is_defined_REWRITE",
+Theorem var_res_exp_weak_is_defined_REWRITE =
 SIMP_RULE std_ss [var_res_stack_proposition_def]
-   var_res_exp_weak_is_defined_def);
+   var_res_exp_weak_is_defined_def
 
 
 Definition var_res_prop_expression_def:
@@ -2011,15 +2009,13 @@ SIMP_TAC list_ss [var_res_prop_expression_def, var_res_prop_binexpression_def,
   LET_THM] THEN
 REWRITE_TAC[CONJ_ASSOC]);
 
-val var_res_prop_expression_REWRITE = save_thm (
-"var_res_prop_expression_REWRITE",
+Theorem var_res_prop_expression_REWRITE =
 SIMP_RULE std_ss [var_res_stack_proposition_def]
-   var_res_prop_expression_def);
+   var_res_prop_expression_def
 
-val var_res_prop_binexpression_REWRITE = save_thm (
-"var_res_prop_binexpression_REWRITE",
+Theorem var_res_prop_binexpression_REWRITE =
 SIMP_RULE std_ss [var_res_stack_proposition_def]
-   var_res_prop_binexpression_def);
+   var_res_prop_binexpression_def
 
 Definition var_res_prop_weak_expression_def:
   var_res_prop_weak_expression p el =
@@ -2039,11 +2035,10 @@ Definition var_res_prop_weak_binexpression_def:
   var_res_prop_binexpression ARB F p e1 e2
 End
 
-val var_res_prop_weak_binexpression_REWRITE = save_thm (
-"var_res_prop_weak_binexpression_REWRITE",
+Theorem var_res_prop_weak_binexpression_REWRITE =
 SIMP_RULE std_ss [var_res_prop_binexpression_def,
                   var_res_stack_proposition_def]
-   var_res_prop_weak_binexpression_def);
+   var_res_prop_weak_binexpression_def
 
 val var_res_prop_weak_binexpression___ALTERNATIVE_DEF = store_thm (
 "var_res_prop_weak_binexpression___ALTERNATIVE_DEF",
@@ -2084,19 +2079,17 @@ Definition var_res_bool_proposition_def:
   var_res_stack_proposition f T (\s. c)
 End
 
-val var_res_bool_proposition_REWRITE = save_thm (
-"var_res_bool_proposition_REWRITE",
+Theorem var_res_bool_proposition_REWRITE =
 SIMP_RULE std_ss [var_res_stack_proposition_def]
-   var_res_bool_proposition_def);
+   var_res_bool_proposition_def
 
 Definition var_res_prop_stack_true_def:
    var_res_prop_stack_true f = var_res_bool_proposition f T
 End
 
-val var_res_prop_stack_true_REWRITE = save_thm (
-"var_res_prop_stack_true_REWRITE",
+Theorem var_res_prop_stack_true_REWRITE =
 SIMP_RULE std_ss [var_res_bool_proposition_REWRITE]
-   var_res_prop_stack_true_def);
+   var_res_prop_stack_true_def
 
 val var_res_exp_is_defined___const = store_thm (
 "var_res_exp_is_defined___const",
@@ -3443,9 +3436,8 @@ MATCH_MP_TAC VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_op 
 ASM_SIMP_TAC list_ss [UNION_EMPTY]);
 
 
-val VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub =
- save_thm ("VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub",
- var_res_exp_add_sub___INST_THM VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop_const);
+Theorem VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub =
+ var_res_exp_add_sub___INST_THM VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop_const
 
 
 val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_prop_expression = store_thm (
@@ -3834,9 +3826,9 @@ val var_res_map_MAP = store_thm ("var_res_map_MAP",
                var_res_map f (P o f2) l)``,
 SIMP_TAC std_ss [var_res_map_def, MAP_MAP_o]);
 
-val var_res_map___REWRITES = save_thm ("var_res_map___REWRITES",
+Theorem var_res_map___REWRITES =
 LIST_CONJ [var_res_map_REWRITE, var_res_map_APPEND, var_res_map_SNOC,
-           var_res_map_REVERSE])
+           var_res_map_REVERSE]
 
 val var_res_map___FUN_EQ = store_thm ("var_res_map___FUN_EQ",
 ``!f P1 P2 l. IS_SEPARATION_COMBINATOR f /\
@@ -3895,8 +3887,8 @@ METIS_TAC[asl_star___var_res_prop_stack_true___IDEM_2,
    asl_star___PROPERTIES, COMM_DEF]);
 
 
-val var_res_bigstar_REWRITE_EXT = save_thm ("var_res_bigstar_REWRITE_EXT",
-CONJ var_res_bigstar_REWRITE var_res_bigstar___var_res_prop_stack_true___asl_star_ELIM)
+Theorem var_res_bigstar_REWRITE_EXT =
+CONJ var_res_bigstar_REWRITE var_res_bigstar___var_res_prop_stack_true___asl_star_ELIM
 
 val asl_bigstar_list___VAR_RES_IS_STACK_IMPRECISE =
 store_thm ("asl_bigstar_list___VAR_RES_IS_STACK_IMPRECISE",
@@ -4062,9 +4054,8 @@ SIMP_TAC std_ss [VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_
    var_res_exp_binop_const_def]);
 
 
-val VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_add_sub =
- save_thm ("VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_add_sub",
- var_res_exp_add_sub___INST_THM VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_binop_const);
+Theorem VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_add_sub =
+ var_res_exp_add_sub___INST_THM VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_binop_const
 
 
 val VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___IS_SOME_IMPL = store_thm (
@@ -4124,9 +4115,8 @@ FULL_SIMP_TAC std_ss [
    VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___var_res_exp_binop_const]);
 
 
-val IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub =
- save_thm ("IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub",
- var_res_exp_add_sub___INST_THM IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop_const);
+Theorem IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub =
+ var_res_exp_add_sub___INST_THM IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop_const
 
 val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_exp_is_defined =
 store_thm ("VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_exp_is_defined",
@@ -4349,13 +4339,13 @@ Definition var_res_prop___COND_def:
    var_res_prop_internal___COND f (wpb, rpb) T sfb
 End
 
-val var_res_prop___COND___REWRITE = save_thm ("var_res_prop___COND___REWRITE",
-SIMP_RULE list_ss [var_res_prop_internal___COND_def] var_res_prop___COND_def);
+Theorem var_res_prop___COND___REWRITE =
+SIMP_RULE list_ss [var_res_prop_internal___COND_def] var_res_prop___COND_def
 
 
-val var_res_prop___REWRITE = save_thm ("var_res_prop___REWRITE",
+Theorem var_res_prop___REWRITE =
 SIMP_RULE list_ss [var_res_prop_internal_def, GSYM var_res_prop___COND_def,
-   GSYM var_res_prop___PROP_def] var_res_prop_def);
+   GSYM var_res_prop___PROP_def] var_res_prop_def
 
 
 
@@ -4377,8 +4367,8 @@ MATCH_MP_TAC VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_bigstar THEN
 ASM_SIMP_TAC std_ss [BAG_EVERY]);
 
 
-val var_res_prop___COND___EXPAND = save_thm ("var_res_prop___COND___EXPAND",
-SIMP_RULE list_ss [var_res_prop_internal___COND___EXPAND] var_res_prop___COND_def);
+Theorem var_res_prop___COND___EXPAND =
+SIMP_RULE list_ss [var_res_prop_internal___COND___EXPAND] var_res_prop___COND_def
 
 
 val var_res_prop_internal___EQ = store_thm ("var_res_prop_internal___EQ",
@@ -5965,9 +5955,8 @@ var_res_exp_binop_const f (var_res_exp_varlist_update vL e) n``,
 SIMP_TAC list_ss [var_res_exp_binop_const___ALTERNATIVE_DEF,
    var_res_exp_varlist_update___var_res_exp_op_EVAL]);
 
-val var_res_exp_varlist_update___var_res_exp_add_sub_EVAL =
- save_thm ("var_res_exp_varlist_update___var_res_exp_add_sub_EVAL",
- var_res_exp_add_sub___INST_THM var_res_exp_varlist_update___var_res_exp_binop_const_EVAL);
+Theorem var_res_exp_varlist_update___var_res_exp_add_sub_EVAL =
+ var_res_exp_add_sub___INST_THM var_res_exp_varlist_update___var_res_exp_binop_const_EVAL
 
 
 (* -------------------------------------------------------------------------- *)
@@ -7847,9 +7836,8 @@ Cases_on `IS_SEPARATION_COMBINATOR f` THENL [
 
 
 
-val VAR_RES_COND_HOARE_TRIPLE___SOLVE_skip = save_thm (
-"VAR_RES_COND_HOARE_TRIPLE___SOLVE_skip",
-SIMP_RULE std_ss [asl_prog_block_def] VAR_RES_COND_HOARE_TRIPLE___SOLVE);
+Theorem VAR_RES_COND_HOARE_TRIPLE___SOLVE_skip =
+SIMP_RULE std_ss [asl_prog_block_def] VAR_RES_COND_HOARE_TRIPLE___SOLVE
 
 
 
@@ -10101,17 +10089,14 @@ REWRITE_TAC [COND_PROP___STRONG_EQUIV___var_res_prop_stack_true,
              COND_PROP___STRONG_EQUIV___REFL]);
 
 
-val VAR_RES_FRAME_SPLIT___stack_true___context =
-   save_thm ("VAR_RES_FRAME_SPLIT___stack_true___context",
-   el 3 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true));
+Theorem VAR_RES_FRAME_SPLIT___stack_true___context =
+   el 3 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true)
 
-val VAR_RES_FRAME_SPLIT___stack_true___split =
-   save_thm ("VAR_RES_FRAME_SPLIT___stack_true___split",
-   el 2 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true));
+Theorem VAR_RES_FRAME_SPLIT___stack_true___split =
+   el 2 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true)
 
-val VAR_RES_FRAME_SPLIT___stack_true___imp =
-   save_thm ("VAR_RES_FRAME_SPLIT___stack_true___imp",
-   el 1 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true));
+Theorem VAR_RES_FRAME_SPLIT___stack_true___imp =
+   el 1 (CONJUNCTS VAR_RES_FRAME_SPLIT___stack_true)
 
 
 val VAR_RES_FRAME_SPLIT___SOLVE = store_thm ("VAR_RES_FRAME_SPLIT___SOLVE",
@@ -13908,8 +13893,7 @@ ASM_REWRITE_TAC[]);
  * Lists of theorems for export
  ******************************************************)
 
-val var_res___varlist_update_NO_VAR_THM =
-save_thm ("var_res___varlist_update_NO_VAR_THM",
+Theorem var_res___varlist_update_NO_VAR_THM =
 LIST_CONJ (map GEN_ALL [
    var_res_exp_varlist_update___const_EVAL,
    var_res_exp_varlist_update___var_res_exp_op_EVAL,
@@ -13927,22 +13911,20 @@ LIST_CONJ (map GEN_ALL [
    var_res_prop_varlist_update___asl_trivial_cond,
    var_res_prop_varlist_update___asl_star,
    var_res_prop_varlist_update___var_res_map,
-   var_res_prop_varlist_update___var_res_prop_binexpression_cond]));
+   var_res_prop_varlist_update___var_res_prop_binexpression_cond])
 
 
-val asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___VAR_RES_REWRITES =
-  save_thm ("asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___VAR_RES_REWRITES",
+Theorem asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___VAR_RES_REWRITES =
   LIST_CONJ (map GEN_ALL [
      asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_bla,
      asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___VAR_RES_SIMPLE_REWRITES,
      asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_prog_new_var,
      asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_prog_call_by_value_arg,
      asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_prog_local_var,
-     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_prog_eval_expressions]));
+     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___var_res_prog_eval_expressions])
 
 
-val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___VAR_RES_REWRITES =
-  save_thm ("VAR_RES_IS_STACK_IMPRECISE___USED_VARS___VAR_RES_REWRITES",
+Theorem VAR_RES_IS_STACK_IMPRECISE___USED_VARS___VAR_RES_REWRITES =
   LIST_CONJ (map GEN_ALL [
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_prop_stack_true,
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___var_res_bool_proposition,
@@ -13974,4 +13956,4 @@ val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___VAR_RES_REWRITES =
      IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_op,
      IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop,
      IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_binop_const,
-     IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub]));
+     IS_SOME___VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS___var_res_exp_add_sub])

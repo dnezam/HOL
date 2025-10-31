@@ -553,8 +553,7 @@ val field_order_exp_cofactor = store_thm(
 (* ------------------------------------------------------------------------- *)
 
 (* Definition for field orders *)
-val field_orders_def =
-    save_thm("field_orders_def", orders_def |> ISPEC ``f*`` |> GEN_ALL);
+Theorem field_orders_def = orders_def |> ISPEC ``f*`` |> GEN_ALL
 (* val field_orders_def = |- !r n. orders f* n = {x | x IN F* /\ (forder x = n)}: thm *)
 
 (* Theorem: x IN orders f* n <=> x IN F* /\ (forder x = n) *)

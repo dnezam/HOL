@@ -223,8 +223,7 @@ val contracts_reflexive = store_thm (
  >> REWRITE_TAC [IDENTITY_CONTRACTION]);
 
 (* the version for easier use *)
-val contracts_REFL = save_thm (
-   "contracts_REFL", REWRITE_RULE [reflexive_def] contracts_reflexive);
+Theorem contracts_REFL = REWRITE_RULE [reflexive_def] contracts_reflexive
 
 (* `expands` implies `contracts` *)
 val expands_IMP_contracts = store_thm (
@@ -379,8 +378,7 @@ val contracts_transitive = store_thm (
       IMP_RES_TAC COMP_CONTRACTION ]);
 
 (* the version for easier use *)
-val contracts_TRANS = save_thm (
-   "contracts_TRANS", REWRITE_RULE [transitive_def] contracts_transitive);
+Theorem contracts_TRANS = REWRITE_RULE [transitive_def] contracts_transitive
 
 (* `contracts` is a pre-order *)
 val contracts_PreOrder = store_thm (
@@ -713,24 +711,22 @@ val contracts_PRESD_BY_PAR = store_thm (
         Q.EXISTS_TAC `l` >> ASM_REWRITE_TAC [] ] ]);
 
 (* |- ∀E E'. E contracts E' ⇒ ∀E''. (E || E'') contracts (E' || E'') *)
-val contracts_SUBST_PAR_R = save_thm (
-   "contracts_SUBST_PAR_R",
+Theorem contracts_SUBST_PAR_R =
     Q.GENL [`E`, `E'`]
       (DISCH ``E contracts E'``
         (Q.GEN `E''`
            (MATCH_MP contracts_PRESD_BY_PAR
                      (CONJ (ASSUME ``E contracts E'``)
-                           (Q.SPEC `E''` contracts_REFL))))));
+                           (Q.SPEC `E''` contracts_REFL)))))
 
 (* |- ∀E E'. E contracts E' ⇒ ∀E''. (E'' || E) contracts (E'' || E') *)
-val contracts_SUBST_PAR_L = save_thm (
-   "contracts_SUBST_PAR_L",
+Theorem contracts_SUBST_PAR_L =
     Q.GENL [`E`, `E'`]
       (DISCH ``E contracts E'``
         (Q.GEN `E''`
            (MATCH_MP contracts_PRESD_BY_PAR
                      (CONJ (Q.SPEC `E''` contracts_REFL)
-                           (ASSUME ``E contracts E'``))))));
+                           (ASSUME ``E contracts E'``)))))
 
 val contracts_SUBST_RESTR = store_thm (
    "contracts_SUBST_RESTR",
@@ -1378,24 +1374,22 @@ val OBS_contracts_PRESD_BY_SUM = store_thm (
         MATCH_MP_TAC WEAK_SUM2 >> art [] ] ]);
 
 (* |- !E E'. OBS_contracts E E' ==> !E''. OBS_contracts (sum E'' E) (sum E'' E') *)
-val OBS_contracts_SUBST_SUM_L = save_thm (
-   "OBS_contracts_SUBST_SUM_L",
+Theorem OBS_contracts_SUBST_SUM_L =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_contracts E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_contracts_PRESD_BY_SUM
                    (CONJ (Q.SPEC `E''` OBS_contracts_REFL)
-                         (ASSUME ``OBS_contracts E E'``))))));
+                         (ASSUME ``OBS_contracts E E'``)))))
 
 (* |- !E E'. OBS_contracts E E' ==> !E''. OBS_contracts (sum E E'') (sum E' E'') *)
-val OBS_contracts_SUBST_SUM_R = save_thm (
-   "OBS_contracts_SUBST_SUM_R",
+Theorem OBS_contracts_SUBST_SUM_R =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_contracts E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_contracts_PRESD_BY_SUM
                    (CONJ (ASSUME ``OBS_contracts E E'``)
-                         (Q.SPEC `E''` OBS_contracts_REFL))))));
+                         (Q.SPEC `E''` OBS_contracts_REFL)))))
 
 (* this belongs to ContractionLib.sml *)
 fun C_TRANS thm1 thm2 =
@@ -1514,24 +1508,22 @@ val OBS_contracts_PRESD_BY_PAR = store_thm (
         Q.EXISTS_TAC `l` >> art [] ] ]);
 
 (* |- !E E'. OBS_contracts E E' ==> !E''. OBS_contracts (par E'' E) (par E'' E') *)
-val OBS_contracts_SUBST_PAR_L = save_thm (
-   "OBS_contracts_SUBST_PAR_L",
+Theorem OBS_contracts_SUBST_PAR_L =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_contracts E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_contracts_PRESD_BY_PAR
                    (CONJ (Q.SPEC `E''` OBS_contracts_REFL)
-                         (ASSUME ``OBS_contracts E E'``))))));
+                         (ASSUME ``OBS_contracts E E'``)))))
 
 (* |- !E E'. OBS_contracts E E' ==> !E''. OBS_contracts (par E E'') (par E' E'') *)
-val OBS_contracts_SUBST_PAR_R = save_thm (
-   "OBS_contracts_SUBST_PAR_R",
+Theorem OBS_contracts_SUBST_PAR_R =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_contracts E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_contracts_PRESD_BY_PAR
                    (CONJ (ASSUME ``OBS_contracts E E'``)
-                         (Q.SPEC `E''` OBS_contracts_REFL))))));
+                         (Q.SPEC `E''` OBS_contracts_REFL)))))
 
 val OBS_contracts_SUBST_RESTR = store_thm (
    "OBS_contracts_SUBST_RESTR",
@@ -1710,8 +1702,7 @@ val C_contracts = new_definition (
    "C_contracts", ``C_contracts = CC $contracts``);
 
 (* |- C_contracts = (λg h. ∀c. CONTEXT c ⇒ c g ⪰ᵇ c h) *)
-val C_contracts_thm = save_thm (
-   "C_contracts_thm", REWRITE_RULE [CC_def] C_contracts);
+Theorem C_contracts_thm = REWRITE_RULE [CC_def] C_contracts
 
 val C_contracts_precongruence = store_thm (
    "C_contracts_precongruence", ``precongruence $C_contracts``,
@@ -1863,9 +1854,8 @@ Proof
           RES_TAC ] ] ]
 QED
 
-val COARSEST_PRECONGR_RL = save_thm (
-   "COARSEST_PRECONGR_RL",
-    BETA_RULE (REWRITE_RULE [SUM_contracts] SUM_contracts_IMP_OBS_contracts));
+Theorem COARSEST_PRECONGR_RL =
+    BETA_RULE (REWRITE_RULE [SUM_contracts] SUM_contracts_IMP_OBS_contracts)
 
 (* Assuming p & q have free actions, OBS_contracts is the coarsest precongruence
    contained in `contracts`! *)
@@ -1881,9 +1871,8 @@ val COARSEST_PRECONGR_THM = store_thm (
         free_action p /\ free_action q ==>
         (OBS_contracts p q <=> !r. closed r ==> p + r contracts q + r)
  *)
-val COARSEST_PRECONGR_THM' = save_thm (
-   "COARSEST_PRECONGR_THM'",
-    BETA_RULE (REWRITE_RULE [SUM_contracts] COARSEST_PRECONGR_THM));
+Theorem COARSEST_PRECONGR_THM' =
+    BETA_RULE (REWRITE_RULE [SUM_contracts] COARSEST_PRECONGR_THM)
 
 (******************************************************************************)
 (*                                                                            *)
@@ -1892,9 +1881,8 @@ val COARSEST_PRECONGR_THM' = save_thm (
 (******************************************************************************)
 
 (* |- !p q. OBS_contracts p q ==> !r. closed r ==> p + r contracts q + r *)
-val COARSEST_PRECONGR_LR = save_thm ((* NEW *)
-   "COARSEST_PRECONGR_LR",
-    BETA_RULE (REWRITE_RULE [SUM_contracts] OBS_contracts_IMP_SUM_contracts));
+Theorem COARSEST_PRECONGR_LR =
+    BETA_RULE (REWRITE_RULE [SUM_contracts] OBS_contracts_IMP_SUM_contracts)
 (*  or prove directly by:
     REPEAT STRIP_TAC
  >> MATCH_MP_TAC OBS_contracts_IMP_contracts

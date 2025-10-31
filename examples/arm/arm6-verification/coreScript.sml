@@ -1265,27 +1265,27 @@ val STATE_ARM6_IMAP_INIT = store_thm("STATE_ARM6_IMAP_INIT",
 val STATE_ARM6_IMAP = store_thm("STATE_ARM6_IMAP",
   `IS_IMAP ARM6_SPEC`, PROVE_TAC [STATE_ARM6_THM,IS_IMAP_def]);
 
-val ARM6_SPEC_STATE = save_thm("ARM6_SPEC_STATE",
+Theorem ARM6_SPEC_STATE =
   (SIMP_CONV (srw_ss()++boolSimps.LET_ss) [ARM6_SPEC_def])
-  ``(ARM6_SPEC t x).state``);
+  ``(ARM6_SPEC t x).state``
 
-val STATE_ARM6_COR = save_thm("STATE_ARM6_COR",
-  REWRITE_RULE [ARM6_SPEC_STATE] (MATCH_MP STATE_FUNPOW_INIT4 STATE_ARM6_THM));
+Theorem STATE_ARM6_COR =
+  REWRITE_RULE [ARM6_SPEC_STATE] (MATCH_MP STATE_FUNPOW_INIT4 STATE_ARM6_THM)
 
-val ARM6_SPEC_OUT = save_thm("ARM6_SPEC_OUT",
-  REWRITE_RULE [ARM6_SPEC_STATE] (MATCH_MP OUTPUT_THM STATE_ARM6_THM));
+Theorem ARM6_SPEC_OUT =
+  REWRITE_RULE [ARM6_SPEC_STATE] (MATCH_MP OUTPUT_THM STATE_ARM6_THM)
 
-val MSHIFT = save_thm("MSHIFT",REWRITE_RULE [MSHIFT2_def] MSHIFT_def);
+Theorem MSHIFT = REWRITE_RULE [MSHIFT2_def] MSHIFT_def
 
-val INC_IS = save_thm("INC_IS",
+Theorem INC_IS =
   LIST_CONJ (map (fn is => (GEN_ALL o RIGHT_CONV_RULE (SIMP_CONV arith_ss
      [theorem "iseq2num_thm",theorem "num2iseq_thm"]) o SPEC is) INC_IS_def)
-     [`t3`,`t4`,`t5`]));
+     [`t3`,`t4`,`t5`])
 
-val DUR_X = save_thm("DUR_X",
+Theorem DUR_X =
   (SIMP_RULE (srw_ss()++boolSimps.LET_ss) [DECODE_PSR_def,GSYM IMP_DISJ_THM] o
    ONCE_REWRITE_RULE [PROVE []
      ``!a b c. (if a then c else b) = (if ~a then b else c)``] o
-     SPEC `<|state := (^arm6state); inp := i|>`) DUR_X_def);
+     SPEC `<|state := (^arm6state); inp := i|>`) DUR_X_def
 
 (* ------------------------------------------------------------------------- *)

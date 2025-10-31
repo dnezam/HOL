@@ -153,7 +153,7 @@ val ALT_ACCEPT_COND_SEM_THM = LIST_CONJ [
                              ALT_ACCEPT_COND_SEM_THM_1,
                              ALT_ACCEPT_COND_SEM_THM_2,
                              ALT_ACCEPT_COND_SEM_THM_3];
-val _ = save_thm("ALT_ACCEPT_COND_SEM_THM",ALT_ACCEPT_COND_SEM_THM);
+Theorem ALT_ACCEPT_COND_SEM_THM = ALT_ACCEPT_COND_SEM_THM
 
 
 Definition ALT_ACCEPT_COND_NEG_def:

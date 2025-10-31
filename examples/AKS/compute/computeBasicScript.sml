@@ -1466,7 +1466,7 @@ val power_free_eval = store_thm(
 *)
 
 (* Theorem alias *)
-val power_free_check_by_ulog = save_thm("power_free_check_by_ulog", power_free_check_alt);
+Theorem power_free_check_by_ulog = power_free_check_alt
 (* val power_free_check_by_ulog =
    |- !n. power_free_check n <=> 1 < n /\ (power_index n (ulog n) = 1): thm *)
 

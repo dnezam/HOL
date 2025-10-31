@@ -2119,7 +2119,7 @@ val poly_cmultM_steps_thm = store_thm(
   (Cases_on `p` >> simp[Once poly_cmultM_def]));
 
 (* Theorem alias *)
-val poly_cmultM_steps_by_list_loop = save_thm("poly_cmultM_steps_by_list_loop", poly_cmultM_steps_thm);
+Theorem poly_cmultM_steps_by_list_loop = poly_cmultM_steps_thm
 
 (*
 This puts poly_cmultM_steps in the category: list loop with body on head.
@@ -2391,7 +2391,7 @@ val poly_addM_steps_thm = store_thm(
   (rw[Once poly_addM_def, size_max] >> fs[]));
 
 (* Theorem alias *)
-val poly_addM_steps_by_list_loop = save_thm("poly_addM_steps_by_list_loop", poly_addM_steps_thm);
+Theorem poly_addM_steps_by_list_loop = poly_addM_steps_thm
 
 (*
 This puts poly_addM_steps in the category: list loop with body on head and transform on head.
@@ -2697,7 +2697,7 @@ val poly_lastM_steps_thm = store_thm(
   (rw[] >> rw[Once poly_lastM_def]));
 
 (* Theorem alias *)
-val poly_lastM_steps_by_list_loop = save_thm("poly_lastM_steps_by_list_loop", poly_lastM_steps_thm);
+Theorem poly_lastM_steps_by_list_loop = poly_lastM_steps_thm
 
 (*
 This puts poly_lastM_steps in the category: list loop with body and exit.
@@ -2757,7 +2757,7 @@ val poly_frontM_steps_thm = store_thm(
   (rw[] >> rw[Once poly_frontM_def]));
 
 (* Theorem alias *)
-val poly_frontM_steps_by_list_loop = save_thm("poly_frontM_steps_by_list_loop", poly_frontM_steps_thm);
+Theorem poly_frontM_steps_by_list_loop = poly_frontM_steps_thm
 
 (*
 This puts poly_frontM_steps in the category: list loop with body cover and exit.
@@ -3234,7 +3234,7 @@ val poly_multM_steps_sing_bound = store_thm(
 
 
 (* Theorem alias *)
-val poly_multM_steps_by_list_loop = save_thm("poly_multM_steps_by_list_loop", poly_multM_steps_thm);
+Theorem poly_multM_steps_by_list_loop = poly_multM_steps_thm
 
 (*
 This puts poly_multM_steps in the category: list loop with body cover and turn transform.

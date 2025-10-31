@@ -152,7 +152,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_0_THM = save_thm ("MPC_0_THM",top_thm ());
+Theorem MPC_0_THM = top_thm ()
 val _ = drop();
 
 set_goal ([],
@@ -167,7 +167,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_1_THM = save_thm ("MPC_1_THM",top_thm());
+Theorem MPC_1_THM = top_thm()
 
 set_goal ([],
         ``!n mpc mem mar pc acc ir arg buf.
@@ -204,7 +204,7 @@ expandf (PURE_REWRITE_TAC [ADDn,Bits] THEN
         PURE_ONCE_REWRITE_TAC [ADD_SYM] THEN
         IMP_RES_TAC LESS_LESS_MONO);
 
-val MPC_2_THM = save_thm ("MPC_2_THM",top_thm());
+Theorem MPC_2_THM = top_thm()
 
 set_goal ([],
         ``!n mpc mem mar pc acc ir arg buf.
@@ -219,7 +219,7 @@ expandf (tac1 THEN tac2 THEN tac3);
 expandf (BOOL_CASES_TAC ``(acc:bus) t = 0`` THEN
         tac4);
 
-val MPC_3_THM = save_thm ("MPC_3_THM",top_thm());
+Theorem MPC_3_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -234,7 +234,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_4_THM = save_thm ("MPC_4_THM",top_thm());
+Theorem MPC_4_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -249,7 +249,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_5_THM = save_thm ("MPC_5_THM",top_thm());
+Theorem MPC_5_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -264,7 +264,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_6_THM = save_thm ("MPC_6_THM",top_thm());
+Theorem MPC_6_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -279,7 +279,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_7_THM = save_thm ("MPC_7_THM",top_thm());
+Theorem MPC_7_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -294,7 +294,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_8_THM = save_thm ("MPC_8_THM",top_thm ());
+Theorem MPC_8_THM = top_thm ()
 val _ = drop();
 
 set_goal ([],
@@ -309,7 +309,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_9_THM = save_thm ("MPC_9_THM",top_thm ());
+Theorem MPC_9_THM = top_thm ()
 val _ = drop();
 
 set_goal ([],
@@ -324,7 +324,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_10_THM = save_thm ("MPC_10_THM",top_thm ());
+Theorem MPC_10_THM = top_thm ()
 val _ = drop();
 
 set_goal ([],
@@ -339,7 +339,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_11_THM = save_thm ("MPC_11_THM",top_thm());
+Theorem MPC_11_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -355,7 +355,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_12_THM = save_thm ("MPC_12_THM",top_thm());
+Theorem MPC_12_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -371,7 +371,7 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_13_THM = save_thm ("MPC_13_THM",top_thm());
+Theorem MPC_13_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -386,6 +386,6 @@ set_goal ([],
 expandf (tac1 THEN tac2 THEN tac3);
 expandf tac4;
 
-val MPC_14_THM = save_thm ("MPC_14_THM",top_thm());
+Theorem MPC_14_THM = top_thm()
 val _ = drop();
 

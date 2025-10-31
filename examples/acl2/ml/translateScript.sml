@@ -57,9 +57,9 @@ val SEXP_REDUCE = store_thm("SEXP_REDUCE",
     Cases THEN RW_TAC arith_ss [sexp_size_def,car_def,
                                 cdr_def,consp_def,ACL2_TRUE,t_def,nil_def]);
 
-val SEXP_TERMINAL = save_thm("SEXP_TERMINAL",
+Theorem SEXP_TERMINAL =
     REWRITE_CONV [ACL2_TRUE,REWRITE_CONV [nil_def] ``consp nil``,consp_def]
-    ``|= consp nil``);
+    ``|= consp nil``
 
 (*****************************************************************************)
 (* Induction over s-expressions, as performed by lists.                      *)
@@ -168,9 +168,9 @@ End
 Definition pair_def:   pair f g p = cons (f (FST p)) (g (SND p))
 End
 
-val pair_thm = save_thm("pair_thm",
+Theorem pair_thm =
     GEN_ALL (REWRITE_RULE [pairTheory.FST,pairTheory.SND]
-                (Q.SPECL [`f`,`g`,`(a,b)`] pair_def)));
+                (Q.SPECL [`f`,`g`,`(a,b)`] pair_def))
 
 Definition pairp_def:
   !f g. pairp f g x =
@@ -382,7 +382,7 @@ val nil_nil = prove(``(x = nil) = ~|= x``,
     REPEAT (POP_ASSUM MP_TAC THEN
             RW_TAC std_ss [ACL2_TRUE_def,ite_def,equal_def,nil_t]));
 
-val TRUTH_REWRITES = save_thm("TRUTH_REWRITES",LIST_CONJ
+Theorem TRUTH_REWRITES = LIST_CONJ
         (map (fn x =>
          prove(x,TRY (Cases_on `a`) THEN
                  RW_TAC std_ss [ite_def,nil_t,true_t,false_f,bool_def,
@@ -390,7 +390,7 @@ val TRUTH_REWRITES = save_thm("TRUTH_REWRITES",LIST_CONJ
       [``~(nil = t)``,``(|= (if a then b else c)) = a /\ (|= b) \/ ~a /\ |= c``,
        ``(consp nil = nil)``,``ite nil a b = b``,``ite t a b = a``,
        ``(x = nil) = ~(|= x)``,``~(x = nil) = (|= x)``,``|= t``,``~(|= nil)``,
-       ``(|= bool a) = a``]));
+       ``(|= bool a) = a``])
 
 val ANDL_JUDGEMENT = prove(
     ``(|= andl []) /\ !a b. (|= a) /\ (|= andl b) ==> (|= andl (a::b))``,
@@ -691,10 +691,10 @@ val FIXID_LIST = store_thm("FIXID_LIST",
 
 fun make_encdec x = REWRITE_RULE [I_THM,o_THM,FUN_EQ_THM] x;
 
-val SEXP_TO_INT_OF_INT = save_thm("SEXP_TO_INT_OF_INT",
-                                make_encdec ENCDECMAP_INT);
-val SEXP_TO_NAT_OF_NAT = save_thm("SEXP_TO_NAT_OF_NAT",
-                                make_encdec ENCDECMAP_NAT);
+Theorem SEXP_TO_INT_OF_INT =
+                                make_encdec ENCDECMAP_INT
+Theorem SEXP_TO_NAT_OF_NAT =
+                                make_encdec ENCDECMAP_NAT
 
 (*****************************************************************************)
 (* Simple decode then encode theorems.                                       *)
@@ -708,23 +708,23 @@ let val r =
 in  (list := r :: !list ; r)
 end;
 
-val DECENC_BOOL = save_thm("DECENC_BOOL",make_decenc DECENCFIX_BOOL FIXID_BOOL);
-val DECENC_INT = save_thm("DECENC_INT",make_decenc DECENCFIX_INT FIXID_INT);
-val DECENC_NAT = save_thm("DECENC_NAT",make_decenc DECENCFIX_NAT FIXID_NAT);
-val DECENC_RAT = save_thm("DECENC_RAT",make_decenc DECENCFIX_RAT FIXID_RAT);
-val DECENC_COM = save_thm("DECENC_COM",make_decenc DECENCFIX_COM FIXID_COM);
-val DECENC_CHAR = save_thm("DECENC_CHAR",make_decenc DECENCFIX_CHAR FIXID_CHAR);
-val DECENC_STRING = save_thm("DECENC_STRING",
-                        make_decenc DECENCFIX_STRING FIXID_STRING);
+Theorem DECENC_BOOL = make_decenc DECENCFIX_BOOL FIXID_BOOL
+Theorem DECENC_INT = make_decenc DECENCFIX_INT FIXID_INT
+Theorem DECENC_NAT = make_decenc DECENCFIX_NAT FIXID_NAT
+Theorem DECENC_RAT = make_decenc DECENCFIX_RAT FIXID_RAT
+Theorem DECENC_COM = make_decenc DECENCFIX_COM FIXID_COM
+Theorem DECENC_CHAR = make_decenc DECENCFIX_CHAR FIXID_CHAR
+Theorem DECENC_STRING =
+                        make_decenc DECENCFIX_STRING FIXID_STRING
 
-val INT_OF_SEXP_TO_INT = save_thm("INT_OF_SEXP_TO_INT",
-    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_INT);
+Theorem INT_OF_SEXP_TO_INT =
+    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_INT
 
-val NAT_OF_SEXP_TO_NAT = save_thm("NAT_OF_SEXP_TO_NAT",
-    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_NAT);
+Theorem NAT_OF_SEXP_TO_NAT =
+    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_NAT
 
-val RAT_OF_SEXP_TO_RAT = save_thm("RAT_OF_SEXP_TO_RAT",
-    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_RAT);
+Theorem RAT_OF_SEXP_TO_RAT =
+    REWRITE_RULE [combinTheory.o_THM,sexp_to_bool_def] DECENC_RAT
 
 val _ = list := [INT_OF_SEXP_TO_INT,NAT_OF_SEXP_TO_NAT] @ (!list);
 
@@ -738,22 +738,22 @@ fun make_encdet x =
     CONV_RULE (STRIP_QUANT_CONV (REWR_CONV o_THM))
               (REWRITE_RULE [FUN_EQ_THM,K_THM] x);
 
-val ENCDET_BOOL = save_thm("ENCDET_BOOL",make_encdet ENCDETALL_BOOL);
-val ENCDET_INT = save_thm("ENCDET_INT",make_encdet ENCDETALL_INT);
-val ENCDET_NAT = save_thm("ENCDET_NAT",make_encdet ENCDETALL_NAT);
-val ENCDET_RAT = save_thm("ENCDET_RAT",make_encdet ENCDETALL_RAT);
-val ENCDET_COM = save_thm("ENCDET_COM",make_encdet ENCDETALL_COM);
-val ENCDET_CHAR = save_thm("ENCDET_CHAR",make_encdet ENCDETALL_CHAR);
-val ENCDET_STRING = save_thm("ENCDET_STRING",
-                        make_encdet ENCDETALL_STRING);
+Theorem ENCDET_BOOL = make_encdet ENCDETALL_BOOL
+Theorem ENCDET_INT = make_encdet ENCDETALL_INT
+Theorem ENCDET_NAT = make_encdet ENCDETALL_NAT
+Theorem ENCDET_RAT = make_encdet ENCDETALL_RAT
+Theorem ENCDET_COM = make_encdet ENCDETALL_COM
+Theorem ENCDET_CHAR = make_encdet ENCDETALL_CHAR
+Theorem ENCDET_STRING =
+                        make_encdet ENCDETALL_STRING
 
 fun make_ii x = REWRITE_RULE [o_THM,sexp_to_bool_def] x;
 
-val INTEGERP_INT = save_thm("INTEGERP_INT",make_ii ENCDET_INT);
-val NATP_NAT = save_thm("NATP_NAT",make_ii ENCDET_NAT);
-val BOOLEANP_BOOL = save_thm("BOOLEANP_BOOL",make_ii ENCDET_BOOL);
-val ACL2_NUMBERP_NUM = save_thm("ACL2_NUMBERP_NUM",make_ii ENCDET_COM);
-val RATIONALP_RAT = save_thm("RATIONALP_RAT",make_ii ENCDET_RAT);
+Theorem INTEGERP_INT = make_ii ENCDET_INT
+Theorem NATP_NAT = make_ii ENCDET_NAT
+Theorem BOOLEANP_BOOL = make_ii ENCDET_BOOL
+Theorem ACL2_NUMBERP_NUM = make_ii ENCDET_COM
+Theorem RATIONALP_RAT = make_ii ENCDET_RAT
 
 (*****************************************************************************)
 (* detect dead theorems:                                                     *)
@@ -910,19 +910,19 @@ val BOOL_NOT = store_thm("BOOL_NOT",
     ``!a. bool (~a) = not (bool a)``,
     Cases THEN RW_TAC std_ss [not_def,TRUTH_REWRITES,bool_def]);
 
-val BOOL_T = save_thm("BOOL_T",CONJUNCT1 bool_def);
+Theorem BOOL_T = CONJUNCT1 bool_def
 
-val BOOL_F = save_thm("BOOL_F",CONJUNCT2 bool_def);
+Theorem BOOL_F = CONJUNCT2 bool_def
 
 val BOOL_PAIR = store_thm("BOOL_PAIR",
     ``!x. bool (|= consp x) = consp x``,
     Cases THEN REWRITE_TAC [consp_def,bool_def,ACL2_TRUE,EVAL ``t = nil``]);
 
-val BOOL_PAIRP = save_thm("BOOL_PAIRP",
-    (REWRITE_CONV [pairp_def] ``bool (pairp x y z)``));
+Theorem BOOL_PAIRP =
+    (REWRITE_CONV [pairp_def] ``bool (pairp x y z)``)
 
-val BOOL_KT = save_thm("BOOL_KT",
-    (REWRITE_CONV [combinTheory.K_THM] ``bool (K T x)``));
+Theorem BOOL_KT =
+    (REWRITE_CONV [combinTheory.K_THM] ``bool (K T x)``)
 
 val I_ENCODE = store_thm("I_ENCODE",
     ``T ==> (encode a = A) ==> (I (encode a) = A)``,
@@ -1360,35 +1360,35 @@ val NATP_NFIX = store_thm("NATP_NFIX",
 (* Grouped theorems for export.                                              *)
 (*****************************************************************************)
 
-val NAT_THMS = save_thm("NAT_THMS",
+Theorem NAT_THMS =
     MK_THMS [NAT_EQUAL_0,NAT_EQUAL,NAT_0_LT,NAT_LT,NAT_LE,NAT_GE,NAT_GT,
-             NAT_ADD,NAT_SUC_PRE,NAT_PRE,NAT_SUC,NAT_MULT,NAT_SUB]);
+             NAT_ADD,NAT_SUC_PRE,NAT_PRE,NAT_SUC,NAT_MULT,NAT_SUB]
 
-val INT_THMS = save_thm("INT_THMS",
+Theorem INT_THMS =
     MK_THMS [INT_EQUAL,INT_LT,INT_LE,INT_GE,INT_GT,
-             INT_ADD,INT_MULT,INT_UNARY_MINUS,INT_SUB]);
+             INT_ADD,INT_MULT,INT_UNARY_MINUS,INT_SUB]
 
-val RAT_THMS = save_thm("RAT_THMS",
+Theorem RAT_THMS =
     MK_THMS [RAT_EQUAL,RAT_LT,RAT_LE,RAT_GE,RAT_GT,
-             RAT_ADD,RAT_MULT,RAT_UNARY_MINUS,RAT_DIV,RAT_SUB]);
+             RAT_ADD,RAT_MULT,RAT_UNARY_MINUS,RAT_DIV,RAT_SUB]
 
-val COM_THMS = save_thm("COM_THMS",
+Theorem COM_THMS =
     MK_THMS [COM_EQUAL,COM_LT,COM_LE,COM_GE,COM_GT,
-             COM_ADD,COM_MULT,COM_UNARY_MINUS,COM_DIV,COM_SUB]);
+             COM_ADD,COM_MULT,COM_UNARY_MINUS,COM_DIV,COM_SUB]
 
-val BOOL_THMS = save_thm("BOOL_THMS",
-    MK_THMS [BOOL_EQUALITY,BOOL_NOT,BOOL_T,BOOL_F]);
+Theorem BOOL_THMS =
+    MK_THMS [BOOL_EQUALITY,BOOL_NOT,BOOL_T,BOOL_F]
 
-val LIST_THMS = save_thm("LIST_THMS",
-    MK_THMS [LIST_HD,LIST_TL,LIST_LENGTH]);
+Theorem LIST_THMS =
+    MK_THMS [LIST_HD,LIST_TL,LIST_LENGTH]
 
-val PAIR_THMS = save_thm("PAIR_THMS",
-    MK_THMS [PAIR_FST,PAIR_SND]);
+Theorem PAIR_THMS =
+    MK_THMS [PAIR_FST,PAIR_SND]
 
-val STRING_THMS = save_thm("STRING_THMS",
-    MK_THMS [STRING_EXPLODE,STRING_IMPLODE,STRING_LENGTH]);
+Theorem STRING_THMS =
+    MK_THMS [STRING_EXPLODE,STRING_IMPLODE,STRING_LENGTH]
 
-val JUDGEMENT_THMS = save_thm("JUDGEMENT_THMS",
+Theorem JUDGEMENT_THMS =
     MK_THMS [CONJUNCT1 ANDL_JUDGEMENT,CONJUNCT2 ANDL_JUDGEMENT,
              NATP_NAT,INTEGERP_INT,RATIONALP_RAT,ACL2_NUMBERP_NUM,BOOLEANP_BOOL,
              NATP_ADD,NATP_PRE,NATP_SUB,NATP_NFIX,NATP_MULT,
@@ -1399,6 +1399,6 @@ val JUDGEMENT_THMS = save_thm("JUDGEMENT_THMS",
              RATIONALP_ADD,RATIONALP_MULT,RATIONALP_RECIPROCAL,
              RATIONALP_UNARY_MINUS,
              ACL2_NUMBERP_ADD,ACL2_NUMBERP_MULT,ACL2_NUMBERP_RECIPROCAL,
-             ACL2_NUMBERP_UNARY_MINUS]);
+             ACL2_NUMBERP_UNARY_MINUS]
 
 

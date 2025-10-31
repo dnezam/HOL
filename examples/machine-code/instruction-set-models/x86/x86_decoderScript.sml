@@ -512,7 +512,7 @@ val x86_decode_aux_thm = let
   val thZ = REWRITE_RULE [DTF_THM] thX
   in thZ end;
 
-val _ = save_thm("x86_decode_aux_thm",x86_decode_aux_thm);
+Theorem x86_decode_aux_thm = x86_decode_aux_thm
 val _ = computeLib.add_persistent_funs ["x86_decode_aux_thm"];
 
 

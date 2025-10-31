@@ -236,8 +236,7 @@ val termP0 = prove(
   Q.ISPEC_THEN `t` STRUCT_CASES_TAC gterm_cases >>
   srw_tac [][genind_GLAM_eqn]);
 
-val parameter_tm_recursion = save_thm(
-  "parameter_tm_recursion",
+Theorem parameter_tm_recursion =
   parameter_gtm_recursion
       |> INST_TYPE [alpha |-> ``:'a ctrep``, gamma |-> “:'r”]
       |> Q.INST [`lf` |-> `^tlf`, `lp` |-> `^lp`, `n` |-> `0`]
@@ -270,10 +269,9 @@ val parameter_tm_recursion = save_thm(
       |> CONV_RULE (LAND_CONV (REWRITE_CONV [GSYM CONJ_ASSOC]))
       |> Q.INST [`tvf` |-> `vr`, `tlf` |-> `lm`, `taf` |-> `ap`,
                  `dpm` |-> `apm`, ‘tcf’ |-> ‘cn’]
-      |> CONV_RULE (REDEPTH_CONV sort_uvars))
+      |> CONV_RULE (REDEPTH_CONV sort_uvars)
 
-val ctm_recursion = save_thm(
-  "ctm_recursion",
+Theorem ctm_recursion =
   parameter_tm_recursion
       |> Q.INST_TYPE [`:ρ` |-> `:unit`]
       |> Q.INST [`ppm` |-> `discrete_pmact`, `vr` |-> `λs u. vru s`,
@@ -282,7 +280,7 @@ val ctm_recursion = save_thm(
       |> SIMP_RULE (srw_ss()) [oneTheory.FORALL_ONE, oneTheory.FORALL_ONE_FN,
                                oneTheory.EXISTS_ONE_FN, fnpm_def]
       |> SIMP_RULE (srw_ss() ++ CONJ_ss) [supp_unitfn]
-      |> Q.INST [`apu` |-> `ap`, `lmu` |-> `lm`, `vru` |-> `vr`])
+      |> Q.INST [`apu` |-> `ap`, `lmu` |-> `lm`, `vru` |-> `vr`]
 
 (* |- !x t p. x IN FV (tpm p t) <=> lswapstr (REVERSE p) x IN FV t *)
 Theorem FV_tpm[simp] = ``x ∈ cFV (ctpm p t)``

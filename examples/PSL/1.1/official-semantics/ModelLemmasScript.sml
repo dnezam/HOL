@@ -1084,12 +1084,10 @@ val FINITE_PATH_LANGUAGE_LEMMA =
 (*           LANGUAGE (MODEL_TO_AUTOMATON M)                                 *)
 (*             (CONS (NONE,PATH_ADD_IOTA (FINITE l))))                       *)
 (*****************************************************************************)
-val FINITE_PATH_LANGUAGE =
- save_thm
-  ("FINITE_PATH_LANGUAGE",
+Theorem FINITE_PATH_LANGUAGE =
    ((Q.GEN `M` o Q.GEN `l`)
     (SIMP_RULE list_ss []
-     (Q.SPECL[`M`,`HD l`,`l`]FINITE_PATH_LANGUAGE_LEMMA))));
+     (Q.SPECL[`M`,`HD l`,`l`]FINITE_PATH_LANGUAGE_LEMMA)))
 
 val INFINITE_PATH_LANGUAGE =
  store_thm

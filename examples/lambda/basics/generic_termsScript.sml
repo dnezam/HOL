@@ -655,14 +655,14 @@ val gtmsize_gtpm =
 
 (* don't export any of these, because the intention is not to have users
    working with this type *)
-val GFV_thm = save_thm("GFV_thm", rmGFV GFV_thm0)
-val GFV_gtpm = save_thm("GFV_gtpm", rmGFV (SUBS [GSYM gtpm_raw] GFV_raw_gtpm))
+Theorem GFV_thm = rmGFV GFV_thm0
+Theorem GFV_gtpm = rmGFV (SUBS [GSYM gtpm_raw] GFV_raw_gtpm)
 Theorem gtpm_thm[allow_rebind] = REWRITE_RULE [MAP_gtpm] gtpm_thm
-val gterm_11 = save_thm("gterm_11", gterm_11)
-val GLAM_eq_thm = save_thm("GLAM_eq_thm", rmGFV GLAM_eq_thm1)
+Theorem gterm_11 = gterm_11
+Theorem GLAM_eq_thm = rmGFV GLAM_eq_thm1
 Theorem gtpm_fresh = rmGFV (SUBS [GSYM gtpm_raw] (GSYM FRESH_swap0))
-val FINITE_GFV = save_thm("FINITE_GFV", rmGFV FINITE_GFV)
-val IN_GFVl = save_thm("IN_GFVl", rmGFV IN_gfvl)
+Theorem FINITE_GFV = rmGFV FINITE_GFV
+Theorem IN_GFVl = rmGFV IN_gfvl
 
 val _ = delete_const "gfvl"
 val _ = delete_const "GFV"

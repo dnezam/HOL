@@ -929,9 +929,7 @@ End
 
 
 
-val bexp_induct =
- save_thm
-  ("bexp_induct",
+Theorem bexp_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -943,7 +941,7 @@ val bexp_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a bexp``)))));
+         (TypeBase.induction_of ``:'a bexp``))))
 
 
 
@@ -2413,11 +2411,11 @@ Definition IS_PSL_STREET_def:
 End
 
 
-val IS_PSL_THM = save_thm("IS_PSL_THM",
+Theorem IS_PSL_THM =
    LIST_CONJ [IS_PSL_G_def,
               IS_PSL_GF_def,
               IS_PSL_PREFIX_def,
-              IS_PSL_STREET_def]);
+              IS_PSL_STREET_def]
 
 
 (*=============================================================================

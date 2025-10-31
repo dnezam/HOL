@@ -53,9 +53,8 @@ val eek_example = ``
   od
 ``;
 
-val eek_result = save_thm(
-  "eek_result",
-  EVAL ``runCont ^eek_example (λa. [a])``);
+Theorem eek_result =
+  EVAL ``runCont ^eek_example (λa. [a])``
 
 Definition callCC_def:
   callCC f =
@@ -90,28 +89,25 @@ val okmij1 =
    below is 41
 
 *)
-val okmij_ex1 = save_thm(
-  "okmij_ex1",
+Theorem okmij_ex1 =
   EVAL ``runC do
                  n <- reset (do x <- shift (λk. return (k (k 10))) ;
                                 return (2 * x)
                              od);
                  return (n + 1)
-              od``)
+              od``
 
-val boringCC = save_thm(
-  "boringCC",
+Theorem boringCC =
   EVAL ``runC do x <- callCC (λk. k 11);
      n <- return (x * 2);
      return (n + 1)
-  od``);
+  od``
 
-val doubleCC = save_thm(
-  "doubleCC",
+Theorem doubleCC =
   EVAL ``runC do x <- callCC (λk. return (runC (k 11) + runC (k 10)));
             n <- return (x * 2);
             return (n + 1)
-         od``)
+         od``
 
 
 

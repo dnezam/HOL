@@ -541,8 +541,8 @@ val (run_def,run_ind) =
            else run (n-1) instB P (decode_cond (pc,cpsr,st) (instB pc))`,
     WF_REL_TAC `measure FST`);
 
-val _ = save_thm("run_def", run_def);
-val _ = save_thm("run_ind", run_ind);
+Theorem run_def = run_def
+Theorem run_ind = run_ind
 
 val RUN_LEM_1 = Q.store_thm
   ("RUN_LEM_1",
@@ -1236,7 +1236,7 @@ val word4_distinct = let
         in
                 CONJ thm (GSYM thm)
         end;
-val _ = save_thm ("word4_distinct", word4_distinct);
+Theorem word4_distinct = word4_distinct
 
 val fupdate_lt_commutes_word4 = let
                 val fupdate_thm = let
@@ -1276,7 +1276,7 @@ val fupdate_lt_commutes_word4 = let
                 thm'
         end;
 
-val _ = save_thm ("fupdate_lt_commutes_word4", fupdate_lt_commutes_word4);
+Theorem fupdate_lt_commutes_word4 = fupdate_lt_commutes_word4
 
 
 

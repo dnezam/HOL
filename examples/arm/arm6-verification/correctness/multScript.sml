@@ -408,8 +408,8 @@ val MULT_MOD_SUC_T = prove(
     \\ ASM_SIMP_TAC std_ss [dimword_def,GSYM BITS_ZERO3,SLICE_BITS_THM,SUC_SUB1,
          word_slice_n2w,w2n_n2w]);
 
-val MULT_MOD_SUC_T = save_thm("MULT_MOD_SUC_T",
-  REWRITE_RULE [WORD_SLICE_THM] MULT_MOD_SUC_T);
+Theorem MULT_MOD_SUC_T =
+  REWRITE_RULE [WORD_SLICE_THM] MULT_MOD_SUC_T
 
 (* ------------------------------------------------------------------------- *)
 
@@ -809,17 +809,17 @@ val MLA_MUL_INVARIANT = Count.apply prove(
 
 (* ------------------------------------------------------------------------- *)
 
-val MLA_MUL_INVARIANT = save_thm("MLA_MUL_INVARIANT",
-  (GEN_ALL o SIMP_RULE std_ss []) MLA_MUL_INVARIANT);
+Theorem MLA_MUL_INVARIANT =
+  (GEN_ALL o SIMP_RULE std_ss []) MLA_MUL_INVARIANT
 
 val lem = SPEC `w = MLA_MUL_DUR (REG_READ6 reg nbs ((11 >< 8) ireg))`
   markerTheory.Abbrev_def;
 
-val MLA_MUL_TN = save_thm("MLA_MUL_TN",
+Theorem MLA_MUL_TN =
   (GEN_ALL o SIMP_RULE std_ss [] o ONCE_REWRITE_RULE [GSYM lem] o
    SIMP_RULE arith_ss [lem,TO_WRITE_READ6,RD_INVARIANT_LAST,
      DONE_DUR,DUR_NEQ_ZERO] o
-   INST [`n` |-> `w`] o SPEC_ALL) MLA_MUL_INVARIANT);
+   INST [`n` |-> `w`] o SPEC_ALL) MLA_MUL_INVARIANT
 
 (* ------------------------------------------------------------------------- *)
 

@@ -548,10 +548,10 @@ val expM_steps_upper = store_thm(
   ]);
 
 (* Extract theorems *)
-val expM_steps_0_upper = save_thm("expM_steps_0_upper",
-    expM_steps_upper |> SPEC ``0`` |> SIMP_RULE (srw_ss()) []);
-val expM_steps_1_upper = save_thm("expM_steps_1_upper",
-    expM_steps_upper |> SPEC ``1`` |> SIMP_RULE (srw_ss()) []);
+Theorem expM_steps_0_upper =
+    expM_steps_upper |> SPEC ``0`` |> SIMP_RULE (srw_ss()) []
+Theorem expM_steps_1_upper =
+    expM_steps_upper |> SPEC ``1`` |> SIMP_RULE (srw_ss()) []
 (*
 val expM_steps_0_upper =
    |- !n. stepsOf (expM 0 n) <= 1 + size n + 5 * size n ** 2 + 8 * size n * n ** 3
@@ -1683,16 +1683,16 @@ val sqrtM_value = store_thm(
   rw[sqrtM_def]);
 
 (* Obtain theorems *)
-val sqrtM_steps_upper = save_thm("sqrtM_steps_upper",
-    rootM_steps_upper |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]);
-val sqrtM_steps_bound = save_thm("sqrtM_steps_bound",
-    rootM_steps_bound |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]);
-val sqrtM_steps_O_poly = save_thm("sqrtM_steps_O_poly",
-    rootM_steps_O_poly |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]);
-val sqrtM_steps_big_O = save_thm("sqrtM_steps_big_O",
-    rootM_steps_big_O |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]);
-val sqrtM_thm = save_thm("sqrtM_thm",
-    rootM_thm |> ISPEC ``2`` |> SIMP_RULE (bool_ss) [GSYM sqrtM_def]); (* not srw_ss() *)
+Theorem sqrtM_steps_upper =
+    rootM_steps_upper |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]
+Theorem sqrtM_steps_bound =
+    rootM_steps_bound |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]
+Theorem sqrtM_steps_O_poly =
+    rootM_steps_O_poly |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]
+Theorem sqrtM_steps_big_O =
+    rootM_steps_big_O |> ISPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM sqrtM_def]
+Theorem sqrtM_thm =
+    rootM_thm |> ISPEC ``2`` |> SIMP_RULE (bool_ss) [GSYM sqrtM_def](* not srw_ss() *)
 (*
 val sqrtM_steps_upper = |- !n. stepsOf (sqrtM n) <=
           3 + 3 * size n + 8 * size n + TWICE (size n) + 7 * size n ** 2 +

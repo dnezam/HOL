@@ -711,8 +711,7 @@ val transformComposeWord = Q.store_thm(
      transform (transCompose transFun1 transFun2) 127 w)`,
  SRW_TAC [WORD_BIT_EQ_ss] [transformComposeBit]);
 
-val TL128_eq_makeTL128 = save_thm(
- "TL128_eq_makeTL128", SYM (EVAL ``makeTL 128``));
+Theorem TL128_eq_makeTL128 = SYM (EVAL ``makeTL 128``)
 
 (* the intermediate values of the composite of the two given linear
    transformation functions, used to speed up the verification *)

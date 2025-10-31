@@ -2626,7 +2626,7 @@ val intro_exp_mod_closure = store_thm(
   metis_tac[intro_exp_mod_element]);
 
 (* Theorem alias *)
-val intro_exp_mod_has_product = save_thm("intro_exp_mod_has_product", intro_exp_mod_closure);
+Theorem intro_exp_mod_has_product = intro_exp_mod_closure
 (* val intro_exp_mod_has_product =
    |- !r k s. Ring r /\ 0 < k ==>
       !m n. m IN intro_exp_mod r k s /\ n IN intro_exp_mod r k s ==> (m * n) MOD k IN intro_exp_mod r k s: thm *)

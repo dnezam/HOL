@@ -316,13 +316,13 @@ val EXPAND_STAR =
     DIFF_INSERT,DIFF_EMPTY,EMPTY_SUBSET] THENC SIMP_CONV std_ss [FLIP_CONJ]
    THENC REWRITE_CONV [GSYM CONJ_ASSOC])
 
-val STAR_lpc2set = save_thm("STAR_lpc2set",LIST_CONJ (map EXPAND_STAR
+Theorem STAR_lpc2set = LIST_CONJ (map EXPAND_STAR
   [``(tR a x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``,
    ``(tM a x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``,
    ``(tS a x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``,
    ``(tU x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``,
    ``(tT x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``,
-   ``(tUART0 x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``]));
+   ``(tUART0 x * p) (lpc2set' (rs,st,is,ms,tt,ua,ud) s)``])
 
 Theorem CODE_POOL_lpc2set_LEMMA[local]:
   !x y z. (x = z INSERT y) <=> (z INSERT y) SUBSET x /\
@@ -365,10 +365,10 @@ val IMP_LPC_SPEC_LEMMA = prove(
   \\ FULL_SIMP_TAC bool_ss [rel_sequence_def]
   \\ Q.EXISTS_TAC `SUC 0` \\ METIS_TAC []);
 
-val IMP_LPC_SPEC = save_thm("IMP_LPC_SPEC",
+Theorem IMP_LPC_SPEC =
   (RW1 [STAR_COMM] o RW [LPC_SPEC_CODE] o
    SPECL [``CODE_POOL LPC_ROM {(p,c)} * p1``,
-          ``CODE_POOL LPC_ROM {(p,c)} * q1``]) IMP_LPC_SPEC_LEMMA);
+          ``CODE_POOL LPC_ROM {(p,c)} * q1``]) IMP_LPC_SPEC_LEMMA
 
 Theorem lpc2set''_thm:
   (lpc2set'' (rs,st,is,ms,tt,ua,ud) s1 = lpc2set'' (rs,st,is,ms,tt,ua,ud) s2) <=>

@@ -198,40 +198,40 @@ val it = |- !r g op. VSpace r g op <=>
 (* ------------------------------------------------------------------------- *)
 
 (* Theorem: VSpace r g op ==> Field r *)
-val vspace_has_field = save_thm("vspace_has_field",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_has_field =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_has_field = |- !r op g. VSpace r g op ==> Field r : thm *)
 
 (* Theorem: VSpace r g op ==> AbelianGroup g *)
-val vspace_has_abelian_group = save_thm("vspace_has_abelian_group",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_has_abelian_group =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_has_abelian_group = |- !r op g. VSpace r g op ==> AbelianGroup g : thm *)
 
 (* Theorem: VSpace r g op ==> !a v. a IN R /\ v IN V ==> a o v IN V *)
-val vspace_cmult_vector = save_thm("vspace_cmult_vector",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 3 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_cmult_vector =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 3 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_cmult_vector = |- !r op g. VSpace r g op ==> !a v. a IN R /\ v IN V ==> a o v IN V : thm *)
 
 (* Theorem: VSpace r g op ==> !a b v. a IN R /\ b IN R /\ v IN V ==> (a o b o v = (a * b) o v) *)
-val vspace_cmult_cmult = save_thm("vspace_cmult_cmult",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 4 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_cmult_cmult =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 4 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_cmult_cmult = |- !r op g. VSpace r g op ==>
          !a b v. a IN R /\ b IN R /\ v IN V ==> (a o b o v = (a * b) o v) : thm *)
 
 (* Theorem: VSpace r g op ==> !v. v IN V ==> (#1 o v = v) *)
-val vspace_cmult_lone = save_thm("vspace_cmult_lone",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 5 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_cmult_lone =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 5 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_cmult_lone = |- !r op g. VSpace r g op ==> !v. v IN V ==> (#1 o v = v) : thm *)
 
 (* Theorem: VSpace r g op ==> !a u v. a IN R /\ u IN V /\ v IN V ==> (a o (u || v) = a o u || a o v) *)
-val vspace_cmult_radd = save_thm("vspace_cmult_radd",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 6 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_cmult_radd =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 6 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_cmult_radd = |- !r op g. VSpace r g op ==> !a u v. a IN R /\ u IN V /\ v IN V ==>
          (a o (u || v) = a o u || a o v) : thm *)
 
 (* Theorem: VSpace r g op ==> !a b v. a IN R /\ b IN R /\ v IN V ==> ((a + b) o v = a o v || b o v) *)
-val vspace_cmult_ladd = save_thm("vspace_cmult_ladd",
-  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 7 |> DISCH_ALL |> GEN_ALL);
+Theorem vspace_cmult_ladd =
+  VSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |> UNDISCH |> CONJUNCTS |> el 7 |> DISCH_ALL |> GEN_ALL
 (* > val vspace_cmult_ladd = |- !r op g. VSpace r g op ==> !a b v. a IN R /\ b IN R /\ v IN V ==>
          ((a + b) o v = a o v || b o v) : thm *)
 
@@ -775,10 +775,10 @@ val _ = temp_overload_on ("+", ``stick_add r``);
 (* - stick_add_def;
 > val it = |- (!r. [] + [] = []) /\ !t' t r h' h. (h::t) + (h'::t') = h + h'::t + t' : thm *)
 
-val stick_add_nil_nil = save_thm("stick_add_nil_nil", stick_add_def |> CONJUNCTS |> el 1);
+Theorem stick_add_nil_nil = stick_add_def |> CONJUNCTS |> el 1
 (* val stick_add_nil_nil = |- !r. [] + [] = []: thm *)
 
-val stick_add_cons_cons = save_thm("stick_add_cons_cons", stick_add_def |> CONJUNCTS |> el 2);
+Theorem stick_add_cons_cons = stick_add_def |> CONJUNCTS |> el 2
 (* val stick_add_cons_cons = |- !t' t r h' h. (h::t) + (h'::t') = h + h'::t + t': thm *)
 
 (* Adding same-length sticks give another stick of the same length *)
@@ -823,11 +823,11 @@ val _ = temp_overload_on ("-", ``stick_neg r``);
 > val it = |- (!r. $- [] = []) /\ !r h t. $- (h::t) = -h:: $- t : thm *)
 
 (* Theorem: $- [] = [] *)
-val stick_neg_zero = save_thm("stick_neg_zero", stick_neg_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_neg_zero = stick_neg_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL
 (* val stick_neg_zero = |- !r. $- [] = []: thm *)
 
 (* Theorem: $- (h::t) = -h:: $- t *)
-val stick_neg_cons = save_thm("stick_neg_cons", stick_neg_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_neg_cons = stick_neg_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (* val stick_neg_cons = |- !r h t. $- (h::t) = -h:: $- t: thm *)
 
 (* Negating a stick gives another stick of the same length *)
@@ -871,11 +871,11 @@ val _ = temp_overload_on ("*", ``stick_cmult r``);
 > val it = |- (!r c. c * [] = []) /\ !r c h t. c * (h::t) = c * h::c * t : thm *)
 
 (* Theorem: c * [] = [] *)
-val stick_cmult_zero = save_thm("stick_cmult_zero", stick_cmult_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_cmult_zero = stick_cmult_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL
 (* val stick_cmult_zero = |- !r c. c * [] = []: thm *)
 
 (* Theorem: c * (h::t) = c * h::c * t *)
-val stick_cmult_cons = save_thm("stick_cmult_cons", stick_cmult_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_cmult_cons = stick_cmult_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (* val stick_cmult_cons = |- !r c h t. c * (h::t) = c * h::c * t: thm *)
 
 (* Multiply a stick by a scalar gives another stick of the same length *)
@@ -920,11 +920,11 @@ val _ = temp_overload_on ("-", ``stick_sub r``);
 > val it = |- (!r. [] - [] = []) /\ !t' t r h' h. (h::t) - (h'::t') = h - h'::t - t' : thm *)
 
 (* Theorem: [] - [] = [] *)
-val stick_sub_nil_nil = save_thm("stick_sub_nil_nil", stick_sub_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_sub_nil_nil = stick_sub_def |> SPEC_ALL |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL
 (* val val stick_sub_nil_nil = |- !r. [] - [] = []: thm *)
 
 (* Theorem: (h::t) - (h'::t') = h - h'::t - t' *)
-val stick_sub_cons_cons = save_thm("stick_sub_cons_cons", stick_sub_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem stick_sub_cons_cons = stick_sub_def |> SPEC_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (* val stick_sub_cons_cons = |- !t' t r h' h. (h::t) - (h'::t') = h - h'::t - t': thm *)
 
 (* Theorem: !n. n2. n1 IN sticks r n /\ n2 IN sticks r n ==> n1 - n2 = n1 + $- n2 *)

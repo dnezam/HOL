@@ -153,9 +153,8 @@ in
   REWRITE_RULE [GSYM alg_subtyping_def] exs_in
 end
 
-val alg_subtyping_rules = save_thm(
-  "alg_subtyping_rules",
-  LIST_CONJ (map derive_rule (CONJUNCTS algn_subtyping_rules)));
+Theorem alg_subtyping_rules =
+  LIST_CONJ (map derive_rule (CONJUNCTS algn_subtyping_rules))
 
 (* derive the rule induction principle for algorithmic sub-typing *)
 val alg_subtyping_ind =
@@ -209,9 +208,8 @@ val alg_subtyping_tyvar_right0 = prove(
                     !x. (ty2 = TyVar x) ==>
                         ?y. ty1 = TyVar y``,
   HO_MATCH_MP_TAC alg_subtyping_ind THEN SRW_TAC [][]);
-val alg_subtyping_tyvar_right = save_thm(
-  "alg_subtyping_tyvar_right",
-  SIMP_RULE (bool_ss ++ DNF_ss) [] alg_subtyping_tyvar_right0)
+Theorem alg_subtyping_tyvar_right =
+  SIMP_RULE (bool_ss ++ DNF_ss) [] alg_subtyping_tyvar_right0
 
 val strong_algn_subtyping_ind =
     IndDefRules.derive_strong_induction (CONJUNCTS algn_subtyping_rules,

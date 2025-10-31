@@ -126,18 +126,16 @@ val moveToI_lemma = prove(
     simp[moveLeft_index_lemma]
   ])
 
-val moveToI_invariant = save_thm(
-  "moveToI_invariant[simp]",
-  LIST_CONJ (List.take(CONJUNCTS moveToI_lemma, 2)));
+Theorem moveToI_invariant[simp] =
+  LIST_CONJ (List.take(CONJUNCTS moveToI_lemma, 2))
 
 val moveToI_index = store_thm(
   "moveToI_index",
   ``i < size z ⇒ index (moveToI i z) = i``,
   simp[moveToI_lemma]);
 
-val moveToI_index_COND = save_thm(
-  "moveToI_index_COND",
-  List.last (CONJUNCTS moveToI_lemma))
+Theorem moveToI_index_COND =
+  List.last (CONJUNCTS moveToI_lemma)
 
 val zipper_EQ = store_thm(
   "zipper_EQ",

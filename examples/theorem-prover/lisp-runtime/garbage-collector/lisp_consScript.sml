@@ -131,7 +131,7 @@ val (thm,mc_full_gc_def) = decompile_io_strings x64_tools "mc_full_gc"
      add r15,r15
      `);
 
-val _ = save_thm("mc_full_thm",thm);
+Theorem mc_full_thm = thm
 
 
 val SET_TAC =

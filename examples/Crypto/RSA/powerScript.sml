@@ -16,7 +16,7 @@ quietdec := false;
 val ARW = RW_TAC arith_ss;
 
 val POWER = EXP;
-val power_def = save_thm ("power_def", EXP);
+Theorem power_def = EXP
 
 val POWER_0 = store_thm("POWER_0",
                         Term `!n. 0<n ==> ($EXP 0 n = 0)`,

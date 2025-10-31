@@ -180,9 +180,9 @@ val (MR_ev_rules,MR_ev_ind,MR_ev_cases) = Hol_reln `
 
 (* deterministic *)
 
-val PULL_IMP = save_thm("PULL_IMP",METIS_PROVE []
+Theorem PULL_IMP = METIS_PROVE []
   ``!P Q. ((P ==> !x. Q x) = !x. P ==> Q x) /\
-          (((?x. Q x) ==> P) = !x. Q x ==> P)``)
+          (((?x. Q x) ==> P) = !x. Q x ==> P)``
 
 val PULL_CONJ = METIS_PROVE []
   ``!P Q. ((P /\ !x. Q x) = !x. P /\ Q x) /\
@@ -2437,11 +2437,11 @@ val M_ev_IMP_R_ev_lemma = prove(goal,
     \\ REPEAT STRIP_TAC \\ FULL_SIMP_TAC std_ss []
     \\ IMP_RES_TAC MR_ev_OK \\ FULL_SIMP_TAC std_ss []))
 
-val MR_ev_thm = save_thm("MR_ev_thm",M_ev_IMP_R_ev_lemma
+Theorem MR_ev_thm = M_ev_IMP_R_ev_lemma
   |> CONJUNCTS |> el 1 |> Q.SPECL [`(exp,a,ctxt)`,`result`]
-  |> SIMP_RULE std_ss [PULL_IMP,AND_IMP_INTRO] |> GEN_ALL);
+  |> SIMP_RULE std_ss [PULL_IMP,AND_IMP_INTRO] |> GEN_ALL
 
-val MR_ap_thm = save_thm("MR_ap_thm",M_ev_IMP_R_ev_lemma
+Theorem MR_ap_thm = M_ev_IMP_R_ev_lemma
   |> CONJUNCTS |> el 2 |> Q.SPECL [`(f,args,ctxt)`,`result`]
-  |> SIMP_RULE std_ss [PULL_IMP,AND_IMP_INTRO] |> GEN_ALL);
+  |> SIMP_RULE std_ss [PULL_IMP,AND_IMP_INTRO] |> GEN_ALL
 

@@ -47,8 +47,8 @@ val arm_length_thm = prove(
 
 (* combining the verification proof with the generated theorem *)
 
-val th = save_thm("ARM_LIST_SPEC",
-  SIMP_RULE std_ss [LET_DEF] (INST_SPEC arm_th arm_length_thm));
+Theorem ARM_LIST_SPEC =
+  SIMP_RULE std_ss [LET_DEF] (INST_SPEC arm_th arm_length_thm)
 
 (* implemented on PowerPC and IA-32 *)
 
@@ -85,11 +85,11 @@ val x86_length_thm = REWRITE_RULE [x86_length_eq] arm_length_thm;
 
 (* combining the verification proof with the generated theorem *)
 
-val th = save_thm("PPC_LIST_SPEC",
-  SIMP_RULE std_ss [LET_DEF] (INST_SPEC ppc_th ppc_length_thm));
+Theorem PPC_LIST_SPEC =
+  SIMP_RULE std_ss [LET_DEF] (INST_SPEC ppc_th ppc_length_thm)
 
-val th = save_thm("X86_LIST_SPEC",
-  SIMP_RULE std_ss [LET_DEF] (INST_SPEC x86_th x86_length_thm));
+Theorem X86_LIST_SPEC =
+  SIMP_RULE std_ss [LET_DEF] (INST_SPEC x86_th x86_length_thm)
 
 (* example of non-nested loop *)
 

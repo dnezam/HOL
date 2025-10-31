@@ -142,11 +142,11 @@ val bits2num_w2bits = store_thm("bits2num_w2bits",
   ``!w:'a word. bits2num (w2bits w) = w2n w``,
   Cases THEN FULL_SIMP_TAC std_ss [w2bits_def,bits2num_n2bits,w2n_n2w,dimword_def]);
 
-val w2bits_word32 = save_thm("w2bits_word32",
-  SIMP_RULE std_ss [DIV_DIV_DIV_MULT] (EVAL ``w2bits (w:word32)``));
+Theorem w2bits_word32 =
+  SIMP_RULE std_ss [DIV_DIV_DIV_MULT] (EVAL ``w2bits (w:word32)``)
 
-val w2bits_word8 = save_thm("w2bits_word8",
-  SIMP_RULE std_ss [DIV_DIV_DIV_MULT] (EVAL ``w2bits (w:word8)``));
+Theorem w2bits_word8 =
+  SIMP_RULE std_ss [DIV_DIV_DIV_MULT] (EVAL ``w2bits (w:word8)``)
 
 val bits2num_LESS = store_thm("bits2num_LESS",
   ``!xs. bits2num xs < 2 ** (LENGTH xs)``,

@@ -91,9 +91,9 @@ val SEP_CLAUSES = store_thm("SEP_CLAUSES",
   \\ SIMP_TAC std_ss [SEP_EXISTS,STAR_def,SEP_DISJ_def,cond_def,SEP_F_def,emp_def]
   \\ SPLIT_TAC);
 
-val SEP_EXISTS_COND = save_thm("SEP_EXISTS_COND",
+Theorem SEP_EXISTS_COND =
   (GEN_ALL o GSYM o Q.INST [`q`|->`cond c`] o hd o
-   CONJUNCTS o SPEC_ALL) SEP_CLAUSES);
+   CONJUNCTS o SPEC_ALL) SEP_CLAUSES
 
 val SEP_EXISTS_THM = store_thm("SEP_EXISTS_THM",
  ``(SEP_EXISTS x. p x) s = ?x. p x s``,

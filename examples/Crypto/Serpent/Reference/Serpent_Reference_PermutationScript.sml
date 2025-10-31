@@ -41,15 +41,13 @@ End
 
 (*precomputed to speed things up*)
 
-val IPFunVal = save_thm(
- "IPFunVal",
+Theorem IPFunVal =
  LIST_CONJ
-   (map EVAL (for 0 127 (fn i => ``IPFun ^(numSyntax.term_of_int i)``))));
+   (map EVAL (for 0 127 (fn i => ``IPFun ^(numSyntax.term_of_int i)``)))
 
-val FPFunVal = save_thm(
- "FPFunVal",
+Theorem FPFunVal =
  LIST_CONJ
-   (map EVAL (for 0 127 (fn i => ``FPFun ^(numSyntax.term_of_int i)``))));
+   (map EVAL (for 0 127 (fn i => ``FPFun ^(numSyntax.term_of_int i)``)))
 
 (*permutation *)
 Definition permu_def:

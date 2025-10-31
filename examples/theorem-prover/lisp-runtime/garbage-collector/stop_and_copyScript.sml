@@ -465,7 +465,7 @@ Inductive full_heap:
      full_heap (b+n+1) e m ==> full_heap b e m)
 End
 
-val full_heap_ind = save_thm("full_heap_ind[allow_rebind]",full_heap_strongind);
+Theorem full_heap_ind[allow_rebind] = full_heap_strongind
 
 Inductive part_heap:
   (!b m. part_heap b b m 0) /\
@@ -476,7 +476,7 @@ Inductive part_heap:
      part_heap (b+n+1) e m k ==> part_heap b e m (k+n+1))
 End
 
-val part_heap_ind = save_thm("part_heap_ind[allow_rebind]",part_heap_strongind);
+Theorem part_heap_ind[allow_rebind] = part_heap_strongind
 
 Definition ref_heap_mem_def:
   ref_heap_mem (h,f) m =

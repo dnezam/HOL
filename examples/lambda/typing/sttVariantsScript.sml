@@ -162,11 +162,10 @@ Proof
   FULL_SIMP_TAC (srw_ss()) [pmact_decompose]
 QED
 
-val hastype2_bvc_ind0 = save_thm(
-  "hastype2_bvc_ind0",
+Theorem hastype2_bvc_ind0 =
   (Q.GEN `P` o Q.GEN `X` o
    SIMP_RULE bool_ss [] o
-   Q.SPECL [`\G m ty x. P G m ty`, `\x. X`]) hastype2_bvc_ind)
+   Q.SPECL [`\G m ty x. P G m ty`, `\x. X`]) hastype2_bvc_ind
 
 val hastype2_valid_ctxt = store_thm(
   "hastype2_valid_ctxt",

@@ -1132,10 +1132,9 @@ in
       end;
 end;
 
-val curve_affine_reduce = save_thm
-  ("curve_affine_reduce",
+Theorem curve_affine_reduce =
    with_flag (subtypeTools.ORACLE,true)
-   (Count.apply curve_affine_reduce_n) 12);
+   (Count.apply curve_affine_reduce_n) 12
 
 val curve_zero_carrier = store_thm
   ("curve_zero_carrier",

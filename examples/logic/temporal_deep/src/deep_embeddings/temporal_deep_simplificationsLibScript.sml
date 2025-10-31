@@ -399,11 +399,10 @@ Induct_on `l` THENL [
 ]);
 
 
-val XPROP_LOGIC_EQUIVALENT___EXISTS___rewrites =
-  save_thm ("XPROP_LOGIC_EQUIVALENT___EXISTS___rewrites",
+Theorem XPROP_LOGIC_EQUIVALENT___EXISTS___rewrites =
             LIST_CONJ [XPROP_LOGIC_EQUIVALENT___EXISTS___basic_rewrites,
                        XPROP_LOGIC_EQUIVALENT___EXISTS___assign_rewrites,
-                       XPROP_LOGIC_EQUIVALENT___EXISTS___assign_exists_rewrites])
+                       XPROP_LOGIC_EQUIVALENT___EXISTS___assign_exists_rewrites]
 
 
 
@@ -798,12 +797,11 @@ val LTL_EQUIVALENT_puntil_psbefore_nnf_rewrites =
 
 
 
-val LTL_EQUIVALENT_nnf_rewrites =
-  save_thm("LTL_EQUIVALENT_nnf_rewrites",
+Theorem LTL_EQUIVALENT_nnf_rewrites =
   LIST_CONJ [
     LTL_EQUIVALENT_simple_nnf_rewrites,
     LTL_EQUIVALENT_until_sbefore_nnf_rewrites,
-    LTL_EQUIVALENT_puntil_psbefore_nnf_rewrites]);
+    LTL_EQUIVALENT_puntil_psbefore_nnf_rewrites]
 
 
 
@@ -1141,12 +1139,11 @@ val LTL_EQUIVALENT_before_homogeneous_conj_disj_rewrites =
 
 
 
-val LTL_EQUIVALENT_homogeneous_conj_disj_rewrites =
-  save_thm("LTL_EQUIVALENT_homogeneous_conj_disj_rewrites",
+Theorem LTL_EQUIVALENT_homogeneous_conj_disj_rewrites =
   LIST_CONJ [
     LTL_EQUIVALENT_simple_homogeneous_conj_disj_rewrites,
     LTL_EQUIVALENT_and_until_homogeneous_conj_disj_rewrites,
     LTL_EQUIVALENT_and_until2_homogeneous_conj_disj_rewrites,
-    LTL_EQUIVALENT_before_homogeneous_conj_disj_rewrites]);
+    LTL_EQUIVALENT_before_homogeneous_conj_disj_rewrites]
 
 

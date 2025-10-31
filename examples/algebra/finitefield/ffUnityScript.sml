@@ -1091,7 +1091,7 @@ val field_order_divides_iff = store_thm(
   metis_tac[field_orders_element_property]);
 
 (* Theorem alias *)
-val field_order_exists = save_thm("field_order_exists", field_order_divides_iff);
+Theorem field_order_exists = field_order_divides_iff
 
 (* ------------------------------------------------------------------------- *)
 (* Unity Polynomial as Product of Cyclotomic Polynomials                     *)

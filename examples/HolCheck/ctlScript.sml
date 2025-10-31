@@ -235,11 +235,9 @@ Definition SUB_xnum_xnum_def:
    ($SUB_xnum_xnum INFINITY (XNUM (n:num)) = INFINITY)
 End
 
-val SUB =
- save_thm
-  ("SUB",
+Theorem SUB =
    LIST_CONJ(type_rws ``:xnum`` @
-             [SUB_num_xnum_def,SUB_xnum_num_def,SUB_xnum_xnum_def]));
+             [SUB_num_xnum_def,SUB_xnum_num_def,SUB_xnum_xnum_def])
 
 val _ = overload_on("-", ``SUB_num_xnum``);
 val _ = overload_on("-", ``SUB_xnum_num``);
@@ -264,8 +262,7 @@ Definition LS_xnum_xnum_def:
   $LS_xnum_xnum (XNUM (m:num)) (XNUM (n:num)) = (m:num) < (n:num)
 End
 
-val LS =
- save_thm("LS",LIST_CONJ[LS_num_xnum_def,LS_xnum_num_def,LS_xnum_xnum_def]);
+Theorem LS = LIST_CONJ[LS_num_xnum_def,LS_xnum_num_def,LS_xnum_xnum_def]
 
 val _ = overload_on("<", ``LS_num_xnum``);
 val _ = overload_on("<", ``LS_xnum_num``);
@@ -294,8 +291,7 @@ Definition GT_xnum_xnum_def:
   $GT_xnum_xnum (XNUM (m:num)) (XNUM (n:num)) = (m:num) > (n:num)
 End
 
-val GT =
- save_thm("GT",LIST_CONJ[GT_num_xnum_def,GT_xnum_num_def,GT_xnum_xnum_def]);
+Theorem GT = LIST_CONJ[GT_num_xnum_def,GT_xnum_num_def,GT_xnum_xnum_def]
 
 val _ = overload_on(">", ``GT_num_xnum``);
 val _ = overload_on(">", ``GT_xnum_num``);
@@ -313,7 +309,7 @@ End
 
 (*val PATH_LENGTH = save_thm("PATH_LENGTH",LENGTH_def);*)
 
-val ALL_IN_INF = save_thm("ALL_IN_INF",prove(``!j. j IN 0 to INFINITY``, SIMP_TAC arith_ss [IN_DEF,xnum_to_def]));
+Theorem ALL_IN_INF = prove(``!j. j IN 0 to INFINITY``, SIMP_TAC arith_ss [IN_DEF,xnum_to_def])
 
 (******************************************************************************
 * PATH M p is true iff p is a path with respect to transition relation M.R
@@ -321,16 +317,16 @@ val ALL_IN_INF = save_thm("ALL_IN_INF",prove(``!j. j IN 0 to INFINITY``, SIMP_TA
 Definition PATH_def:   PATH M p s = IS_INFINITE p /\ (ELEM p 0 = s) /\ (!n. M.R(ELEM p n, ELEM p (n+1)))
 End
 
-val PATH_INF = save_thm("PATH_INF",prove(``!M p s. PATH M p s ==> (PLENGTH p = INFINITY)``,
+Theorem PATH_INF = prove(``!M p s. PATH M p s ==> (PLENGTH p = INFINITY)``,
 Induct_on `p` THEN
-SIMP_TAC std_ss [IS_FINITE_def,PATH_def,IS_INFINITE_def,PLENGTH_def]));
+SIMP_TAC std_ss [IS_FINITE_def,PATH_def,IS_INFINITE_def,PLENGTH_def])
 
-val ALL_IN_INF_PATH = save_thm("ALL_IN_INF_PATH",prove(``!M p s j. PATH M p s ==> j IN 0 to PLENGTH p``,
+Theorem ALL_IN_INF_PATH = prove(``!M p s j. PATH M p s ==> j IN 0 to PLENGTH p``,
 Induct_on `p`
 THENL [
  SIMP_TAC arith_ss [PATH_def,IS_INFINITE_def],
  SIMP_TAC std_ss [ALL_IN_INF,PLENGTH_def]
-]));
+])
 
 (******************************************************************************
 * C_SEM M s f means "M, s |= f"
@@ -349,7 +345,7 @@ val csem_eqns as [CEG_def, CEU_def, CEX_def,C_SEM_def_aux] =
    (CEG M X s = ?p. PATH M p s /\ !j :: (0 to PLENGTH p). (ELEM p j) IN X)
 `;
 
-val C_SEM_def = save_thm("C_SEM_def",LIST_CONJ csem_eqns);
+Theorem C_SEM_def = LIST_CONJ csem_eqns
 
 Definition CTL_MODEL_SAT_def:   CTL_MODEL_SAT M f = (!s. s IN M.S0 ==> C_SEM M f s)
 End
@@ -490,13 +486,13 @@ End
 Definition IS_ACTL:   IS_ACTL f = (!g. ~CTL_SUB (C_EX g) (CTL_NNF f)) /\ (!g. ~CTL_SUB (C_EG g) (CTL_NNF f)) /\ (!g1 g2. ~CTL_SUB (C_EU(g1,g2)) (CTL_NNF f))
 End
 
-val CTL_NNF_ID = save_thm("CTL_NNF_ID",prove(``!f M. C_SEM M (CTL_NNF f) = C_SEM M f``,
+Theorem CTL_NNF_ID = prove(``!f M. C_SEM M (CTL_NNF f) = C_SEM M f``,
 REWRITE_TAC [FUN_EQ_THM]
 THEN recInduct (theorem "CTL_NNF_ind") THEN REPEAT CONJ_TAC THEN SIMP_TAC std_ss [CTL_NNF]
 THEN REWRITE_TAC [FUN_EQ_THM,C_AR_def,C_AX_def,C_AF_def,C_OR_def]  THEN SIMP_TAC std_ss [C_SEM_def]
 THEN recInduct (theorem "BEXP_NNF_ind") THEN REPEAT CONJ_TAC THEN SIMP_TAC std_ss [BEXP_NNF]
 THEN REWRITE_TAC [FUN_EQ_THM,B_FALSE_def,B_OR_def] THEN SIMP_TAC std_ss [B_SEM_def]
-));
+)
 
 (******************************************************************************
 * REST(INFINITE f) = INFINITE(\n. f(n+1))

@@ -125,11 +125,10 @@ val STRONG_SUM_COMM = store_thm (
                          TRANS_COMM_EQ] ] ]);
 
 (* Prove STRONG_SUM_IDENT_L: |- !E. STRONG_EQUIV (sum nil E) E *)
-val STRONG_SUM_IDENT_L = save_thm (
-   "STRONG_SUM_IDENT_L",
+Theorem STRONG_SUM_IDENT_L =
     GEN ``E :'a CCS``
        (S_TRANS (SPECL [``nil``, ``E :'a CCS``] STRONG_SUM_COMM)
-                (SPEC ``E :'a CCS`` STRONG_SUM_IDENT_R)));
+                (SPEC ``E :'a CCS`` STRONG_SUM_IDENT_R))
 
 val STRONG_SUM_ASSOC_R = store_thm (
    "STRONG_SUM_ASSOC_R",
@@ -170,15 +169,13 @@ val STRONG_SUM_ASSOC_R = store_thm (
 (* STRONG_SUM_ASSOC_L:
    |- !E E' E''. STRONG_EQUIV (sum E (sum E' E'')) (sum (sum E E') E'')
  *)
-val STRONG_SUM_ASSOC_L = save_thm (
-   "STRONG_SUM_ASSOC_L",
-    STRIP_FORALL_RULE S_SYM STRONG_SUM_ASSOC_R);
+Theorem STRONG_SUM_ASSOC_L =
+    STRIP_FORALL_RULE S_SYM STRONG_SUM_ASSOC_R
 
 (* STRONG_SUM_MID_IDEMP:
    |- !E E'. STRONG_EQUIV (sum (sum E E') E) (sum E' E)
  *)
-val STRONG_SUM_MID_IDEMP = save_thm (
-   "STRONG_SUM_MID_IDEMP",
+Theorem STRONG_SUM_MID_IDEMP =
     GEN ``E :'a CCS``
      (GEN ``E' :'a CCS``
        (S_TRANS
@@ -189,13 +186,12 @@ val STRONG_SUM_MID_IDEMP = save_thm (
          (Q.SPECL [`E'`, `E`, `E`] STRONG_SUM_ASSOC_R)
          (SPEC ``E' :'a CCS``
           (MATCH_MP STRONG_EQUIV_SUBST_SUM_L
-           (SPEC ``E :'a CCS`` STRONG_SUM_IDEMP)))))));
+           (SPEC ``E :'a CCS`` STRONG_SUM_IDEMP))))))
 
 (* STRONG_LEFT_SUM_MID_IDEMP:
    |- !E E' E''. STRONG_EQUIV (sum (sum (sum E E') E'') E') (sum (sum E E'') E')
  *)
-val STRONG_LEFT_SUM_MID_IDEMP = save_thm (
-   "STRONG_LEFT_SUM_MID_IDEMP",
+Theorem STRONG_LEFT_SUM_MID_IDEMP =
   ((GEN ``E :'a CCS``) o
    (GEN ``E' :'a CCS``) o
    (GEN ``E'' :'a CCS``))
@@ -210,7 +206,7 @@ val STRONG_LEFT_SUM_MID_IDEMP = save_thm (
           (MATCH_MP STRONG_EQUIV_SUBST_SUM_R
            (SPECL [``E' :'a CCS``, ``E :'a CCS``, ``E'' :'a CCS``]
                   STRONG_SUM_ASSOC_R))))
-        (SPECL [``E' :'a CCS``, ``sum E E''``] STRONG_SUM_MID_IDEMP)));
+        (SPECL [``E' :'a CCS``, ``sum E E''``] STRONG_SUM_MID_IDEMP))
 
 (* Unused recursion variables have the same behavior as `nil` *)
 Theorem STRONG_EQUIV_NIL_VAR :
@@ -334,11 +330,10 @@ val STRONG_PAR_COMM = store_thm (
              take [`E2''`, `E1'`] >> REWRITE_TAC [] ] ] ] ]);
 
 (* STRONG_PAR_IDENT_L: |- !E. STRONG_EQUIV (par nil E) E *)
-val STRONG_PAR_IDENT_L = save_thm (
-   "STRONG_PAR_IDENT_L",
+Theorem STRONG_PAR_IDENT_L =
     GEN_ALL
        (S_TRANS (SPECL [``nil``, ``E :'a CCS``] STRONG_PAR_COMM)
-                (SPEC ``E :'a CCS`` STRONG_PAR_IDENT_R)));
+                (SPEC ``E :'a CCS`` STRONG_PAR_IDENT_R))
 
 val STRONG_PAR_ASSOC = store_thm (
    "STRONG_PAR_ASSOC",
@@ -575,8 +570,7 @@ val STRONG_PAR_PREF_TAU = store_thm (
         (sum (prefix tau (par E (prefix u E')))
              (prefix u (par (prefix tau E) E')))
  *)
-val STRONG_PAR_TAU_PREF = save_thm (
-   "STRONG_PAR_TAU_PREF",
+Theorem STRONG_PAR_TAU_PREF =
   ((GEN ``E :'a CCS``) o
    (GEN ``u :'a Action``) o
    (GEN ``E' :'a CCS``))
@@ -593,13 +587,12 @@ val STRONG_PAR_TAU_PREF = save_thm (
                  (SPECL [``prefix (u :'a Action) E'``, ``E :'a CCS``] STRONG_PAR_COMM)))
                (SPEC ``u :'a Action``
                 (MATCH_MP STRONG_EQUIV_SUBST_PREFIX
-                 (SPECL [``E' :'a CCS``, ``prefix (tau :'a Action) E``] STRONG_PAR_COMM)))))));
+                 (SPECL [``E' :'a CCS``, ``prefix (tau :'a Action) E``] STRONG_PAR_COMM))))))
 
 (* Prove STRONG_PAR_TAU_TAU:
    |- ∀E E'. τ..E || τ..E' ~ τ..(E || τ..E') + τ..(τ..E || E')
  *)
-val STRONG_PAR_TAU_TAU = save_thm (
-   "STRONG_PAR_TAU_TAU", SPEC ``tau :'a Action`` STRONG_PAR_PREF_TAU);
+Theorem STRONG_PAR_TAU_TAU = SPEC ``tau :'a Action`` STRONG_PAR_PREF_TAU
 
 (* Prove STRONG_PAR_PREF_NO_SYNCR:
    |- ∀l l'.
@@ -1495,8 +1488,7 @@ QED
 (* SIGMA_TRANS_THM =
  |- ∀u n f E. SIGMA f n --u-> E ⇒ ∃k. k ≤ n ∧ f k --u-> E
  *)
-val SIGMA_TRANS_THM = save_thm (
-   "SIGMA_TRANS_THM", EQ_IMP_LR SIGMA_TRANS_THM_EQ);
+Theorem SIGMA_TRANS_THM = EQ_IMP_LR SIGMA_TRANS_THM_EQ
 
 Theorem SYNC_TRANS_THM_EQ :
     !m (u :'a Action) P f v Q. TRANS (SYNC u P f m) v Q <=>
@@ -1676,8 +1668,7 @@ QED
        j ≤ m ∧ (u = label l) ∧ (PREF_ACT (f j) = label (COMPL l)) ∧
        (v = τ) ∧ (Q = P || PREF_PROC (f j))
  *)
-val SYNC_TRANS_THM = save_thm (
-   "SYNC_TRANS_THM", EQ_IMP_LR SYNC_TRANS_THM_EQ);
+Theorem SYNC_TRANS_THM = EQ_IMP_LR SYNC_TRANS_THM_EQ
 
 val ALL_SYNC_TRANS_THM_EQ = store_thm (
    "ALL_SYNC_TRANS_THM_EQ",
@@ -1758,9 +1749,8 @@ val ALL_SYNC_TRANS_THM_EQ = store_thm (
        (PREF_ACT (f' k') = label (COMPL l)) ∧ (u = τ) ∧
        (E = PREF_PROC (f k) || PREF_PROC (f' k')):
  *)
-val ALL_SYNC_TRANS_THM = save_thm (
-   "ALL_SYNC_TRANS_THM",
-    EQ_IMP_LR ALL_SYNC_TRANS_THM_EQ);
+Theorem ALL_SYNC_TRANS_THM =
+    EQ_IMP_LR ALL_SYNC_TRANS_THM_EQ
 
 (* The expansion law for strong equivalence:
  |- ∀f n f' m.

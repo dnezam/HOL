@@ -47,8 +47,8 @@ val (log2_def, log2_ind) = Defn.tprove
   in (d, WF_REL_TAC g)
   end;
 
-val _ = save_thm ("log2_def", log2_def);
-val _ = save_thm ("log2_ind", log2_ind);
+Theorem log2_def = log2_def
+Theorem log2_ind = log2_ind
 
 (* ------------------------------------------------------------------------- *)
 (* Theorems.                                                                 *)

@@ -828,8 +828,8 @@ val it = [``!x. ~guard x ==> R (modify x) x``, ``WF R``]: term list
 *)
 
 (* Obtain theorem from loop_count definition *)
-val loop_count_thm = save_thm("loop_count_thm",
-    loop_count_def |> DISCH_ALL |> SIMP_RULE bool_ss [AND_IMP_INTRO] |> GEN_ALL);
+Theorem loop_count_thm =
+    loop_count_def |> DISCH_ALL |> SIMP_RULE bool_ss [AND_IMP_INTRO] |> GEN_ALL
 (* val loop_count_thm =
    |- !modify guard R. WF R /\ (!x. ~guard x ==> R (modify x) x) ==>
           !x. loop_count guard modify x =
@@ -1548,7 +1548,7 @@ val iterating_cons = store_thm(
   rw[Once iterating_def]);
 
 (* Combine these theorems *)
-val iterating_alt = save_thm("iterating_alt", CONJ iterating_nil iterating_cons);
+Theorem iterating_alt = CONJ iterating_nil iterating_cons
 (*
 val iterating_alt = |- (!f x. iterating f x 0 = []) /\
                        !f x y. iterating f x (SUC y) = x::iterating f (f x) y: thm
@@ -2120,8 +2120,8 @@ val it = |- !modify guard R. WF R ==> (!x. ~guard x ==> R (modify x) x) ==>
 *)
 
 (* Obtain theorem from loop_count definition *)
-val loop_arg_thm = save_thm("loop_arg_thm",
-    loop_arg_def |> DISCH_ALL |> SIMP_RULE bool_ss [AND_IMP_INTRO] |> GEN_ALL);
+Theorem loop_arg_thm =
+    loop_arg_def |> DISCH_ALL |> SIMP_RULE bool_ss [AND_IMP_INTRO] |> GEN_ALL
 (* val loop_arg_thm =
    |- !modify guard R. WF R /\ (!x. ~guard x ==> R (modify x) x) ==>
           !x. loop_arg guard modify x =

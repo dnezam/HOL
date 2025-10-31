@@ -2554,37 +2554,37 @@ val param_eqn = store_thm(
 
 (* Obtain theorems *)
 
-val param_0 = save_thm("param_0", aks_param_0 |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_0 = aks_param_0 |> SIMP_RULE bool_ss [GSYM param_eqn]
 (* val param_0 = |- param 0 = nice 0: thm *)
 
-val param_1 = save_thm("param_1", aks_param_1 |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_1 = aks_param_1 |> SIMP_RULE bool_ss [GSYM param_eqn]
 (* val param_1 = |- param 1 = nice 1: thm *)
 
-val param_2 = save_thm("param_2", aks_param_2 |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_2 = aks_param_2 |> SIMP_RULE bool_ss [GSYM param_eqn]
 (* val param_2 = |- param 2 = nice 2: thm *)
 
-val param_nice_bound = save_thm("param_nice_bound",
-    aks_param_nice_bound |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_nice_bound =
+    aks_param_nice_bound |> SIMP_RULE bool_ss [GSYM param_eqn]
 (*
 val param_nice_bound =
    |- !n k. 2 < n /\ (param n = nice k) ==> k <= 1 + HALF (ulog n ** 5): thm
 *)
 
-val param_good_bound = save_thm("param_good_bound",
-    aks_param_good_bound |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_good_bound =
+    aks_param_good_bound |> SIMP_RULE bool_ss [GSYM param_eqn]
 (*
 val param_good_bound =
    |- !n k. (param n = good k) ==> k <= 1 + HALF (ulog n ** 5): thm
 *)
 
-val param_exists = save_thm("param_exists",
-    aks_param_exists |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_exists =
+    aks_param_exists |> SIMP_RULE bool_ss [GSYM param_eqn]
 (*
 val param_exists = |- !n. param n <> bad: thm
 *)
 
-val param_nice_for_prime = save_thm("param_nice_for_prime",
-    aks_param_nice_for_prime |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_nice_for_prime =
+    aks_param_nice_for_prime |> SIMP_RULE bool_ss [GSYM param_eqn]
 (*
 val param_nice_for_prime = |- !n k. 1 < n /\ (param n = nice k) ==> (prime n <=> (k = n)): thm
 *)
@@ -2602,8 +2602,8 @@ This is because:
 (2) (param n) corresponds to poly_intro_checks n k k, not the range indicated.
 *)
 
-val param_good_range = save_thm("param_good_range",
-    aks_param_good_range |> SIMP_RULE bool_ss [GSYM param_eqn]);
+Theorem param_good_range =
+    aks_param_good_range |> SIMP_RULE bool_ss [GSYM param_eqn]
 (*
 val param_good_range =
    |- !n k. (param n = good k) ==> 1 < n /\ 1 < k /\ k < n: thm

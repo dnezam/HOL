@@ -939,9 +939,9 @@ val STATE_ARM_THM2 = store_thm("STATE_ARM_THM2",
 val STATE_ARM_THM3 = store_thm("STATE_ARM_THM3",
   `IS_IMAP_INIT ARM_SPEC I`, PROVE_TAC [STATE_ARM_THM,IS_IMAP_INIT_def]);
 
-val ARM_SPEC_STATE = save_thm("ARM_SPEC_STATE",
+Theorem ARM_SPEC_STATE =
   (SIMP_CONV (srw_ss()++boolSimps.LET_ss) [ARM_SPEC_def])
-  ``(ARM_SPEC t x).state``);
+  ``(ARM_SPEC t x).state``
 
 (* ......................................................................... *)
 

@@ -122,7 +122,7 @@ val (Probs_def, _) = Defn.tprove
    TotalDefn.WF_REL_TAC `measure LENGTH`
    ++ RW_TAC list_ss []);
 
-val _ = save_thm ("Probs_def", Probs_def);
+Theorem Probs_def = Probs_def
 
 Definition ProbAssign_def:
    ProbAssign v xs =

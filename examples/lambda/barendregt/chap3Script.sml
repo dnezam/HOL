@@ -409,12 +409,11 @@ val grandbeta_bvc_gen_ind = store_thm(
     SRW_TAC [][]
   ]);
 
-val grandbeta_bvc_ind = save_thm(
-  "grandbeta_bvc_ind",
+Theorem grandbeta_bvc_ind =
   (Q.GEN `P` o Q.GEN `X` o
    SIMP_RULE bool_ss [] o
    SPECL [``(\M:term N:term x:'a. P M N:bool)``, ``\x:'a. X:string -> bool``])
-  grandbeta_bvc_gen_ind);
+  grandbeta_bvc_gen_ind
 
 val exercise3_3_1 = store_thm(
   "exercise3_3_1",
@@ -476,7 +475,7 @@ val abs_grandbeta = store_thm(
     PROVE_TAC [grandbeta_rules]
   ]);
 
-val lemma3_15 = save_thm("lemma3_15", abs_grandbeta);
+Theorem lemma3_15 = abs_grandbeta
 
 val redex_grandbeta = store_thm(
   "redex_grandbeta",
@@ -714,7 +713,7 @@ val lameq_betaconversion = store_thm(
     PROVE_TAC [lameq_rules]
   ]);
 
-val prop3_18 = save_thm("prop3_18", lameq_betaconversion);
+Theorem prop3_18 = lameq_betaconversion
 
 (* |- !M N. M == N ==> ?Z. M -b->* Z /\ N -b->* Z *)
 Theorem lameq_CR = REWRITE_RULE [GSYM lameq_betaconversion, beta_CR]
@@ -823,8 +822,7 @@ val Omega_reachable_no_bnf = store_thm(
   `N = Omega` by FULL_SIMP_TAC (srw_ss()) [] THEN
   FULL_SIMP_TAC (srw_ss()) []);
 
-val weak_diamond_def =
-    save_thm("weak_diamond_def", WCR_def)
+Theorem weak_diamond_def = WCR_def
 val _ = overload_on("weak_diamond", ``relation$WCR``)
 
 (* likewise, these definitions of WCR and SN, differ from those in
@@ -1102,14 +1100,13 @@ val ccredex = prove(
   ``compat_closure beta (LAM v M @@ N) ([N/v]M)``,
   SRW_TAC [][cc_beta_thm] THEN METIS_TAC [])
 
-val strong_ccbeta_gen_ind = save_thm(
-  "strong_ccbeta_gen_ind",
+Theorem strong_ccbeta_gen_ind =
     (GEN_ALL o
      SIMP_RULE (srw_ss() ++ SatisfySimps.SATISFY_ss)
                [compat_closure_rules, FORALL_AND_THM, ccredex,
                 GSYM CONJ_ASSOC] o
      Q.INST [`P` |-> `\M N x. P M N x /\ compat_closure beta M N`])
-    ccbeta_gen_ind)
+    ccbeta_gen_ind
 
 val eta_beta_commute = store_thm(
   "eta_beta_commute",

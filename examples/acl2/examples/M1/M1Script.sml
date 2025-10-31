@@ -30,26 +30,18 @@ val simp_fn =
 M1 contains simplified definitions and theorems from other theories
 ******************************************************************************)
 
-val exclaim_def =
- save_thm("exclaim_def", simp_fn exclaim_defun);
+Theorem exclaim_def = simp_fn exclaim_defun
 
-val ifact_def =
- save_thm("ifact_def", simp_fn ifact_defun);
+Theorem ifact_def = simp_fn ifact_defun
 
-val ifact_lemma =
- save_thm("ifact_lemma", simp_fn ifact_lemma_thm);
+Theorem ifact_lemma = simp_fn ifact_lemma_thm
 
-val ifact_is_factorial =
- save_thm("ifact_is_factorial", simp_fn ifact_is_factorial_thm);
+Theorem ifact_is_factorial = simp_fn ifact_is_factorial_thm
 
-val ifact_correct =
- save_thm("ifact_correct", simp_fn ifact_correct_thm);
+Theorem ifact_correct = simp_fn ifact_correct_thm
 
-val repeat_def =
- save_thm("repeat_def", simp_fn repeat_defun);
+Theorem repeat_def = simp_fn repeat_defun
 
-val ifact_sched_def =
- save_thm("ifact_sched_def", simp_fn ifact_sched_defun);
+Theorem ifact_sched_def = simp_fn ifact_sched_defun
 
-val test_ifact_examples =
- save_thm("test_ifact_examples", simp_fn test_ifact_examples_thm);
+Theorem test_ifact_examples = simp_fn test_ifact_examples_thm

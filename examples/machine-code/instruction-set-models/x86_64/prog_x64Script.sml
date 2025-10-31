@@ -482,13 +482,13 @@ val SPEC_1_CODE = prove(
     EVENTUALLY_def,T_OR_F_def,NOW_def,NEXT_def,LET_DEF,CODE_POOL_EMPTY,
     SEP_CLAUSES,AC STAR_ASSOC STAR_COMM]);
 
-val X64_SPEC_CODE = save_thm("X64_SPEC_CODE",
+Theorem X64_SPEC_CODE =
   RW [GSYM X64_MODEL_def,GSYM zCODE_def]
-  (SIMP_RULE std_ss [X64_MODEL_def] (Q.ISPEC `X64_MODEL` SPEC_CODE)));
+  (SIMP_RULE std_ss [X64_MODEL_def] (Q.ISPEC `X64_MODEL` SPEC_CODE))
 
-val X64_SPEC_1_CODE = save_thm("X64_SPEC_1_CODE",
+Theorem X64_SPEC_1_CODE =
   RW [GSYM X64_MODEL_def,GSYM zCODE_def]
-  (SIMP_RULE std_ss [X64_MODEL_def] (Q.ISPEC `X64_MODEL` SPEC_1_CODE)));
+  (SIMP_RULE std_ss [X64_MODEL_def] (Q.ISPEC `X64_MODEL` SPEC_1_CODE))
 
 val IMP_X64_SPEC_LEMMA = prove(
   ``!p q.
@@ -649,19 +649,19 @@ val SPEC_1_SEP_F_IMP_SPEC = store_thm("SPEC_1_SEP_F_IMP_SPEC",
   REPEAT STRIP_TAC \\ IMP_RES_TAC SPEC_1_IMP_SPEC
   \\ FULL_SIMP_TAC std_ss [SEP_CLAUSES]);
 
-val IMP_X64_SPEC = save_thm("IMP_X64_SPEC",
+Theorem IMP_X64_SPEC =
   (SPECL [``p * CODE_POOL X64_INSTR {(rip,c)}``,
           ``q * CODE_POOL X64_INSTR {(rip,c)}``]) IMP_X64_SPEC_LEMMA2
    |> UNDISCH |> MATCH_MP SPEC_1_IMP_SPEC |> RW [SEP_CLAUSES]
    |> RW [X64_SPEC_CODE,GSYM zCODE_def]
    |> RW1 [STAR_COMM]
    |> DISCH_ALL
-   |> RW [X64_SPEC_CODE,GSYM zCODE_def]);
+   |> RW [X64_SPEC_CODE,GSYM zCODE_def]
 
-val IMP_X64_SPEC_1 = save_thm("IMP_X64_SPEC_1",
+Theorem IMP_X64_SPEC_1 =
   (RW1 [STAR_COMM] o RW [X64_SPEC_1_CODE,GSYM zCODE_def] o
    SPECL [``CODE_POOL X64_INSTR {(rip,c)} * p``,
-          ``CODE_POOL X64_INSTR {(rip,c)} * q``]) IMP_X64_SPEC_LEMMA2);
+          ``CODE_POOL X64_INSTR {(rip,c)} * q``]) IMP_X64_SPEC_LEMMA2
 
 val zS_HIDE = store_thm("zS_HIDE",
   ``~zS = ~zS1 Z_CF * ~zS1 Z_PF * ~zS1 Z_AF * ~zS1 Z_ZF * ~zS1 Z_SF * ~zS1 Z_OF``,
@@ -1140,14 +1140,14 @@ val IMP_X64_SPEC_LEMMA3 = prove(
   \\ FULL_SIMP_TAC std_ss [X64_ICACHE_EXTRACT_def]
   \\ Q.EXISTS_TAC `{}` \\ Q.EXISTS_TAC `UNIV` \\ SRW_TAC [] [] \\ EVAL_TAC);
 
-val IMP_X64_SPEC2 = save_thm("IMP_X64_SPEC2",
+Theorem IMP_X64_SPEC2 =
   SPECL [``p * CODE_POOL X64_INSTR c``,
          ``q * CODE_POOL X64_INSTR c``] IMP_X64_SPEC_LEMMA3
   |> UNDISCH_ALL
   |> MATCH_MP SPEC_1_SEP_F_IMP_SPEC
   |> RW1 [STAR_COMM]
   |> DISCH_ALL
-  |> RW [X64_SPEC_CODE,GSYM zCODE_def]);
+  |> RW [X64_SPEC_CODE,GSYM zCODE_def]
 
 val cpuid_thm = let
   val th = x64_step "0FA2" (* cpuid *)
@@ -1315,8 +1315,8 @@ val X64_SPEC_EXLPODE_CODE_LEMMA = store_thm("X64_SPEC_EXLPODE_CODE_LEMMA",
   \\ POP_ASSUM (K ALL_TAC)
   \\ ASM_SIMP_TAC std_ss [UNION_EMPTY,IMAGE_INSERT,X64_INSTR_def,BIGUNION_INSERT]);
 
-val X64_SPEC_EXLPODE_CODE = save_thm("X64_SPEC_EXLPODE_CODE",
-  RW [UNION_EMPTY] (Q.SPEC `{}` X64_SPEC_EXLPODE_CODE_LEMMA));
+Theorem X64_SPEC_EXLPODE_CODE =
+  RW [UNION_EMPTY] (Q.SPEC `{}` X64_SPEC_EXLPODE_CODE_LEMMA)
 
 val CODE_POOL_INSERT_INSERT = store_thm("CODE_POOL_INSERT_INSERT",
   ``CODE_POOL X64_INSTR ((a1,xs) INSERT (a1 + n2w (LENGTH xs),ys) INSERT s) =
@@ -1634,7 +1634,7 @@ val w2w_OVER_ARITH_n2w = CONJ w2w_OVER_ARITH_n2w_LEMMA1 w2w_OVER_ARITH_n2w_LEMMA
     |> DISCH_ALL
     |> RW [GSYM CONJ_ASSOC]
 
-val _ = save_thm("w2w_OVER_ARITH_n2w",w2w_OVER_ARITH_n2w);
+Theorem w2w_OVER_ARITH_n2w = w2w_OVER_ARITH_n2w
 
 val ALIGNED64 = store_thm("ALIGNED64",
   ``!w n. ((0x0w = w && 0x3w) = (w && 0x3w = 0w)) /\

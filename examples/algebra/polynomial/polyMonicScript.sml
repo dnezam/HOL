@@ -305,15 +305,15 @@ val _ = overload_on("Pmonic", ``\r p. Poly r p /\ Unit r (Lead r p) /\ 0 < Deg r
 (* val _ = export_rewrites ["poly_monic_def"]; *)
 
 (* Theorem: monic p ==> poly p *)
-val poly_monic_poly = save_thm("poly_monic_poly",
-    poly_monic_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_monic_poly =
+    poly_monic_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL
 (* > val poly_monic_poly = |- !r p. monic p ==> poly p : thm *)
 
 val _ = export_rewrites ["poly_monic_poly"];
 
 (* Theorem: monic p ==> lead p = #1 *)
-val poly_monic_lead = save_thm("poly_monic_lead",
-    poly_monic_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_monic_lead =
+    poly_monic_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL
 (* > val poly_monic_lead = |- !r p. monic p ==> (lead p = #1) : thm *)
 
 val _ = export_rewrites ["poly_monic_lead"];

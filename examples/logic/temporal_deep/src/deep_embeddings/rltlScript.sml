@@ -25,9 +25,7 @@ Datatype:
 End
 
 
-val rltl_induct =
- save_thm
-  ("rltl_induct",
+Theorem rltl_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -39,7 +37,7 @@ val rltl_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f,b). P f`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a rltl``)))));
+         (TypeBase.induction_of ``:'a rltl``))))
 
 
 Definition RLTL_SEM_TIME_def:
@@ -219,11 +217,11 @@ Definition IS_RLTL_STREET_def:
 End
 
 
-val IS_RLTL_THM = save_thm("IS_RLTL_THM",
+Theorem IS_RLTL_THM =
    LIST_CONJ [IS_RLTL_G_def,
               IS_RLTL_GF_def,
               IS_RLTL_PREFIX_def,
-              IS_RLTL_STREET_def]);
+              IS_RLTL_STREET_def]
 
 
 (******************************************************************************
@@ -509,7 +507,7 @@ val RLTL_SEM_THM = LIST_CONJ [RLTL_SEM_def,
                              RLTL_IMPL_SEM,
                              RLTL_ALWAYS_SEM,
                              RLTL_EVENTUAL_SEM];
-val _ = save_thm("RLTL_SEM_THM",RLTL_SEM_THM);
+Theorem RLTL_SEM_THM = RLTL_SEM_THM
 
 
 val RLTL_EQUIV_PATH_STRONG___SYM_PATH =

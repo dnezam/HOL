@@ -234,7 +234,7 @@ val (mc_symbol_less_spec,mc_symbol_less_def) = basic_decompile x64_tools "mc_sym
   4C8BD0                 (*      mov r10,r0               *)
   4C8BD8                 (*      mov r11,r0               *)`
 
-val _ = save_thm("mc_symbol_less_spec",mc_symbol_less_spec);
+Theorem mc_symbol_less_spec = mc_symbol_less_spec
 
 val mc_symbol_less_blast = prove(
   ``!w. ((w2w (w2w (w:29 word) << 3 !! 0x3w:word32) >>> 3):word64 = w2w w) /\
@@ -258,8 +258,8 @@ val VAR_REST = LISP |> car |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr;
 val lisp_inv_NIL = lisp_inv_Sym
   |> CONJUNCTS |> hd |> UNDISCH |> CONJUNCTS |> hd |> DISCH_ALL |> GEN_ALL;
 
-val lisp_inv_T = save_thm("lisp_inv_T",lisp_inv_Sym
-  |> CONJUNCTS |> tl |> hd |> UNDISCH |> CONJUNCTS |> hd |> DISCH_ALL |> GEN_ALL);
+Theorem lisp_inv_T = lisp_inv_Sym
+  |> CONJUNCTS |> tl |> hd |> UNDISCH |> CONJUNCTS |> hd |> DISCH_ALL |> GEN_ALL
 
 val mc_symbol_less_thm = store_thm("mc_symbol_less_thm",
   ``lisp_inv ^STAT (x0,x1,x2,x3,x4,x5,^VAR_REST)
@@ -636,7 +636,7 @@ EXIT:
        mov r0d,3
      `);
 
-val _ = save_thm("mc_test_eof_spec",mc_test_eof_spec);
+Theorem mc_test_eof_spec = mc_test_eof_spec
 
 val mc_test_eof_lemma = prove(
   ``!cs.
@@ -689,7 +689,7 @@ val mc_test_eof_thm = prove(
    (Q.EXISTS_TAC `0x3w` \\ FULL_SIMP_TAC wstd_ss [w2w_def,w2n_n2w,LISP_TEST_def]
     \\ METIS_TAC [el 1 (CONJUNCTS lisp_inv_Sym),lisp_inv_ignore_io]));
 
-val _ = save_thm("mc_test_eof_thm",mc_test_eof_thm);
+Theorem mc_test_eof_thm = mc_test_eof_thm
 
 
 (* read number *)
@@ -1752,7 +1752,7 @@ EXIT:
        mov r11,r0
      `);
 
-val _ = save_thm("mc_next_token_spec",mc_next_token_spec);
+Theorem mc_next_token_spec = mc_next_token_spec
 
 val lisp_inv_Val0  = Q.SPEC `0`  lisp_inv_Val_n2w |> SIMP_RULE std_ss [];
 val lisp_inv_Val1  = Q.SPEC `1`  lisp_inv_Val_n2w |> SIMP_RULE std_ss [];
@@ -2988,7 +2988,7 @@ val (mc_print_nl_spec,mc_print_nl_def) = basic_decompile_strings x64_tools "mc_p
        mov r1d,1
      `);
 
-val _ = save_thm("mc_print_nl_spec",mc_print_nl_spec);
+Theorem mc_print_nl_spec = mc_print_nl_spec
 
 val mc_print_nl_thm = store_thm("mc_print_nl_thm",
   ``^LISP ==>
@@ -3093,7 +3093,7 @@ val (mc_print_num_full_spec,mc_print_num_full_def) = basic_decompile_strings x64
        mov r11d,r0d
      `);
 
-val _ = save_thm("mc_print_num_full_spec",mc_print_num_full_spec);
+Theorem mc_print_num_full_spec = mc_print_num_full_spec
 
 val mc_print_num_full_blast = blastLib.BBLAST_PROVE
   ``w2w (w !! 0x1w) = w2w (w:word32) !! 1w:word64``
@@ -3135,7 +3135,7 @@ val mc_print_num_full_thm = prove(
   \\ MATCH_MP_TAC lisp_inv_ignore_tw2 \\ ASM_SIMP_TAC std_ss [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_print_num_full_thm",mc_print_num_full_thm);
+Theorem mc_print_num_full_thm = mc_print_num_full_thm
 
 
 (* print symbol *)
@@ -3328,7 +3328,7 @@ val (mc_print_sym_full_spec,mc_print_sym_full_def) = basic_decompile_strings x64
        mov r11d,r0d
      `);
 
-val _ = save_thm("mc_print_sym_full_spec",mc_print_sym_full_spec);
+Theorem mc_print_sym_full_spec = mc_print_sym_full_spec
 
 val mc_print_sym_full_blast = blastLib.BBLAST_PROVE
   ``w2w (w !! 0x1w) = w2w (w:word32) !! 1w:word64``
@@ -3362,7 +3362,7 @@ val mc_print_sym_full_thm = prove(
   \\ ASM_SIMP_TAC std_ss [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_print_sym_full_thm",mc_print_sym_full_thm);
+Theorem mc_print_sym_full_thm = mc_print_sym_full_thm
 
 
 (* print " " *)
@@ -3379,7 +3379,7 @@ val (mc_print_sp_spec,mc_print_sp_def) = basic_decompile_strings x64_tools "mc_p
        mov r0d,3
        mov r1d,1 `);
 
-val _ = save_thm("mc_print_sp_spec",mc_print_sp_spec);
+Theorem mc_print_sp_spec = mc_print_sp_spec
 
 val mc_print_sp_thm = store_thm("mc_print_sp_thm",
   ``^LISP ==>
@@ -3423,7 +3423,7 @@ val (mc_print_qt_spec,mc_print_qt_def) = basic_decompile_strings x64_tools "mc_p
        mov r0d,3
        mov r1d,1 `);
 
-val _ = save_thm("mc_print_qt_spec",mc_print_qt_spec);
+Theorem mc_print_qt_spec = mc_print_qt_spec
 
 val mc_print_qt_thm = store_thm("mc_print_qt_thm",
   ``^LISP ==>
@@ -3467,7 +3467,7 @@ val (mc_print_open_spec,mc_print_open_def) = basic_decompile_strings x64_tools "
        mov r0d,3
        mov r1d,1 `);
 
-val _ = save_thm("mc_print_open_spec",mc_print_open_spec);
+Theorem mc_print_open_spec = mc_print_open_spec
 
 val mc_print_open_thm = store_thm("mc_print_open_thm",
   ``^LISP ==>
@@ -3511,7 +3511,7 @@ val (mc_print_close_spec,mc_print_close_def) = basic_decompile_strings x64_tools
        mov r0d,3
        mov r1d,1 `);
 
-val _ = save_thm("mc_print_close_spec",mc_print_close_spec);
+Theorem mc_print_close_spec = mc_print_close_spec
 
 val mc_print_close_thm = store_thm("mc_print_close_thm",
   ``^LISP ==>
@@ -3557,7 +3557,7 @@ val (mc_print_dot_spec,mc_print_dot_def) = basic_decompile_strings x64_tools "mc
        mov r0d,3
        mov r1d,1 `);
 
-val _ = save_thm("mc_print_dot_spec",mc_print_dot_spec);
+Theorem mc_print_dot_spec = mc_print_dot_spec
 
 val mc_print_dot_thm = store_thm("mc_print_dot_thm",
   ``^LISP ==>
@@ -3608,7 +3608,7 @@ val (mc_print_stats1_spec,mc_print_stats1_def) = basic_decompile_strings x64_too
        mov r1d,1
        mov r0d,3 `);
 
-val _ = save_thm("mc_print_stats1_spec",mc_print_stats1_spec);
+Theorem mc_print_stats1_spec = mc_print_stats1_spec
 
 val mc_print_stats1_thm = store_thm("mc_print_stats1_thm",
   ``^LISP ==>
@@ -3648,7 +3648,7 @@ val (mc_print_stats2_spec,mc_print_stats2_def) = basic_decompile_strings x64_too
        mov r1d,1
        mov r0d,3 `);
 
-val _ = save_thm("mc_print_stats2_spec",mc_print_stats2_spec);
+Theorem mc_print_stats2_spec = mc_print_stats2_spec
 
 val mc_print_stats2_thm = store_thm("mc_print_stats2_thm",
   ``^LISP ==>

@@ -257,7 +257,7 @@ val v_posns_FV_EQ = store_thm(
   SRW_TAC [][v_posns_thm, IMAGE_EQ_EMPTY] THEN
   PROVE_TAC [IMAGE_EQ_EMPTY]);
 
-val v_posns_LAM_COND = save_thm("v_posns_LAM_COND", v_posns_LAM);
+Theorem v_posns_LAM_COND = v_posns_LAM
 
 val v_posns_SUBSET_var_posns = store_thm(
   "v_posns_SUBSET_var_posns",
@@ -420,7 +420,7 @@ val bv_posns_at_exists = prove(
 val bv_posns_at_def = new_specification("bv_posns_at_def", ["bv_posns_at"],
                                         bv_posns_at_exists)
 
-val bv_posns_at_thm = save_thm("bv_posns_at_thm", CONJUNCT1 bv_posns_at_def)
+Theorem bv_posns_at_thm = CONJUNCT1 bv_posns_at_def
 
 val bv_posns_at_swap_invariant = Save_Thm(
   "bv_posns_at_swap_invariant",

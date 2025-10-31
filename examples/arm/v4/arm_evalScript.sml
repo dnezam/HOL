@@ -174,17 +174,17 @@ val REG_WRITE_INC_PC = store_thm("REG_WRITE_INC_PC",
       (REG_WRITE (INC_PC r) m n d = INC_PC (REG_WRITE r m n d))`,
   SIMP_TAC bool_ss [TO_WRITE_READ6,REG_READ_WRITE_NEQ,REG_WRITE_WRITE_PC]);
 
-val REG_READ_WRITE = save_thm("REG_READ_WRITE",
+Theorem REG_READ_WRITE =
   (GEN_ALL o SIMP_RULE std_ss [REG_READ_READ6] o
-   DISCH `~(n = 15w)` o SPEC_ALL o CONJUNCT2) REG_READ_WRITE_THM);
+   DISCH `~(n = 15w)` o SPEC_ALL o CONJUNCT2) REG_READ_WRITE_THM
 
 val REG_WRITE_READ =
   (GEN_ALL o SIMP_RULE std_ss [REG_READ_READ6] o
    DISCH `~(n2 = 15w)` o SPEC_ALL o CONJUNCT1) REG_READ_WRITE_THM;
 
-val INC_PC = save_thm("INC_PC",
+Theorem INC_PC =
   (SIMP_RULE std_ss [REG_READ6_def,FETCH_PC_def] o
-   hd o tl o CONJUNCTS) TO_WRITE_READ6);
+   hd o tl o CONJUNCTS) TO_WRITE_READ6
 
 val REG_WRITEL = store_thm("REG_WRITEL",
   `!r m l. REG_WRITEL r m l = FOLDR (\h r. REG_WRITE r m (FST h) (SND h)) r l`,
@@ -342,8 +342,8 @@ val CPSR_WRITE_WRITE = store_thm("CPSR_WRITE_WRITE",
   `!psr a b. CPSR_WRITE (CPSR_WRITE psr a) b = CPSR_WRITE psr b`,
   SIMP_TAC bool_ss [CPSR_WRITE_def,UPDATE_EQ]);
 
-val USER_usr = save_thm("USER_usr",
-  simpLib.SIMP_PROVE bool_ss [USER_def] ``USER usr``);
+Theorem USER_usr =
+  simpLib.SIMP_PROVE bool_ss [USER_def] ``USER usr``
 
 val PSR_WRITE_COMM = store_thm("PSR_WRITE_COMM",
   `!psr m x y. SPSR_WRITE (CPSR_WRITE psr x) m y =
@@ -419,21 +419,21 @@ val PSR_CONS = store_thm("PSR_CONS",
             \\ POP_ASSUM MP_TAC
             \\ FULL_SIMP_TAC (srw_ss()++wordsLib.SIZES_ss) [w2n_mod]]]);
 
-val word_modify_PSR = save_thm("word_modify_PSR",
+Theorem word_modify_PSR =
   SIMP_CONV std_ss [SET_NZCV_def,SET_IFMODE_def]
-  ``word_modify f (SET_NZCV (n,z,c,v) x)``);
+  ``word_modify f (SET_NZCV (n,z,c,v) x)``
 
-val word_modify_PSR2 = save_thm("word_modify_PSR2",
+Theorem word_modify_PSR2 =
   SIMP_CONV std_ss [SET_NZCV_def,SET_IFMODE_def]
-  ``word_modify f (SET_NZCV (n,z,c,v) (SET_IFMODE imask fmask m x))``);
+  ``word_modify f (SET_NZCV (n,z,c,v) (SET_IFMODE imask fmask m x))``
 
-val CPSR_WRITE_n2w = save_thm("CPSR_WRITE_n2w", GEN_ALL
+Theorem CPSR_WRITE_n2w = GEN_ALL
   ((PURE_ONCE_REWRITE_CONV [PSR_CONS] THENC PURE_REWRITE_CONV [CPSR_WRITE_def])
-   ``CPSR_WRITE psr (n2w n)``));
+   ``CPSR_WRITE psr (n2w n)``)
 
-val SPSR_WRITE_n2w = save_thm("SPSR_WRITE_n2w", GEN_ALL
+Theorem SPSR_WRITE_n2w = GEN_ALL
   ((PURE_ONCE_REWRITE_CONV [PSR_CONS] THENC PURE_REWRITE_CONV [SPSR_WRITE_def])
-   ``SPSR_WRITE psr mode (n2w n)``));
+   ``SPSR_WRITE psr mode (n2w n)``)
 
 (* ------------------------------------------------------------------------- *)
 
@@ -1315,9 +1315,9 @@ val cond_pass_enc_coproc = store_thm("cond_pass_enc_coproc",
 
 (* ......................................................................... *)
 
-val condition_encode = save_thm("condition_encode",
+Theorem condition_encode =
    LIST_CONJ (map (fn x => EVAL ``condition_encode ^x``)
-    ((snd o strip_comb o snd o dest_comb o concl) datatype_condition)));
+    ((snd o strip_comb o snd o dest_comb o concl) datatype_condition))
 
 (* ......................................................................... *)
 
@@ -1335,32 +1335,32 @@ val opc2 =
 
 val opc3 = [`instruction$MOV`, `instruction$MVN`];
 
-val cond_pass_enc_data_proc = save_thm("cond_pass_enc_data_proc",
-  MAP_SPEC cond_pass_enc_data_proc opc1);
+Theorem cond_pass_enc_data_proc =
+  MAP_SPEC cond_pass_enc_data_proc opc1
 
-val cond_pass_enc_data_proc2 = save_thm("cond_pass_enc_data_proc2",
-  MAP_SPEC cond_pass_enc_data_proc2 opc2);
+Theorem cond_pass_enc_data_proc2 =
+  MAP_SPEC cond_pass_enc_data_proc2 opc2
 
-val cond_pass_enc_data_proc3 = save_thm("cond_pass_enc_data_proc3",
-  MAP_SPEC cond_pass_enc_data_proc3 opc3);
+Theorem cond_pass_enc_data_proc3 =
+  MAP_SPEC cond_pass_enc_data_proc3 opc3
 
-val decode_data_proc_enc = save_thm("decode_data_proc_enc",
-  MAP_SPEC decode_data_proc_enc opc1);
+Theorem decode_data_proc_enc =
+  MAP_SPEC decode_data_proc_enc opc1
 
-val decode_data_proc_enc2 = save_thm("decode_data_proc_enc2",
-  MAP_SPEC decode_data_proc_enc2 opc2);
+Theorem decode_data_proc_enc2 =
+  MAP_SPEC decode_data_proc_enc2 opc2
 
-val decode_data_proc_enc3 = save_thm("decode_data_proc_enc3",
-  MAP_SPEC decode_data_proc_enc3 opc3);
+Theorem decode_data_proc_enc3 =
+  MAP_SPEC decode_data_proc_enc3 opc3
 
-val decode_enc_data_proc = save_thm("decode_enc_data_proc",
-  MAP_SPEC decode_enc_data_proc opc1);
+Theorem decode_enc_data_proc =
+  MAP_SPEC decode_enc_data_proc opc1
 
-val decode_enc_data_proc2 = save_thm("decode_enc_data_proc2",
-  MAP_SPEC decode_enc_data_proc2 opc2);
+Theorem decode_enc_data_proc2 =
+  MAP_SPEC decode_enc_data_proc2 opc2
 
-val decode_enc_data_proc3 = save_thm("decode_enc_data_proc3",
-  MAP_SPEC decode_enc_data_proc3 opc3);
+Theorem decode_enc_data_proc3 =
+  MAP_SPEC decode_enc_data_proc3 opc3
 
 (* ------------------------------------------------------------------------- *)
 

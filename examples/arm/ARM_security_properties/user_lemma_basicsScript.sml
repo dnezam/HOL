@@ -566,7 +566,7 @@ val read_mem1_strict_thm = store_thm(
     ``!addr. preserve_relation_mmu (read_mem1 <|proc:=0|> addr) (assert_mode 16w) (assert_mode 16w) strict_unt empty_sim``,
     METIS_TAC [read_mem1_ut_thm, read_mem1_similar_thm, read_mem1_mode_thm, three_parts_thm]);
 
-val read_mem1_thm = save_thm("read_mem1_thm", MATCH_MP extras_lem4 (SPEC_ALL read_mem1_strict_thm));
+Theorem read_mem1_thm = MATCH_MP extras_lem4 (SPEC_ALL read_mem1_strict_thm)
 
 
 val write_mem1_mode_thm = store_thm(
@@ -679,7 +679,7 @@ val read_mem_pmc_thm = store_thm(
                  THEN FULL_SIMP_TAC (srw_ss()) []]);
 
 
-val read_mem_thm = save_thm("read_mem_thm", MATCH_MP extras_lem4 (SPEC_ALL read_mem_strict_thm));
+Theorem read_mem_thm = MATCH_MP extras_lem4 (SPEC_ALL read_mem_strict_thm)
 
 Theorem write_mem_pmc_thm:
   !desc size value.
@@ -716,7 +716,7 @@ Proof
 QED
 
 
-val write_mem_thm = save_thm("write_mem_thm", (MATCH_MP extras_lem2 (EQ_MP (SPEC ``(write_mem <|proc := 0|> (desc,size) value):(unit M)`` (INST_TYPE [alpha |-> Type `:unit`] empty_extras_lem)) (SPEC_ALL write_mem_pmc_thm))));
+Theorem write_mem_thm = (MATCH_MP extras_lem2 (EQ_MP (SPEC ``(write_mem <|proc := 0|> (desc,size) value):(unit M)`` (INST_TYPE [alpha |-> Type `:unit`] empty_extras_lem)) (SPEC_ALL write_mem_pmc_thm)))
 
 
 
@@ -739,7 +739,7 @@ val branch_to_empty_thm = store_thm(
      THEN FULL_SIMP_TAC (srw_ss()) []
      THEN RES_TAC
      THEN FULL_SIMP_TAC (srw_ss()) []);
-val branch_to_thm = save_thm("branch_to_thm", MATCH_MP extras_lem branch_to_empty_thm);
+Theorem branch_to_thm = MATCH_MP extras_lem branch_to_empty_thm
 
 
 
@@ -753,7 +753,7 @@ val write_monitor_empty_thm = store_thm(
       THEN FULL_SIMP_TAC (srw_ss()) []
       THEN RES_TAC
       THEN FULL_SIMP_TAC (srw_ss()) []);
-val write_monitor_thm = save_thm("write_monitor_thm", MATCH_MP extras_lem write_monitor_empty_thm);
+Theorem write_monitor_thm = MATCH_MP extras_lem write_monitor_empty_thm
 
 
 val clear_event_register_empty_thm = store_thm(
@@ -766,7 +766,7 @@ val clear_event_register_empty_thm = store_thm(
       THEN FULL_SIMP_TAC (srw_ss()) []
       THEN RES_TAC
       THEN FULL_SIMP_TAC (srw_ss()) []);
-val clear_event_register_thm = save_thm("clear_event_register_thm", MATCH_MP extras_lem clear_event_register_empty_thm);
+Theorem clear_event_register_thm = MATCH_MP extras_lem clear_event_register_empty_thm
 
 
 
@@ -781,7 +781,7 @@ val wait_for_interrupt_empty_thm = store_thm(
       THEN RES_TAC
       THEN FULL_SIMP_TAC (srw_ss()) []
       THEN EVAL_TAC);
-val wait_for_interrupt_thm = save_thm("wait_for_interrupt_thm", MATCH_MP extras_lem wait_for_interrupt_empty_thm);
+Theorem wait_for_interrupt_thm = MATCH_MP extras_lem wait_for_interrupt_empty_thm
 
 
 
@@ -795,7 +795,7 @@ val send_event_empty_thm = store_thm(
       THEN FULL_SIMP_TAC (srw_ss()) []
       THEN RES_TAC
       THEN FULL_SIMP_TAC (srw_ss()) []);
-val send_event_thm = save_thm("send_event_thm", MATCH_MP extras_lem send_event_empty_thm);
+Theorem send_event_thm = MATCH_MP extras_lem send_event_empty_thm
 
 
 

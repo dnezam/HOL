@@ -1032,8 +1032,8 @@ val INVIMAGE_I = store_thm("INVIMAGE_I",
     ``inv_image R I = R``,
     RW_TAC std_ss [relationTheory.inv_image_def] THEN METIS_TAC []);
 
-val QSORT3_M2L_L2M_MAP = save_thm("QSORT3_M2L_L2M_MAP",
-    REWRITE_RULE [INVIMAGE_I,ONE_ONE_I] (Q.ISPEC `I:sexp->sexp` (Q.GEN `h` (SPEC_ALL QSORT3_M2L_L2M_MAP_INV))));
+Theorem QSORT3_M2L_L2M_MAP =
+    REWRITE_RULE [INVIMAGE_I,ONE_ONE_I] (Q.ISPEC `I:sexp->sexp` (Q.GEN `h` (SPEC_ALL QSORT3_M2L_L2M_MAP_INV)))
 
 val MAP_EQ_LENGTH = store_thm("MAP_EQ_LENGTH",
     ``!l1 l2. (MAP f l1 = MAP g l2) ==> (LENGTH l1 = LENGTH l2)``,
@@ -1223,7 +1223,7 @@ val SETEQ_MAP = store_thm("SETEQ_MAP",
     ``SETEQ a b ==> SETEQ (MAP f a) (MAP f b)``,
     RW_TAC std_ss [SETEQ_def, MEM_MAP]);
 
-val SETEQ_COMM = save_thm("SETEQ_COMM", METIS_PROVE [SETEQ_THM] ``SETEQ a b = SETEQ b a``);
+Theorem SETEQ_COMM = METIS_PROVE [SETEQ_THM] ``SETEQ a b = SETEQ b a``
 
 val FMAP_MAP_COMPOSE = store_thm("FMAP_MAP_COMPOSE",
     ``ONE_ONE f0 /\ ONE_ONE g0 ==> (map_fmap f0 f1 o map_fmap g0 g1 = map_fmap (f0 o g0) (f1 o g1))``,

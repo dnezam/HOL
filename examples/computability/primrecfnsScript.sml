@@ -90,9 +90,8 @@ val (primrec_rules, primrec_ind, primrec_cases) = Hol_reln`
 `;
 val primrec_cn = List.nth(CONJUNCTS primrec_rules, 3)
 
-val strong_primrec_ind = save_thm(
-  "strong_primrec_ind",
-  IndDefLib.derive_strong_induction(primrec_rules, primrec_ind))
+Theorem strong_primrec_ind =
+  IndDefLib.derive_strong_induction(primrec_rules, primrec_ind)
 
 
 val primrec_nzero = store_thm(

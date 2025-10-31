@@ -341,7 +341,7 @@ val poly_field_ring = store_thm(
 
 (* Theorem: ((PolyRing r).sum.carrier = (PolyRing r).carrier) /\
             ((PolyRing r).prod.carrier = (PolyRing r).carrier) *)
-val poly_field_carriers = save_thm("poly_field_carriers", poly_ring_carriers);
+Theorem poly_field_carriers = poly_ring_carriers
 (* val poly_field_carriers =
    |- !r. ((PolyRing r).sum.carrier = (PolyRing r).carrier) /\
           ((PolyRing r).prod.carrier = (PolyRing r).carrier): thm *)
@@ -628,7 +628,7 @@ val poly_deg_mult_nonzero = store_thm(
 (* This is a milestone theorem. *)
 
 (* Theorem alias *)
-val poly_field_deg_mult = save_thm("poly_field_deg_mult", poly_deg_mult_nonzero);
+Theorem poly_field_deg_mult = poly_deg_mult_nonzero
 (*
 val poly_field_deg_mult = |- !r. Field r ==>
     !p q. poly p /\ poly q /\ p <> |0| /\ q <> |0| ==> (deg (p * q) = deg p + deg q): thm

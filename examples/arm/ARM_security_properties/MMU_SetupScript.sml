@@ -32,8 +32,7 @@ val inequal_by_inequalities_ltu_lem = blastLib.BBLAST_PROVE ``!(x:word32) (a:wor
 
 
 
-val inequal_by_inequalities = save_thm(
-   "inequal_by_inequalities",
+Theorem inequal_by_inequalities =
 (CONJ (SPEC ``guest1_min_adr:word32`` inequal_by_inequalities_gtu_lem)
 (CONJ (SPEC ``guest1_max_adr:word32`` inequal_by_inequalities_gtu_lem)
 (CONJ (SPEC ``guest1_min_adr:word32`` inequal_by_inequalities_ltu_lem)
@@ -49,7 +48,7 @@ val inequal_by_inequalities = save_thm(
 (CONJ (SPEC ``guest2_min_adr:word32`` inequal_by_inequalities_gt_lem)
 (CONJ (SPEC ``guest2_max_adr:word32`` inequal_by_inequalities_gt_lem)
 (CONJ (SPEC ``guest2_min_adr:word32`` inequal_by_inequalities_lt_lem)
-      (SPEC ``guest2_max_adr:word32`` inequal_by_inequalities_lt_lem)))))))))))))))));
+      (SPEC ``guest2_max_adr:word32`` inequal_by_inequalities_lt_lem))))))))))))))))
 
 
 val negated_inequalities_lem = blastLib.BBLAST_PROVE  ``!(x:word32) (y:word32).
@@ -65,7 +64,7 @@ val negated_inequalities_unsigned_lem = blastLib.BBLAST_PROVE  ``!(x:word32) (y:
                      /\  ((~(y >=+ x)) ==> (y <+  x)) ``;
 
 
-val negated_inequalities = save_thm("negated_inequalities",
+Theorem negated_inequalities =
  (CONJ (SPEC ``guest1_min_adr:word32`` negated_inequalities_unsigned_lem)
  (CONJ (SPEC ``guest1_max_adr:word32`` negated_inequalities_unsigned_lem)
  (CONJ (SPEC ``guest2_min_adr:word32`` negated_inequalities_unsigned_lem)
@@ -73,20 +72,18 @@ val negated_inequalities = save_thm("negated_inequalities",
  (CONJ (SPEC ``guest1_min_adr:word32`` negated_inequalities_lem)
  (CONJ (SPEC ``guest1_max_adr:word32`` negated_inequalities_lem)
  (CONJ (SPEC ``guest2_min_adr:word32`` negated_inequalities_lem)
-       (SPEC ``guest2_max_adr:word32`` negated_inequalities_lem)))))))));
+       (SPEC ``guest2_max_adr:word32`` negated_inequalities_lem))))))))
 
 
-val address_cases = save_thm(
-    "address_cases", blastLib.BBLAST_PROVE ``!(b:word32) (a:word32) (X:bool) (Y:bool).
+Theorem address_cases = blastLib.BBLAST_PROVE ``!(b:word32) (a:word32) (X:bool) (Y:bool).
 (((a <= b) ==> X)  ==> (((a > b) \/ Y) ==> X)  ==> X) /\
 (((a >= b) ==> X)  ==> ((Y \/ (a < b)) ==> X)  ==> X) /\
 (((a <=+ b) ==> X)  ==> (((a >+ b) \/ Y) ==> X)  ==> X) /\
-(((a >=+ b) ==> X)  ==> ((Y \/ (a <+ b)) ==> X)  ==> X)``);
+(((a >=+ b) ==> X)  ==> ((Y \/ (a <+ b)) ==> X)  ==> X)``
 
 
 
-val negated_and_or =  save_thm(
-    "negated_and_or",
+Theorem negated_and_or =
     blastLib.BBLAST_PROVE
 ``!(a:word32).
 ((~(a > guest2_max_adr ∨ a < guest2_min_adr))  =  (a <= guest2_max_adr /\ a >= guest2_min_adr)) /\
@@ -103,14 +100,13 @@ val negated_and_or =  save_thm(
 ((~(a ≤ 0x1FFFFFw ∧ a ≥ 0x100000w))  =  (a >  0x1FFFFFw \/ a <  0x100000w)) /\
 ((~(a > 0x1FFFFFw ∨ a < 0x100000w))  =  (a <= 0x1FFFFFw /\ a >= 0x100000w)) /\
 ((~(a ≤ 0x2FFFFFw ∧ a ≥ 0x200000w))  =  (a >  0x2FFFFFw \/ a <  0x200000w)) /\
-((~(a > 0x2FFFFFw ∨ a < 0x100000w))  =  (a <= 0x2FFFFFw /\ a >= 0x100000w))``);
+((~(a > 0x2FFFFFw ∨ a < 0x100000w))  =  (a <= 0x2FFFFFw /\ a >= 0x100000w))``
 
 
 
 (* address border *)
 
-val address_border_concrete = save_thm(
-    "address_border_concrete", blastLib.BBLAST_PROVE ``!(a:word32). (a ≤ 0x1FFFFFw \/ a ≥ 0x200000w) /\ (a ≤ 0x3FFFFFw \/ a ≥ 0x400000w) /\ (a <=+ 0x3FFFFFw \/ a >=+ 0x400000w)``);
+Theorem address_border_concrete = blastLib.BBLAST_PROVE ``!(a:word32). (a ≤ 0x1FFFFFw \/ a ≥ 0x200000w) /\ (a ≤ 0x3FFFFFw \/ a ≥ 0x400000w) /\ (a <=+ 0x3FFFFFw \/ a >=+ 0x400000w)``
 
 val address_border = store_thm(
     "address_border",

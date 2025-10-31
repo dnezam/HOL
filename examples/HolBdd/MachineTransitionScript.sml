@@ -929,13 +929,11 @@ val ReachableTotalise =
 (*          ?f s0. B s0 /\ Path (Totalise R,s0) f /\ ?n. s = f n             *)
 (*****************************************************************************)
 
-val ReachablePathThm =
- save_thm
-  ("ReachablePathThm",
+Theorem ReachablePathThm =
    GEN
     ``R :'a # 'a -> bool``
     (REWRITE_RULE[ReachableTotalise,TotalTotalise]
-                 (SPEC ``Totalise R`` ReachablePath)));
+                 (SPEC ``Totalise R`` ReachablePath))
 
 Definition Moore_def:
    Moore nextfn ((inputs:num->'a),(states:num->'b)) =
@@ -1001,10 +999,8 @@ val ReachableMooreTrans =
 (*          ?f s0. B s0 /\ Path (MooreTrans nextfn,s0) f /\ ?n. s = f n      *)
 (*****************************************************************************)
 
-val ReachableMooreTrans =
- save_thm
-  ("ReachableMooreTrans",
-   MATCH_MP ReachablePath TotalMooreTrans);
+Theorem ReachableMooreTrans =
+   MATCH_MP ReachablePath TotalMooreTrans
 
 (* Problem with Q.SPECL? Too many type annotations needed. *)
 
@@ -1066,9 +1062,7 @@ val MooreReachable =
 (*        ?s. Reachable (MooreTrans nextfn) B s /\ P s                       *)
 (*****************************************************************************)
 
-val MooreReachableExists =
- save_thm
-  ("MooreReachableExists",
+Theorem MooreReachableExists =
    (REWRITE_RULE[]                                      o
     CONV_RULE(REDEPTH_CONV NOT_FORALL_CONV)             o
     REWRITE_RULE[TAUT_PROVE ``~(a ==> b) = (a /\ ~b)``] o
@@ -1078,7 +1072,7 @@ val MooreReachableExists =
     SPECL[``B :'a # 'b -> bool``,
           ``nextfn :'a # 'b -> 'b``,
           ``\p. ~(P :'a # 'b -> bool)p``])
-   MooreReachable);
+   MooreReachable
 
 val MooreReachableCor1 =
  store_thm

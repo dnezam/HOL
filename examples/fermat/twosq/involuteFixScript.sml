@@ -434,12 +434,12 @@ Proof
 QED
 
 (* Extract theorems *)
-val fixes_pairs_union = save_thm("fixes_pairs_union",
-    fixes_pairs_split |> SPEC_ALL |> CONJUNCT1 |> GEN ``s:'a -> bool`` |> GEN_ALL);
+Theorem fixes_pairs_union =
+    fixes_pairs_split |> SPEC_ALL |> CONJUNCT1 |> GEN ``s:'a -> bool`` |> GEN_ALL
 (* val fixes_pairs_union = |- !f s. s = fixes f s UNION pairs f s: thm *)
 
-val fixes_pairs_disjoint = save_thm("fixes_pairs_disjoint",
-    fixes_pairs_split |> SPEC_ALL |> CONJUNCT2 |> GEN ``s:'a -> bool`` |> GEN_ALL);
+Theorem fixes_pairs_disjoint =
+    fixes_pairs_split |> SPEC_ALL |> CONJUNCT2 |> GEN ``s:'a -> bool`` |> GEN_ALL
 (* val fixes_pairs_disjoint = |- !f s. DISJOINT (fixes f s) (pairs f s): thm *)
 
 

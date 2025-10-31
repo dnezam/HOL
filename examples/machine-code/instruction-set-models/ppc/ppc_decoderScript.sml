@@ -182,6 +182,6 @@ val ppc_decode_thm = let
   val th7 = REWRITE_RULE [option_orelse_assoc] th6
   in th7 end;
 
-val _ = save_thm("ppc_decode_thm",ppc_decode_thm);
+Theorem ppc_decode_thm = ppc_decode_thm
 val _ = computeLib.add_persistent_funs ["ppc_decode_thm"];
 

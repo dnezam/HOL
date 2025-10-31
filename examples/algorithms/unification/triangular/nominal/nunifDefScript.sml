@@ -922,10 +922,10 @@ val _ = Q.store_thm(
    uP sx s t1 t2`,
 METIS_TAC [FST,nunify_eq_ntunify,aux_eq_ntunify,aux_uP]);
 
-val _ = save_thm ("nunify_ind",
+Theorem nunify_ind =
 ntunify_ind |>
 SIMP_RULE (srw_ss()) [GSYM nunify_eq_ntunify,GSYM AND_IMP_INTRO] |>
-Q.SPEC `UNCURRY P` |> SIMP_RULE (srw_ss()) [AND_IMP_INTRO] |> Q.GEN `P`);
+Q.SPEC `UNCURRY P` |> SIMP_RULE (srw_ss()) [AND_IMP_INTRO] |> Q.GEN `P`
 
 Definition verify_fcs_def:
   verify_fcs fcs s = ITSET (fcs_acc s) fcs (SOME {})

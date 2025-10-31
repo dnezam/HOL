@@ -27,7 +27,7 @@ Theorem vwalk_def = DISCH_ALL $ vwalk_wfs_hyp (
          SOME (Var u) => vwalk u
        | SOME t => t
        | NONE => Var v` |> fst)
-val vwalk_ind = save_thm("vwalk_ind",vwalk_wfs_hyp (theorem "pre_vwalk_ind"))
+Theorem vwalk_ind = vwalk_wfs_hyp (theorem "pre_vwalk_ind")
 
 val _ = store_term_thm("vwalk_def_print",
 TermWithCase`

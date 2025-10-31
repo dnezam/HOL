@@ -1746,7 +1746,7 @@ val _ = set_fixity "~~" (Infix(NONASSOC, 450)); (* same as relation *)
 
 (* Theorem: x ~~ y <=> ?u. upoly u /\ (x = u * y) *)
 (* Proof: by unit_eq_def *)
-val poly_unit_eq_property = save_thm("poly_unit_eq_property", unit_eq_def |> ISPEC ``PolyRing r`` |> GEN_ALL);
+Theorem poly_unit_eq_property = unit_eq_def |> ISPEC ``PolyRing r`` |> GEN_ALL
 (* val poly_unit_eq_property = |- !r x y. x ~~ y <=> ?u. upoly u /\ (x = u * y): thm *)
 
 (* Theorem: Ring r ==> !u. upoly u <=> u ~~ |1| *)

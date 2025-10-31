@@ -3265,7 +3265,7 @@ end;
 
 val pkg_valid_thm = time prove_valid_pkg_leq ACL2_PACKAGE_ALIST_def;
 
-val _ = save_thm("VALID_ACL2_PACKAGE_ALIST",pkg_valid_thm);
+Theorem VALID_ACL2_PACKAGE_ALIST = pkg_valid_thm
 
 (*
 

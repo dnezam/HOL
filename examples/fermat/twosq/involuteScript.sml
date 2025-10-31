@@ -115,7 +115,7 @@ Proof
 QED
 
 (* Theorem alias *)
-val involute_permutes = save_thm("involute_permutes", involute_bij);
+Theorem involute_permutes = involute_bij
 (* val involute_permutes = |- !f s. f involute s ==> f PERMUTES s: thm *)
 
 (* Theorem: f involute s ==> (LINV f s) involute s *)

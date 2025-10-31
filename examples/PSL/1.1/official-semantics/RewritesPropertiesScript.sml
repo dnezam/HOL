@@ -143,9 +143,7 @@ val S_CLOCK_COMP_CORRECT =
 (* Formulas need infinite paths *)
 open PSLPathTheory;
 
-val fl_induct =
- save_thm
-  ("fl_induct",
+Theorem fl_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -157,7 +155,7 @@ val fl_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\ (f,b). P f`,`\ (r,f). P f`,`\ (f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a fl``)))));
+         (TypeBase.induction_of ``:'a fl``))))
 
 val LS_LE_X =
  store_thm
@@ -357,13 +355,11 @@ val RESTN_COMPLEMENT =  (* Harder to prove than expected *)
        THEN FULL_SIMP_TAC list_ss
              [LENGTH_def,LS,COMPLEMENT_def,REST_def,combinTheory.o_DEF]]);
 
-val RESTN_COMPLEMENT_COR =
- save_thm
-  ("RESTN_COMPLEMENT_COR",
+Theorem RESTN_COMPLEMENT_COR =
    SIMP_RULE
     std_ss
     [LENGTH_def,LS]
-    (ISPECL[``n:num``,``FINITE(l:'a letter list)``]RESTN_COMPLEMENT));
+    (ISPECL[``n:num``,``FINITE(l:'a letter list)``]RESTN_COMPLEMENT)
 
 val ELEM_COMPLEMENT =
  store_thm
@@ -393,13 +389,11 @@ val ELEM_COMPLEMENT =
              [LENGTH_def,LS,COMPLEMENT_def,REST_def,combinTheory.o_DEF,
               RESTN_def,COMPLEMENT_def,REST_def,ELEM_def,HEAD_def]]);
 
-val ELEM_COMPLEMENT_COR =
- save_thm
-  ("ELEM_COMPLEMENT_COR",
+Theorem ELEM_COMPLEMENT_COR =
    SIMP_RULE
     std_ss
     [LENGTH_def,LS]
-    (ISPECL[``n:num``,``FINITE(l:'a letter list)``]ELEM_COMPLEMENT));
+    (ISPECL[``n:num``,``FINITE(l:'a letter list)``]ELEM_COMPLEMENT)
 
 (******************************************************************************
 * Formula disjunction: f1 \/ f2

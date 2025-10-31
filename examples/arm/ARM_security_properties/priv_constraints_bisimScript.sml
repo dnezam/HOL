@@ -541,8 +541,7 @@ fun get_take_undef_writing_part_spsr_thm a' wr_sfc_ut_thm lr vt_index mode =
         (GEN_ALL thm6)
     end
 
-val take_undef_writing_part_spf_thm =
-    save_thm ("take_undef_writing_part_spf_thm",
+Theorem take_undef_writing_part_spf_thm =
               let
                   val a = SIMP_CONV (bool_ss) [take_undef_instr_exception_def]
                                     ``take_undef_instr_exception <|proc:=0|> ``;
@@ -555,11 +554,10 @@ val take_undef_writing_part_spf_thm =
                          else
                              pc − 4w)`` ``4w:bool[32]`` ``27w:bool[5]``
               end
-);
 
 
-val take_data_abort_writing_part_spf_thm =
-    save_thm ("take_data_abort_writing_part_spf_thm",
+
+Theorem take_data_abort_writing_part_spf_thm =
               let
                   val a = SIMP_CONV (bool_ss) [take_data_abort_exception_def]
                                     ``take_data_abort_exception <|proc:=0|> ``;
@@ -573,10 +571,9 @@ val take_data_abort_writing_part_spf_thm =
                          else
                              pc − 4w)`` ``16w:bool[32]`` ``23w:bool[5]``
               end
-);
 
-val take_prefetch_abort_writing_part_spf_thm =
-    save_thm ("take_prefetch_abort_writing_part_spf_thm",
+
+Theorem take_prefetch_abort_writing_part_spf_thm =
               let
                   val a = SIMP_CONV (bool_ss) [take_prefetch_abort_exception_def]
                                     ``take_prefetch_abort_exception <|proc:=0|> ``
@@ -590,10 +587,9 @@ val take_prefetch_abort_writing_part_spf_thm =
                          else
                              pc − 4w)`` ``12w:bool[32]`` ``23w:bool[5]``
               end
-);
 
-val take_irq_writing_part_spf_thm =
-    save_thm ("take_irq_writing_part_spf_thm",
+
+Theorem take_irq_writing_part_spf_thm =
               let
                   val a = SIMP_CONV (bool_ss) [take_irq_exception_def]
                                     ``take_irq_exception <|proc:=0|> ``;
@@ -607,10 +603,9 @@ val take_irq_writing_part_spf_thm =
                          else
                              pc − 4w)`` ``24w:bool[32]`` ``18w:bool[5]``
               end
-);
 
-val take_svc_writing_part_spf_thm =
-    save_thm ("take_svc_writing_part_spf_thm",
+
+Theorem take_svc_writing_part_spf_thm =
               let
                   val a = SIMP_CONV (bool_ss) [take_svc_exception_def]
                                     ``take_svc_exception <|proc:=0|> ``;
@@ -624,7 +619,7 @@ val take_svc_writing_part_spf_thm =
                          else
                              pc − 4w)`` ``8w:bool[32]`` ``19w:bool[5]``
               end
-);
+
 
 
 Definition satisfy_SPSR_constraints_def:

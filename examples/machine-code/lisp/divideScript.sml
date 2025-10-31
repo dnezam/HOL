@@ -324,6 +324,6 @@ val _ = save_all "lisp_word_mul_" "_thm" mul_thms;
 val _ = save_all "lisp_word_mod_" "_thm" mod_thms;
 val _ = save_all "lisp_word_div_" "_thm" div_thms;
 
-val _ = save_thm("arm_div_mod_thm",arm_div_mod_thm);
-val _ = save_thm("x86_div_mod_thm",x86_div_mod_thm);
-val _ = save_thm("ppc_div_mod_thm",ppc_div_mod_thm);
+Theorem arm_div_mod_thm = arm_div_mod_thm
+Theorem x86_div_mod_thm = x86_div_mod_thm
+Theorem ppc_div_mod_thm = ppc_div_mod_thm

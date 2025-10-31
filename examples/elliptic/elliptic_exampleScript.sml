@@ -431,69 +431,53 @@ val ex1_constant_propagation =
           ex1_field_num_def,
           ex1_field_zero_def]);
 
-val ex1_field_neg_alt = save_thm
-  ("ex1_field_neg_alt",
-   ex1_constant_propagation ex1_field_neg_def);
+Theorem ex1_field_neg_alt =
+   ex1_constant_propagation ex1_field_neg_def
 
-val ex1_field_add_alt = save_thm
-  ("ex1_field_add_alt",
-   ex1_constant_propagation ex1_field_add_def);
+Theorem ex1_field_add_alt =
+   ex1_constant_propagation ex1_field_add_def
 
-val ex1_field_sub_alt = save_thm
-  ("ex1_field_sub_alt",
-   ex1_constant_propagation ex1_field_sub_def);
+Theorem ex1_field_sub_alt =
+   ex1_constant_propagation ex1_field_sub_def
 
-val ex1_field_mult_aux_alt = save_thm
-  ("ex1_field_mult_aux_alt",
-   ex1_constant_propagation ex1_field_mult_aux_def);
+Theorem ex1_field_mult_aux_alt =
+   ex1_constant_propagation ex1_field_mult_aux_def
 
-val ex1_field_mult_alt = save_thm
-  ("ex1_field_mult_alt",
-   ex1_constant_propagation ex1_field_mult_def);
+Theorem ex1_field_mult_alt =
+   ex1_constant_propagation ex1_field_mult_def
 
-val ex1_field_exp_aux_alt = save_thm
-  ("ex1_field_exp_aux_alt",
-   ex1_constant_propagation ex1_field_exp_aux_def);
+Theorem ex1_field_exp_aux_alt =
+   ex1_constant_propagation ex1_field_exp_aux_def
 
-val ex1_field_exp_alt = save_thm
-  ("ex1_field_exp_alt",
-   ex1_constant_propagation ex1_field_exp_def);
+Theorem ex1_field_exp_alt =
+   ex1_constant_propagation ex1_field_exp_def
 
-val ex1_field_inv_alt = save_thm
-  ("ex1_field_inv_alt",
-   ex1_constant_propagation ex1_field_inv_def);
+Theorem ex1_field_inv_alt =
+   ex1_constant_propagation ex1_field_inv_def
 
-val ex1_field_div_alt = save_thm
-  ("ex1_field_div_alt",
-   ex1_constant_propagation ex1_field_div_def);
+Theorem ex1_field_div_alt =
+   ex1_constant_propagation ex1_field_div_def
 
-val ex1_curve_neg_alt = save_thm
-  ("ex1_curve_neg_alt",
-   ex1_constant_propagation ex1_curve_neg_def);
+Theorem ex1_curve_neg_alt =
+   ex1_constant_propagation ex1_curve_neg_def
 
-val ex1_curve_double_alt = save_thm
-  ("ex1_curve_double_alt",
-   ex1_constant_propagation ex1_curve_double_def);
+Theorem ex1_curve_double_alt =
+   ex1_constant_propagation ex1_curve_double_def
 
-val ex1_curve_add_alt = save_thm
-  ("ex1_curve_add_alt",
-   ex1_constant_propagation ex1_curve_add_def);
+Theorem ex1_curve_add_alt =
+   ex1_constant_propagation ex1_curve_add_def
 
-val ex1_curve_mult_aux_alt = save_thm
-  ("ex1_curve_mult_aux_alt",
-   ex1_constant_propagation ex1_curve_mult_aux_def);
+Theorem ex1_curve_mult_aux_alt =
+   ex1_constant_propagation ex1_curve_mult_aux_def
 
-val ex1_curve_mult_alt = save_thm
-  ("ex1_curve_mult_alt",
-   ex1_constant_propagation ex1_curve_mult_def);
+Theorem ex1_curve_mult_alt =
+   ex1_constant_propagation ex1_curve_mult_def
 
-val ex1_elgamal_encrypt_alt = save_thm
-  ("ex1_elgamal_encrypt_alt",
-   ex1_constant_propagation ex1_elgamal_encrypt_def);
+Theorem ex1_elgamal_encrypt_alt =
+   ex1_constant_propagation ex1_elgamal_encrypt_def
 
-val ex1_elgamal_decrypt_alt = save_thm
-  ("ex1_elgamal_decrypt_alt",
-   ex1_constant_propagation ex1_elgamal_decrypt_def);
+Theorem ex1_elgamal_decrypt_alt =
+   ex1_constant_propagation ex1_elgamal_decrypt_def
 
 (* ========================================================================= *)
 (* A multiword elliptic curve example to be compiled.                        *)

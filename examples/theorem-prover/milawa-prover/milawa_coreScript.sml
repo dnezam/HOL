@@ -476,9 +476,9 @@ val lemma = milawa_core_append_thm
   |> CONV_RULE ((RATOR_CONV o RAND_CONV o RATOR_CONV o RAND_CONV)
        (REWR_CONV (GSYM MILAWA_CORE_TEXT_def)))
 
-val MILAWA_CORE_TEXT_THM = save_thm("MILAWA_CORE_TEXT_THM",
+Theorem MILAWA_CORE_TEXT_THM =
   read_sexps_milawa_core_thm
   |> CONV_RULE (RAND_CONV (REWR_CONV (GSYM MILAWA_CORE_SEXP_def)))
-  |> CONV_RULE ((RATOR_CONV o RAND_CONV o RAND_CONV) (REWR_CONV (GSYM lemma))));
+  |> CONV_RULE ((RATOR_CONV o RAND_CONV o RAND_CONV) (REWR_CONV (GSYM lemma)))
 
 val _ = max_print_depth := 0;

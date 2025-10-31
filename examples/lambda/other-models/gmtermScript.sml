@@ -646,14 +646,12 @@ val app_rFV = prove(
   REPEAT (POP_ASSUM MP_TAC) THEN
   SRW_TAC [][SUBSET_DEF] THEN METIS_TAC []);
 
-val swap_RECURSION_improved = save_thm(
-  "swap_RECURSION_improved",
+Theorem swap_RECURSION_improved =
   REWRITE_RULE [AND_IMP_INTRO]
                (DISCH_ALL (REWRITE_RULE [UNDISCH lam_rFV, UNDISCH app_rFV]
-                                        swap_RECURSION)))
+                                        swap_RECURSION))
 
-val swap_RECURSION_nosideset = save_thm(
-  "swap_RECURSION_nosideset",
-  SIMP_RULE (srw_ss()) [] (Q.INST [`X` |-> `{}`] swap_RECURSION_improved))
+Theorem swap_RECURSION_nosideset =
+  SIMP_RULE (srw_ss()) [] (Q.INST [`X` |-> `{}`] swap_RECURSION_improved)
 
 

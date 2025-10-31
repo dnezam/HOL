@@ -318,15 +318,11 @@ val Rec_INTRO = store_thm
 (* Misc. lemmas                                                              *)
 (*---------------------------------------------------------------------------*)
 
-val MY_LET_RAND =
- save_thm
-  ("MY_LET_RAND",
+Theorem MY_LET_RAND =
     METIS_PROVE []
-     ``!f M N. (let x = M in f (N x)) = f (let x = M in N x)``);
+     ``!f M N. (let x = M in f (N x)) = f (let x = M in N x)``
 
-val UNLET =
- save_thm
-  ("UNLET",
-   METIS_PROVE [] ``!f M. (let f2 = f in f2 M) = f M``);
+Theorem UNLET =
+   METIS_PROVE [] ``!f M. (let f2 = f in f2 M) = f M``
 
 

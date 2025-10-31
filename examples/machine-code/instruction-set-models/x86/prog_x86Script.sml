@@ -394,9 +394,9 @@ val UPDATE_x86_2set'' = store_thm("UPDATE_x86_2set''",
   \\ ASM_SIMP_TAC std_ss [] \\ SRW_TAC [] [X86_ACCURATE_UPDATE]
   \\ METIS_TAC [X86_ACCURATE_UPDATE]);
 
-val X86_SPEC_CODE = save_thm("X86_SPEC_CODE",
+Theorem X86_SPEC_CODE =
   RW [GSYM X86_MODEL_def,GSYM xCODE_def]
-  (SIMP_RULE std_ss [X86_MODEL_def] (Q.ISPEC `X86_MODEL` SPEC_CODE)));
+  (SIMP_RULE std_ss [X86_MODEL_def] (Q.ISPEC `X86_MODEL` SPEC_CODE))
 
 val IMP_X86_SPEC_LEMMA = prove(
   ``!p q.
@@ -551,10 +551,10 @@ val IMP_X86_SPEC_LEMMA2 = prove(
   \\ MATCH_MP_TAC X86_ICACHE_X86_ICACHE_REVERT
   \\ Q.EXISTS_TAC `(X86_ICACHE_UPDATE z (r,e,t,m,i))` \\ ASM_SIMP_TAC std_ss []);
 
-val IMP_X86_SPEC = save_thm("IMP_X86_SPEC",
+Theorem IMP_X86_SPEC =
   (RW1 [STAR_COMM] o RW [X86_SPEC_CODE,GSYM xCODE_def] o
    SPECL [``CODE_POOL X86_INSTR {(eip,c)} * p``,
-          ``CODE_POOL X86_INSTR {(eip,c)} * q``]) IMP_X86_SPEC_LEMMA2);
+          ``CODE_POOL X86_INSTR {(eip,c)} * q``]) IMP_X86_SPEC_LEMMA2
 
 val xS_HIDE = store_thm("xS_HIDE",
   ``~xS = ~xS1 X_CF * ~xS1 X_PF * ~xS1 X_AF * ~xS1 X_ZF * ~xS1 X_SF * ~xS1 X_OF``,
@@ -855,10 +855,10 @@ val IMP_X86_SPEC_LEMMA3 = prove(
   \\ SIMP_TAC std_ss [X86_ICACHE_EMPTY_def,X86_ICACHE_def,FUN_EQ_THM]
   \\ Q.EXISTS_TAC `{}` \\ Q.EXISTS_TAC `UNIV` \\ SRW_TAC [] []);
 
-val IMP_X86_SPEC2 = save_thm("IMP_X86_SPEC2",
+Theorem IMP_X86_SPEC2 =
   (RW1 [STAR_COMM] o RW [X86_SPEC_CODE,GSYM xCODE_def] o
    SPECL [``CODE_POOL X86_INSTR c * p``,
-          ``CODE_POOL X86_INSTR c * q``]) IMP_X86_SPEC_LEMMA3);
+          ``CODE_POOL X86_INSTR c * q``]) IMP_X86_SPEC_LEMMA3
 
 
 val jmp_esi = let
@@ -893,9 +893,9 @@ val WORD_FINITE = store_thm("WORD_FINITE",
   \\ FULL_SIMP_TAC std_ss [DECIDE ``n < SUC k = n < k \/ (n = k)``]
   \\ METIS_TAC []);
 
-val WORD_SET_INDUCT = save_thm("WORD_SET_INDUCT",
+Theorem WORD_SET_INDUCT =
   REWRITE_RULE [WORD_FINITE]
-  (INST_TYPE [``:'a``|->``:'a word``] FINITE_INDUCT));
+  (INST_TYPE [``:'a``|->``:'a word``] FINITE_INDUCT)
 
 val xBYTE_MEMORY_X_x86_2set = prove(
   ``!df ms.
@@ -1040,8 +1040,8 @@ val X86_SPEC_EXLPODE_CODE_LEMMA = prove(
   \\ POP_ASSUM (K ALL_TAC)
   \\ ASM_SIMP_TAC std_ss [UNION_EMPTY,IMAGE_INSERT,X86_INSTR_def,BIGUNION_INSERT]);
 
-val X86_SPEC_EXLPODE_CODE = save_thm("X86_SPEC_EXLPODE_CODE",
-  RW [UNION_EMPTY] (Q.SPEC `{}` X86_SPEC_EXLPODE_CODE_LEMMA));
+Theorem X86_SPEC_EXLPODE_CODE =
+  RW [UNION_EMPTY] (Q.SPEC `{}` X86_SPEC_EXLPODE_CODE_LEMMA)
 
 (* Stack --- sp points at top of stack, stack grows towards smaller addresses *)
 

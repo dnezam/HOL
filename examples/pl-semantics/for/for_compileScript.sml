@@ -71,14 +71,14 @@ val sem_t_pull_if = prove(
     (if b then sem_t s1 t1 else sem_t s1 t2)``,
   SRW_TAC [] []);
 
-val sem_t_eval = save_thm("sem_t_eval",
+Theorem sem_t_eval =
   (EVAL THENC REWRITE_CONV [sem_t_pull_if] THENC EVAL)
-    ``sem_t s (If b (Exp (Num 0)) Break)``);
+    ``sem_t s (If b (Exp (Num 0)) Break)``
 
-val sem_t_Loop = save_thm("sem_t_Loop",
+Theorem sem_t_Loop =
   ``sem_t s (Loop t)``
   |> (SIMP_CONV (srw_ss()) [Once sem_t_def,sem_e_def,Loop_def] THENC
-      REWRITE_CONV [GSYM Loop_def]));
+      REWRITE_CONV [GSYM Loop_def])
 
 val sem_t_For_swap_body = prove(
   ``(!s. sem_t s t1 = sem_t s t2) ==>
@@ -834,8 +834,8 @@ val phase3_lemma = prove(
     \\ ONCE_REWRITE_TAC [LENGTH_phase3] \\ fs []))
 end
 
-val _ = save_thm("phase3_lemma",
-  phase3_lemma |> REWRITE_RULE [state_rel_def]);
+Theorem phase3_lemma =
+  phase3_lemma |> REWRITE_RULE [state_rel_def]
 
 val phase3_thm = phase3_lemma
   |> REWRITE_RULE [state_rel_def,OMIT_def];

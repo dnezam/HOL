@@ -488,8 +488,7 @@ fun get_take_exp_writing_part_LR_thm a' rw_cpsr_thm lr_arg vt =
     end
 
 
-val take_undef_writing_part_LR_thm =
-    save_thm ("take_undef_writing_part_LR_thm",
+Theorem take_undef_writing_part_LR_thm =
               let
                   val vt = ``(ExcVectorBase + 4w:bool[32])``
                   val rw_cpsr_thm = ui_write_cpsr_LR_ut_thm
@@ -500,11 +499,10 @@ val take_undef_writing_part_LR_thm =
                   get_take_exp_writing_part_LR_thm a' rw_cpsr_thm ``(if cpsr:ARMpsr.T then
                                                 (pc:word32) − 2w else pc − 4w)`` vt
               end
-             );
 
 
-val take_data_abort_writing_part_LR_thm =
-    save_thm ("take_data_abort_writing_part_LR_thm",
+
+Theorem take_data_abort_writing_part_LR_thm =
               let val vt = ``(ExcVectorBase + 16w:bool[32])``
                   val rw_cpsr_thm = ab_write_cpsr_LR_ut_thm;
                    val a = SIMP_CONV (bool_ss) [take_data_abort_exception_def]
@@ -515,11 +513,10 @@ val take_data_abort_writing_part_LR_thm =
               in
                   get_take_exp_writing_part_LR_thm a' rw_cpsr_thm lr_arg  vt
               end
-             );
 
 
-val take_fiq_writing_part_LR_thm =
-    save_thm ("take_fiq_writing_part_LR_thm",
+
+Theorem take_fiq_writing_part_LR_thm =
               let val vt = ``(ExcVectorBase + 28w:bool[32])``
                   val rw_cpsr_thm = fiq_write_cpsr_LR_ut_thm
                    val a = SIMP_CONV (bool_ss) [take_fiq_exception_def]
@@ -530,10 +527,9 @@ val take_fiq_writing_part_LR_thm =
               in
                   get_take_exp_writing_part_LR_thm a' rw_cpsr_thm lr_arg vt
               end
-             );
 
-val take_irq_writing_part_LR_thm =
-    save_thm ("take_irq_writing_part_LR_thm",
+
+Theorem take_irq_writing_part_LR_thm =
               let val vt = ``(ExcVectorBase + 24w:bool[32])``
                   val rw_cpsr_thm = irq_write_cpsr_LR_ut_thm
                    val a = SIMP_CONV (bool_ss) [take_irq_exception_def]
@@ -544,10 +540,9 @@ val take_irq_writing_part_LR_thm =
               in
                   get_take_exp_writing_part_LR_thm a' rw_cpsr_thm lr_arg vt
               end
-             );
 
-val take_prefetch_abort_writing_part_LR_thm =
-    save_thm ("take_prefetch_abort_writing_part_LR_thm",
+
+Theorem take_prefetch_abort_writing_part_LR_thm =
               let val vt = ``(ExcVectorBase + 12w:bool[32])``
                   val rw_cpsr_thm = ab_write_cpsr_LR_ut_thm
                    val a = SIMP_CONV (bool_ss) [take_prefetch_abort_exception_def]
@@ -558,11 +553,10 @@ val take_prefetch_abort_writing_part_LR_thm =
               in
                   get_take_exp_writing_part_LR_thm a' rw_cpsr_thm lr_arg vt
               end
-             );
 
 
-val take_svc_writing_part_LR_thm =
-    save_thm ("take_svc_writing_part_LR_thm",
+
+Theorem take_svc_writing_part_LR_thm =
               let val vt = ``(ExcVectorBase + 8w:bool[32])``
                   val rw_cpsr_thm = ui_write_cpsr_LR_ut_thm
                   val a = SIMP_CONV (bool_ss) [take_svc_exception_def]
@@ -574,7 +568,7 @@ val take_svc_writing_part_LR_thm =
 
               in
                   get_take_exp_writing_part_LR_thm rb rw_cpsr_thm lr_arg vt
-              end);
+              end
 
 
 Definition satisfy_LR_constraints_def:

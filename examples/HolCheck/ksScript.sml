@@ -37,13 +37,13 @@ val wfKS_UNIV = store_thm(
   ``!ks. (ks.S0 SUBSET UNIV) /\ (ks.S = UNIV) ==> wfKS ks``,
   PROVE_TAC [wfKS_def])
 
-val DECIDE_AP_EQ_LEM = save_thm("DECIDE_AP_EQ_LEM",prove (``!x y. ~(x=y) = (((\s. x) = (\s. y))=F)``,metisLib.METIS_TAC []))
+Theorem DECIDE_AP_EQ_LEM = prove (``!x y. ~(x=y) = (((\s. x) = (\s. y))=F)``,metisLib.METIS_TAC [])
 
 Definition TOTAL_def:   TOTAL R = !s. ?s'. R(s,s')
 End
 
 (* show that the totalisation in ctlTools works *)
-val TOTAL_THM = save_thm("TOTAL_THM",prove(``!R. TOTAL \(s,s').(R(s,s') \/ ((~?s'.R(s,s')) /\ (s'=s)))``,
+Theorem TOTAL_THM = prove(``!R. TOTAL \(s,s').(R(s,s') \/ ((~?s'.R(s,s')) /\ (s'=s)))``,
 REWRITE_TAC [TOTAL_def] THEN PBETA_TAC
 THEN REPEAT GEN_TAC
 THEN CONV_TAC (EXISTS_OR_CONV)
@@ -51,7 +51,7 @@ THEN CONV_TAC (RAND_CONV EXISTS_AND_CONV)
 THEN Cases_on `(?s'. R (s,s'))` THENL [
 DISJ1_TAC THEN ASM_REWRITE_TAC [],
 DISJ2_TAC THEN ASM_REWRITE_TAC []
-THEN Q.EXISTS_TAC `s` THEN REFL_TAC]))
+THEN Q.EXISTS_TAC `s` THEN REFL_TAC])
 
 (* KS analogue of bisimulation (used in muScript) *)
 Definition BISIM_def:   BISIM M1 M2 BS =

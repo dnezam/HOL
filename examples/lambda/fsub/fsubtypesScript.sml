@@ -33,9 +33,8 @@ val (fsubrep_rules, fsubrep_ind, fsubrep_cases) = Hol_reln`
   (!t u. fsubrep t /\ fsubrep u ==> fsubrep (t @@ u))
 `;
 
-val strong_fsubrep_ind = save_thm(
-  "strong_fsubrep_ind",
-  IndDefLib.derive_strong_induction (fsubrep_rules, fsubrep_ind));
+Theorem strong_fsubrep_ind =
+  IndDefLib.derive_strong_induction (fsubrep_rules, fsubrep_ind)
 
 (* because this is not obviously non-overlapping, we need to prove that
    certain patterns aren't in fsubrep by induction *)
@@ -43,9 +42,8 @@ val strong_fsubrep_ind = save_thm(
 val lam_not_fsubrep0 = prove(
   ``!t0. fsubrep t0 ==> !v t. (t0 = LAM v t) ==> F``,
   HO_MATCH_MP_TAC fsubrep_ind THEN SRW_TAC [][]);
-val lam_not_fsubrep = save_thm(
-  "lam_not_fsubrep",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] lam_not_fsubrep0)
+Theorem lam_not_fsubrep =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] lam_not_fsubrep0
 val _ = export_rewrites ["lam_not_fsubrep"]
 
 val CONF_not_fsubrep = store_thm(

@@ -841,8 +841,8 @@ val BC_COMPILE_SUBSTATE = prove(
   \\ EVAL_TAC \\ ASM_SIMP_TAC std_ss [] \\ REPEAT STRIP_TAC THEN1 (METIS_TAC [])
   \\ Q.EXISTS_TAC `[]` \\ EVAL_TAC);
 
-val BC_SUBSTATE_COMPILE = save_thm("BC_SUBSTATE_COMPILE",
-  SIMP_RULE std_ss [] BC_COMPILE_SUBSTATE);
+Theorem BC_SUBSTATE_COMPILE =
+  SIMP_RULE std_ss [] BC_COMPILE_SUBSTATE
 
 val iSTEP_BC_SUBSTATE_LEMMA = prove(
   ``iSTEP (xs1,p1,rs1,bc1) (xs2,p2,rs2,bc2) ==>
@@ -2820,7 +2820,7 @@ val BC_ev_thm = BC_ev_lemma
   |> SIMP_RULE std_ss [PULL_FORALL_IMP,AND_IMP_INTRO] |> Q.INST [`ret`|->`T`]
   |> GEN_ALL |> SIMP_RULE std_ss [iSTEP_ret_state_def]
 
-val _ = save_thm("BC_ev_thm",BC_ev_thm);
+Theorem BC_ev_thm = BC_ev_thm
 
 
 (* translation: term2sexp *)

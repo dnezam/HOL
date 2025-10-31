@@ -2258,9 +2258,9 @@ val unity_mod_special_alt = store_thm(
 (* ------------------------------------------------------------------------- *)
 
 (* Obtain a theorem *)
-val ZN_weak = save_thm("ZN_weak",
+Theorem ZN_weak =
     weak_every_element |> ISPEC ``(ZN n)`` |>
-    SIMP_RULE bool_ss [ZN_property] |> GEN_ALL);
+    SIMP_RULE bool_ss [ZN_property] |> GEN_ALL
 (* val ZN_weak = |- !n p. Weak (ZN n) p <=> EVERY (\c. c < n) p: thm *)
 
 (* Theorem: 0 < n ==> Weak (ZN n) (unity_mod_special (ZN n) k m c) *)

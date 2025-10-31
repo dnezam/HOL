@@ -710,115 +710,115 @@ val ARM_MCR = UNABBREVL_RULE [`Reg`]
 
 (* ------------------------------------------------------------------------- *)
 
-val _ = save_thm("ARM_UNDEF", ARM_UNDEF);
+Theorem ARM_UNDEF = ARM_UNDEF
 
-val _ = save_thm("ARM_B_NOP",   ARM_B_NOP);
-val _ = save_thm("ARM_BL_NOP",  ARM_BL_NOP);
-val _ = save_thm("ARM_SWI_NOP", ARM_SWI_NOP);
-val _ = save_thm("ARM_AND_NOP", ARM_AND_NOP);
-val _ = save_thm("ARM_EOR_NOP", ARM_EOR_NOP);
-val _ = save_thm("ARM_SUB_NOP", ARM_SUB_NOP);
-val _ = save_thm("ARM_RSB_NOP", ARM_RSB_NOP);
-val _ = save_thm("ARM_ADD_NOP", ARM_ADD_NOP);
-val _ = save_thm("ARM_ADC_NOP", ARM_ADC_NOP);
-val _ = save_thm("ARM_SBC_NOP", ARM_SBC_NOP);
-val _ = save_thm("ARM_RSC_NOP", ARM_RSC_NOP);
-val _ = save_thm("ARM_TST_NOP", ARM_TST_NOP);
-val _ = save_thm("ARM_TEQ_NOP", ARM_TEQ_NOP);
-val _ = save_thm("ARM_CMP_NOP", ARM_CMP_NOP);
-val _ = save_thm("ARM_CMN_NOP", ARM_CMN_NOP);
-val _ = save_thm("ARM_ORR_NOP", ARM_ORR_NOP);
-val _ = save_thm("ARM_MOV_NOP", ARM_MOV_NOP);
-val _ = save_thm("ARM_BIC_NOP", ARM_BIC_NOP);
-val _ = save_thm("ARM_MVN_NOP", ARM_MVN_NOP);
-val _ = save_thm("ARM_MUL_NOP", ARM_MUL_NOP);
-val _ = save_thm("ARM_MLA_NOP", ARM_MLA_NOP);
-val _ = save_thm("ARM_UMULL_NOP", ARM_UMULL_NOP);
-val _ = save_thm("ARM_UMLAL_NOP", ARM_UMLAL_NOP);
-val _ = save_thm("ARM_SMULL_NOP", ARM_SMULL_NOP);
-val _ = save_thm("ARM_SMLAL_NOP", ARM_SMLAL_NOP);
-val _ = save_thm("ARM_LDR_NOP", ARM_LDR_NOP);
-val _ = save_thm("ARM_STR_NOP", ARM_STR_NOP);
-val _ = save_thm("ARM_LDM_NOP", ARM_LDM_NOP);
-val _ = save_thm("ARM_STM_NOP", ARM_STM_NOP);
-val _ = save_thm("ARM_SWP_NOP", ARM_SWP_NOP);
-val _ = save_thm("ARM_MRS_NOP", ARM_MRS_NOP);
-val _ = save_thm("ARM_MSR_NOP", ARM_MSR_NOP);
-val _ = save_thm("ARM_UND_NOP", ARM_UND_NOP);
-val _ = save_thm("ARM_CDP_NOP", ARM_CDP_NOP);
-val _ = save_thm("ARM_LDC_NOP", ARM_LDC_NOP);
-val _ = save_thm("ARM_STC_NOP", ARM_STC_NOP);
-val _ = save_thm("ARM_MRC_NOP", ARM_MRC_NOP);
-val _ = save_thm("ARM_MCR_NOP", ARM_MCR_NOP);
+Theorem ARM_B_NOP = ARM_B_NOP
+Theorem ARM_BL_NOP = ARM_BL_NOP
+Theorem ARM_SWI_NOP = ARM_SWI_NOP
+Theorem ARM_AND_NOP = ARM_AND_NOP
+Theorem ARM_EOR_NOP = ARM_EOR_NOP
+Theorem ARM_SUB_NOP = ARM_SUB_NOP
+Theorem ARM_RSB_NOP = ARM_RSB_NOP
+Theorem ARM_ADD_NOP = ARM_ADD_NOP
+Theorem ARM_ADC_NOP = ARM_ADC_NOP
+Theorem ARM_SBC_NOP = ARM_SBC_NOP
+Theorem ARM_RSC_NOP = ARM_RSC_NOP
+Theorem ARM_TST_NOP = ARM_TST_NOP
+Theorem ARM_TEQ_NOP = ARM_TEQ_NOP
+Theorem ARM_CMP_NOP = ARM_CMP_NOP
+Theorem ARM_CMN_NOP = ARM_CMN_NOP
+Theorem ARM_ORR_NOP = ARM_ORR_NOP
+Theorem ARM_MOV_NOP = ARM_MOV_NOP
+Theorem ARM_BIC_NOP = ARM_BIC_NOP
+Theorem ARM_MVN_NOP = ARM_MVN_NOP
+Theorem ARM_MUL_NOP = ARM_MUL_NOP
+Theorem ARM_MLA_NOP = ARM_MLA_NOP
+Theorem ARM_UMULL_NOP = ARM_UMULL_NOP
+Theorem ARM_UMLAL_NOP = ARM_UMLAL_NOP
+Theorem ARM_SMULL_NOP = ARM_SMULL_NOP
+Theorem ARM_SMLAL_NOP = ARM_SMLAL_NOP
+Theorem ARM_LDR_NOP = ARM_LDR_NOP
+Theorem ARM_STR_NOP = ARM_STR_NOP
+Theorem ARM_LDM_NOP = ARM_LDM_NOP
+Theorem ARM_STM_NOP = ARM_STM_NOP
+Theorem ARM_SWP_NOP = ARM_SWP_NOP
+Theorem ARM_MRS_NOP = ARM_MRS_NOP
+Theorem ARM_MSR_NOP = ARM_MSR_NOP
+Theorem ARM_UND_NOP = ARM_UND_NOP
+Theorem ARM_CDP_NOP = ARM_CDP_NOP
+Theorem ARM_LDC_NOP = ARM_LDC_NOP
+Theorem ARM_STC_NOP = ARM_STC_NOP
+Theorem ARM_MRC_NOP = ARM_MRC_NOP
+Theorem ARM_MCR_NOP = ARM_MCR_NOP
 
-val _ = save_thm("ARM_B",   ARM_B);
-val _ = save_thm("ARM_BL",  ARM_BL);
-val _ = save_thm("ARM_SWI", ARM_SWI);
-val _ = save_thm("ARM_UND", ARM_UND);
+Theorem ARM_B = ARM_B
+Theorem ARM_BL = ARM_BL
+Theorem ARM_SWI = ARM_SWI
+Theorem ARM_UND = ARM_UND
 
-val _ = save_thm("ARM_TST", ARM_TST);
-val _ = save_thm("ARM_TEQ", ARM_TEQ);
-val _ = save_thm("ARM_CMP", ARM_CMP);
-val _ = save_thm("ARM_CMN", ARM_CMN);
+Theorem ARM_TST = ARM_TST
+Theorem ARM_TEQ = ARM_TEQ
+Theorem ARM_CMP = ARM_CMP
+Theorem ARM_CMN = ARM_CMN
 
-val _ = save_thm("ARM_AND", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_AND);
-val _ = save_thm("ARM_EOR", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_EOR);
-val _ = save_thm("ARM_SUB", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SUB);
-val _ = save_thm("ARM_RSB", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_RSB);
-val _ = save_thm("ARM_ADD", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADD);
-val _ = save_thm("ARM_ORR", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ORR);
-val _ = save_thm("ARM_MOV", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_MOV);
-val _ = save_thm("ARM_BIC", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_BIC);
-val _ = save_thm("ARM_MVN", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_MVN);
-val _ = save_thm("ARM_ADC", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADC);
-val _ = save_thm("ARM_SBC", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SBC);
-val _ = save_thm("ARM_RSC", DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_RSC);
+Theorem ARM_AND = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_AND
+Theorem ARM_EOR = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_EOR
+Theorem ARM_SUB = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SUB
+Theorem ARM_RSB = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_RSB
+Theorem ARM_ADD = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADD
+Theorem ARM_ORR = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ORR
+Theorem ARM_MOV = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_MOV
+Theorem ARM_BIC = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_BIC
+Theorem ARM_MVN = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_MVN
+Theorem ARM_ADC = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADC
+Theorem ARM_SBC = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SBC
+Theorem ARM_RSC = DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_RSC
 
-val _ = save_thm("ARM_AND_PC", SPEC_TO_PC ARM_AND);
-val _ = save_thm("ARM_EOR_PC", SPEC_TO_PC ARM_EOR);
-val _ = save_thm("ARM_SUB_PC", SPEC_TO_PC ARM_SUB);
-val _ = save_thm("ARM_RSB_PC", SPEC_TO_PC ARM_RSB);
-val _ = save_thm("ARM_ADD_PC", SPEC_TO_PC ARM_ADD);
-val _ = save_thm("ARM_ORR_PC", SPEC_TO_PC ARM_ORR);
-val _ = save_thm("ARM_MOV_PC", SPEC_TO_PC ARM_MOV);
-val _ = save_thm("ARM_BIC_PC", SPEC_TO_PC ARM_BIC);
-val _ = save_thm("ARM_MVN_PC", SPEC_TO_PC ARM_MVN);
-val _ = save_thm("ARM_ADC_PC", SPEC_TO_PC ARM_ADC);
-val _ = save_thm("ARM_SBC_PC", SPEC_TO_PC ARM_SBC);
-val _ = save_thm("ARM_RSC_PC", SPEC_TO_PC ARM_RSC);
+Theorem ARM_AND_PC = SPEC_TO_PC ARM_AND
+Theorem ARM_EOR_PC = SPEC_TO_PC ARM_EOR
+Theorem ARM_SUB_PC = SPEC_TO_PC ARM_SUB
+Theorem ARM_RSB_PC = SPEC_TO_PC ARM_RSB
+Theorem ARM_ADD_PC = SPEC_TO_PC ARM_ADD
+Theorem ARM_ORR_PC = SPEC_TO_PC ARM_ORR
+Theorem ARM_MOV_PC = SPEC_TO_PC ARM_MOV
+Theorem ARM_BIC_PC = SPEC_TO_PC ARM_BIC
+Theorem ARM_MVN_PC = SPEC_TO_PC ARM_MVN
+Theorem ARM_ADC_PC = SPEC_TO_PC ARM_ADC
+Theorem ARM_SBC_PC = SPEC_TO_PC ARM_SBC
+Theorem ARM_RSC_PC = SPEC_TO_PC ARM_RSC
 
-val _ = save_thm("ARM_SUB_TO_PC",
-  DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SUB_TO_PC);
+Theorem ARM_SUB_TO_PC =
+  DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_SUB_TO_PC
 
-val _ = save_thm("ARM_ADD_TO_PC",
-  DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADD_TO_PC);
+Theorem ARM_ADD_TO_PC =
+  DISCH_AND_IMP `~(Rd = 15w:word4)` ARM_ADD_TO_PC
 
-val _ = save_thm("ARM_SUB_TO_PC_PC", SPEC_TO_PC ARM_SUB_TO_PC);
-val _ = save_thm("ARM_ADD_TO_PC_PC", SPEC_TO_PC ARM_ADD_TO_PC);
+Theorem ARM_SUB_TO_PC_PC = SPEC_TO_PC ARM_SUB_TO_PC
+Theorem ARM_ADD_TO_PC_PC = SPEC_TO_PC ARM_ADD_TO_PC
 
-val _ = save_thm("ARM_MUL", ARM_MUL);
-val _ = save_thm("ARM_MLA", ARM_MLA);
-val _ = save_thm("ARM_UMULL", ARM_UMULL);
-val _ = save_thm("ARM_UMLAL", ARM_UMLAL);
-val _ = save_thm("ARM_SMULL", ARM_SMULL);
-val _ = save_thm("ARM_SMLAL", ARM_SMLAL);
+Theorem ARM_MUL = ARM_MUL
+Theorem ARM_MLA = ARM_MLA
+Theorem ARM_UMULL = ARM_UMULL
+Theorem ARM_UMLAL = ARM_UMLAL
+Theorem ARM_SMULL = ARM_SMULL
+Theorem ARM_SMLAL = ARM_SMLAL
 
-val _ = save_thm("ARM_LDR", ARM_LDR);
-val _ = save_thm("ARM_STR", ARM_STR);
-val _ = save_thm("ARM_LDM", ARM_LDM);
-val _ = save_thm("ARM_STM", ARM_STM);
-val _ = save_thm("ARM_SWP", ARM_SWP);
-val _ = save_thm("ARM_LDR_PC", ARM_LDR_PC);
-val _ = save_thm("ARM_STR_PC", ARM_STR_PC);
+Theorem ARM_LDR = ARM_LDR
+Theorem ARM_STR = ARM_STR
+Theorem ARM_LDM = ARM_LDM
+Theorem ARM_STM = ARM_STM
+Theorem ARM_SWP = ARM_SWP
+Theorem ARM_LDR_PC = ARM_LDR_PC
+Theorem ARM_STR_PC = ARM_STR_PC
 
-val _ = save_thm("ARM_MRS",ARM_MRS);
-val _ = save_thm("ARM_MSR",ARM_MSR);
+Theorem ARM_MRS = ARM_MRS
+Theorem ARM_MSR = ARM_MSR
 
-val _ = save_thm("ARM_CDP", ARM_CDP);
-val _ = save_thm("ARM_LDC", ARM_LDC);
-val _ = save_thm("ARM_STC", ARM_STC);
-val _ = save_thm("ARM_MRC", ARM_MRC);
-val _ = save_thm("ARM_MCR", ARM_MCR);
+Theorem ARM_CDP = ARM_CDP
+Theorem ARM_LDC = ARM_LDC
+Theorem ARM_STC = ARM_STC
+Theorem ARM_MRC = ARM_MRC
+Theorem ARM_MCR = ARM_MCR
 
 (* ------------------------------------------------------------------------- *)
 

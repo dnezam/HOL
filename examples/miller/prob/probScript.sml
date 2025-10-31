@@ -169,8 +169,7 @@ val SPACE_BERN = store_thm
    >> RW_TAC std_ss [PAIR_EQ]);
 
 (* |- p_space bern = 𝕌(:num -> bool) *)
-val SPACE_BERN_UNIV = save_thm
-  ("SPACE_BERN_UNIV", REWRITE_RULE [SPACE_PROB_ALGEBRA] SPACE_BERN);
+Theorem SPACE_BERN_UNIV = REWRITE_RULE [SPACE_PROB_ALGEBRA] SPACE_BERN
 
 val SIGMA_ALGEBRA_BERN = store_thm
   ("SIGMA_ALGEBRA_BERN", ``sigma_algebra (p_space bern, events bern)``,
@@ -631,8 +630,8 @@ val EVENTS_BERN_IMAGE_STL = store_thm
    >> MATCH_MP_TAC EVENTS_UNION
    >> RW_TAC std_ss [PROB_SPACE_BERN, PREIMAGE_ALT, EVENTS_BERN_MIRROR]);
 
-val INDEP_BERN_UNIV = save_thm ("INDEP_BERN_UNIV",
-   REWRITE_RULE [SPACE_BERN, SPACE_PROB_ALGEBRA] (ISPEC ``bern`` INDEP_SPACE));
+Theorem INDEP_BERN_UNIV =
+   REWRITE_RULE [SPACE_BERN, SPACE_PROB_ALGEBRA] (ISPEC ``bern`` INDEP_SPACE)
 
 val INDEP_FUNCTION_BERN_SDEST = store_thm
   ("INDEP_FUNCTION_BERN_SDEST",
@@ -1883,10 +1882,9 @@ val INDEP_FN_ENUM_RANGE = store_thm
    >> PROVE_TAC [FINITE_BIJ_COUNT_EQ]);
 
 (* |- ∀s. s ∈ events bern ⇒ (prob bern (COMPL s) = 1 − prob bern s) *)
-val PROB_COMPL_BERN = save_thm
-  ("PROB_COMPL_BERN",
+Theorem PROB_COMPL_BERN =
     REWRITE_RULE [PROB_SPACE_BERN, SPACE_BERN_UNIV, GSYM COMPL_DEF]
-                 (SPEC ``bern`` (INST_TYPE [``:'a`` |-> ``:num set``] PROB_COMPL)));
+                 (SPEC ``bern`` (INST_TYPE [``:'a`` |-> ``:num set``] PROB_COMPL))
 
 val PROB_BERN_BIND_UPPER = store_thm
   ("PROB_BERN_BIND_UPPER",
@@ -2823,9 +2821,8 @@ Proof
    >> PROVE_TAC []
 QED
 
-val EVENTS_COMPL_BERN = save_thm
-  ("EVENTS_COMPL_BERN",
-    REWRITE_RULE [PROB_SPACE_BERN, SPACE_BERN_UNIV, GSYM COMPL_DEF] (ISPEC ``bern`` EVENTS_COMPL));
+Theorem EVENTS_COMPL_BERN =
+    REWRITE_RULE [PROB_SPACE_BERN, SPACE_BERN_UNIV, GSYM COMPL_DEF] (ISPEC ``bern`` EVENTS_COMPL)
 
 Theorem PROB_WHILE_WITNESS_MEASURABLE_FST:
   !c b (a : 'a).

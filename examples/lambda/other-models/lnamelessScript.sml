@@ -49,9 +49,8 @@ val lnpm_raw = store_thm(
     Induct_on `x` THEN SRW_TAC [][]
   ]);
 
-val lnpm_thm = save_thm(
-"lnpm_thm",
-raw_lnpm_def |> SUBS [GSYM lnpm_raw]);
+Theorem lnpm_thm =
+raw_lnpm_def |> SUBS [GSYM lnpm_raw]
 val _ = export_rewrites["lnpm_thm"];
 
 val lnpm_open = prove(
@@ -123,15 +122,14 @@ val all_fnone = prove(
         THEN1 (DISCH_THEN SUBST1_TAC THEN SRW_TAC [][]) THEN
   SRW_TAC [][FUN_EQ_THM, oneTheory.one]);
 
-val lclosed_bvc_ind = save_thm(
-  "lclosed_bvc_ind",
+Theorem lclosed_bvc_ind =
   (Q.GEN `P` o Q.GEN `X` o
    SIMP_RULE bool_ss [] o
    SPECL [``(\M:lnt x:one. P M:bool)``,
           ``X:string -> bool``] o
    SIMP_RULE (srw_ss()) [all_fnone, oneTheory.one] o
    INST_TYPE [alpha |-> ``:one``] o
-   GEN_ALL) lclosed_gen_bvc_ind);
+   GEN_ALL) lclosed_gen_bvc_ind
 
 val lclosed_cofin_ind = store_thm(
   "lclosed_cofin_ind",

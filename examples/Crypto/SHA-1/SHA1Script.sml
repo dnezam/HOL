@@ -30,7 +30,7 @@ val (TAKE_def,TAKE_ind) = Defn.tprove(Hol_defn
  WF_REL_TAC `measure (LENGTH o FST o SND)`
   THEN Cases THEN RW_TAC list_ss []);
 
-val _ = save_thm("TAKE_def",TAKE_def);
+Theorem TAKE_def = TAKE_def
 
 val TAKE_LEM = Q.prove
 (`!n L L1 taken left.
@@ -164,7 +164,7 @@ val (pBits_def, pBits_ind) =
       THEN FULL_SIMP_TAC arith_ss [],
     ASSUME_TAC (CONJUNCT2 ndiv64) THEN DECIDE_TAC]);
 
-val _ = save_thm("pBits_def",pBits_def);
+Theorem pBits_def = pBits_def
 
 Definition PaddingBits:
     PaddingBits len = 128w :: pBits (len+1n)
@@ -248,7 +248,7 @@ val (expand_def, expand_ind) = Defn.tprove
    (expand wlist = wlist)`,
    WF_REL_TAC `measure LENGTH` THEN RW_TAC list_ss []);
 
-val _ = save_thm("expand_def",expand_def);
+Theorem expand_def = expand_def
 
 val _ = computeLib.add_persistent_funs ["expand_def"];
 
@@ -285,7 +285,7 @@ val (digest_def,digest_ind) = Defn.tprove
   THEN IMP_RES_TAC (GSYM TAKE_LEM)
   THEN DECIDE_TAC);
 
-val _ = save_thm("digest_def",digest_def);
+Theorem digest_def = digest_def
 
 
 (*---------------------------------------------------------------------------*)

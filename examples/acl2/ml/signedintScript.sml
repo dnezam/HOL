@@ -43,16 +43,15 @@ val dimword_pos = prove(
     PROVE_TAC [INT_LT_NZ,ZERO_LT_TWOEXP,INT_NZ_IMP_LT,
               DECIDE ``0 < a = ~(a = 0n)``,dimword_def]);
 
-val w2n_lt_full = save_thm("w2n_lt_full",
+Theorem w2n_lt_full =
     LIST_CONJ [w2n_lt,REWRITE_RULE [dimword_def] w2n_lt,
-    REWRITE_RULE [dimword_def,GSYM NOT_LESS_EQUAL] w2n_lt]);
+    REWRITE_RULE [dimword_def,GSYM NOT_LESS_EQUAL] w2n_lt]
 
 val bint_ss = int_ss ++ boolSimps.LET_ss;
 
-val BIT_RWR =
-    save_thm("BIT_RWR",SIMP_RULE arith_ss
+Theorem BIT_RWR = SIMP_RULE arith_ss
               [BITS_THM2,DECIDE ``(a = 1) = 0 < a /\ a < 2n``,
-               DIV_LT_X,X_LT_DIV,MOD_LESS,GSYM EXP] BIT_def);
+               DIV_LT_X,X_LT_DIV,MOD_LESS,GSYM EXP] BIT_def
 
 val SUC_SUB_INDEX = prove(
     ``SUC (dimindex (:'a) - 1) = dimindex (:'a)``,

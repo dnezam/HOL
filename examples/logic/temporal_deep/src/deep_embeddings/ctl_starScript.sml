@@ -25,9 +25,7 @@ Datatype:
 End
 
 
-val ctl_star_induct =
- save_thm
-  ("ctl_star_induct",
+Theorem ctl_star_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -39,7 +37,7 @@ val ctl_star_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a ctl_star``)))));
+         (TypeBase.induction_of ``:'a ctl_star``))))
 
 
 Definition CTL_STAR_SEM_PATH_TIME_def:
@@ -418,7 +416,7 @@ val CTL_STAR_SEM___EMPTY_FAIRNESS =
     CTL_STAR_SEM___PROP_CASES]);
 
 
-val CTL_STAR_SEM_THM = save_thm ("CTL_STAR_SEM_THM",
+Theorem CTL_STAR_SEM_THM =
     SIMP_RULE std_ss [FORALL_AND_THM] (
       LIST_CONJ [CTL_STAR_SEM_PATH_def,
                  CTL_STAR_SEM_PATH_TIME_def,
@@ -427,7 +425,7 @@ val CTL_STAR_SEM_THM = save_thm ("CTL_STAR_SEM_THM",
                 CTL_STAR_SEM___EVENTUAL_ALWAYS,
                 CTL_STAR_SEM___CTL_STAR_A,
                 CTL_STAR_SEM___EMPTY_FAIRNESS,
-                CTL_STAR_SEM___FAIR_E_FAIR_A]));
+                CTL_STAR_SEM___FAIR_E_FAIR_A])
 
 
 
@@ -506,9 +504,7 @@ Datatype:
          | FAIR_CTL_E_UNTIL  ('a prop_logic list) (fair_ctl # fair_ctl)    (* weak until              *)
 End
 
-val fair_ctl_induct =
- save_thm
-  ("fair_ctl_induct",
+Theorem fair_ctl_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -520,7 +516,7 @@ val fair_ctl_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a fair_ctl``)))));
+         (TypeBase.induction_of ``:'a fair_ctl``))))
 
 
 (*Since FAIR_CTL is a subset of CTL_STAR we can easily translate it to FAIR_CTL_STAR*)
@@ -787,16 +783,14 @@ val FAIR_CTL_SEM_THM___A_UNTIL = prove(
 
 
 
-val FAIR_CTL_SEM_THM =
-  save_thm
-    ("FAIR_CTL_SEM_THM",
+Theorem FAIR_CTL_SEM_THM =
     SIMP_RULE std_ss [FORALL_AND_THM]
     (LIST_CONJ [FAIR_CTL_SEM_THM___BASIC_CASES,
                FAIR_CTL_SEM_THM___A_NEXT,
                FAIR_CTL_SEM_THM___E_EVENTUAL_ALWAYS,
                FAIR_CTL_SEM_THM___A_EVENTUAL_ALWAYS,
                FAIR_CTL_SEM_THM___A_SUNTIL,
-               FAIR_CTL_SEM_THM___A_UNTIL]));
+               FAIR_CTL_SEM_THM___A_UNTIL])
 
 
 
@@ -814,9 +808,7 @@ Datatype:
 End
 
 
-val ctl_induct =
- save_thm
-  ("ctl_induct",
+Theorem ctl_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -828,7 +820,7 @@ val ctl_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:'a ctl``)))));
+         (TypeBase.induction_of ``:'a ctl``))))
 
 
 (*Since CTL is a subset of CTL_STAR we can easily translate it to CTL_STAR*)

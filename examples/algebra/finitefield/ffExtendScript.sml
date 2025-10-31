@@ -454,9 +454,8 @@ val finite_field_clone_extension_exists = store_thm(
                           FieldIso f r s /\ s <<= t /\ (CARD C = (CARD R) ** n) *)
 (* Proof: by finite_field_clone_extension_exists, matching types. *)
 (* Better use theorem type transform *)
-val finite_field_self_extension_exists =
-    save_thm("finite_field_self_extension_exists",
-              finite_field_clone_extension_exists |> INST_TYPE [beta |-> alpha]);
+Theorem finite_field_self_extension_exists =
+              finite_field_clone_extension_exists |> INST_TYPE [beta |-> alpha]
 
 (* Theorem: s <<= r /\ INJ f R univ(:'a) ==> subfield (ring_inj_image s f) (ring_inj_image r f) *)
 (* Proof:

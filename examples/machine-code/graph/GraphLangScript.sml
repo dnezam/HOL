@@ -266,10 +266,10 @@ Definition arm_STATE_def:
     arm_STACK_MEMORY (var_dom "dom_stack" s) (var_mem "stack" s)
 End
 
-val arm_STATE_thm = save_thm("arm_STATE_thm",
+Theorem arm_STATE_thm =
   arm_STATE_def
   |> REWRITE_RULE [arm_STATE_CPSR_def,arm_STATE_REGS_def,STAR_ASSOC]
-  |> SPEC_ALL);
+  |> SPEC_ALL
 
 (* representation in M0 SPEC *)
 
@@ -313,10 +313,10 @@ Definition m0_STATE_def:
     m0_COUNT (var_nat "clock" s)
 End
 
-val m0_STATE_thm = save_thm("m0_STATE_thm",
+Theorem m0_STATE_thm =
   m0_STATE_def
   |> REWRITE_RULE [m0_STATE_PSR_def,m0_STATE_REGS_def,STAR_ASSOC]
-  |> SPEC_ALL);
+  |> SPEC_ALL
 
 (* representation in RISCV-V SPEC *)
 
@@ -367,10 +367,10 @@ Definition riscv_STATE_def:
     riscv_STACK_MEMORY (var_dom "dom_stack" s) (var_mem "stack" s)
 End
 
-val riscv_STATE_thm = save_thm("riscv_STATE_thm",
+Theorem riscv_STATE_thm =
   riscv_STATE_def
   |> REWRITE_RULE [riscv_STATE_REGS_def,STAR_ASSOC]
-  |> SPEC_ALL);
+  |> SPEC_ALL
 
 (* misc *)
 
@@ -1591,8 +1591,8 @@ fun exec_func_step_IMP arch = let
   \\ FIRST_X_ASSUM MATCH_MP_TAC
   \\ Q.EXISTS_TAC `j1` \\ FULL_SIMP_TAC std_ss []) end
 
-val _ = save_thm("arm_exec_func_step_IMP", exec_func_step_IMP "arm");
-val _ = save_thm("m0_exec_func_step_IMP", exec_func_step_IMP "m0");
+Theorem arm_exec_func_step_IMP = exec_func_step_IMP "arm"
+Theorem m0_exec_func_step_IMP = exec_func_step_IMP "m0"
 
 (* misc lemmas *)
 
@@ -1778,10 +1778,10 @@ val decomp_simp1 = prove(
   ``(K x y = x) /\ (SUC n = n + 1)``,
   SIMP_TAC std_ss [FUN_EQ_THM,ADD1]);
 
-val decomp_simp1 = save_thm("decomp_simp1",
+Theorem decomp_simp1 =
   LIST_CONJ [GSYM word32_def,Aligned_thm,Aligned2_thm,ALIGNED,
         decomp_simp1,word_extract_thm,word_bits_mask,word_extract_w2w_mask,
-        ALIGNED_INTRO,w2n_eq,byte_lemma])
+        ALIGNED_INTRO,w2n_eq,byte_lemma]
 
 val decomp_simp2 = store_thm("decomp_simp2",
   ``(K x = \y. x) /\ (SUC = \n. n + 1)``,
@@ -2125,7 +2125,7 @@ val blast_append_0_lemma = prove(
     (((w2w:word32 -> 30 word) w @@ (0w:word2)) : word32 = w << 2)``,
   blastLib.BBLAST_TAC);
 
-val graph_format_preprocessing = save_thm("graph_format_preprocessing",
+Theorem graph_format_preprocessing =
   LIST_CONJ [MemAcc8_def, MemAcc32_def, MemAcc64_def,
              ShiftLeft_def, ShiftRight_def,
              MemUpdate8_def, MemUpdate32_def, MemUpdate64_def] |> GSYM
@@ -2138,7 +2138,7 @@ val graph_format_preprocessing = save_thm("graph_format_preprocessing",
   |> CONJ Shift_intro
   |> CONJ blast_append_0_lemma
   |> RW [GSYM CONJ_ASSOC]
-  |> SIMP_RULE std_ss [])
+  |> SIMP_RULE std_ss []
 
 (* misc *)
 
@@ -2433,11 +2433,11 @@ val word_cancel_extra = store_thm("word_cancel_extra",
     (w + x − (w - y) = x + y:'a word)``,
   fs [WORD_LEFT_ADD_DISTRIB]);
 
-val export_init_rw = save_thm("export_init_rw",
-  CONJ bit_field_insert_31_16 v2w_field_insert_31_16);
+Theorem export_init_rw =
+  CONJ bit_field_insert_31_16 v2w_field_insert_31_16
 
-val m0_preprocessing = save_thm("m0_preprocessing",
-  CONJ (EVAL ``RName_LR = RName_PC``) (EVAL ``RName_PC = RName_LR``));
+Theorem m0_preprocessing =
+  CONJ (EVAL ``RName_LR = RName_PC``) (EVAL ``RName_PC = RName_LR``)
 
 val WRITE64_intro = store_thm("WRITE64_intro",
   ``m⦇a ↦ (7 >< 0) w; a + 1w ↦ (15 >< 8) w;

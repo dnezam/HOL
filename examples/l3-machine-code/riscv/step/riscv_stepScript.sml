@@ -618,7 +618,7 @@ val in32BitMode = EV
 
 val PC = EV [PC_def] [] [] ``PC``
 
-val Skip = save_thm("Skip",EV [Skip_def,boolify8_def] [] [] ``Skip``);
+Theorem Skip = EV [Skip_def,boolify8_def] [] [] ``Skip``
 
 val rawReadInst = EV
   [rawReadInst_def, MEM_def, address_align, read_word] [] []

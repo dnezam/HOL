@@ -312,13 +312,13 @@ val (MULTd_def,_,MULTd_dev,MULTd_comb,_) = hwDefine2
    The atomic operators are:
    w2n, BIT, BITS, =, -, DIV 2, +, MOD, * 2, /\, ~, \/, <<
 --------------------------------------------------------------- *)
-val MULTd_dev = save_thm("MULTd_dev",
+Theorem MULTd_dev =
          REFINE (DEPTHR (LIB_REFINE [BOOTHMULTIPLYd_dev])
                 THENR DEPTHR (LIB_REFINE [DURd_dev,STATEd_dev,PROJ_RDd_dev])
                 THENR DEPTHR (LIB_REFINE [INITd_dev,APPLY_NEXTd_dev])
                 THENR DEPTHR (LIB_REFINE [NEXTd_dev])
                 THENR DEPTHR (LIB_REFINE [ALUd_dev,MSHIFTd_dev,MOD_CNTWd_dev])
-                THENR DEPTHR ATM_REFINE) MULTd_dev);
+                THENR DEPTHR ATM_REFINE) MULTd_dev
 
 
 (* ---------------------------------------------------------------
@@ -535,8 +535,8 @@ val MULTd_CORRECT = store_thm("MULTd_CORRECT",
 (* ---------------------------------------------------------------
    Circuit ===> Dev MULT32
 --------------------------------------------------------------- *)
-val MULTd_dev0 = save_thm("MULTd",
-        REWRITE_RULE [MULTd_CORRECT] MULTd_dev);
+Theorem MULTd =
+        REWRITE_RULE [MULTd_CORRECT] MULTd_dev
 
 val MULTd_dev = inlineCompile (fst(dest_eq(concl MULTd_comb)))
                            [BOOTHMULTIPLYd_comb,

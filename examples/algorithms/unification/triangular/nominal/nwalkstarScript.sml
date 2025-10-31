@@ -12,8 +12,7 @@ val (noc_rules, noc_ind, noc_cases) = Hol_reln`
 
 val noc2 = CONJUNCT2 (SIMP_RULE bool_ss [FORALL_AND_THM] noc_rules)
 
-val noc_strong_ind =
-  save_thm("noc_strong_ind",IndDefLib.derive_strong_induction(noc_rules, noc_ind))
+Theorem noc_strong_ind = IndDefLib.derive_strong_induction(noc_rules, noc_ind)
 
 val noc_pair_E0 = Q.prove(
   `!t v. noc s t v ==>
@@ -200,8 +199,8 @@ fun nwalkstar_nwfs_hyp th =
   PROVE_HYP (UNDISCH th3) |>
   PROVE_HYP (UNDISCH th4)
 
-val nwalkstar_def = save_thm("nwalkstar_def",DISCH_ALL(nwalkstar_nwfs_hyp (inst_nwalkstar pre_nwalkstar_def)))
-val nwalkstar_ind = save_thm("nwalkstar_ind",nwalkstar_nwfs_hyp (inst_nwalkstar (theorem "pre_nwalkstar_ind")))
+Theorem nwalkstar_def = DISCH_ALL(nwalkstar_nwfs_hyp (inst_nwalkstar pre_nwalkstar_def))
+Theorem nwalkstar_ind = nwalkstar_nwfs_hyp (inst_nwalkstar (theorem "pre_nwalkstar_ind"))
 
 val nwalkstar_nom = nwalkstar_def |> UNDISCH |> Q.SPEC `Nom a` |> DISCH_ALL |> SIMP_RULE (srw_ss()) []
 val nwalkstar_var = nwalkstar_def |> UNDISCH |> Q.SPEC `Sus p v` |> DISCH_ALL |> SIMP_RULE (srw_ss()) []

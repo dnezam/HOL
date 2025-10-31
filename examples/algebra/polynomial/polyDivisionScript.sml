@@ -363,21 +363,21 @@ val _ = set_fixity "%" (Infixl 650);
 
 
 (* Theorem: poly (p / q) *)
-val poly_div_poly = save_thm("poly_div_poly",
-  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_div_poly =
+  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL
 (* > val poly_div_poly =  |- !r q p. Ring r /\ poly p /\ ulead q ==> poly (p / q) : thm *)
 
 (* Theorem: poly (p % q) *)
-val poly_mod_poly = save_thm("poly_mod_poly",
-  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_mod_poly =
+  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (*  val poly_mod_poly = |- !r q p. Ring r /\ poly p /\ ulead q ==> poly (p % q) : thm *)
 
 (* export simple results *)
 val _ = export_rewrites ["poly_div_poly", "poly_mod_poly"];
 
 (* Theorem: p = p / q * q + p % q /\ if 0 < deg q then deg (p % q) < deg q else p % q = |0| *)
-val poly_division_alg = save_thm("poly_division_alg",
-  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2 |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_division_alg =
+  poly_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2 |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL
 (* > val poly_division_alg = |- !r q p. Ring r /\ poly p /\ ulead q ==>
          p = p / q * q + p % q /\ if 0 < deg q then deg (p % q) < deg q else p % q = |0|: thm
 *)
@@ -561,11 +561,11 @@ val poly_div_mod_by_one = store_thm(
   metis_tac[poly_div_mod_by_const, poly_cmult_lone]);
 
 (* Extract Theorems *)
-val poly_div_by_one = save_thm("poly_div_by_one",
-    poly_div_mod_by_one |> SPEC_ALL |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_div_by_one =
+    poly_div_mod_by_one |> SPEC_ALL |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL
 (* val poly_div_by_one = |- !r p. Ring r /\ poly p ==> p / |1| = p: thm *)
-val poly_mod_by_one = save_thm("poly_mod_by_one",
-    poly_div_mod_by_one |> SPEC_ALL |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_mod_by_one =
+    poly_div_mod_by_one |> SPEC_ALL |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL
 (* val poly_mod_by_one = |- !r p. Ring r /\ poly p ==> p % |1| = |0|: thm *)
 
 (* ------------------------------------------------------------------------- *)
@@ -586,19 +586,19 @@ val poly_div_mod_less = store_thm(
   metis_tac[poly_div_mod_eqn, poly_zero_poly]);
 
 (* Theorem: If deg p < deg z, p / z = |0| *)
-val poly_div_less = save_thm("poly_div_less",
+Theorem poly_div_less =
   poly_div_mod_less |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1
      |> DISCH ``poly p /\ ulead z /\ deg p < deg z``
      |> GEN ``z:'a poly`` |> GEN ``p:'a poly``
-     |> DISCH_ALL |> GEN_ALL);
+     |> DISCH_ALL |> GEN_ALL
 (* > val poly_div_less = |- !r. Ring r ==> !p z. poly p /\ ulead z /\ deg p < deg z ==> (p / z = |0|) : thm *)
 
 (* Theorem: If deg p < deg z, p % z = p *)
-val poly_mod_less = save_thm("poly_mod_less",
+Theorem poly_mod_less =
   poly_div_mod_less |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2
      |> DISCH ``poly p /\ ulead z /\ deg p < deg z``
      |> GEN ``z:'a poly`` |> GEN ``p:'a poly``
-     |> DISCH_ALL |> GEN_ALL);
+     |> DISCH_ALL |> GEN_ALL
 (* > val poly_mod_less = |- !r. Ring r ==> !p z. poly p /\ ulead z /\ deg p < deg z ==> (p % z = p) : thm *)
 
 (* Theorem: ulead z ==> |0| / z = |0| /\ |0| % z = |0| *)
@@ -620,17 +620,17 @@ val poly_zero_div_mod = store_thm(
   rw[poly_div_mod_less]);
 
 (* Theorem: ulead z ==> |0| / z = |0| *)
-val poly_zero_div = save_thm("poly_zero_div",
+Theorem poly_zero_div =
   poly_zero_div_mod |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1
      |> DISCH ``ulead z``
-     |> GEN ``z:'a poly`` |> DISCH_ALL |> GEN_ALL);
+     |> GEN ``z:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_zero_div = |- !r. Ring r ==> !z. ulead z ==> ( |0| / z = |0|) : thm *)
 
 (* Theorem: ulead z ==> |0| % z = |0| *)
-val poly_zero_mod = save_thm("poly_zero_mod",
+Theorem poly_zero_mod =
   poly_zero_div_mod |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2
      |> DISCH ``ulead z``
-     |> GEN ``z:'a poly`` |> DISCH_ALL |> GEN_ALL);
+     |> GEN ``z:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_zero_mod = |- !r. Ring r ==> !z. ulead z ==> ( |0| % z = |0|) : thm *)
 
 (* export simple result *)
@@ -676,21 +676,21 @@ val _ = export_rewrites ["poly_div_mod_const"];
 
 (* Theorem: [c] / z = |0| *)
 (* Proof: by poly_div_mod_const. *)
-val poly_div_const = save_thm("poly_div_const",
+Theorem poly_div_const =
     poly_div_mod_const |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1
                        |> DISCH ``c IN R /\ c <> #0`` |> GEN_ALL
                        |> DISCH ``pmonic z`` |> GEN_ALL
-                       |> DISCH_ALL |> GEN_ALL);
+                       |> DISCH_ALL |> GEN_ALL
 (* > val poly_div_const = |- !r. Ring r ==> !z. pmonic z ==>
                              !c. c IN R /\ c <> #0 ==> ([c] / z = |0|) : thm *)
 
 (* Theorem: [c] % z = [c] *)
 (* Proof: by poly_div_mod_const. *)
-val poly_mod_const = save_thm("poly_mod_const",
+Theorem poly_mod_const =
     poly_div_mod_const |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2
                        |> DISCH ``c IN R /\ c <> #0`` |> GEN_ALL
                        |> DISCH ``pmonic z`` |> GEN_ALL
-                       |> DISCH_ALL |> GEN_ALL);
+                       |> DISCH_ALL |> GEN_ALL
 (* > val poly_mod_const = |- !r. Ring r ==> !z. pmonic z ==>
                              !c. c IN R /\ c <> #0 ==> ([c] % z = [c]) : thm *)
 
@@ -737,18 +737,18 @@ val poly_div_mod_neg = store_thm(
 
 (* Theorem: poly p /\ ulead z ==> (- p) / z = - (p / z) *)
 (* Proof: by poly_div_mod_neg. *)
-val poly_div_neg = save_thm("poly_div_neg",
+Theorem poly_div_neg =
     poly_div_mod_neg |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1
                       |> DISCH ``poly p /\ ulead z``
-                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL);
+                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_div_neg = |- !r. Ring r ==> !p z. poly p /\ ulead z ==> (-p / z = -(p / z)) : thm *)
 
 (* Theorem: poly p /\ ulead z ==> (- p) % z = - (p % z) *)
 (* Proof: by poly_div_mod_neg. *)
-val poly_mod_neg = save_thm("poly_mod_neg",
+Theorem poly_mod_neg =
     poly_div_mod_neg |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2
                       |> DISCH ``poly p /\ ulead z``
-                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL);
+                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_mod_neg = |- !r. Ring r ==> !p z. poly p /\ ulead z ==> (-p % z = -(p % z)) : thm *)
 
 (* Theorem: poly p /\ ulead z ==> (p * z) / z = p /\ (p * z) % z = |0| *)
@@ -809,18 +809,18 @@ val poly_div_mod_multiple = store_thm(
 
 (* Theorem: poly p /\ ulead z ==> (p * z) / z = p *)
 (* Proof: by poly_div_mod_multiple. *)
-val poly_div_multiple = save_thm("poly_div_multiple",
+Theorem poly_div_multiple =
     poly_div_mod_multiple |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1
                       |> DISCH ``poly p /\ ulead z``
-                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL);
+                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_div_multiple = |- !r. Ring r ==> !p z. poly p /\ ulead z ==> (p * z / z = p) : thm *)
 
 (* Theorem: poly p /\ ulead z ==> (p * z) % z = |0| *)
 (* Proof: by poly_div_mod_multiple. *)
-val poly_mod_multiple = save_thm("poly_mod_multiple",
+Theorem poly_mod_multiple =
     poly_div_mod_multiple |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT2
                       |> DISCH ``poly p /\ ulead z``
-                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL);
+                      |> GEN ``z:'a poly`` |> GEN ``p:'a poly`` |> DISCH_ALL |> GEN_ALL
 (* > val poly_mod_multiple = |- !r. Ring r ==> !p z. poly p /\ ulead z ==> ((p * z) % z = |0|) : thm *)
 
 (* Theorem: poly p /\ ulead z ==> (z * p) / z = p *)
@@ -1240,7 +1240,7 @@ val poly_mod_of_zero = store_thm(
   metis_tac[poly_zero_mod, poly_zero]);
 
 (* Theorem alias *)
-val poly_mod_zero = save_thm("poly_mod_zero", poly_zero_mod);
+Theorem poly_mod_zero = poly_zero_mod
 (* val poly_mod_zero = |- !r. Ring r ==> !z. pmonic z ==> ( |0| % z = |0|): thm *)
 
 (* Theorem: pmonic z ==> |1| % z = |1| *)

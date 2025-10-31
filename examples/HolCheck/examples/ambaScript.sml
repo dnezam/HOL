@@ -80,7 +80,7 @@ val abbrev_defs = [IDLE_def,BUSY_def,NOSEQ_def,SEQ_def,OKAY_def,ERROR_def,RETRY_
 val unroll_ahb_CONV2 = unroll_ahb_CONV maindefs TRANS_A_def abbrev_defs
 
 (* APB is the same as APB with bridge instead of master whose ahb signals are hidden *)
-val apb1 = save_thm("APB_BRIDGE",prove(``^(lhs(concl (Drule.SPEC_ALL TRANS_APB_def))) = ^(lhs(concl (Drule.SPEC_ALL R1pb)))``,
+Theorem APB_BRIDGE = prove(``^(lhs(concl (Drule.SPEC_ALL TRANS_APB_def))) = ^(lhs(concl (Drule.SPEC_ALL R1pb)))``,
 REWRITE_TAC [TRANS_APB_def,R1pb,Rb]
 THEN EQ_TAC THENL [
 STRIP_TAC THEN CONJ_TAC THENL [
@@ -96,10 +96,10 @@ STRIP_TAC THEN CONJ_TAC THENL [
   ASM_REWRITE_TAC []
   ],
 REPEAT STRIP_TAC THEN ASM_REWRITE_TAC []
-]));
+])
 
 (* AHB is the same as AHB with bridge as a generic slave whose apb signals are hidden *)
-val ahb1 = save_thm("AHB_BRIDGE",prove(``^(lhs(concl (Drule.SPEC_ALL TRANS_AHB_def))) = ^(lhs(concl (Drule.SPEC_ALL R1hb)))``,
+Theorem AHB_BRIDGE = prove(``^(lhs(concl (Drule.SPEC_ALL TRANS_AHB_def))) = ^(lhs(concl (Drule.SPEC_ALL R1hb)))``,
 PURE_REWRITE_TAC [TRANS_AHB_def,R1hb,Rb]
 THEN EQ_TAC THENL [
  STRIP_TAC
@@ -127,7 +127,7 @@ THEN EQ_TAC THENL [
   MAP_EVERY EXISTS_TAC ((strip_pair slvsplt_vars)@(strip_pair slvsplt_vars'))
   THEN REPEAT CONJ_TAC THEN PURE_ASM_REWRITE_TAC []
  ]
-]));
+])
 
 (*----------------------- Parallel synchronous composition -------------------------- *)
 
@@ -143,8 +143,8 @@ val env = inst [alpha|->cst] ``EMPTY_ENV``
 
 val (gpscth,ks1_def,s1,s2) = mk_gen_par_sync_comp_thm S01 TS1 nm1 S02 TS2 nm2 env
 
-val _ = save_thm("APB_LIFT",gpscth) (* if well-formed f holds in APB then it holds in APB x AHB *)
-val _ = save_thm("amba_ks1_def",ks1_def)
+Theorem APB_LIFT = gpscth (* if well-formed f holds in APB then it holds in APB x AHB *)
+Theorem amba_ks1_def = ks1_def
 val _ = Define `amba_s1 (^s1) = T`
 val _ = Define `amba_s2 (^s2) = T`
 
@@ -158,4 +158,3 @@ mk_par_sync_comp_thm (amba_gpscth,amba_ks1_def,
 
 for some APB property f
 *)
-

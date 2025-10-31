@@ -105,10 +105,10 @@ val IterMult2 = UNROLL_RULE 1 (SPEC_ALL IterConstMult_def);
 (*       (14w ** x = xtime (x ?? xtime (x ?? xtime x)))                      *)
 (*---------------------------------------------------------------------------*)
 
-val mult_unroll = save_thm("mult_unroll",
+Theorem mult_unroll =
   LIST_CONJ (map instantiate
     [``0x2w ** x``, ``0x3w ** x``, ``0x9w ** x``,
-     ``0xBw ** x``, ``0xDw ** x``, ``0xEw ** x``]));
+     ``0xBw ** x``, ``0xDw ** x``, ``0xEw ** x``])
 
 val eval_mult = WORD_EVAL_RULE o PURE_REWRITE_CONV [mult_unroll,
   CONV_RULE (STRIP_QUANT_CONV (RHS_CONV (SIMP_CONV (srw_ss())
@@ -130,7 +130,7 @@ val mult_tables =
 (* Multiplication by constant implemented by one-step rewrites.              *)
 (*---------------------------------------------------------------------------*)
 
-val _ = save_thm ("mult_tables", mult_tables)
+Theorem mult_tables = mult_tables
 
 (*---------------------------------------------------------------------------*)
 (* Multiplication by constant implemented by lookup into balanced binary     *)

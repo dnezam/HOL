@@ -827,20 +827,20 @@ fun abbrev_code (th,jump,def_name) = let
   in th end;
 
 
-val X64_LISP_PARSE_SEXP = save_thm("X64_LISP_PARSE_SEXP",let
+Theorem X64_LISP_PARSE_SEXP = let
   val th = lisp_string2sexp_spec
   val jump = X64_LISP_CALL_EL3
   val def_name = "abbrev_code_for_parse"
   val th = abbrev_code (th,jump,def_name)
   val _ = add_compiled [th]
-  in th end);
+  in th end
 
-val X64_LISP_PRINT_SEXP = save_thm("X64_LISP_PRINT_SEXP",let
+Theorem X64_LISP_PRINT_SEXP = let
   val th = SIMP_RULE std_ss [lisp_sexp2string_thm,LET_DEF,SEP_CLAUSES] lisp_sexp2string_spec
   val jump = X64_LISP_CALL_EL7
   val def_name = "abbrev_code_for_print"
   val th = abbrev_code (th,jump,def_name)
   val _ = add_compiled [th]
-  in th end);
+  in th end
 
 

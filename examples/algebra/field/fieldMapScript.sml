@@ -1743,7 +1743,7 @@ val ring_homo_image_subfield = store_thm(
   rw[subfield_eq_subring]);
 
 (* Theorem alias *)
-val field_homo_ring_homo_subfield = save_thm("field_homo_ring_homo_subfield", field_homo_subfield);
+Theorem field_homo_ring_homo_subfield = field_homo_subfield
 (*
 val field_homo_ring_homo_subfield = |- !r r_ f. (r ~~~ r_) f ==> subfield (ring_homo_image f r r_) r_: thm
 *)

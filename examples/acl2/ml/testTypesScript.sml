@@ -321,6 +321,6 @@ val _ = DataType
    valbind_e = PLAINvalbind_e of pat_e => exp_e => valbind_e option
              | RECvalbind_e   of valbind_e`;;
 
-val _ = save_thm("LIST",LIST_CONJ (map (REFL o curry mk_var "a")
-                                  (rev (!types))));
+Theorem LIST = LIST_CONJ (map (REFL o curry mk_var "a")
+                                  (rev (!types)))
 

@@ -45,8 +45,8 @@ val (factor_twos_def, factor_twos_ind) = Defn.tprove
   in (d, WF_REL_TAC g)
   end;
 
-val _ = save_thm ("factor_twos_def", factor_twos_def);
-val _ = save_thm ("factor_twos_ind", factor_twos_ind);
+Theorem factor_twos_def = factor_twos_def
+Theorem factor_twos_ind = factor_twos_ind
 
 val (modexp_def, modexp_ind) = Defn.tprove
   let val d = Hol_defn "modexp"
@@ -58,8 +58,8 @@ val (modexp_def, modexp_ind) = Defn.tprove
   in (d, WF_REL_TAC g >> RW_TAC arith_ss [])
   end;
 
-val _ = save_thm ("modexp_def", modexp_def);
-val _ = save_thm ("modexp_ind", modexp_ind);
+Theorem modexp_def = modexp_def
+Theorem modexp_ind = modexp_ind
 
 Definition witness_tail_def:   (witness_tail n a 0 = ~(a = 1))
   /\ (witness_tail n a (SUC r)

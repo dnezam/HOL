@@ -173,20 +173,14 @@ val Fact3_dev =
 (* Finally, create implementation of FACT (HOL's native factorial function)  *)
 (*****************************************************************************)
 
-val FACT_dev =
- save_thm
-  ("FACT_dev",
-   REWRITE_RULE [FactThm] Fact3_dev);
+Theorem FACT_dev =
+   REWRITE_RULE [FactThm] Fact3_dev
 
-val FACT_net =
- save_thm
-  ("Fact_net",
-   Count.apply MAKE_NETLIST FACT_dev);
+Theorem Fact_net =
+   Count.apply MAKE_NETLIST FACT_dev
 
-val FACT_cir =
- save_thm
-  ("Fact_cir",
-   time MAKE_CIRCUIT FACT_dev);
+Theorem Fact_cir =
+   time MAKE_CIRCUIT FACT_dev
 
 (*****************************************************************************)
 (* Print Verilog to file FACT.vl                                             *)

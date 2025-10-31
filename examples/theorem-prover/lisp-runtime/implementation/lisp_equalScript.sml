@@ -71,7 +71,7 @@ val (thm,mc_full_equal_def) = decompile_io_strings x64_tools "mc_full_equal"
      `);
 
 val mc_full_equal_spec = thm;
-val _ = save_thm("mc_full_equal_spec",thm);
+Theorem mc_full_equal_spec = thm
 
 val LISP = lisp_inv_def |> SPEC_ALL |> concl |> dest_eq |> fst;
 val REST = LISP |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr |> cdr;

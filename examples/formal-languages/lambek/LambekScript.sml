@@ -58,7 +58,7 @@ val _ = TeX_notation { hol = "\\\\", TeX = ("\\HOLTokenBackslash", 1) };
 val Form_induction = TypeBase.induction_of ``:'a Form``;
 val Form_nchotomy  = TypeBase.nchotomy_of ``:'a Form``;
 val Form_distinct  = TypeBase.distinct_of ``:'a Form``;
-val Form_distinct' = save_thm ("Form_distinct'", GSYM Form_distinct);
+Theorem Form_distinct' = GSYM Form_distinct
 val Form_11        = TypeBase.one_one_of ``:'a Form``;
 
 val _ = type_abbrev ("arrow_extension", ``:'a Form -> 'a Form -> bool``);
@@ -322,8 +322,7 @@ val L_d' = store_thm ("L_d'", ``!x y z. arrow L y (Backslash x z) ==> arrow L (D
 val L_e  = store_thm ("L_e",  ``!x y z. arrow L x y /\ arrow L y z ==> arrow L x z``,
     REWRITE_TAC [comp]);
 
-val L_arrow_rules = save_thm (
-   "L_arrow_rules", LIST_CONJ [L_a, L_b, L_b', L_c, L_c', L_d, L_d', L_e]);
+Theorem L_arrow_rules = LIST_CONJ [L_a, L_b, L_b', L_c, L_c', L_d, L_d', L_e]
 
 local
   val t = PROVE_TAC [L_arrow_rules]
@@ -385,7 +384,7 @@ val _ = Datatype `Term = OneForm ('a Form) | Comma Term Term`;
 val Term_induction = TypeBase.induction_of ``:'a Term``;
 val Term_nchotomy  = TypeBase.nchotomy_of ``:'a Term``;
 val Term_distinct  = TypeBase.distinct_of ``:'a Term``;
-val Term_distinct' = save_thm ("Term_distinct'", GSYM Term_distinct);
+Theorem Term_distinct' = GSYM Term_distinct
 val Term_11        = TypeBase.one_one_of ``:'a Term``;
 
 val _ = type_abbrev ("gentzen_extension", ``:'a Term -> 'a Term -> bool``);
@@ -414,7 +413,7 @@ End
 val (NLP_Sequent_rules, NLP_Sequent_ind, NLP_Sequent_cases) = Hol_reln `
     (!A B. NLP_Sequent (Comma A B) (Comma B A))`;
 
-val NLP_Intro = save_thm ("NLP_Intro", NLP_Sequent_rules);
+Theorem NLP_Intro = NLP_Sequent_rules
 
 (* L Sequent extension, the Full Lambek Sequent Calculus extension *)
 val (L_Sequent_rules, L_Sequent_ind, L_Sequent_cases) = Hol_reln `

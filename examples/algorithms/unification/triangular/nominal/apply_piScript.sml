@@ -47,14 +47,11 @@ fun nterm_inst q th = th |> INST_TYPE [alpha |-> ``:'a nterm``]
                          |> Q.INST [q |-> `nterm_pmact`]
 val nterm_spec = Q.ISPEC `nterm_pmact`
 
-val apply_pi_decompose =
-    save_thm("apply_pi_decompose",nterm_spec pmact_decompose)
-val apply_pi_inverse =
-    save_thm("apply_pi_inverse",nterm_inst `f` pmact_inverse);
-val apply_pi_id = save_thm("apply_pi_id",nterm_spec pmact_id)
-val apply_pi_injective =
-    save_thm("apply_pi_injective",nterm_inst `pm` pmact_injective);
-val apply_pi_eql = save_thm("apply_pi_eql",nterm_inst `pm` pmact_eql);
+Theorem apply_pi_decompose = nterm_spec pmact_decompose
+Theorem apply_pi_inverse = nterm_inst `f` pmact_inverse
+Theorem apply_pi_id = nterm_spec pmact_id
+Theorem apply_pi_injective = nterm_inst `pm` pmact_injective
+Theorem apply_pi_eql = nterm_inst `pm` pmact_eql
 val apply_pi_eqr = store_thm("apply_pi_eqr",
 ``(t1 = apply_pi pi t2) ⇔ (apply_pi (REVERSE pi) t1 = t2)``,
 METIS_TAC [apply_pi_inverse]);

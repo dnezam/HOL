@@ -124,12 +124,12 @@ Definition  en_b_mix_def:
    en_b_mix(b:block,k:keysched) = PostWhitening(b_mix 8 b k,k)
 End
 
-val _ = save_thm ("f_mix_def", f_mix_def);
-val _ = save_thm ("f_mix_ind", f_mix_ind);
-val _ = save_thm ("core_def", core_def);
-val _ = save_thm ("core_ind", core_ind);
-val _ = save_thm ("b_mix_def", b_mix_def);
-val _ = save_thm ("b_mix_ind", b_mix_ind);
+Theorem f_mix_def = f_mix_def
+Theorem f_mix_ind = f_mix_ind
+Theorem core_def = core_def
+Theorem core_ind = core_ind
+Theorem b_mix_def = b_mix_def
+Theorem b_mix_ind = b_mix_ind
 
 (*---------------------------------------------------------------------------*)
 (*-------------Backward round used by the decrypting function----------------*)
@@ -210,12 +210,12 @@ Definition  de_b_mix_def:
      C-FST(GETKEYS(ROTKEYS(k))), D-SND(GETKEYS(ROTKEYS(k))))
 End
 
-val _ = save_thm ("inv_f_mix_def", inv_f_mix_def);
-val _ = save_thm ("inv_f_mix_ind", inv_f_mix_ind);
-val _ = save_thm ("inv_core_def", inv_core_def);
-val _ = save_thm ("inv_core_ind", inv_core_ind);
-val _ = save_thm ("inv_b_mix_def", inv_b_mix_def);
-val _ = save_thm ("inv_b_mix_ind", inv_b_mix_ind);
+Theorem inv_f_mix_def = inv_f_mix_def
+Theorem inv_f_mix_ind = inv_f_mix_ind
+Theorem inv_core_def = inv_core_def
+Theorem inv_core_ind = inv_core_ind
+Theorem inv_b_mix_def = inv_b_mix_def
+Theorem inv_b_mix_ind = inv_b_mix_ind
 
 (*---------------------------------------------------------------------------*)
 (*-------------Forward and backward round operation inversion lemmas---------*)

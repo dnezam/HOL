@@ -123,7 +123,7 @@ val (arm_alloc_thm,def11) = decompile_arm "arm_alloc" `
   E5197008 (* ldr r7,[r9,#-8] *)
   E5198004 (* ldr r8,[r9,#-4] *)`;
 
-val _ = save_thm("arm_alloc_thm",arm_alloc_thm);
+Theorem arm_alloc_thm = arm_alloc_thm
 
 
 (* proof *)
@@ -2360,7 +2360,7 @@ val (th,def,pre) = compile "ppc" ``
      let r8 = f (r9 - 0x4w) in
        (r3,r4,r5,r6,r7,r8,r9,df,f)``;
 
-val ppc_alloc_thm = save_thm("ppc_alloc_thm",th)
+Theorem ppc_alloc_thm = th
 
 
 (* --- x86 --- *)
@@ -2512,7 +2512,7 @@ val (th,def,pre) = compile "x86" ``
      let r5 = f (r6 - 0x4w) in
        (r0,r1,r2,r3,r4,r5,r6,df,f)``;
 
-val x86_alloc_thm = save_thm("x86_alloc_thm",th)
+Theorem x86_alloc_thm = th
 
 fun prove_eq n1 n2 rw goal = prove(goal,
   STRIP_TAC \\ TAILREC_TAC \\ SIMP_TAC std_ss ([LET_DEF,word_arith_lemma1] @ rw)
@@ -2542,7 +2542,7 @@ val lA = prove_eq "x86_alloc_mem" "arm_alloc_mem" [l1,l2,l3,l4,l5,l6,l7,l8,l9]
 val lB = prove_eq "x86_alloc" "arm_alloc" [l1,l2,l3,l4,l5,l6,l7,l8,l9,lA]
   ``(x86_alloc = arm_alloc) /\ (x86_alloc_pre = arm_alloc_pre)``;
 
-val x86_alloc_EQ = save_thm("x86_alloc_EQ",lB)
+Theorem x86_alloc_EQ = lB
 
 val l1 = prove_eq "ppc_move" "arm_move" []
   ``(ppc_move = arm_move) /\ (ppc_move_pre = arm_move_pre)``;
@@ -2567,4 +2567,4 @@ val lA = prove_eq "ppc_alloc_mem" "arm_alloc_mem" [l1,l2,l3,l4,l5,l6,l7,l8,l9]
 val lB = prove_eq "ppc_alloc" "arm_alloc" [l1,l2,l3,l4,l5,l6,l7,l8,l9,lA]
   ``(ppc_alloc = arm_alloc) /\ (ppc_alloc_pre = arm_alloc_pre)``;
 
-val ppc_alloc_EQ = save_thm("ppc_alloc_EQ",lB)
+Theorem ppc_alloc_EQ = lB

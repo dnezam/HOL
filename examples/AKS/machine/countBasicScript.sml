@@ -736,8 +736,8 @@ val power_twoM_value = store_thm(
   rw[power_twoM_def]);
 
 (* Obtain a theorem *)
-val power_twoM_steps_thm = save_thm("power_twoM_steps_thm",
-    power_ofM_steps_thm |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def, size_2]);
+Theorem power_twoM_steps_thm =
+    power_ofM_steps_thm |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def, size_2]
 (* val power_twoM_steps_thm =
    |- !n. stepsOf (power_twoM n) =
           TWICE (size n) + 4 + if n = 0 \/ n = 1 then 0
@@ -760,12 +760,12 @@ val power_twoM_steps_1 = store_thm(
   rw[Once power_twoM_steps_thm]);
 
 (* Derive theorems *)
-val power_twoM_steps_O_poly = save_thm("power_twoM_steps_O_poly",
-   power_ofM_steps_O_poly |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def]);
-val power_twoM_steps_big_O = save_thm("power_twoM_steps_big_O",
-   power_ofM_steps_big_O |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def]);
-val power_twoM_thm = save_thm("power_twoM_thm",
-   power_ofM_thm |> SPEC ``2`` |> SIMP_RULE (bool_ss) [GSYM power_twoM_def]); (* not srw_ss() *)
+Theorem power_twoM_steps_O_poly =
+   power_ofM_steps_O_poly |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def]
+Theorem power_twoM_steps_big_O =
+   power_ofM_steps_big_O |> SPEC ``2`` |> SIMP_RULE (srw_ss()) [GSYM power_twoM_def]
+Theorem power_twoM_thm =
+   power_ofM_thm |> SPEC ``2`` |> SIMP_RULE (bool_ss) [GSYM power_twoM_def](* not srw_ss() *)
 (*
 val power_twoM_steps_upper = |- !n. stepsOf (power_twoM n) <= 6 + 6 * size n + TWICE (size n ** 2) + 4 * size n ** 2: thm
 val power_twoM_steps_bound = |- !n. stepsOf (power_twoM n) <= 22 * size n ** 2: thm
@@ -888,12 +888,12 @@ val ulogM_steps_thm = store_thm(
   (Cases_on `perfect_power n 2` >> simp[]));
 
 (* Obtain theorems *)
-val ulogM_steps_0 = save_thm("ulogM_steps_0",
-    ulogM_steps_thm |> SPEC ``0`` |> SIMP_RULE (srw_ss()) []);
+Theorem ulogM_steps_0 =
+    ulogM_steps_thm |> SPEC ``0`` |> SIMP_RULE (srw_ss()) []
 (* val ulogM_steps_0 = |- stepsOf (ulogM 0) = 1: thm *)
 
-val ulogM_steps_1 = save_thm("ulogM_steps_1",
-    ulogM_steps_thm |> SPEC ``1`` |> SIMP_RULE (srw_ss()) [sizeM_steps_1, power_twoM_steps_1]);
+Theorem ulogM_steps_1 =
+    ulogM_steps_thm |> SPEC ``1`` |> SIMP_RULE (srw_ss()) [sizeM_steps_1, power_twoM_steps_1]
 (* val ulogM_steps_1 = |- stepsOf (ulogM 1) = 11: thm *)
 
 (* Theorem: stepsOf (ulogM n) <= 9 + 8 * size n + 11 * (size n) ** 2 *)

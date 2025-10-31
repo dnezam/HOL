@@ -364,13 +364,13 @@ poly_mod_poly  |- !r q p. Ring r /\ poly p /\ pmonic q ==> poly (p % q): thm
 *)
 
 (* Theorem: poly (p / q) *)
-val poly_field_div_poly = save_thm("poly_field_div_poly",
-  poly_field_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_field_div_poly =
+  poly_field_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL
 (* > val poly_field_div_poly = |- !r q p. Field r /\ poly p /\ poly q /\ q <> |0| ==> poly (p / q): thm *)
 
 (* Theorem: poly (p % q) *)
-val poly_field_mod_poly = save_thm("poly_field_mod_poly",
-  poly_field_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL);
+Theorem poly_field_mod_poly =
+  poly_field_div_mod_all_def |> SPEC_ALL |> UNDISCH_ALL |> CONJUNCTS |> el 2 |> DISCH_ALL |> GEN_ALL
 (* > val poly_field_mod_poly = |- !r q p. Field r /\ poly p /\ poly q /\ q <> |0| ==> poly (p % q): thm *)
 
 (* ------------------------------------------------------------------------- *)

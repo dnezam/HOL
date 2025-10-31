@@ -158,10 +158,10 @@ QED
 
 (* Extract theorems *)
 
-val funpow_reach = save_thm("funpow_reach",
+Theorem funpow_reach =
    reach_def |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2``
              |> REWRITE_RULE[Zadd_property] |> GEN_ALL
-);
+
 (* val funpow_reach =
 |- !f x y. reach (FUNPOW f) Z2 x y <=> ?a. a < 2 /\ FUNPOW f a x = y: thm *)
 
@@ -181,29 +181,29 @@ QED
 (* FUNPOW Orbits                                                             *)
 (* ------------------------------------------------------------------------- *)
 
-val funpow_orbits = save_thm("funpow_orbits",
+Theorem funpow_orbits =
     orbits_def |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2`` |> GEN_ALL
-);
+
 (* val funpow_orbits =
 |- !f X. orbits (FUNPOW f) Z2 X = IMAGE (orbit (FUNPOW f) Z2) X: thm *)
 
-val funpow_orbit = save_thm("funpow_orbit",
+Theorem funpow_orbit =
    orbit_def |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2``
              |> REWRITE_RULE[Zadd_carrier] |> GEN_ALL
-);
+
 (* val funpow_orbit =
 |- !f x. orbit (FUNPOW f) Z2 x = IMAGE (\a. FUNPOW f a x) (count 2): thm *)
 
-val funpow_orbit_element = save_thm("funpow_orbit_element",
+Theorem funpow_orbit_element =
    orbit_element |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2``
                  |> SIMP_RULE (srw_ss()) [reach_def, Zadd_carrier] |> GEN_ALL
-);
+
 (* val funpow_orbit_element =
 |- !f x y. y IN orbit (FUNPOW f) Z2 x <=> ?a. a < 2 /\ FUNPOW f a x = y: thm *)
 
-val funpow_orbit_in_orbits = save_thm("funpow_orbit_in_orbits",
+Theorem funpow_orbit_in_orbits =
    orbit_is_orbits_element |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2`` |> GEN_ALL
-);
+
 (* val funpow_orbit_in_orbits =
 |- !f X x. x IN X ==> orbit (FUNPOW f) Z2 x IN orbits (FUNPOW f) Z2 X: thm *)
 
@@ -220,15 +220,15 @@ Proof
   simp[Zadd_carrier, orbit_finite]
 QED
 
-val funpow_orbits_finite = save_thm("funpow_orbits_finite",
+Theorem funpow_orbits_finite =
     orbits_finite |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2`` |> GEN_ALL
-);
+
 (* val funpow_orbits_finite =
 |- !f X. FINITE X ==> FINITE (orbits (FUNPOW f) Z2 X): thm *)
 
-val funpow_multi_orbits_finite = save_thm("funpow_multi_orbits_finite",
+Theorem funpow_multi_orbits_finite =
     multi_orbits_finite |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2`` |> GEN_ALL
-);
+
 (* val funpow_multi_orbits_finite =
 |- !f X. FINITE X ==> FINITE (multi_orbits (FUNPOW f) Z2 X): thm *)
 
@@ -378,10 +378,9 @@ Proof
   (`a = 0 \/ a = 1` by decide_tac >> simp[])
 QED
 
-val involute_fixed_points_element_element =
-    save_thm("involute_fixed_points_element_element",
+Theorem involute_fixed_points_element_element =
     fixed_points_element_element |> ISPEC ``FUNPOW f`` |> ISPEC ``Z2`` |> GEN_ALL
-);
+
 (* val involute_fixed_points_element_element =
 |- !f X x. x IN fixed_points (FUNPOW f) Z2 X ==> x IN X: thm *)
 

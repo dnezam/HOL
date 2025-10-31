@@ -69,14 +69,14 @@ val constant_fold_alu =
    [`swp`,`mrs_msr`,`data_proc`,`reg_shift`,`ldr`,`str`,
     `br`,`swi_ex`,`mrc`,`ldc`,`stc`]);
 
-val thms = save_thm("iclass_comp_thms",
-  LIST_CONJ (map LIST_CONJ constant_fold));
+Theorem iclass_comp_thms =
+  LIST_CONJ (map LIST_CONJ constant_fold)
 
-val ldm_stm_thms = save_thm("ldm_stm_comp_thms",
-  LIST_CONJ (map LIST_CONJ constant_fold_ldm_stm));
+Theorem ldm_stm_comp_thms =
+  LIST_CONJ (map LIST_CONJ constant_fold_ldm_stm)
 
-val mul_thms = save_thm("mul_comp_thms",LIST_CONJ (hd constant_fold_mul));
-val alu_thms = save_thm("alu_comp_thms",LIST_CONJ constant_fold_alu);
+Theorem mul_comp_thms = LIST_CONJ (hd constant_fold_mul)
+Theorem alu_comp_thms = LIST_CONJ constant_fold_alu
 
 (* ------------------------------------------------------------------------- *)
 

@@ -56,8 +56,8 @@ val EL_GENLIST = store_thm("EL_GENLIST",
     \\ ASM_SIMP_TAC bool_ss [EL_LENGTH_SNOC]
     \\ REWRITE_TAC [LENGTH_GENLIST]);
 
-val HD_GENLIST = save_thm("HD_GENLIST",
-  (SIMP_RULE arith_ss [EL] o SPECL [`f`,`SUC n`,`0`]) EL_GENLIST);
+Theorem HD_GENLIST =
+  (SIMP_RULE arith_ss [EL] o SPECL [`f`,`SUC n`,`0`]) EL_GENLIST
 
 val GENLIST_FUN_EQ = store_thm("GENLIST_FUN_EQ",
   `!n f g. (!x. x < n ==> (f x = g x)) ==> (GENLIST f n = GENLIST g n)`,

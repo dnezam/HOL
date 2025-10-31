@@ -65,8 +65,8 @@ val (inv_def,inv_ind) =
         else inv (dec (r1, r2, u1, u2, v1, v2))`,
    WF_REL_TAC `measure (\(a,b,c,d,e,f). a+b)` THEN RW_TAC arith_ss [dec_def]);
 
-val _ = save_thm("inv_def", inv_def);
-val _ = save_thm("inv_ind", inv_ind);
+Theorem inv_def = inv_def
+Theorem inv_ind = inv_ind
 
 val invP_Lemma1 = Q.store_thm
 ("invP_Lemma1",

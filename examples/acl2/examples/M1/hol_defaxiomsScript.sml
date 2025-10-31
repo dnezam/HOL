@@ -805,10 +805,8 @@ val standard_char_p_def =
                   chr #"~"]); t] : thm
 *)
 
-val standard_char_p =
- save_thm
-  ("standard_char_p",
-   REWRITE_RULE [listTheory.MAP]standard_char_p_def);
+Theorem standard_char_p =
+   REWRITE_RULE [listTheory.MAP]standard_char_p_def
 
 (*
      [oracles: DEFUN ACL2::STANDARD-CHAR-LISTP, DISK_THM] [axioms: ] []

@@ -143,15 +143,13 @@ Proof
 QED
 
 
-val ultraproduct_rel = save_thm(
-  "ultraproduct_rel",
+Theorem ultraproduct_rel =
   ``(ultraproduct_model U J MS).frame.rel w v``
-    |> SIMP_CONV (srw_ss()) [ultraproduct_def,ultraproduct_model_def, models2worlds_def,partition_def,Uequiv_def,Cart_prod_def])
+    |> SIMP_CONV (srw_ss()) [ultraproduct_def,ultraproduct_model_def, models2worlds_def,partition_def,Uequiv_def,Cart_prod_def]
 
-val ultraproduct_valt = save_thm(
-  "ultraproduct_valt",
+Theorem ultraproduct_valt =
   ``v IN (ultraproduct_model U J MS).valt p``
-    |> SIMP_CONV (srw_ss()) [ultraproduct_def,ultraproduct_model_def, models2worlds_def,partition_def,Uequiv_def,Cart_prod_def])
+    |> SIMP_CONV (srw_ss()) [ultraproduct_def,ultraproduct_model_def, models2worlds_def,partition_def,Uequiv_def,Cart_prod_def]
 
 
 

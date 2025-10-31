@@ -72,8 +72,7 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___eval =
                        GSYM AND_IMP_INTRO]
               CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT;
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -81,10 +80,9 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval = save_thm
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -92,10 +90,9 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval = save_thm
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -103,69 +100,61 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval = save_thm
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT___eval =
       SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY,
                          GSYM AND_IMP_INTRO]
-                CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT);
+                CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSNEXT___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSNEXT___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSNEXT___eval =
     SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY,
                        GSYM AND_IMP_INTRO]
-              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSNEXT);
+              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSNEXT
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT___eval =
     SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY,
                        GSYM AND_IMP_INTRO]
-              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT);
+              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE___eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE___eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE___eval =
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end);
+    end
 
 (* forget bindings specicalised version *)
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP___forget_eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP___forget_eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP___forget_eval =
     SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def,
                        UNION_EMPTY,
@@ -177,7 +166,7 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP___forget_eval = save_thm
                 {(LTL_PROP p,b1,b2,(\sv. p))} (P_USED_VARS p))``,
           METIS_TAC[CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP,
                     LTL_TO_GEN_BUECHI_DS___SEM___WEAKEN_BINDING,
-                    EMPTY_LTL_TO_GEN_BUECHI_DS___SEM])));
+                    EMPTY_LTL_TO_GEN_BUECHI_DS___SEM]))
 
 val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval =
   prove (``
@@ -196,10 +185,9 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval =
     MATCH_MP_TAC LTL_TO_GEN_BUECHI_DS___SEM___REMOVE_BINDINGS THEN
     SIMP_TAC std_ss [ltl_to_gen_buechi_ds_REWRITES, SUBSET_DEF, IN_SING, IN_INSERT]);
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval =
     SIMP_RULE std_ss [LTL_TO_GEN_BUECHI_DS___SET_BINDINGS_def]
-              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval);
+              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___forget_eval
 
 val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval =
   prove (``
@@ -230,11 +218,10 @@ val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval =
     MATCH_MP_TAC LTL_TO_GEN_BUECHI_DS___SEM___REMOVE_BINDINGS THEN
     SIMP_TAC std_ss [SUBSET_DEF, IN_SING, IN_INSERT, ltl_to_gen_buechi_ds_REWRITES]);
 
-val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval = save_thm
-  ("CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval",
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval =
     SIMP_RULE std_ss [LTL_TO_GEN_BUECHI_DS___SET_BINDINGS_def,
                       ltl_to_gen_buechi_ds_REWRITES, LTL_TO_GEN_BUECHI_DS___PRODUCT_def]
-              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval);
+              CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___forget_eval
 
 val CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___forget_eval =
   prove (``

@@ -1287,7 +1287,7 @@ val EvalTerm_FUPDATE = prove(
   \\ FULL_SIMP_TAC std_ss [EvalApp_def,LET_DEF,FAPPLY_FUPDATE_THM,
        term_ok_def,func_arity_def] \\ METIS_TAC []) |> SIMP_RULE std_ss [];
 
-val _ = save_thm("EvalTerm_FUPDATE",EvalTerm_FUPDATE);
+Theorem EvalTerm_FUPDATE = EvalTerm_FUPDATE
 
 val EvalFormula_FUPDATE = prove(
   ``!exp a ctxt.
@@ -1675,10 +1675,10 @@ val M_ap_EQ_CTXT_THM = prove(
   \\ FULL_SIMP_TAC (srw_ss()) [free_vars_def,MEM,FAPPLY_FUPDATE_THM,funs_def]
   \\ METIS_TAC []);
 
-val M_ev_EQ_CTXT_LEMMA = save_thm("M_ev_EQ_CTXT_LEMMA",M_ap_EQ_CTXT_THM
+Theorem M_ev_EQ_CTXT_LEMMA = M_ap_EQ_CTXT_THM
   |> SIMP_RULE std_ss [PULL_FORALL_IMP,AND_IMP_INTRO]
   |> UNDISCH_ALL |> CONJUNCTS |> el 1 |> SPEC_ALL |> DISCH_ALL
-  |> SIMP_RULE std_ss [PULL_FORALL_IMP,AND_IMP_INTRO]);
+  |> SIMP_RULE std_ss [PULL_FORALL_IMP,AND_IMP_INTRO]
 
 val M_ap_EQ_CTXT_LEMMA = M_ap_EQ_CTXT_THM
   |> SIMP_RULE std_ss [PULL_FORALL_IMP,AND_IMP_INTRO]

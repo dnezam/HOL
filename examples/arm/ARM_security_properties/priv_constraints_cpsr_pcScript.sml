@@ -277,8 +277,7 @@ fun prove_base_cfc base_cfc bv =
 
 
 
-val undef_read_write_cpsr_cfc_thm =
-    save_thm ("undef_read_write_cpsr_cfc_thm" ,
+Theorem undef_read_write_cpsr_cfc_thm =
               let
                   val base_cfc = ``(read_cpsr <|proc:=0|> >>=
                                        (λcpsr.
@@ -291,10 +290,9 @@ val undef_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``4w:bool[32]``
               end
-             );
 
-val svc_read_write_cpsr_cfc_thm =
-    save_thm ("svc_read_write_cpsr_cfc_thm" ,
+
+Theorem svc_read_write_cpsr_cfc_thm =
               let
                   val base_cfc = ``(read_cpsr <|proc:=0|> >>=
                                        (λcpsr.
@@ -307,10 +305,9 @@ val svc_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``8w:bool[32]``
               end
-             );
 
-val data_abt_read_write_cpsr_cfc_thm =
-    save_thm ("data_abt_read_write_cpsr_cfc_thm" ,
+
+Theorem data_abt_read_write_cpsr_cfc_thm =
               let
                   val base_cfc =
                       ``(read_cpsr <|proc:=0|> >>=
@@ -325,10 +322,9 @@ val data_abt_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``16w:bool[32]``
               end
-             );
 
-val prefetch_abt_read_write_cpsr_cfc_thm =
-    save_thm ("prefetch_abt_read_write_cpsr_cfc_thm" ,
+
+Theorem prefetch_abt_read_write_cpsr_cfc_thm =
               let
                   val base_cfc =
                       ``(read_cpsr <|proc:=0|> >>=
@@ -343,11 +339,10 @@ val prefetch_abt_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``12w:bool[32]``
               end
-             );
 
 
-val irq_read_write_cpsr_cfc_thm =
-    save_thm ("irq_read_write_cpsr_cfc_thm" ,
+
+Theorem irq_read_write_cpsr_cfc_thm =
               let
                   val base_cfc =
                       ``(read_cpsr <|proc:=0|> >>=
@@ -362,10 +357,9 @@ val irq_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``24w:bool[32]``
               end
-             );
 
-val fiq_read_write_cpsr_cfc_thm =
-    save_thm ("fiq_read_write_cpsr_cfc_thm" ,
+
+Theorem fiq_read_write_cpsr_cfc_thm =
               let
                   val base_cfc =
                       ``(read_cpsr <|proc:=0|> >>=
@@ -383,7 +377,7 @@ val fiq_read_write_cpsr_cfc_thm =
               in
                   prove_base_cfc base_cfc ``4w:bool[32]``
               end
-             );
+
 
 val const_comp_seqT_priv_cpsr_flags_constraints_thm =
     store_thm(
@@ -909,29 +903,26 @@ fun get_joint_write_body_spc_thm body mode vb =
         thm
     end;
 
-val joint_write_body_data_abort_spc_thm =
-    save_thm ("joint_write_body_data_abort_spc_thm",
+Theorem joint_write_body_data_abort_spc_thm =
               let  val body =
                        get_action_body ``take_data_abort_exception``
                                        take_data_abort_exception_def
               in
                   get_joint_write_body_spc_thm body ``23w:bool[5]`` ``16w:bool[5]``
               end
-             );
 
 
-val joint_write_body_irq_spc_thm =
-    save_thm ("joint_write_body_irq_spc_thm",
+
+Theorem joint_write_body_irq_spc_thm =
               let  val body =
                        get_action_body ``take_irq_exception``
                                        take_irq_exception_def
               in
                   get_joint_write_body_spc_thm body ``18w:bool[5]`` ``24w:bool[5]``
               end
-             );
 
-val joint_write_body_svc_spc_thm =
-    save_thm ("joint_write_body_svc_spc_thm",
+
+Theorem joint_write_body_svc_spc_thm =
               let  val a =
                        get_action_body ``take_svc_exception``
                                        take_svc_exception_def
@@ -939,20 +930,18 @@ val joint_write_body_svc_spc_thm =
               in
                   get_joint_write_body_spc_thm body ``19w:bool[5]`` ``8w:bool[5]``
               end
-             );
 
-val joint_write_body_undef_instr_spc_thm =
-    save_thm ("joint_write_body_undef_instr_spc_thm",
+
+Theorem joint_write_body_undef_instr_spc_thm =
               let  val body =
                        get_action_body ``take_undef_instr_exception``
                                        take_undef_instr_exception_def
               in
                   get_joint_write_body_spc_thm body ``27w:bool[5]`` ``4w:bool[5]``
               end
-             );
 
-val joint_write_body_prefetch_abort_spc_thm =
-    save_thm ("joint_write_body_prefetch_abort_spc_thm",
+
+Theorem joint_write_body_prefetch_abort_spc_thm =
               let
                   val body =
                        get_action_body ``take_prefetch_abort_exception``
@@ -960,7 +949,7 @@ val joint_write_body_prefetch_abort_spc_thm =
               in
                   get_joint_write_body_spc_thm body ``23w:bool[5]`` ``12w:bool[5]``
               end
-             );
+
 
 fun prove_take_exception_spc
         body def_thm sl_elm

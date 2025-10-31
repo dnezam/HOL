@@ -332,10 +332,10 @@ val (R_ev_rules,R_ev_ind,R_ev_cases) = Hol_reln `
     R_ev (App Define [Const (Sym fname); Const (list2sexp (MAP Sym ps)); Const body],a,fns,io,ok) (s,fns1,io1,ok1) ==>
     R_ev (Defun fname ps body,a,fns,io,ok) (s,fns1,io1,ok1))`;
 
-val R_evl_LENGTH = save_thm("R_evl_LENGTH",
+Theorem R_evl_LENGTH =
   R_ev_ind
   |> Q.SPECL [`\x y. T`,`\x y. (LENGTH (FST x) = LENGTH (FST y))`,`\x y. T`]
-  |> SIMP_RULE std_ss [LENGTH]);
+  |> SIMP_RULE std_ss [LENGTH]
 
 
 (* semantics of the read-eval-print loop *)

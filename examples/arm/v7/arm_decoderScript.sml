@@ -1522,51 +1522,51 @@ fun rule l =
 
 val arm_decode = rule [`v4`,`n2w n`] arm_decode_def;
 
-val arm_decode_v4 = save_thm("arm_decode_v4",
+Theorem arm_decode_v4 =
   arm_decode
     |> Q.INST [`v4:bool` |-> `T`]
-    |> REWRITE_RULE []);
+    |> REWRITE_RULE []
 
-val arm_decode_not_v4 = save_thm("arm_decode_not_v4",
+Theorem arm_decode_not_v4 =
   arm_decode
     |> Q.INST [`v4:bool` |-> `F`]
-    |> REWRITE_RULE []);
+    |> REWRITE_RULE []
 
-val thumb_decode = save_thm("thumb_decode",
-  rule [`arch`,`it`,`n2w n`] thumb_decode_def);
+Theorem thumb_decode =
+  rule [`arch`,`it`,`n2w n`] thumb_decode_def
 
-val thumbee_decode = save_thm("thumbee_decode",
-  rule [`arch`,`it`,`n2w n`] thumbee_decode_def);
+Theorem thumbee_decode =
+  rule [`arch`,`it`,`n2w n`] thumbee_decode_def
 
-val thumb2_decode_aux1 = save_thm("thumb2_decode_aux1",
-  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux1_def);
+Theorem thumb2_decode_aux1 =
+  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux1_def
 
-val thumb2_decode_aux2 = save_thm("thumb2_decode_aux2",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux2_def);
+Theorem thumb2_decode_aux2 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux2_def
 
-val thumb2_decode_aux3 = save_thm("thumb2_decode_aux3",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux3_def);
+Theorem thumb2_decode_aux3 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux3_def
 
-val thumb2_decode_aux4 = save_thm("thumb2_decode_aux4",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux4_def);
+Theorem thumb2_decode_aux4 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux4_def
 
-val thumb2_decode_aux5 = save_thm("thumb2_decode_aux5",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux5_def);
+Theorem thumb2_decode_aux5 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux5_def
 
-val thumb2_decode_aux6 = save_thm("thumb2_decode_aux6",
-  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux6_def);
+Theorem thumb2_decode_aux6 =
+  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux6_def
 
-val thumb2_decode_aux7 = save_thm("thumb2_decode_aux7",
-  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux7_def);
+Theorem thumb2_decode_aux7 =
+  rule [`n2w it`, `n2w m`, `n2w n`] thumb2_decode_aux7_def
 
-val thumb2_decode_aux8 = save_thm("thumb2_decode_aux8",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux8_def);
+Theorem thumb2_decode_aux8 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux8_def
 
-val thumb2_decode_aux9 = save_thm("thumb2_decode_aux9",
-  rule [`n2w m`, `n2w n`] thumb2_decode_aux9_def);
+Theorem thumb2_decode_aux9 =
+  rule [`n2w m`, `n2w n`] thumb2_decode_aux9_def
 
-val thumb2_decode = save_thm("thumb2_decode",
-  rule [`arch`,`n2w it`, `n2w m`, `n2w n`] thumb2_decode_def);
+Theorem thumb2_decode =
+  rule [`arch`,`n2w it`, `n2w m`, `n2w n`] thumb2_decode_def
 
 val _ = computeLib.add_persistent_funs
   ["arm_decode_v4",

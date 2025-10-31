@@ -140,7 +140,7 @@ expandf ((REPEAT_TCL DISJ_CASES_THEN) ASSUME_TAC
           CONJ_TAC THEN IMP_RES_THEN IMP_RES_TAC NOP1_INST_THM,
           CONJ_TAC THEN IMP_RES_THEN IMP_RES_TAC NOP2_INST_THM]);
 
-val EVERY_INST_THM = save_thm ("EVERY_INST_THM",top_thm());
+Theorem EVERY_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -158,7 +158,7 @@ expandf (REPEAT GEN_TAC THEN
           PURE_REWRITE_TAC [VAL_RULE REV_TimeOfCycle] THEN
           IMP_RES_TAC (VAL_RULE EVERY_INST_THM)]);
 
-val ALWAYS_MPC_0_THM = save_thm ("ALWAYS_MPC_0_THM",top_thm());
+Theorem ALWAYS_MPC_0_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -178,7 +178,7 @@ expandf (PURE_REWRITE_TAC [numLib.num_CONV ``1``,ADD_CLAUSES] THEN
 expandf (HOL_IMP_RES_THEN (ASSUME_TAC o (SPEC ``t:num``)) ALWAYS_MPC_0_THM);
 expandf (IMP_RES_TAC (VAL_RULE EVERY_INST_THM));
 
-val CORRECTNESS_THM = save_thm ("CORRECTNESS_THM",top_thm());
+Theorem CORRECTNESS_THM = top_thm()
 val _ = drop();
 
 export_theory ();

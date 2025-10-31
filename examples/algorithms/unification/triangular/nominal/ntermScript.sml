@@ -76,8 +76,8 @@ val [nterm_induction,nterm_nchotomy,ntermeq_thm]
   old_thms = map theorem ["Cterm_induction","Cterm_nchotomy"] @ [Ctermeq_def]
 };
 
-val _ = save_thm("nterm_induction",nterm_induction);
-val _ = save_thm("nterm_nchotomy",nterm_nchotomy);
+Theorem nterm_induction = nterm_induction
+Theorem nterm_nchotomy = nterm_nchotomy
 val _ = RWsave_thm("ntermeq_thm",ntermeq_thm);
 
 val (nterm_rec_rules,nterm_rec_ind,nterm_rec_cases) = Hol_reln `

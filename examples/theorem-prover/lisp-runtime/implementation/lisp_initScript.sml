@@ -243,7 +243,7 @@ val (mc_full_init_spec,mc_full_init_def) = basic_decompile_strings x64_tools "mc
       mov r13,r0
    `);
 
-val _ = save_thm("mc_full_init_spec",mc_full_init_spec);
+Theorem mc_full_init_spec = mc_full_init_spec
 
 val mc_full_init_blast = blastLib.BBLAST_PROVE
   ``(w2w ((w2w (w >>> 32)):word32) << 32 !! w2w ((w2w (w:word64)):word32) = w) /\
@@ -407,6 +407,6 @@ val mc_full_init_pre_thm = store_thm("mc_full_init_pre_thm",
   \\ MP_TAC mc_full_init_thm \\ ASM_SIMP_TAC std_ss []
   \\ REPEAT STRIP_TAC \\ FULL_SIMP_TAC std_ss []);
 
-val _ = save_thm("mc_full_init_thm",mc_full_init_thm);
+Theorem mc_full_init_thm = mc_full_init_thm
 
 

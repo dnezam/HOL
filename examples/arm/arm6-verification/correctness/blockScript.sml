@@ -401,9 +401,9 @@ val RP_NOT_EQUAL_ZERO = prove(
   SIMP_TAC (arith_ss++SIZES_ss) [GSYM REGISTER_LIST_LEM,EL_GEN_REG_LIST_LT_WL,
     EL_GEN_REG_LIST_EQUAL,IN_LDM_STM,n2w_11]);
 
-val RP_NOT_EQUAL_ZERO = save_thm("RP_NOT_EQUAL_ZERO",
+Theorem RP_NOT_EQUAL_ZERO =
   (REWRITE_RULE [MASKN_ZERO,LENGTH_MAP,REGISTER_LIST_GEN_REG_LIST])
-   RP_NOT_EQUAL_ZERO);
+   RP_NOT_EQUAL_ZERO
 
 (* ------------------------------------------------------------------------- *)
 
@@ -466,20 +466,20 @@ val REGISTER_LIST_LDM_THM = store_thm("REGISTER_LIST_LDM_THM",
          GSYM listTheory.EL_ZIP,SPEC_FOLDL_SNOC,LENGTH_FIRSTN,SNOC_EL_FIRSTN,
          LENGTH_ZIP,LDM_LIST_def,ZIP_FIRSTN_LEQ]);
 
-val FST_ADDR_MODE4 = save_thm("FST_ADDR_MODE4",
+Theorem FST_ADDR_MODE4 =
   (GEN_ALL o SIMP_CONV std_ss [ADDR_MODE4_def])
-  ``FST (ADDR_MODE4 P U base n)``);
+  ``FST (ADDR_MODE4 P U base n)``
 
-val SND_ADDR_MODE4 = save_thm("SND_ADDR_MODE4",
-  SIMP_CONV std_ss [ADDR_MODE4_def] ``SND (ADDR_MODE4 P U base n)``);
+Theorem SND_ADDR_MODE4 =
+  SIMP_CONV std_ss [ADDR_MODE4_def] ``SND (ADDR_MODE4 P U base n)``
 
-val LENGTH_ADDR_MODE4 = save_thm("LENGTH_ADDR_MODE4",
+Theorem LENGTH_ADDR_MODE4 =
   (GEN_ALL o REWRITE_CONV [FST_ADDR_MODE4])
-  ``LENGTH (FST (ADDR_MODE4 P U base n))``);
+  ``LENGTH (FST (ADDR_MODE4 P U base n))``
 
-val REGISTER_LIST_STM_THM = save_thm("REGISTER_LIST_STM_THM",
+Theorem REGISTER_LIST_STM_THM =
   (GSYM o REWRITE_RULE [IN_LDM_STM,GSYM FST_ADDR_MODE4] o
-   SPEC `stm`) REGISTER_LIST_THM);
+   SPEC `stm`) REGISTER_LIST_THM
 
 val LENGTH_ADDRESS_LIST =
   (GEN_ALL o REWRITE_CONV [LENGTH_GENLIST,ADDRESS_LIST_def])
@@ -613,9 +613,9 @@ val REG_READ_WRITEN_PC2 = store_thm("REG_READ_WRITEN_PC2",
 
 (* ------------------------------------------------------------------------- *)
 
-val LENGTH_REGISTER_LIST = save_thm("LENGTH_REGISTER_LIST",
+Theorem LENGTH_REGISTER_LIST =
   (GEN_ALL o REWRITE_RULE [LENGTH_MAP,REGISTER_LIST_GEN_REG_LIST] o
-   SPECL [`16`,`w2n (list:word16)`]) LENGTH_GEN_REG_LIST);
+   SPECL [`16`,`w2n (list:word16)`]) LENGTH_GEN_REG_LIST
 
 val REGISTER_LIST_LENGTH = GSYM LENGTH_REGISTER_LIST;
 
@@ -697,11 +697,11 @@ val WB_ADDRESS = store_thm("WB_ADDRESS",
     \\ SIMP_TAC std_ss [AC WORD_ADD_ASSOC WORD_ADD_COMM,WORD_EQ_ADD_LCANCEL]
     \\ SIMP_TAC std_ss [WORD_ADD_ASSOC,EVAL ``1w + 3w:word32``,WORD_SUB_ADD2]);
 
-val WB_ADDRESS_ZERO = save_thm("WB_ADDRESS_ZERO",
+Theorem WB_ADDRESS_ZERO =
   (GEN_ALL o
    SIMP_RULE bool_ss [(GEN_ALL o snd o EQ_IMP_RULE o SPEC_ALL) PENCZ_THM2] o
    DISCH `LENGTH (REGISTER_LIST ((15 >< 0) ireg)) = 0` o
-   GSYM o SPEC_ALL) WB_ADDRESS);
+   GSYM o SPEC_ALL) WB_ADDRESS
 
 (* ------------------------------------------------------------------------- *)
 
@@ -855,10 +855,10 @@ val MULT_ADD_FOUR = prove(
 fun SIMP_ASSUM a = (SIMP_RULE (stdi_ss++ARITH_ss)
   [COND_PAIR,MASKN_SUC,PENCZ_THM3,IN_LDM_STM] o DISCH a);
 
-val REG_WRITEN_SUC = save_thm("REG_WRITEN_SUC",
+Theorem REG_WRITEN_SUC =
   (GEN_ALL o SIMP_RULE arith_ss [ADD1,ADVANCE_def] o
    INST [`i` |-> `ADVANCE 1 i`] o SPEC_ALL o
-   REWRITE_RULE [REG_WRITE_RP_def] o GSYM o CONJUNCT2) REG_WRITEN_def);
+   REWRITE_RULE [REG_WRITE_RP_def] o GSYM o CONJUNCT2) REG_WRITEN_def
 
 val lem = prove(
   `!b. ~((if b then tm else tn) = t3)`, PROVE_TAC [iseq_distinct]);
@@ -982,7 +982,7 @@ val NEXT_CORE_LDM_TN_X = store_thm("NEXT_CORE_LDM_TN_X",
                   NEW_LEAST_ABORT_LT3,REG_READ_WRITEN_PC2]
              \\ RW_TAC arith_ss [RP_NOT_15,IN_LDM_STM] \\ METIS_TAC []]]);
 
-val NEXT_CORE_LDM_TN_W1 = save_thm("NEXT_CORE_LDM_TN_W1",
+Theorem NEXT_CORE_LDM_TN_W1 =
   (GEN_ALL o SIMP_RULE std_ss [] o
     DISCH `Abbrev (w = LENGTH (REGISTER_LIST ((15 >< 0) ireg))) /\
            Abbrev (nbs = DECODE_MODE ((4 >< 0) (CPSR_READ psr)))` o
@@ -990,7 +990,7 @@ val NEXT_CORE_LDM_TN_W1 = save_thm("NEXT_CORE_LDM_TN_W1",
       DECIDE ``!x. 0 < x ==> (SUC (x - 1) = x)``,
       DECIDE ``!w. 0 < w ==> (w <= 1 = (w = 1))``] o
    INST [`w` |-> `LENGTH (REGISTER_LIST ((15 >< 0) ireg))`] o
-   SPEC_ALL o SPECL [`w - 1`,`w`]) NEXT_CORE_LDM_TN_X);
+   SPEC_ALL o SPECL [`w - 1`,`w`]) NEXT_CORE_LDM_TN_X
 
 (* ------------------------------------------------------------------------- *)
 
@@ -1130,12 +1130,12 @@ val NEXT_CORE_STM_TN_W1 = prove(
     \\ FULL_SIMP_TAC (arith_ss++SIZES_ss) [ADD1,n2w_11]
     \\ EXISTS_TAC `3w` \\ SIMP_TAC (arith_ss++SIZES_ss) [n2w_11]);
 
-val NEXT_CORE_STM_TN_W1 = save_thm("NEXT_CORE_STM_TN_W1",
+Theorem NEXT_CORE_STM_TN_W1 =
   (GEN_ALL o SIMP_RULE bool_ss [] o
    DISCH `Abbrev (w = LENGTH (REGISTER_LIST ((15 >< 0) ireg))) /\
           Abbrev (nbs = DECODE_MODE ((4 >< 0) cpsr)) /\
           Abbrev (cpsr = CPSR_READ psr)` o SPEC_ALL o
-   SIMP_RULE std_ss [WORD_ADD_0,WORD_MULT_CLAUSES]) NEXT_CORE_STM_TN_W1);
+   SIMP_RULE std_ss [WORD_ADD_0,WORD_MULT_CLAUSES]) NEXT_CORE_STM_TN_W1
 
 (* ------------------------------------------------------------------------- *)
 

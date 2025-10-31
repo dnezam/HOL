@@ -389,12 +389,12 @@ val lisp_inv_swap5 = prove(
   \\ Q.LIST_EXISTS_TAC [`s5`,`s1`,`s2`,`s3`,`s4`,`s0`] \\ SWAP_TAC)
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_swap0",lisp_inv_swap0);
-val _ = save_thm("lisp_inv_swap1",lisp_inv_swap1);
-val _ = save_thm("lisp_inv_swap2",lisp_inv_swap2);
-val _ = save_thm("lisp_inv_swap3",lisp_inv_swap3);
-val _ = save_thm("lisp_inv_swap4",lisp_inv_swap4);
-val _ = save_thm("lisp_inv_swap5",lisp_inv_swap5);
+Theorem lisp_inv_swap0 = lisp_inv_swap0
+Theorem lisp_inv_swap1 = lisp_inv_swap1
+Theorem lisp_inv_swap2 = lisp_inv_swap2
+Theorem lisp_inv_swap3 = lisp_inv_swap3
+Theorem lisp_inv_swap4 = lisp_inv_swap4
+Theorem lisp_inv_swap5 = lisp_inv_swap5
 
 
 (* copy *)
@@ -405,7 +405,7 @@ val lisp_inv_copy = prove(
   \\ Q.LIST_EXISTS_TAC [`s0`,`s0`,`s2`,`s3`,`s4`,`s5`] \\ SWAP_TAC)
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_copy",lisp_inv_copy);
+Theorem lisp_inv_copy = lisp_inv_copy
 
 
 (* assign const *)
@@ -417,7 +417,7 @@ val lisp_inv_Val = prove(
   \\ Q.LIST_EXISTS_TAC [`s1`,`s2`,`s3`,`s4`,`s5`] \\ SWAP_TAC)
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_Val",lisp_inv_Val);
+Theorem lisp_inv_Val = lisp_inv_Val
 
 val BLAST_LEMMA = prove(``w << 2 !! 1w = w << 2 + 1w:word32``,blastLib.BBLAST_TAC);
 val lisp_inv_Val_n2w = Q.SPEC `n2w n` lisp_inv_Val
@@ -425,7 +425,7 @@ val lisp_inv_Val_n2w = Q.SPEC `n2w n` lisp_inv_Val
   |> SIMP_RULE (std_ss++SIZES_ss) [w2w_def,WORD_MUL_LSL,word_mul_n2w,word_add_n2w,w2n_n2w]
   |> Q.GEN `n`
 
-val _ = save_thm("lisp_inv_Val_n2w",lisp_inv_Val_n2w);
+Theorem lisp_inv_Val_n2w = lisp_inv_Val_n2w
 
 val LIST_FIND_APPEND = prove(
   ``!xs x k d. (LIST_FIND k x xs = SOME d) ==> (LIST_FIND k (x:'a) (xs++ys) = SOME d)``,
@@ -504,7 +504,7 @@ val lisp_inv_Sym = let
     |> LIST_CONJ
   end ;
 
-val _ = save_thm("lisp_inv_Sym",lisp_inv_Sym);
+Theorem lisp_inv_Sym = lisp_inv_Sym
 
 val lisp_inv_nil = prove(
   ``^LISP ==> let (x0,w0) = (Sym "NIL",w2w tw0) in ^LISP``,
@@ -521,8 +521,8 @@ val lisp_inv_zero = prove(
   \\ MATCH_MP_TAC (SIMP_RULE std_ss [] (Q.SPEC `0` lisp_inv_Val_n2w))
   \\ ASM_SIMP_TAC std_ss []) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_nil",lisp_inv_nil);
-val _ = save_thm("lisp_inv_zero",lisp_inv_zero);
+Theorem lisp_inv_nil = lisp_inv_nil
+Theorem lisp_inv_zero = lisp_inv_zero
 
 
 (* car and cdr *)
@@ -610,8 +610,8 @@ val lisp_inv_cdr = prove(
   \\ ASM_SIMP_TAC std_ss [] \\ FULL_SIMP_TAC (srw_ss()) [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_car",lisp_inv_car);
-val _ = save_thm("lisp_inv_cdr",lisp_inv_cdr);
+Theorem lisp_inv_car = lisp_inv_car
+Theorem lisp_inv_cdr = lisp_inv_cdr
 
 
 (* cons *)
@@ -699,7 +699,7 @@ val lisp_inv_cons = prove(
   \\ FULL_SIMP_TAC (std_ss++star_ss) [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_cons",lisp_inv_cons);
+Theorem lisp_inv_cons = lisp_inv_cons
 
 
 (* top, pop and push *)
@@ -873,11 +873,11 @@ val lisp_inv_push = prove(
   \\ FULL_SIMP_TAC (std_ss++star_ss) [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_top",lisp_inv_top);
-val _ = save_thm("lisp_inv_pop",lisp_inv_pop);
-val _ = save_thm("lisp_inv_push",lisp_inv_push);
-val _ = save_thm("lisp_inv_pops",lisp_inv_pops);
-val _ = save_thm("lisp_inv_pops_lemma",lisp_inv_pops_lemma);
+Theorem lisp_inv_top = lisp_inv_top
+Theorem lisp_inv_pop = lisp_inv_pop
+Theorem lisp_inv_push = lisp_inv_push
+Theorem lisp_inv_pops = lisp_inv_pops
+Theorem lisp_inv_pops_lemma = lisp_inv_pops_lemma
 
 
 (* store and load from stack *)
@@ -982,10 +982,10 @@ val lisp_inv_store = prove(
   Cases_on `j` \\ FULL_SIMP_TAC std_ss [w2n_n2w,w2w_def,LET_DEF]
   \\ METIS_TAC [lisp_inv_store_lemma]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_load",lisp_inv_load);
-val _ = save_thm("lisp_inv_load_lemma",lisp_inv_load_lemma);
-val _ = save_thm("lisp_inv_store",lisp_inv_store);
-val _ = save_thm("lisp_inv_store_lemma",lisp_inv_store_lemma);
+Theorem lisp_inv_load = lisp_inv_load
+Theorem lisp_inv_load_lemma = lisp_inv_load_lemma
+Theorem lisp_inv_store = lisp_inv_store
+Theorem lisp_inv_store_lemma = lisp_inv_store_lemma
 
 
 (* test for Dot and Sym and pointer equality *)
@@ -1001,19 +1001,19 @@ val lisp_inv_type = prove(
   \\ Cases_on `x0` \\ FULL_SIMP_TAC std_ss [lisp_x_def,ref_heap_addr_def,
        isDot_def,isSym_def,isVal_def] \\ blastLib.BBLAST_TAC);
 
-val _ = save_thm("lisp_inv_type",lisp_inv_type);
+Theorem lisp_inv_type = lisp_inv_type
 
 val lisp_inv_ignore_tw2 = prove(
   ``^LISP ==> let tw2 = temp in ^LISP``,
   SIMP_TAC std_ss [LET_DEF,lisp_inv_def]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_ignore_tw2",lisp_inv_ignore_tw2);
+Theorem lisp_inv_ignore_tw2 = lisp_inv_ignore_tw2
 
 val lisp_inv_ignore_ret_stack = prove(
   ``^LISP ==> let qs = temp in ^LISP``,
   SIMP_TAC std_ss [LET_DEF,lisp_inv_def]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_ignore_ret_stack",lisp_inv_ignore_ret_stack);
+Theorem lisp_inv_ignore_ret_stack = lisp_inv_ignore_ret_stack
 
 val lisp_inv_isSym = prove(
   ``^LISP ==>
@@ -1037,8 +1037,8 @@ val lisp_inv_isVal = prove(
   \\ `tw1 = 1w` by FULL_SIMP_TAC std_ss [lisp_inv_def]
   \\ ASM_SIMP_TAC std_ss [] THEN1 blastLib.BBLAST_TAC) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_isVal",lisp_inv_isVal);
-val _ = save_thm("lisp_inv_isSym",lisp_inv_isSym);
+Theorem lisp_inv_isVal = lisp_inv_isVal
+Theorem lisp_inv_isSym = lisp_inv_isSym
 
 val WORD_OR_EQ_WORD_ADD_LEMMA = prove(
   ``!w. (w << 2 !! 1w = w << 2 + 1w:word32) /\
@@ -1121,8 +1121,8 @@ val lisp_inv_eq_lucky = prove(
     \\ IMP_RES_TAC lisp_inv_cdr \\ FULL_SIMP_TAC std_ss [CDR_def]
     \\ IMP_RES_TAC lisp_inv_swap1 \\ RES_TAC));
 
-val _ = save_thm("lisp_inv_eq",lisp_inv_eq);
-val _ = save_thm("lisp_inv_eq_lucky",lisp_inv_eq_lucky);
+Theorem lisp_inv_eq = lisp_inv_eq
+Theorem lisp_inv_eq_lucky = lisp_inv_eq_lucky
 
 
 (* add, sub and < *)
@@ -1450,15 +1450,15 @@ val lisp_inv_div2 = prove(
   \\ FULL_SIMP_TAC wstd_ss [w2n_n2w,DIV_LT_X] \\ DECIDE_TAC)
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_add",lisp_inv_add);
-val _ = save_thm("lisp_inv_add_nop",lisp_inv_add_nop);
-val _ = save_thm("lisp_inv_sub",lisp_inv_sub);
-val _ = save_thm("lisp_inv_add1",lisp_inv_add1);
-val _ = save_thm("lisp_inv_add1_nop",lisp_inv_add1_nop);
-val _ = save_thm("lisp_inv_sub1",lisp_inv_sub1);
-val _ = save_thm("lisp_inv_less",lisp_inv_less);
-val _ = save_thm("lisp_inv_even",lisp_inv_even);
-val _ = save_thm("lisp_inv_div2",lisp_inv_div2);
+Theorem lisp_inv_add = lisp_inv_add
+Theorem lisp_inv_add_nop = lisp_inv_add_nop
+Theorem lisp_inv_sub = lisp_inv_sub
+Theorem lisp_inv_add1 = lisp_inv_add1
+Theorem lisp_inv_add1_nop = lisp_inv_add1_nop
+Theorem lisp_inv_sub1 = lisp_inv_sub1
+Theorem lisp_inv_less = lisp_inv_less
+Theorem lisp_inv_even = lisp_inv_even
+Theorem lisp_inv_div2 = lisp_inv_div2
 
 
 (* depth limit *)
@@ -1569,7 +1569,7 @@ val lisp_inv_LDEPTH = prove(
   \\ FULL_SIMP_TAC std_ss [ok_split_heap_def] \\ REPEAT STRIP_TAC
   \\ Q.PAT_X_ASSUM `!k. bbb` MATCH_MP_TAC \\ DECIDE_TAC);
 
-val _ = save_thm("lisp_inv_LDEPTH",lisp_inv_LDEPTH);
+Theorem lisp_inv_LDEPTH = lisp_inv_LDEPTH
 
 
 (* ignore write to other heap half *)
@@ -1604,8 +1604,8 @@ val lisp_inv_ignore_write2 = prove(
   \\ Q.LIST_EXISTS_TAC [`x`,`w`]
   \\ SEP_W_TAC);
 
-val _ = save_thm("lisp_inv_ignore_write1",lisp_inv_ignore_write1);
-val _ = save_thm("lisp_inv_ignore_write2",lisp_inv_ignore_write2);
+Theorem lisp_inv_ignore_write1 = lisp_inv_ignore_write1
+Theorem lisp_inv_ignore_write2 = lisp_inv_ignore_write2
 
 
 (* error *)
@@ -1638,7 +1638,7 @@ val lisp_inv_ignore_io = prove(
   ``!temp. ^LISP ==> let io = temp in ^LISP``,
   SIMP_TAC std_ss [LET_DEF,lisp_inv_def]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_ignore_io",lisp_inv_ignore_io);
+Theorem lisp_inv_ignore_io = lisp_inv_ignore_io
 
 
 (* read cs and ds, writing ds *)
@@ -1827,10 +1827,10 @@ val lisp_inv_ds_write = prove(
   \\ SEP_WRITE_TAC)
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_cs_read",lisp_inv_cs_read);
-val _ = save_thm("lisp_inv_ds_read",lisp_inv_ds_read);
-val _ = save_thm("lisp_inv_cs_write",lisp_inv_cs_write);
-val _ = save_thm("lisp_inv_ds_write",lisp_inv_ds_write);
+Theorem lisp_inv_cs_read = lisp_inv_cs_read
+Theorem lisp_inv_ds_read = lisp_inv_ds_read
+Theorem lisp_inv_cs_write = lisp_inv_cs_write
+Theorem lisp_inv_ds_write = lisp_inv_ds_write
 
 
 
@@ -2194,7 +2194,7 @@ val lisp_inv_gc = prove(
 *)
 
 
-val _ = save_thm("lisp_inv_gc",lisp_inv_gc);
+Theorem lisp_inv_gc = lisp_inv_gc
 
 
 (* temp string *)
@@ -2227,7 +2227,7 @@ val lisp_inv_temp_string = prove(
   \\ FULL_SIMP_TAC (std_ss++star_ss) [LET_DEF,one_byte_list_APPEND]
   \\ FULL_SIMP_TAC std_ss [LENGTH_APPEND]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_temp_string",lisp_inv_temp_string);
+Theorem lisp_inv_temp_string = lisp_inv_temp_string
 
 
 (* load value of amnt *)
@@ -2252,7 +2252,7 @@ val lisp_inv_amnt_read = prove(
   \\ MATCH_MP_TAC lisp_inv_Val_n2w \\ ASM_SIMP_TAC std_ss [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_amnt_read",lisp_inv_amnt_read);
+Theorem lisp_inv_amnt_read = lisp_inv_amnt_read
 
 
 (* load based on xbp *)

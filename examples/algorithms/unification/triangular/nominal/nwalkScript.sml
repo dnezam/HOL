@@ -61,7 +61,7 @@ FIRST_X_ASSUM (Q.SPEC_THEN `@p'.p'==l` MP_TAC) THEN
 SRW_TAC [][] THEN FIRST_X_ASSUM MATCH_MP_TAC THEN
 MATCH_MP_TAC app_permeq_monotone THEN SRW_TAC [][])
 
-val nvwalk_case_thms = save_thm("nvwalk_case_thms",LIST_CONJ [Sus_case2,nvwalk_Vf,app_permeq_monotone])
+Theorem nvwalk_case_thms = LIST_CONJ [Sus_case2,nvwalk_Vf,app_permeq_monotone]
 
 val nvwalk_to_var = Q.store_thm(
   "nvwalk_to_var",

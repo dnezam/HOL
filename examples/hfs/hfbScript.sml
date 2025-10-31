@@ -21,9 +21,8 @@ val hfb0_sym = Q.store_thm(
   `∀h1 h2. hfb0_equiv h1 h2 ⇒ hfb0_equiv h2 h1`,
   Induct_on `hfb0_equiv` >> metis_tac[hfb0_equiv_rules]);
 
-val hfb0_trans = save_thm(
-  "hfb0_trans",
-  last (CONJUNCTS hfb0_equiv_rules))
+Theorem hfb0_trans =
+  last (CONJUNCTS hfb0_equiv_rules)
 
 
 

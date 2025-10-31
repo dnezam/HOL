@@ -88,7 +88,7 @@ val _ = Datatype `Dertree = Der ('a Sequent) Rule (Dertree list)
 val Dertree_induction = TypeBase.induction_of ``:'a Dertree``;
 val Dertree_nchotomy  = TypeBase.nchotomy_of ``:'a Dertree``;
 val Dertree_distinct  = TypeBase.distinct_of ``:'a Dertree``;
-val Dertree_distinct' = save_thm ("Dertree_distinct'", GSYM Dertree_distinct);
+Theorem Dertree_distinct' = GSYM Dertree_distinct
 val Dertree_11        = TypeBase.one_one_of ``:'a Dertree``;
 
 (* not used *)
@@ -404,8 +404,7 @@ val subProof1 = store_thm (
    "subProof1", ``!p1 p2 p3. subProofOne p1 p2 /\ subProof p2 p3 ==> subProof p1 p3``,
     REWRITE_TAC [subProof_def, RTC_RULES]);
 
-val subProof_rules = save_thm (
-   "subProof_rules", LIST_CONJ [sameProof, subProof1]);
+Theorem subProof_rules = LIST_CONJ [sameProof, subProof1]
 
 (*
  |- ∀P.
@@ -413,9 +412,8 @@ val subProof_rules = save_thm (
      (∀x y z. subProofOne x y ∧ P y z ⇒ P x z) ⇒
      ∀x y. subProof x y ⇒ P x y
  *)
-val subProof_ind = save_thm (
-   "subProof_ind",
-    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_INDUCT));
+Theorem subProof_ind =
+    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_INDUCT)
 
 (*
  |- ∀P.
@@ -423,23 +421,20 @@ val subProof_ind = save_thm (
      (∀x y z. subProofOne x y ∧ subProof y z ∧ P y z ⇒ P x z) ⇒
      ∀x y. subProof x y ⇒ P x y:
  *)
-val subProof_strongind = save_thm (
-   "subProof_strongind",
-    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_STRONG_INDUCT));
+Theorem subProof_strongind =
+    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_STRONG_INDUCT)
 
 (*
  |- ∀x y. subProof x y ⇔ (x = y) ∨ ∃u. subProofOne x u ∧ subProof u y
  *)
-val subProof_cases = save_thm (
-   "subProof_cases",
-    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_CASES1));
+Theorem subProof_cases =
+    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_CASES1)
 
 (*
  |- ∀x y. subProof x y ⇔ (x = y) ∨ ∃u. subProof x u ∧ subProofOne u y
  *)
-val subProof_cases' = save_thm (
-   "subProof_cases'",
-    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_CASES2));
+Theorem subProof_cases' =
+    REWRITE_RULE [GSYM subProof_def] (Q.ISPEC `subProofOne` RTC_CASES2)
 
 (* original code:
 val (subProof'_rules, subProof'_ind, subProof'_cases) = Hol_reln `
@@ -552,16 +547,14 @@ Definition Deriv_def:   Deriv = RTC deriv
 End
 
 (* |- ∀x. Deriv x x *)
-val Deriv_refl  = save_thm (
-   "Deriv_refl",
+Theorem Deriv_refl =
     REWRITE_RULE [SYM Deriv_def]
-        (((Q.ISPEC `deriv`) o (Q.GEN `R`) o (Q.GEN `x`)) RTC_REFL));
+        (((Q.ISPEC `deriv`) o (Q.GEN `R`) o (Q.GEN `x`)) RTC_REFL)
 
 (* |- ∀x y z. Deriv x y ∧ Deriv y z ⇒ Deriv x z *)
-val Deriv_trans = save_thm (
-   "Deriv_trans",
+Theorem Deriv_trans =
     REWRITE_RULE [SYM Deriv_def]
-        (Q.ISPEC `deriv` (REWRITE_RULE [transitive_def] RTC_TRANSITIVE)));
+        (Q.ISPEC `deriv` (REWRITE_RULE [transitive_def] RTC_TRANSITIVE))
 
 fun derivToDeriv thm =
     REWRITE_RULE [SYM Deriv_def] (MATCH_MP RTC_SINGLE thm);
@@ -577,24 +570,20 @@ fun derivOneToDeriv thm =
      Deriv (Unf (E:- OneForm A |- A))
        (Der (E:- OneForm A |- A) SeqAxiom [])
  *)
-val DerivSeqAxiom = save_thm (
-   "DerivSeqAxiom",
-  ((Q.GEN `E`) o (Q.GEN `A`) o derivOneToDeriv) derivSeqAxiom);
+Theorem DerivSeqAxiom =
+  ((Q.GEN `E`) o (Q.GEN `A`) o derivOneToDeriv) derivSeqAxiom
 
-val DerivRightSlash = save_thm (
-   "DerivRightSlash",
+Theorem DerivRightSlash =
   ((Q.GEN `E`) o (Q.GEN `Gamma`) o (Q.GEN `A`) o (Q.GEN `B`) o
-    derivOneToDeriv) derivRightSlash);
+    derivOneToDeriv) derivRightSlash
 
-val DerivRightBackslash = save_thm (
-   "DerivRightBackslash",
+Theorem DerivRightBackslash =
   ((Q.GEN `E`) o (Q.GEN `Gamma`) o (Q.GEN `A`) o (Q.GEN `B`) o
-    derivOneToDeriv) derivRightBackslash);
+    derivOneToDeriv) derivRightBackslash
 
-val DerivRightDot = save_thm (
-   "DerivRightDot",
+Theorem DerivRightDot =
   ((Q.GEN `E`) o (Q.GEN `Gamma`) o (Q.GEN `Delta`) o (Q.GEN `A`) o (Q.GEN `B`) o
-    derivOneToDeriv) derivRightDot);
+    derivOneToDeriv) derivRightDot
 
 val DerivLeftSlash = store_thm (
    "DerivLeftSlash",
@@ -727,12 +716,12 @@ val DerivBoth = store_thm ("DerivBoth",
       IMP_RES_TAC (Q.ISPEC `deriv` (REWRITE_RULE [transitive_def] RTC_TRANSITIVE)) ]);
 
 (* All Deriv rules *)
-val Deriv_rules = save_thm ("Deriv_rules",
+Theorem Deriv_rules =
     LIST_CONJ [ DerivSeqAxiom, DerivRightSlash, DerivRightBackslash, DerivRightDot,
                 DerivLeftSlash, DerivLeftBackslash, DerivLeftDot,
                 DerivCutRule, DerivSeqExt,
                 DerivOne, DerivLeft, DerivRight, DerivBoth,
-                Deriv_refl, Deriv_trans ]);
+                Deriv_refl, Deriv_trans ]
 
 (* Inductively define a "finished" proof *)
 val (Proof_rules, Proof_ind, Proof_cases) = Hol_reln `

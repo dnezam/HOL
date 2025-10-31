@@ -82,5 +82,5 @@ val SQRT_2_IRRATIONAL = Q.prove
   THEN PROVE_TAC [lemma])
 end;
 
-val _ = save_thm("SQRT_2_IRRATIONAL", SQRT_2_IRRATIONAL);
+Theorem SQRT_2_IRRATIONAL = SQRT_2_IRRATIONAL
 

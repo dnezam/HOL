@@ -622,8 +622,7 @@ val forall_one_one = prove(
   SRW_TAC [][EQ_IMP_THM] THEN Cases_on `p` THEN SRW_TAC [][]);
 
 
-val swap_RECURSION_generic = save_thm(
-  "swap_RECURSION_generic",
+Theorem swap_RECURSION_generic =
   (SIMP_RULE (srw_ss()) [null_swapping, exists_fn_dom_one, swapfn_def,
                          forall_fn_dom_one, forall_one_one] o
    Q.INST [`var'` |-> `var`, `con'` |-> `con`, `app'` |-> `app`,
@@ -635,7 +634,7 @@ val swap_RECURSION_generic = save_thm(
            `app` |-> `\rt ru t u p. app' (rt()) (ru()) t u`,
            `lam` |-> `\rt v t p. lam' (rt()) v t`] o
    INST_TYPE [beta |-> ``:one``, gamma |-> beta])
-  swap_RECURSION_pgeneric);
+  swap_RECURSION_pgeneric
 
 val ex = (UNDISCH o
           SIMP_RULE (srw_ss()) [] o
@@ -648,13 +647,12 @@ val hom_t = ``hom:'a nc -> 'b``
 val better = (DISCH_ALL o
               CHOOSE (hom_t, ex) o
               EXISTS (mk_exists(hom_t, concl bodth'), hom_t)) bodth'
-val swap_RECURSION_nosideset = save_thm("swap_RECURSION_nosideset", better)
+Theorem swap_RECURSION_nosideset = better
 
-val swap_RECURSION_simple = save_thm(
-  "swap_RECURSION_simple",
+Theorem swap_RECURSION_simple =
   (SIMP_RULE (srw_ss()) [null_swapping] o
    Q.INST [`rswap` |-> `\x y z. z`, `rFV` |-> `K {}`])
-    swap_RECURSION_nosideset);
+    swap_RECURSION_nosideset
 
 (* ----------------------------------------------------------------------
     list swap

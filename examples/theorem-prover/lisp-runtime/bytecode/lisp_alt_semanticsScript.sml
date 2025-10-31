@@ -176,10 +176,10 @@ val (RR_ev_rules,RR_ev_ind,RR_ev_cases) = Hol_reln `
     RR_ev (App Define [Const (Sym fname); Const (list2sexp (MAP Sym ps)); Const body],a,fns,io,ok) (s,fns1,io1,ok1) ==>
     RR_ev (Defun fname ps body,a,fns,io,ok) (s,fns1,io1,ok1))`;
 
-val RR_evl_LENGTH = save_thm("RR_evl_LENGTH",
+Theorem RR_evl_LENGTH =
   RR_ev_ind
   |> Q.SPECL [`\x y. T`,`\x y. (LENGTH (FST x) = LENGTH (FST y))`,`\x y. T`]
-  |> SIMP_RULE std_ss [LENGTH]);
+  |> SIMP_RULE std_ss [LENGTH]
 
 
 (* R_ev implies RR_ev *)
@@ -225,5 +225,5 @@ val R_ev_IMP_RR_ev = prove(goal,
   \\ ONCE_REWRITE_TAC [RR_ev_cases] \\ FULL_SIMP_TAC (srw_ss()) [isFun_def]
   \\ METIS_TAC []) |> SIMP_RULE std_ss [] |> CONJUNCTS |> last;
 
-val _ = save_thm("R_ev_IMP_RR_ev",R_ev_IMP_RR_ev);
+Theorem R_ev_IMP_RR_ev = R_ev_IMP_RR_ev
 

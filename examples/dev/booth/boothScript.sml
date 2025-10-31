@@ -60,7 +60,7 @@ val INIT_def = Define`
     let mshift = if mul = 2 then 1 else 0 in
      BOOTH mul mul2 borrow2 mshift rm rd`;
 
-val INIT = save_thm("INIT",SIMP_RULE std_ss [GSYM WORD_BITS_def] INIT_def);
+Theorem INIT = SIMP_RULE std_ss [GSYM WORD_BITS_def] INIT_def
 
 val NEXT_def = Define`
   NEXT (BOOTH mul mul2 borrow2 mshift rm rd) =
@@ -77,7 +77,7 @@ val NEXT_def = Define`
     in
       BOOTH mul' mul2' borrow2' mshift' rm rd'`;
 
-val NEXT = save_thm("NEXT",SIMP_RULE std_ss [] NEXT_def);
+Theorem NEXT = SIMP_RULE std_ss [] NEXT_def
 
 val STATE_def = Define`
   (STATE 0 a rm rs rn = INIT a rm rs rn) /\
@@ -126,7 +126,7 @@ val INVARIANT_def = Define`
                  else
                    rm * n2w (w2n rs MOD 2 ** (2 * n))) + (if a then rn else 0w))`;
 
-val INVARIANT = save_thm("INVARIANT",SIMP_RULE std_ss [] INVARIANT_def);
+Theorem INVARIANT = SIMP_RULE std_ss [] INVARIANT_def
 
 (* -------------------------------------------------------- *)
 
@@ -541,13 +541,13 @@ val EXTEND_ONE_BIT = prove(
     ]
 );
 
-val DUR_EVAL = save_thm("DUR_EVAL",
+Theorem DUR_EVAL =
   (GEN_ALL o SIMP_RULE std_ss [if_swp,EXTEND_ONE_BIT] o
    SIMP_RULE arith_ss [HB_def,GSYM BIT_def,WL_def])
     (funpow 17 (ONCE_REWRITE_RULE [WHILE])
        ((SIMP_RULE arith_ss [LEAST_DEF,DONE_def,BORROW2_def,BIT_def,MIN_DEF,
                              BITS_EVAL,BIT_EVAL,MOD_WL_THM,BITS_COMP_THM2] o SPEC `n2w n`) DUR_def))
-);
+
 
 (* -------------------------------------------------------- *)
 

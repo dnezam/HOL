@@ -533,8 +533,8 @@ val (run_def,run_ind) =
            else run (n-1) instB P (decode_cond (pc,cpsr,st) (instB pc))`,
     WF_REL_TAC `measure FST`);
 
-val _ = save_thm("run_def", run_def);
-val _ = save_thm("run_ind", run_ind);
+Theorem run_def = run_def
+Theorem run_ind = run_ind
 
 val RUN_LEM_1 = Q.store_thm
   ("RUN_LEM_1",

@@ -176,7 +176,7 @@ val milawa_init_expanded = let
      SIMP_CONV (srw_ss()) []) tm
   in RW [lemma] th end
 
-val _ = save_thm("milawa_init_expanded",milawa_init_expanded);
+Theorem milawa_init_expanded = milawa_init_expanded
 
 
 (* extract functions for Milawa's top-level definitions *)
@@ -338,7 +338,7 @@ in
     |> RW [GSYM init_fns_def,GSYM milawa_init_def]
 end
 
-val _ = save_thm("milawa_init_evaluated",milawa_init_evaluated);
+Theorem milawa_init_evaluated = milawa_init_evaluated
 
 
 (* construct fns_assum for all core functions *)

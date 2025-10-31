@@ -106,8 +106,7 @@ Higher order logic wins here: can capture all possible predicates.
 Can simplify to membership of a set S by making the predicate P be just that.
  ⊢ ∀P. P 0 ∧ (∀x. P x ∧ x ∈ Nats ⇒ P (vSUC x)) ⇒ ∀u. u ∈ Nats ⇒ P u
 *)
-val nat_induction = save_thm(
-  "nat_induction",
+Theorem nat_induction =
   Nats_least_inductive
       |> SIMP_RULE(srw_ss())[SUBSET_def,Inductives_def,SPEC0]
       |> Q.GEN `P`
@@ -115,7 +114,7 @@ val nat_induction = save_thm(
       |> SIMP_RULE (srw_ss() ++ CONJ_ss)
                    [Nats_SET, EMPTY_IN_Nats, vSUC_IN_Nats_I,
                     GSYM fromNat_def]
-      |> Q.GEN `P`);
+      |> Q.GEN `P`
 val _ = IndDefLib.export_rule_induction "nat_induction"
 
 Definition transitive_def:
@@ -342,8 +341,7 @@ val complete_induction = store_thm(
 val rwt = SUBSET_def |> Q.SPECL [`B`, `Nats`] |> EQ_IMP_RULE |> #1 |> UNDISCH
 
 (* ⊢ B ⊆ Nats ∧ (∃n. n ∈ B) ⇒ ∃n. n ∈ B ∧ ∀m. m ∈ B ⇒ n ≤ m *)
-val Nats_least_element = save_thm(
-  "Nats_least_element",
+Theorem Nats_least_element =
   complete_induction |> Q.SPEC `λn. n ∉ B`
                      |> CONV_RULE CONTRAPOS_CONV
                      |> SIMP_RULE bool_ss []
@@ -352,7 +350,7 @@ val Nats_least_element = save_thm(
                      |> SIMP_RULE (srw_ss() ++ CONJ_ss) [rwt]
                      |> SIMP_RULE bool_ss [Once CONJ_COMM]
                      |> DISCH_ALL
-                     |> REWRITE_RULE [AND_IMP_INTRO]);
+                     |> REWRITE_RULE [AND_IMP_INTRO]
 
 
 

@@ -76,9 +76,8 @@ val rtypm_raw = store_thm(
     METIS_TAC [pmact_permeq]
   ]);
 
-val rtypm_thm = save_thm(
-"rtypm_thm",
-raw_rtypm_def |> SUBS [GSYM rtypm_raw]);
+Theorem rtypm_thm =
+raw_rtypm_def |> SUBS [GSYM rtypm_raw]
 val _ = export_rewrites["rtypm_thm"];
 
 val fv_rtypm = prove(

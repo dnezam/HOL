@@ -38,10 +38,10 @@ val sdefn = Hol_defn "STATES" `
         (FP f Q ks e (SUC n) = STATES f ks e[[[Q <-- FP f Q ks e n]]])`
 
 val (STATES_def,STATES_IND_def) = Defn.tprove(sdefn,(WF_REL_TAC `inv_image ($< LEX $<) (\v.if (ISL v) then(mu_size2(FST(OUTL v)),0) else (mu_size2(FST(OUTR v)), SND(SND(SND(SND(OUTR v))))))`) THEN (RW_TAC std_ss [sumTheory.ISL,sumTheory.OUTL,sumTheory.OUTR]) THEN RW_TAC arith_ss [mu_size_def,mu_size2_def])
-val _ = save_thm("STATES_def",STATES_def)
+Theorem STATES_def = STATES_def
 
 
-val MU_SAT_def = save_thm("MU_SAT_def",Define `MU_SAT f ks e s = s IN STATES f ks e`)
+Theorem MU_SAT_def = Define `MU_SAT f ks e s = s IN STATES f ks e`
 
 Definition MU_MODEL_SAT_def:   MU_MODEL_SAT f ks e = (!s. s IN ks.S0 ==> MU_SAT f ks e s)
 End
@@ -50,13 +50,13 @@ End
 
 val STATES_SUBSET = prove(``!f ks e. wfKS ks ==> STATES f ks e SUBSET ks.S``,RW_TAC std_ss [wfKS_def,SUBSET_DEF,IN_UNIV])
 
-val MU_BIGUNION = save_thm("MU_BIGUNION",prove(``!f ks e Q. wfKS ks
+Theorem MU_BIGUNION = prove(``!f ks e Q. wfKS ks
                                                ==> (STATES (mu Q.. f) ks e = BIGUNION { P | ?n. P = FP f Q ks e[[[Q<--{}]]] n})``,
-RW_TAC std_ss [wfKS_def,STATES_def,BIGUNION,SET_SPEC,IN_UNIV,EXTENSION,ENV_UPDATE_def] THEN PROVE_TAC []))
+RW_TAC std_ss [wfKS_def,STATES_def,BIGUNION,SET_SPEC,IN_UNIV,EXTENSION,ENV_UPDATE_def] THEN PROVE_TAC [])
 
-val NU_BIGINTER = save_thm("NU_BIGINTER",prove(``!f ks e Q. wfKS ks
+Theorem NU_BIGINTER = prove(``!f ks e Q. wfKS ks
                                    ==> (STATES (nu Q.. f) ks e = BIGINTER { P | ?n. P = FP f Q ks e[[[Q<--ks.S]]]  n})``,
-RW_TAC std_ss [wfKS_def,STATES_def,BIGINTER,SET_SPEC,IN_UNIV,EXTENSION,ENV_UPDATE_def] THEN PROVE_TAC []))
+RW_TAC std_ss [wfKS_def,STATES_def,BIGINTER,SET_SPEC,IN_UNIV,EXTENSION,ENV_UPDATE_def] THEN PROVE_TAC [])
 
 val env3 = prove(``!f (ks:('prop,'state) KS) (e:string -> 'state -> bool) Q (s:'state ->bool).
 (!(e:string -> 'state -> bool) Q (s:'state -> bool). (STATES (RVNEG Q f) ks e[[[Q <-- UNIV DIFF s]]] =  STATES f ks e[[[Q <-- s]]])) ==>
@@ -146,7 +146,7 @@ val NU_STATES  = prove (``!ks. wfKS ks ==> (!f g e. (!e. STATES f ks e = STATES 
 
 val MU_STATES = prove(``!ks. wfKS ks ==> (!f g e. (!e. STATES f ks e = STATES g ks e) ==> (STATES (mu Q.. f) ks e = STATES (mu Q.. g) ks e))``, RW_TAC std_ss  [BIGUNION_LEMMA1,STATES_FP_EQ,MU_BIGUNION])
 
-val STATES_NNF_ID = save_thm("STATES_NNF_ID",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e. wfKS ks ==> (STATES (NNF f) ks e = STATES f ks e)``,
+Theorem STATES_NNF_ID = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e. wfKS ks ==> (STATES (NNF f) ks e = STATES f ks e)``,
 recInduct NNF_IND_def THEN RW_TAC std_ss [wfKS_def] THENL [ (* 21 subgoals *)
 RW_TAC std_ss [NNF_def,STATES_def], (* T *)
 RW_TAC std_ss [NNF_def,STATES_def], (* F *)
@@ -174,7 +174,7 @@ THEN REWRITE_TAC [SYM (SPECL [``Q:string``,``f:'prop mu``] (List.last (CONJUNCTS
 THEN ASSUM_LIST (fn t => RW_TAC std_ss (wfKS_def::NU_STATES::t)), (* ~mu *)
 ASSUM_LIST (fn t => RW_TAC std_ss (NNF_def::wfKS_def::NEG_OVER_NU::t))
 THEN REWRITE_TAC [SYM (SPECL [``Q:string``,``f:'prop mu``] (List.last (CONJUNCTS RVNEG_def)))]
-THEN ASSUM_LIST (fn t => RW_TAC std_ss (wfKS_def::MU_STATES::t))])) (* ~nu *)
+THEN ASSUM_LIST (fn t => RW_TAC std_ss (wfKS_def::MU_STATES::t))]) (* ~nu *)
 
 val MU_FP_LEMMA = prove(``(!n. FP (f:'prop mu) Q (ks:('prop,'state) KS)  e[[[Q<--{}]]] n SUBSET FP f Q ks e'[[[Q<--{}]]] n) ==>
     !x. (?n. x IN FP f Q ks e[[[Q<--{}]]] n) ==> ?n. x IN FP f Q ks e'[[[Q<--{}]]] n``,
@@ -186,38 +186,38 @@ PROVE_TAC [SUBSET_DEF])
 
 (* thms about satisfiability *)
 
-val MU_SAT_NEG =  save_thm("MU_SAT_NEG",prove(``!s ks e. (wfKS ks ==> (!f. (MU_SAT (~f) ks e s = ~MU_SAT f ks e s)))``,
+Theorem MU_SAT_NEG = prove(``!s ks e. (wfKS ks ==> (!f. (MU_SAT (~f) ks e s = ~MU_SAT f ks e s)))``,
                              REPEAT GEN_TAC THEN DISCH_TAC THEN GEN_TAC THEN EQ_TAC THENL
                              [RW_TAC std_ss [MU_SAT_def,STATES_def,DIFF_DEF,IN_UNIV,SET_SPEC],
                              RW_TAC std_ss [MU_SAT_def,STATES_def,DIFF_DEF,IN_UNIV,SET_SPEC]
-                             THEN PROVE_TAC [IN_UNIV,wfKS_def]]))
+                             THEN PROVE_TAC [IN_UNIV,wfKS_def]])
 
-val MU_SAT_CONJ = save_thm("MU_SAT_CONJ",prove(``!s ks e. (wfKS ks ==> (!f g. (MU_SAT (f:'prop mu /\ g) ks e s = (MU_SAT f ks e s) /\ (MU_SAT g ks e s))))``,
-                             RW_TAC std_ss [wfKS_def,INTER_DEF,MU_SAT_def,STATES_def,SET_SPEC_CONV ``s IN {x | x IN STATES f ks e /\ x IN STATES g ks e}``]))
-
-
-val MU_SAT_DISJ = save_thm("MU_SAT_DISJ",prove (``!s ks e. (wfKS ks ==> (!f g.(MU_SAT (f:'prop mu \/ g) ks e s = (MU_SAT f ks e s) \/ (MU_SAT g ks e s))))``,
-                         RW_TAC std_ss [wfKS_def,UNION_DEF,MU_SAT_def,STATES_def,SET_SPEC_CONV ``s IN {x | x IN STATES f ks e \/ x IN STATES g ks e}``]))
-
-val MU_SAT_T = save_thm("MU_SAT_T",prove(``!s ks e. (wfKS ks ==> ((MU_SAT TR ks e s) = T))``,
-                          RW_TAC std_ss [wfKS_def,IN_UNIV,MU_SAT_def,STATES_def]))
+Theorem MU_SAT_CONJ = prove(``!s ks e. (wfKS ks ==> (!f g. (MU_SAT (f:'prop mu /\ g) ks e s = (MU_SAT f ks e s) /\ (MU_SAT g ks e s))))``,
+                             RW_TAC std_ss [wfKS_def,INTER_DEF,MU_SAT_def,STATES_def,SET_SPEC_CONV ``s IN {x | x IN STATES f ks e /\ x IN STATES g ks e}``])
 
 
-val MU_SAT_F = save_thm("MU_SAT_F",prove(``!s ks e. (wfKS ks ==> ((MU_SAT FL ks e s) = F))``,
-                          RW_TAC std_ss [wfKS_def,NOT_IN_EMPTY,MU_SAT_def,STATES_def]))
+Theorem MU_SAT_DISJ = prove (``!s ks e. (wfKS ks ==> (!f g.(MU_SAT (f:'prop mu \/ g) ks e s = (MU_SAT f ks e s) \/ (MU_SAT g ks e s))))``,
+                         RW_TAC std_ss [wfKS_def,UNION_DEF,MU_SAT_def,STATES_def,SET_SPEC_CONV ``s IN {x | x IN STATES f ks e \/ x IN STATES g ks e}``])
 
-val MU_SAT_DMD = save_thm("MU_SAT_DMD",prove(``!s ks e.  (wfKS ks ==> (!a f. MU_SAT (<<a>> f) ks e s = ?q. (ks.T a)(s,q) /\ MU_SAT f ks e q))``, RW_TAC std_ss [MU_SAT_def,STATES_def,KS_TRANSITION_def,SET_SPEC,wfKS_def,IN_UNIV]))
+Theorem MU_SAT_T = prove(``!s ks e. (wfKS ks ==> ((MU_SAT TR ks e s) = T))``,
+                          RW_TAC std_ss [wfKS_def,IN_UNIV,MU_SAT_def,STATES_def])
 
-val MU_SAT_BOX = save_thm("MU_SAT_BOX",prove(``!s ks e.  (wfKS ks ==> (!a f. MU_SAT ([[a]] f) ks e s = !q. (ks.T a)(s,q) ==> MU_SAT f ks e q))``, RW_TAC std_ss [MU_SAT_def,STATES_def,KS_TRANSITION_def,SET_SPEC,wfKS_def,IN_UNIV]))
 
-val MU_SAT_RV = save_thm("MU_SAT_RV",prove(``!s ks e. (wfKS ks ==> (!Q. MU_SAT (RV Q) ks e s = (e Q) s))``,
-                            RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def,IN_UNIV]))
+Theorem MU_SAT_F = prove(``!s ks e. (wfKS ks ==> ((MU_SAT FL ks e s) = F))``,
+                          RW_TAC std_ss [wfKS_def,NOT_IN_EMPTY,MU_SAT_def,STATES_def])
 
-val MU_SAT_AP = save_thm("MU_SAT_AP",prove(``!s ks e. wfKS ks ==> !a. MU_SAT (AP a) ks e s = ks.L s a``,SIMP_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def,IN_UNIV] THEN SIMP_TAC std_ss [IN_DEF]))
+Theorem MU_SAT_DMD = prove(``!s ks e.  (wfKS ks ==> (!a f. MU_SAT (<<a>> f) ks e s = ?q. (ks.T a)(s,q) /\ MU_SAT f ks e q))``, RW_TAC std_ss [MU_SAT_def,STATES_def,KS_TRANSITION_def,SET_SPEC,wfKS_def,IN_UNIV])
 
-val MU_SAT_LFP = save_thm("MU_SAT_LFP",prove(``!s ks e. (wfKS ks ==> (!Q f. MU_SAT (mu Q .. f) ks e s = ?n. s IN FP f Q ks e[[[Q<--{}]]] n))``,RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def]))
+Theorem MU_SAT_BOX = prove(``!s ks e.  (wfKS ks ==> (!a f. MU_SAT ([[a]] f) ks e s = !q. (ks.T a)(s,q) ==> MU_SAT f ks e q))``, RW_TAC std_ss [MU_SAT_def,STATES_def,KS_TRANSITION_def,SET_SPEC,wfKS_def,IN_UNIV])
 
-val MU_SAT_GFP = save_thm("MU_SAT_GFP",prove(``!s ks e. (wfKS ks ==> (!Q f. MU_SAT (nu Q .. f) ks e s = !n. s IN FP f Q ks e[[[Q<--ks.S]]] n))``,RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def]))
+Theorem MU_SAT_RV = prove(``!s ks e. (wfKS ks ==> (!Q. MU_SAT (RV Q) ks e s = (e Q) s))``,
+                            RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def,IN_UNIV])
+
+Theorem MU_SAT_AP = prove(``!s ks e. wfKS ks ==> !a. MU_SAT (AP a) ks e s = ks.L s a``,SIMP_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def,IN_UNIV] THEN SIMP_TAC std_ss [IN_DEF])
+
+Theorem MU_SAT_LFP = prove(``!s ks e. (wfKS ks ==> (!Q f. MU_SAT (mu Q .. f) ks e s = ?n. s IN FP f Q ks e[[[Q<--{}]]] n))``,RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def])
+
+Theorem MU_SAT_GFP = prove(``!s ks e. (wfKS ks ==> (!Q f. MU_SAT (nu Q .. f) ks e s = !n. s IN FP f Q ks e[[[Q<--ks.S]]] n))``,RW_TAC std_ss [MU_SAT_def,STATES_def,SET_SPEC,wfKS_def])
 
 val SAT_OVER_DISJ = prove(``!(f:'prop mu) (g:'prop mu) (ks:('prop,'state) KS) e s. MU_SAT (f \/ g) ks e s = MU_SAT f ks e s \/ MU_SAT g ks e s``,
 RW_TAC std_ss [MU_SAT_def,STATES_def,UNION_DEF,SET_SPEC])
@@ -472,23 +472,23 @@ THEN Induct_on `n` THENL [
  THEN IMP_RES_TAC RV_NEG_NEG
  THEN FULL_SIMP_TAC std_ss []]]) (* ~nu *)
 
-val STATES_MONO = save_thm("STATES_MONO",SIMP_RULE std_ss [STATES_NNF_ID] STATES_MONO_LEMMA)
+Theorem STATES_MONO = SIMP_RULE std_ss [STATES_NNF_ID] STATES_MONO_LEMMA
 
-val ENV_VAR_LEGAL = save_thm("ENV_VAR_LEGAL",prove(``!(e:string -> 'state -> bool) Q' f. if (SUBFORMULA (~RV Q') (NNF (f:'prop mu))) then e Q' = e Q' else e Q' SUBSET e Q'``,SIMP_TAC std_ss [SUBSET_REFL]))
+Theorem ENV_VAR_LEGAL = prove(``!(e:string -> 'state -> bool) Q' f. if (SUBFORMULA (~RV Q') (NNF (f:'prop mu))) then e Q' = e Q' else e Q' SUBSET e Q'``,SIMP_TAC std_ss [SUBSET_REFL])
 
-val STATES_MONO_EQ = save_thm("STATES_MONO_EQ",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q X Y.
+Theorem STATES_MONO_EQ = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q X Y.
       (wfKS ks /\ (IMF mu Q.. f) /\ (X SUBSET Y)) ==>
-            (STATES f ks e[[[Q<--X]]] SUBSET STATES f ks e[[[Q<--Y]]])``,SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL]))
+            (STATES f ks e[[[Q<--X]]] SUBSET STATES f ks e[[[Q<--Y]]])``,SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL])
 
 (* thms for proving existence of least fixed-points *)
 
-val LFP_CHAIN = save_thm("LFP_CHAIN",prove(``!(f:'prop mu) ks e n Q. (wfKS ks /\ IMF (mu Q .. f)) ==>
+Theorem LFP_CHAIN = prove(``!(f:'prop mu) ks e n Q. (wfKS ks /\ IMF (mu Q .. f)) ==>
                          (FP f Q ks e[[[Q<--{}]]] n SUBSET FP f Q ks e[[[Q<--{}]]] (SUC n))``,
 REPEAT STRIP_TAC THEN Induct_on `n` THENL [
  SIMP_TAC std_ss [STATES_def,EMPTY_SUBSET,ENV_UPDATE_def],
  ONCE_REWRITE_TAC [STATES_def]
  THEN REWRITE_TAC [ENV_UPDATE]
- THEN FULL_SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL]]))
+ THEN FULL_SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL]])
 
 val LFP_CHAIN_STABLE = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (mu Q.. f)) ==>
                  ((FP f Q ks e[[[Q<--{}]]] n = FP f Q ks e[[[Q<--{}]]] (SUC n)) ==>
@@ -567,7 +567,7 @@ THEN SPEC_TAC (``FP (f:'prop mu) Q (ks:('prop,'state) KS) e[[[Q<--{}]]]``,``P:nu
 THEN ASSUM_LIST PROVE_TAC)
 
 
-val MU_FP_STATES = save_thm("MU_FP_STATES",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n' Q. (wfKS ks /\ IMF (mu Q ..f)) ==>
+Theorem MU_FP_STATES = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n' Q. (wfKS ks /\ IMF (mu Q ..f)) ==>
                  ((FP f Q ks e[[[Q<--{}]]] n' = FP f Q ks e[[[Q<--{}]]] (SUC n')) ==>
                        (STATES (mu Q.. f) ks e = FP f Q ks e[[[Q<--{}]]] n'))``,
 REPEAT STRIP_TAC
@@ -580,7 +580,7 @@ THEN UNDISCH_TAC `` wfKS (ks:('prop,'state) KS) /\ IMF (mu Q.. f) ==> (FP f Q ks
 THEN UNDISCH_TAC ``FP f Q (ks:('prop,'state) KS) e[[[Q<--{}]]] n' = FP f Q ks e[[[Q<--{}]]] (SUC n')``
 THEN SPEC_TAC (``FP (f:'prop mu) Q (ks:('prop,'state) KS) e[[[Q<--{}]]]``,``P:num -> 'state -> bool``)
 THEN REWRITE_TAC [GSYM BIGUNION_SPLIT]
-THEN ASSUM_LIST PROVE_TAC))
+THEN ASSUM_LIST PROVE_TAC)
 
 val LFP_STRICT_CHAIN = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (mu Q.. f)) ==>
                                 (~(FP f Q ks e[[[Q<--{}]]] n = FP f Q ks e[[[Q<--{}]]] (SUC n))) ==>
@@ -637,10 +637,10 @@ val LFP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ I
                 THEN SPEC_TAC (``e[[[Q<--{}]]]:string->'state->bool``,``e:string->'state->bool``)
                 THEN ASSUM_LIST (fn t => PROVE_TAC (STATES_def::t)))
 
-val GEN_LFP_IDEM =  save_thm("GEN_LFP_IDEM",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q. (wfKS ks /\ IMF (mu Q .. f) /\ FINITE ks.S) ==>
+Theorem GEN_LFP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q. (wfKS ks /\ IMF (mu Q .. f) /\ FINITE ks.S) ==>
                              (STATES f ks e[[[Q<--(BIGUNION {P | ?i. (P = (FP f Q ks e[[[Q<--{}]]] i))})]]]
                               = (BIGUNION {P | ?i. (P = (FP f Q ks e[[[Q<--{}]]] i))}))``,
-REPEAT STRIP_TAC THEN IMP_RES_TAC GEN_LFP_IDEM_LEM2 THEN IMP_RES_TAC LFP_IDEM THEN FULL_SIMP_TAC std_ss []))
+REPEAT STRIP_TAC THEN IMP_RES_TAC GEN_LFP_IDEM_LEM2 THEN IMP_RES_TAC LFP_IDEM THEN FULL_SIMP_TAC std_ss [])
 
 val GEN_LFP_FP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q n. (wfKS ks /\ IMF (mu Q .. f) /\ FINITE ks.S) ==>
  (FP f Q ks e[[[Q<--(BIGUNION {P | ?i. (P = (FP f Q ks e[[[Q<--{}]]] i))})]]] n
@@ -662,13 +662,13 @@ THEN REWRITE_TAC [Q.SPEC `k` (CONV_RULE SWAP_VARS_CONV BIGUNION_SPLIT)]
 THEN ASSUM_LIST (fn t => METIS_TAC (LFP_CHAIN_UNION::MU_FP_STATES_LEM1::t))
 )
 
-val GEN_LFP_CHAIN = save_thm("GEN_LFP_CHAIN",prove(``!(f:'prop mu) ks e n Q X. (wfKS ks /\ IMF (mu Q .. f)  /\ X SUBSET STATES f ks e[[[Q<--X]]]) ==>
+Theorem GEN_LFP_CHAIN = prove(``!(f:'prop mu) ks e n Q X. (wfKS ks /\ IMF (mu Q .. f)  /\ X SUBSET STATES f ks e[[[Q<--X]]]) ==>
                          (FP f Q ks e[[[Q<--X]]] n SUBSET FP f Q ks e[[[Q<--X]]] (SUC n))``,
 REPEAT STRIP_TAC THEN Induct_on `n` THENL [
 FULL_SIMP_TAC std_ss [STATES_def,ENV_UPDATE,ENV_EVAL],
  ONCE_REWRITE_TAC [STATES_def]
  THEN REWRITE_TAC [ENV_UPDATE]
- THEN FULL_SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL]]))
+ THEN FULL_SIMP_TAC std_ss [STATES_MONO,ENV_VAR_LEGAL]])
 
 val GEN_LFP_CHAIN_STABLE = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q X. (wfKS ks /\ IMF (mu Q.. f)) ==>
                  ((FP f Q ks e[[[Q<--X]]] n = FP f Q ks e[[[Q<--X]]] (SUC n)) ==>
@@ -773,7 +773,7 @@ THEN FULL_SIMP_TAC std_ss [BIGUNION_SUBSET_IMP],
 IMP_RES_TAC GEN_LFP_UNION_SUBSET
 ])
 
-val GEN_MU_FP_STATES = save_thm("GEN_MU_FP_STATES",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q X. wfKS ks /\ IMF (mu Q ..f) /\ FINITE ks.S /\
+Theorem GEN_MU_FP_STATES = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q X. wfKS ks /\ IMF (mu Q ..f) /\ FINITE ks.S /\
                   X SUBSET STATES f ks e[[[Q<--X]]] ==> X SUBSET BIGUNION {P | ?n. (P = FP f Q ks e[[[Q<--{}]]] n)}  ==>
                  ((FP f Q ks e[[[Q<--X]]] n = FP f Q ks e[[[Q<--X]]] (SUC n)) ==>
                        (STATES (mu Q.. f) ks e = FP f Q ks e[[[Q<--X]]] n))``,
@@ -781,18 +781,18 @@ REPEAT STRIP_TAC
 THEN ASSUM_LIST (fn t => SIMP_TAC std_ss (MU_BIGUNION::(tl t)))
 THEN IMP_RES_TAC GEN_MU_FP_STATES_LEM2
 THEN IMP_RES_TAC LFP_ITER_EQ
-THEN FULL_SIMP_TAC std_ss [GSYM BIGUNION_SPLIT]))
+THEN FULL_SIMP_TAC std_ss [GSYM BIGUNION_SPLIT])
 
 (* thms for proving existence of greatest fixed-points *)
 
-val GFP_CHAIN = save_thm("GFP_CHAIN",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (mu Q..f)) ==> (FP f Q ks e[[[Q<--ks.S]]] (SUC n) SUBSET FP f Q ks e[[[Q<--ks.S]]]  n)``,
+Theorem GFP_CHAIN = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (mu Q..f)) ==> (FP f Q ks e[[[Q<--ks.S]]] (SUC n) SUBSET FP f Q ks e[[[Q<--ks.S]]]  n)``,
 SIMP_TAC std_ss [wfKS_def]
 THEN REPEAT STRIP_TAC
 THEN Induct_on `n` THENL [
 SIMP_TAC std_ss [STATES_def,ENV_UPDATE_def,SUBSET_DEF,IN_UNIV],
 ONCE_REWRITE_TAC [STATES_def]
 THEN REWRITE_TAC [ENV_UPDATE]
-THEN ASSUM_LIST (fn t => PROVE_TAC (wfKS_def::STATES_MONO::ENV_VAR_LEGAL::t))]))
+THEN ASSUM_LIST (fn t => PROVE_TAC (wfKS_def::STATES_MONO::ENV_VAR_LEGAL::t))])
 
 val GFP_CHAIN_STABLE = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (mu Q ..f)) ==>
                  ((FP f Q ks e[[[Q<--ks.S]]] n = FP f Q ks e[[[Q<--ks.S]]] (SUC n)) ==>
@@ -885,7 +885,7 @@ THEN SPEC_TAC (``FP (f:'prop mu) Q (ks:('prop,'state) KS) e[[[Q<--ks.S]]]``,``P:
 THEN REWRITE_TAC [GSYM BIGINTER_SPLIT]
 THEN ASSUM_LIST PROVE_TAC)
 
-val NU_FP_STATES = save_thm("NU_FP_STATES",REWRITE_RULE [IMF_MU_IFF_IMF_NU] NU_FP_STATES1)
+Theorem NU_FP_STATES = REWRITE_RULE [IMF_MU_IFF_IMF_NU] NU_FP_STATES1
 
 val GFP_STRICT_CHAIN = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ IMF (nu Q.. f)) ==>
                                 (~(FP f Q ks e[[[Q<--ks.S]]] n = FP f Q ks e[[[Q<--ks.S]]] (SUC n))) ==>
@@ -956,10 +956,10 @@ val GFP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q. (wfKS ks /\ I
                 THEN ASSUM_LIST (fn t => PROVE_TAC (STATES_def::t)))
 
 
-val GEN_GFP_IDEM =  save_thm("GEN_GFP_IDEM",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q. (wfKS ks /\ IMF (nu Q .. f) /\ FINITE ks.S) ==>
+Theorem GEN_GFP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q. (wfKS ks /\ IMF (nu Q .. f) /\ FINITE ks.S) ==>
                              (STATES f ks e[[[Q<--(BIGINTER {P | ?i. (P = (FP f Q ks e[[[Q<--ks.S]]] i))})]]]
                               = (BIGINTER {P | ?i. (P = (FP f Q ks e[[[Q<--ks.S]]] i))}))``,
-REPEAT STRIP_TAC THEN IMP_RES_TAC GEN_GFP_IDEM_LEM2 THEN IMP_RES_TAC GFP_IDEM THEN FULL_SIMP_TAC std_ss []))
+REPEAT STRIP_TAC THEN IMP_RES_TAC GEN_GFP_IDEM_LEM2 THEN IMP_RES_TAC GFP_IDEM THEN FULL_SIMP_TAC std_ss [])
 
 
 val GEN_GFP_FP_IDEM = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q n. (wfKS ks /\ IMF (nu Q .. f) /\ FINITE ks.S) ==>
@@ -971,13 +971,13 @@ FULL_SIMP_TAC std_ss [ENV_UPDATE,STATES_def,GEN_GFP_IDEM]])
 
 val SPEC_GEN_GFP_FP_IDEM =  SPECL [``f:'prop mu``,``ks:('prop,'state) KS``,``e:string->'state->bool``,``Q:string``,``n':num``] GEN_GFP_FP_IDEM
 
-val GEN_GFP_CHAIN = save_thm("GEN_GFP_CHAIN",prove(``!(f:'prop mu) ks e n Q X. (wfKS ks /\ IMF (nu Q .. f)  /\ STATES f ks e[[[Q<--X]]] SUBSET X) ==>
+Theorem GEN_GFP_CHAIN = prove(``!(f:'prop mu) ks e n Q X. (wfKS ks /\ IMF (nu Q .. f)  /\ STATES f ks e[[[Q<--X]]] SUBSET X) ==>
                          (FP f Q ks e[[[Q<--X]]] (SUC n) SUBSET FP f Q ks e[[[Q<--X]]] n)``,
 REPEAT STRIP_TAC THEN Induct_on `n` THENL [
 FULL_SIMP_TAC std_ss [STATES_def,ENV_UPDATE,ENV_EVAL],
  ONCE_REWRITE_TAC [STATES_def]
  THEN REWRITE_TAC [ENV_UPDATE]
- THEN FULL_SIMP_TAC std_ss [GSYM IMF_MU_IFF_IMF_NU,STATES_MONO,ENV_VAR_LEGAL]]))
+ THEN FULL_SIMP_TAC std_ss [GSYM IMF_MU_IFF_IMF_NU,STATES_MONO,ENV_VAR_LEGAL]])
 
 val GEN_GFP_CHAIN_STABLE = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q gs. (wfKS ks /\ IMF (nu Q.. f)) ==>
                  ((FP f Q ks e[[[Q<--gs]]] n = FP f Q ks e[[[Q<--gs]]] (SUC n)) ==>
@@ -1084,7 +1084,7 @@ IMP_RES_TAC GEN_GFP_INTER_SUBSET,
 THEN FULL_SIMP_TAC std_ss [BIGINTER_SUBSET_IMP]
 ])
 
-val GEN_NU_FP_STATES = save_thm("GEN_NU_FP_STATES",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q X. wfKS ks /\ IMF (nu Q ..f) /\ FINITE ks.S /\
+Theorem GEN_NU_FP_STATES = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e n Q X. wfKS ks /\ IMF (nu Q ..f) /\ FINITE ks.S /\
                   STATES f ks e[[[Q<--X]]] SUBSET X ==> BIGINTER {P | ?n. (P = FP f Q ks e[[[Q<--ks.S]]] n)} SUBSET X  ==>
                  ((FP f Q ks e[[[Q<--X]]] n = FP f Q ks e[[[Q<--X]]] (SUC n)) ==>
                        (STATES (nu Q.. f) ks e = FP f Q ks e[[[Q<--X]]] n))``,
@@ -1092,47 +1092,47 @@ REPEAT STRIP_TAC
 THEN ASSUM_LIST (fn t => SIMP_TAC std_ss (NU_BIGINTER::(tl t)))
 THEN IMP_RES_TAC GEN_NU_FP_STATES_LEM2
 THEN IMP_RES_TAC GFP_ITER_EQ
-THEN FULL_SIMP_TAC std_ss [GSYM BIGINTER_SPLIT]))
+THEN FULL_SIMP_TAC std_ss [GSYM BIGINTER_SPLIT])
 
 (* thms used by checker when initialising fix-point computations *)
 
-val MS_FP = save_thm("MS_FP",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s X n. MU_SAT f ks e[[[Q<--FP f Q ks e[[[Q<--X]]] n]]] s = FP f Q ks e[[[Q<--X]]] (SUC n) s``,
-SIMP_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE]))
+Theorem MS_FP = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s X n. MU_SAT f ks e[[[Q<--FP f Q ks e[[[Q<--X]]] n]]] s = FP f Q ks e[[[Q<--X]]] (SUC n) s``,
+SIMP_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE])
 
-val MS_FP_INIT = save_thm("MS_FP_INIT",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s X n. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--FP f Q ks e[[[Q<--X]]] n]]] s = FP f Q ks e[[[Q<--X]]] n s)``,
-RW_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE,ENV_EVAL,UNIV_DEF,wfKS_def] THEN SIMP_TAC std_ss [SET_GSPEC]))
+Theorem MS_FP_INIT = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s X n. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--FP f Q ks e[[[Q<--X]]] n]]] s = FP f Q ks e[[[Q<--X]]] n s)``,
+RW_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE,ENV_EVAL,UNIV_DEF,wfKS_def] THEN SIMP_TAC std_ss [SET_GSPEC])
 
-val GEN_MS_FP_INIT = save_thm("GEN_MS_FP_INIT",prove(``!(ks:('prop,'state) KS) e Q s X. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--X]]] s = X s)``,
-RW_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE,ENV_EVAL,UNIV_DEF,wfKS_def] THEN SIMP_TAC std_ss [SET_GSPEC]))
+Theorem GEN_MS_FP_INIT = prove(``!(ks:('prop,'state) KS) e Q s X. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--X]]] s = X s)``,
+RW_TAC std_ss [MU_SAT_def,STATES_def,IN_DEF,ENV_UPDATE,ENV_EVAL,UNIV_DEF,wfKS_def] THEN SIMP_TAC std_ss [SET_GSPEC])
 
-val LFP_INIT = save_thm("LFP_INIT",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s. wfKS ks ==> (FP f Q  ks e[[[Q<--{}]]] 0 s = F)``,
-SIMP_TAC std_ss [EMPTY_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def]))
+Theorem LFP_INIT = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s. wfKS ks ==> (FP f Q  ks e[[[Q<--{}]]] 0 s = F)``,
+SIMP_TAC std_ss [EMPTY_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def])
 
-val GFP_INIT = save_thm("GFP_INIT",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s. wfKS ks ==> (FP f Q  ks e[[[Q<--ks.S]]] 0 s = T)``,
-SIMP_TAC std_ss [wfKS_def,UNIV_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def]))
+Theorem GFP_INIT = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q s. wfKS ks ==> (FP f Q  ks e[[[Q<--ks.S]]] 0 s = T)``,
+SIMP_TAC std_ss [wfKS_def,UNIV_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def])
 
-val GEN_FP_INIT = save_thm("GEN_FP_INIT",prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q X s. wfKS ks ==> (FP f Q  ks e[[[Q<--X]]] 0 s = X s)``,
-SIMP_TAC std_ss [EMPTY_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def]))
+Theorem GEN_FP_INIT = prove(``!(f:'prop mu) (ks:('prop,'state) KS) e Q X s. wfKS ks ==> (FP f Q  ks e[[[Q<--X]]] 0 s = X s)``,
+SIMP_TAC std_ss [EMPTY_DEF,GSYM IN_DEF,STATES_def,ENV_UPDATE_def])
 
 (* thm used by checker to go from one round of the iteration to the next *)
 
-val SAT_RV_ENV_SUBST = save_thm("SAT_RV_ENV_SUBST",prove(``!(f:'prop mu) Q (ks:('prop,'state) KS) e n s. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--FP f Q ks e (SUC n)]]] s = MU_SAT f ks e[[[Q<--FP f Q ks e n]]] s)``,
+Theorem SAT_RV_ENV_SUBST = prove(``!(f:'prop mu) Q (ks:('prop,'state) KS) e n s. wfKS ks ==> (MU_SAT (RV Q) ks e[[[Q<--FP f Q ks e (SUC n)]]] s = MU_SAT f ks e[[[Q<--FP f Q ks e n]]] s)``,
 SIMP_TAC std_ss [wfKS_def,MU_SAT_def,STATES_def]
 THEN SIMP_TAC std_ss [SET_SPEC,IN_UNIV]
 THEN SIMP_TAC std_ss [ENV_UPDATE_def]
-THEN SIMP_TAC std_ss [IN_DEF]))
+THEN SIMP_TAC std_ss [IN_DEF])
 
 (* trivial fol thms used by checker; pre-proved for speed *)
 
-val fol1 = save_thm("fol1",prove(``!p q x y. ((p ==> x) /\ (q ==> y)) ==> ((p /\ q) ==> (x /\ y))``,PROVE_TAC []))
+Theorem fol1 = prove(``!p q x y. ((p ==> x) /\ (q ==> y)) ==> ((p /\ q) ==> (x /\ y))``,PROVE_TAC [])
 
-val fol2 = save_thm("fol2",prove(``!p x y. (p ==> (x /\ y)) ==> (p ==> (x \/ y))``,PROVE_TAC []))
+Theorem fol2 = prove(``!p x y. (p ==> (x /\ y)) ==> (p ==> (x \/ y))``,PROVE_TAC [])
 
-val fol3 = save_thm("fol3",prove(``!p x y z. ((x /\ y) ==> z) ==>((p ==> (x/\y))==>(p==>z))``,PROVE_TAC []))
+Theorem fol3 = prove(``!p x y z. ((x /\ y) ==> z) ==>((p ==> (x/\y))==>(p==>z))``,PROVE_TAC [])
 
-val fol4 = save_thm("fol4",prove(``!p x y z. ((x \/ y) ==> z) ==>((p ==> (x\/y))==>(p==>z))``,PROVE_TAC []))
+Theorem fol4 = prove(``!p x y z. ((x \/ y) ==> z) ==>((p ==> (x\/y))==>(p==>z))``,PROVE_TAC [])
 
-val fol5 = save_thm("fol5",prove(``!p x y. (x ==> y) ==> ((p==>x)==>(p==>y))``,PROVE_TAC []))
+Theorem fol5 = prove(``!p x y. (x ==> y) ==> ((p==>x)==>(p==>y))``,PROVE_TAC [])
 
 (* ---------------AP substitution used by abstraction engine--------------------*)
 
@@ -1205,20 +1205,20 @@ THEN metisLib.METIS_TAC [lm1]
 
 (* subst of ap's by propositional formulas with the same semantics preserves overall semantics *)
 (* i.e. the principle of subst of equals for equals, for mu ap's *)
-val AP_SUBST = save_thm("AP_SUBST",prove(``!(f:'prop mu) g ap (ks:('prop,'state) KS) e (s:'state).
+Theorem AP_SUBST = prove(``!(f:'prop mu) g ap (ks:('prop,'state) KS) e (s:'state).
                             wfKS ks ==> (IS_PROP g) ==> (!s. MU_SAT (AP ap) ks e s = MU_SAT g ks e s)
                             ==> (MU_SAT f ks e s = MU_SAT (AP_SUBST g ap f) ks e s)``,
-metisLib.METIS_TAC [AP_SUBST_LEM,lm3]))
+metisLib.METIS_TAC [AP_SUBST_LEM,lm3])
 
 val lm4 = prove(``!(f:'prop mu) g ap (ks:('prop,'state) KS)  e (s:'state).
                             wfKS ks ==> (IS_PROP g) ==> (!s. MU_SAT (AP ap) ks e s = MU_SAT g ks e s)
                             ==> ((s IN ks.S0 ==> MU_SAT f ks e s) = (s IN ks.S0 ==> MU_SAT (AP_SUBST g ap f) ks e s))``,
 metisLib.METIS_TAC [AP_SUBST])
 
-val AP_SUBST_MODEL = save_thm("AP_SUBST_MODEL",prove(``!(f:'prop mu) g ap (ks:('prop,'state) KS)   e (s:'state).
+Theorem AP_SUBST_MODEL = prove(``!(f:'prop mu) g ap (ks:('prop,'state) KS)   e (s:'state).
                             wfKS ks ==> (IS_PROP g) ==> (!s. MU_SAT (AP ap) ks e s = MU_SAT g ks e s)
                             ==> (MU_MODEL_SAT f ks e = MU_MODEL_SAT (AP_SUBST g ap f) ks e)``,
-metisLib.METIS_TAC [lm4,MU_MODEL_SAT_def]))
+metisLib.METIS_TAC [lm4,MU_MODEL_SAT_def])
 
 (*----------- bisimilarity preserves mu properties (used to eliminate data independent vars of any type) ---------------*)
 
@@ -1416,4 +1416,3 @@ THEN EQ_TAC THEN REPEAT STRIP_TAC THENL [
   POP_ASSUM (fn t => NTAC 3 (POP_ASSUM (K ALL_TAC)) THEN ASSUME_TAC t) THEN
   FULL_SIMP_TAC std_ss []
 ])
-

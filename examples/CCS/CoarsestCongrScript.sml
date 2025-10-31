@@ -169,8 +169,7 @@ val HENNESSY_LEMMA = store_thm ((* NEW *)
 val WEAK_CONGR = new_definition ((* NEW *)
    "WEAK_CONGR", ``WEAK_CONGR = CC WEAK_EQUIV``);
 
-val WEAK_CONGR_THM = save_thm (
-   "WEAK_CONGR_THM", REWRITE_RULE [CC_def] WEAK_CONGR);
+Theorem WEAK_CONGR_THM = REWRITE_RULE [CC_def] WEAK_CONGR
 
 val WEAK_CONGR_congruence = store_thm ((* NEW *)
    "WEAK_CONGR_congruence", ``congruence WEAK_CONGR``,

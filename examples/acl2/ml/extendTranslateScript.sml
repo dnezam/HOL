@@ -54,8 +54,8 @@ val FIX_INT = store_thm("FIX_INT",
 (* Exponentiation for int and num using acl2 function EXPT                   *)
 (*****************************************************************************)
 
-val NUM_OF_ABS = save_thm("NUM_OF_ABS",
-    EQ_MP (GSYM (Q.SPEC `ABS p` INT_OF_NUM)) (SPEC_ALL INT_ABS_POS));
+Theorem NUM_OF_ABS =
+    EQ_MP (GSYM (Q.SPEC `ABS p` INT_OF_NUM)) (SPEC_ALL INT_ABS_POS)
 
 val (acl2_expt_def,acl2_expt_ind) =
     (REWRITE_RULE [GSYM ite_def] ## I)
@@ -1192,9 +1192,9 @@ val (acl2_make_list_ac_def,acl2_make_list_ac_ind) =
             REVERSE_REVERSE,ADD1,INT_ADD_CALCULATE,INTEGERP_INT] THEN
      CCONTR_TAC THEN POP_ASSUM (K ALL_TAC) THEN ARITH_TAC);
 
-val LIST_GENLIST = save_thm("LIST_GENLIST",
+Theorem LIST_GENLIST =
     REWRITE_RULE [listTheory.APPEND_NIL,list_def]
-                 (GEN_ALL (Q.SPECL [`n`,`v`,`f`,`[]`] LIST_GENLIST_LEMMA)));
+                 (GEN_ALL (Q.SPECL [`n`,`v`,`f`,`[]`] LIST_GENLIST_LEMMA))
 (*
 
 The following theorems have not yet been converted...
@@ -1741,16 +1741,16 @@ val WORD_CONG = store_thm("WORD_CONG",
     ``(word_encode (:'a) a = word_encode (:'a) b) = (a = b)``,
     RW_TAC int_ss [word_encode_def,INT_CONG,GSYM sw2i_eq]);
 
-val WORD_FLATTEN = save_thm("WORD_FLATTEN",
+Theorem WORD_FLATTEN =
      REWRITE_RULE [GSYM (REWRITE_CONV [combinTheory.o_THM,sexp_to_bool_def]
                                       ``(sexp_to_bool o integerp) v``)]
-                  (AP_TERM ``bool`` (SPEC_ALL word_detect_thm)));
+                  (AP_TERM ``bool`` (SPEC_ALL word_detect_thm))
 
 (*****************************************************************************)
 (* Auxiliary rewrites                                                        *)
 (*****************************************************************************)
 
-val INT_SW2I = save_thm("INT_SW2I",GSYM word_encode_def);
+Theorem INT_SW2I = GSYM word_encode_def
 
 
 (*****************************************************************************)

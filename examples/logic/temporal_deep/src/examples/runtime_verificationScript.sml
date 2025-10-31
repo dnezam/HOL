@@ -141,16 +141,14 @@ Proof
 QED
 
 (* |- !u f. (LTL3_SEM u f = LTL3_T) <=> !v. LTL_SEM (u ++ v) f *)
-val LTL3_SEM_T = save_thm
-  ("LTL3_SEM_T",
+Theorem LTL3_SEM_T =
     REWRITE_RULE [GSYM LTL3_SEM_def, GSYM LTL_SEM_def]
-                 (Q.SPEC `0` LTL3_SEM_TIME_T));
+                 (Q.SPEC `0` LTL3_SEM_TIME_T)
 
 (* |- !u f. (LTL3_SEM u f = LTL3_F) <=> !v. ~LTL_SEM (u ++ v) f *)
-val LTL3_SEM_F = save_thm
-  ("LTL3_SEM_F",
+Theorem LTL3_SEM_F =
     REWRITE_RULE [GSYM LTL3_SEM_def, GSYM LTL_SEM_def]
-                 (Q.SPEC `0` LTL3_SEM_TIME_F));
+                 (Q.SPEC `0` LTL3_SEM_TIME_F)
 
 Theorem LTL3_SEM_TIME_MONO_T :
     !t u f. (LTL3_SEM_TIME t u f = LTL3_T) ==>
@@ -177,9 +175,8 @@ Proof
 QED
 
 (* |- !u f. LTL3_SEM u f ++ LTL3_U ==> !v. LTL3_SEM (u ++ v) f = LTL3_SEM u f *)
-val LTL3_SEM_MONO = save_thm
-  ("LTL3_SEM_MONO",
-    REWRITE_RULE [GSYM LTL3_SEM_def] (Q.SPEC `0` LTL3_SEM_TIME_MONO));
+Theorem LTL3_SEM_MONO =
+    REWRITE_RULE [GSYM LTL3_SEM_def] (Q.SPEC `0` LTL3_SEM_TIME_MONO)
 
 (* Standard semantics of ptLTL [2] *)
 Definition PTLTL_SEM_def :

@@ -357,8 +357,7 @@ val expands_reflexive = store_thm (
  >> REWRITE_TAC [IDENTITY_EXPANSION]);
 
 (* the version for easier use *)
-val expands_REFL = save_thm (
-   "expands_REFL", REWRITE_RULE [reflexive_def] expands_reflexive);
+Theorem expands_REFL = REWRITE_RULE [reflexive_def] expands_reflexive
 
 (* Syntactic equivalence implies expands. *)
 val EQ_IMP_expands = store_thm (
@@ -382,8 +381,7 @@ val expands_transitive = store_thm (
       IMP_RES_TAC COMP_EXPANSION ]);
 
 (* the version for easier use *)
-val expands_TRANS = save_thm (
-   "expands_TRANS", REWRITE_RULE [transitive_def] expands_transitive);
+Theorem expands_TRANS = REWRITE_RULE [transitive_def] expands_transitive
 
 (* `expands` is a pre-order *)
 val expands_PreOrder = store_thm (

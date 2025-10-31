@@ -846,12 +846,11 @@ val whead_gen_bvc_ind = store_thm(
      by SRW_TAC [][lemma15a] THEN
   SRW_TAC [][]);
 
-val whead_bvcX_ind = save_thm(
-  "whead_bvcX_ind",
+Theorem whead_bvcX_ind =
   whead_gen_bvc_ind |> Q.SPECL [`λM N x. P' M N`, `λx. X`]
                     |> SIMP_RULE (srw_ss()) []
                     |> Q.INST [`P'` |-> `P`]
-                    |> Q.GEN `X` |> Q.GEN `P`);
+                    |> Q.GEN `X` |> Q.GEN `P`
 
 val wh_substitutive = store_thm(
   "wh_substitutive",

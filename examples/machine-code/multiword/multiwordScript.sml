@@ -3385,7 +3385,7 @@ val mw_mul_by_single2_thm = prove(
   \\ SIMP_TAC std_ss []) |> Q.SPECL [`ys`,`x1`,`x2`,`0w`,`0w`]
   |> SIMP_RULE std_ss [GSYM mw_mul_by_single_def,LET_DEF];
 
-val _ = save_thm("mw_mul_by_single2_thm",mw_mul_by_single2_thm);
+Theorem mw_mul_by_single2_thm = mw_mul_by_single2_thm
 
 (* calc only top three results of mw_mul_pass *)
 
@@ -3465,8 +3465,8 @@ val mw_addv_CONS_NIL_T = prove(
     \\ fs[word_2comp_def])
   \\ ASM_SIMP_TAC std_ss [mw_addv_NIL_F]);
 
-val mw_addv_NIL = save_thm("mw_addv_NIL",LIST_CONJ
-  [EVAL ``mw_addv [] [] T``,mw_addv_NIL_F,GEN_ALL mw_addv_CONS_NIL_T]);
+Theorem mw_addv_NIL = LIST_CONJ
+  [EVAL ``mw_addv [] [] T``,mw_addv_NIL_F,GEN_ALL mw_addv_CONS_NIL_T]
 
 
 (* verify implementation for single_div (to be used on arch without div) *)
@@ -3493,9 +3493,9 @@ val num_div_loop_lemma = prove(
   \\ qsuff_tac `2 ** k <= i DIV n` THEN1 decide_tac
   \\ fs [X_LE_DIV]);
 
-val num_div_loop_thm = save_thm("num_div_loop_thm",
+Theorem num_div_loop_thm =
   num_div_loop_lemma
-  |> Q.SPECL [`k`,`i`,`n`,`0`] |> SIMP_RULE std_ss []);
+  |> Q.SPECL [`k`,`i`,`n`,`0`] |> SIMP_RULE std_ss []
 
 Definition single_div_loop_def:
   single_div_loop (k:'a word,ns:'a word list,m:'a word,is:'a word list) =

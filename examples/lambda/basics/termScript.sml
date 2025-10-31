@@ -200,13 +200,12 @@ Proof
   metis_tac [nc_INDUCTION]
 QED
 
-val LAM_eq_thm = save_thm(
-  "LAM_eq_thm",
+Theorem LAM_eq_thm =
   ``(LAM u t1 = LAM v t2)``
      |> SIMP_CONV (srw_ss()) [LAM_def, LAM_termP, term_ABS_pseudo11,
                               GLAM_eq_thm, term_REP_11, GSYM term_REP_tpm,
                               GSYM supp_tpm]
-     |> GENL [``u:string``, ``v:string``, ``t1:term``, ``t2:term``]);
+     |> GENL [``u:string``, ``v:string``, ``t1:term``, ``t2:term``]
 
 (* ----------------------------------------------------------------------
     term recursion
@@ -281,8 +280,7 @@ Theorem parameter_tm_recursion =
                  `dpm` |-> `apm`]
       |> CONV_RULE (REDEPTH_CONV sort_uvars)
 
-val tm_recursion = save_thm(
-  "tm_recursion",
+Theorem tm_recursion =
   parameter_tm_recursion
       |> Q.INST_TYPE [`:ρ` |-> `:unit`]
       |> Q.INST [`ppm` |-> `discrete_pmact`, `vr` |-> `λs u. vru s`,
@@ -291,7 +289,7 @@ val tm_recursion = save_thm(
       |> SIMP_RULE (srw_ss()) [oneTheory.FORALL_ONE, oneTheory.FORALL_ONE_FN,
                                oneTheory.EXISTS_ONE_FN, fnpm_def]
       |> SIMP_RULE (srw_ss() ++ CONJ_ss) [supp_unitfn]
-      |> Q.INST [`apu` |-> `ap`, `lmu` |-> `lm`, `vru` |-> `vr`])
+      |> Q.INST [`apu` |-> `ap`, `lmu` |-> `lm`, `vru` |-> `vr`]
 
 (* |- !x t p. x IN FV (tpm p t) <=> lswapstr (REVERSE p) x IN FV t *)
 Theorem FV_tpm[simp] = ``x ∈ FV (tpm p t)``
@@ -472,16 +470,15 @@ val SUB_COMM = prove(
   srw_tac [][SUB_DEF, supp_fresh]);
 
 
-val SUB_THM = save_thm(
-  "SUB_THM",
+Theorem SUB_THM =
   let val (eqns,_) = CONJ_PAIR SUB_DEF
   in
     CONJ (REWRITE_RULE [GSYM CONJ_ASSOC]
                        (LIST_CONJ (SUB_THMv :: tl (CONJUNCTS eqns))))
          SUB_COMM
-  end)
+  end
 val _ = export_rewrites ["SUB_THM"]
-val SUB_VAR = save_thm("SUB_VAR", hd (CONJUNCTS SUB_DEF))
+Theorem SUB_VAR = hd (CONJUNCTS SUB_DEF)
 
 (* |- !v u N t. v <> u /\ v # N ==> [N/u] (LAM v t) = LAM v ([N/u] t) *)
 Theorem SUB_LAM = List.nth (CONJUNCTS SUB_DEF, 2)
@@ -1178,7 +1175,7 @@ Theorem ssub_thm[simp] = CONJUNCT1 ssub_def
 
 val _ = overload_on ("'", ``ssub``)
 
-val tpm_ssub = save_thm("tpm_ssub", CONJUNCT2 ssub_def)
+Theorem tpm_ssub = CONJUNCT2 ssub_def
 
 val single_ssub = store_thm(
   "single_ssub",
@@ -2066,9 +2063,8 @@ val lemma = prove(
   asm_simp_tac (srw_ss()) [pmact_nil, FORALL_PROD] >>
   srw_tac [][Once tpm_CONS] >> srw_tac [][GSYM pmact_decompose]);
 
-val tm_recursion_nosideset = save_thm(
-  "tm_recursion_nosideset",
-  tm_recursion |> Q.INST [`A` |-> `{}`] |> SIMP_RULE (srw_ss()) [lemma])
+Theorem tm_recursion_nosideset =
+  tm_recursion |> Q.INST [`A` |-> `{}`] |> SIMP_RULE (srw_ss()) [lemma]
 
 val nti =
   NTI {nullfv = “LAM "" (VAR "")”,

@@ -583,9 +583,9 @@ End
 
 (* -- partially pre-evaluate x64_decode_aux -- *)
 
-val Zreg_distinct = save_thm("Zreg_distinct",
+Theorem Zreg_distinct =
   SIMP_RULE std_ss [GSYM CONJ_ASSOC,ALL_DISTINCT,MEM,REVERSE_DEF,APPEND]
-    (CONJ ALL_DISTINCT_Zreg (ONCE_REWRITE_RULE [GSYM ALL_DISTINCT_REVERSE] ALL_DISTINCT_Zreg)));
+    (CONJ ALL_DISTINCT_Zreg (ONCE_REWRITE_RULE [GSYM ALL_DISTINCT_REVERSE] ALL_DISTINCT_Zreg))
 
 val DTF_DTF = prove(
   ``(DTF p1 p2 ++ DTF q1 q2 = DTF (p1 ++ q1) (p2 ++ q2))``,

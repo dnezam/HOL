@@ -280,9 +280,8 @@ val ialpha_lam_lemma = prove(
                 ~(t = var s) /\ ~(t = app t1 t2))``,
   HO_MATCH_MP_TAC ialpha_ind THEN SRW_TAC [][]);
 
-val ialpha_lam_thm = save_thm(
-  "ialpha_lam_thm",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] ialpha_lam_lemma)
+Theorem ialpha_lam_thm =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] ialpha_lam_lemma
 
 val alpha_lam_thm = store_thm(
   "alpha_lam_thm",
@@ -303,9 +302,8 @@ val EQC_alpha_lam_lemma = prove(
   FULL_SIMP_TAC (srw_ss()) [] THEN Cases_on `t'` THEN
   FULL_SIMP_TAC (srw_ss()) []);
 
-val EQC_alpha_lam_thm = save_thm(
-  "EQC_alpha_lam_thm",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] EQC_alpha_lam_lemma)
+Theorem EQC_alpha_lam_thm =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] EQC_alpha_lam_lemma
 val _ = export_rewrites ["EQC_alpha_lam_thm"]
 
 val alpha_collapse = store_thm(

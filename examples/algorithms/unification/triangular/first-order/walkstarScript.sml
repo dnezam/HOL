@@ -257,8 +257,7 @@ SRW_TAC [][] >>
 Cases_on `FLOOKUP s v` >> SRW_TAC [][Once vwalk_def] >>
 Cases_on `x` >> SRW_TAC [][]);
 
-val apply_ts_ind = save_thm(
-"apply_ts_ind",
+Theorem apply_ts_ind =
 UNDISCH (Q.prove(
 `wfs s ⇒
  ∀P. (∀v. (∀t. (FLOOKUP s v = SOME t) ⇒ P t) ⇒ P (Var v)) ∧
@@ -280,7 +279,7 @@ Cases_on `x` >> FULL_SIMP_TAC (srw_ss()) [] >>
 Q_TAC SUFF_TAC `∀t. (FLOOKUP s n = SOME t) ⇒ P t` THEN1 METIS_TAC [] >>
 SRW_TAC [][] >>
 Q.PAT_X_ASSUM `∀t1 t2. X ⇒ P t2` MP_TAC >>
-SRW_TAC [][Once vwalk_def])));
+SRW_TAC [][Once vwalk_def]))
 
 Theorem vars_walkstar:
   wfs s ⇒
@@ -315,8 +314,7 @@ val (oc_rules, oc_ind, oc_cases) = Hol_reln`
   (!t v u t'. u IN vars t /\ (vwalk s u = t') /\ oc s t' v ==>
                 oc s t v)`;
 
-val oc_strong_ind =
-  save_thm("oc_strong_ind",IndDefLib.derive_strong_induction(oc_rules, oc_ind));
+Theorem oc_strong_ind = IndDefLib.derive_strong_induction(oc_rules, oc_ind)
 
 val oc_pair_E0 = prove(
   ``!t v. oc s t v ==>

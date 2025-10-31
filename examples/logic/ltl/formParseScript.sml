@@ -664,11 +664,10 @@ val is_safe_Parse = Q.store_thm(
   simp[is_safe_def, Once Parse_def] >> simp[GSYM is_safe_def] >>
   simp_tac (srw_ss() ++ boolSimps.ETA_ss) [is_safe_ParseIMP]);
 
-val Parse_thm = save_thm(
-  "Parse_thm",
+Theorem Parse_thm =
   Parse_def
     |> SIMP_RULE (srw_ss() ++ boolSimps.ETA_ss)
-         [ParseIMP_thm, is_safe_mksafe_id, is_safe_Parse]);
+         [ParseIMP_thm, is_safe_mksafe_id, is_safe_Parse]
 
 val eg1 = time EVAL “Parse "pp & Gq -> pp U X(x|!y|z)"”;
 

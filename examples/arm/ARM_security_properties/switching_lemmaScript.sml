@@ -2209,10 +2209,9 @@ store_thm ("take_svc_exception_part2_thm",
           )
 
 (** this axiom is proven in user_lemma_primitive_operationsTheory under the name IT_advance_thm*)
-val IT_advance_thm1 =
-    save_thm("IT_advance_thm1",
+Theorem IT_advance_thm1 =
              new_axiom("IT_advance_thmX", ``preserve_relation_mmu (IT_advance <|proc:=0|>)
-                      (assert_mode 16w) (assert_mode  16w) priv_mode_constraints priv_mode_similar``));
+                      (assert_mode 16w) (assert_mode  16w) priv_mode_constraints priv_mode_similar``)
 
 val priv_mode_constraints_def = priv_mode_constraints_v1_def;
 

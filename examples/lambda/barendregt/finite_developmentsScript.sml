@@ -86,9 +86,8 @@ val (labelled_redn_rules, labelled_redn_ind, labelled_redn_cases) =
                    labelled_redn R x pos y ==>
                    labelled_redn R (LAM v x) (In::pos) (LAM v y))`;
 
-val strong_labelled_redn_ind = save_thm(
-  "strong_labelled_redn_ind",
-  IndDefLib.derive_strong_induction (labelled_redn_rules, labelled_redn_ind));
+Theorem strong_labelled_redn_ind =
+  IndDefLib.derive_strong_induction (labelled_redn_rules, labelled_redn_ind)
 
 val labelled_redn_bvc_ind = store_thm(
   "labelled_redn_bvc_ind",
@@ -166,9 +165,8 @@ val (lrcc_rules, lrcc_ind, lrcc_cases) =
                         lrcc R x r y ==>
                         lrcc R (LAMi n v x z) (Lt::In::r) (LAMi n v y z))`;
 
-val strong_lrcc_ind = save_thm(
-  "strong_lrcc_ind",
-  IndDefLib.derive_strong_induction(lrcc_rules, lrcc_ind));
+Theorem strong_lrcc_ind =
+  IndDefLib.derive_strong_induction(lrcc_rules, lrcc_ind)
 
 val lrcc_bvc_b01_ind = store_thm(
   "lrcc_bvc_b01_ind",
@@ -1605,15 +1603,14 @@ val development0_coinduction = store_thm(
   SIMP_TAC (srw_ss()) [development_f_def] THEN
   REPEAT STRIP_TAC THEN RES_TAC THEN SRW_TAC [][]);
 
-val development0_cases = save_thm(
-  "development0_cases",
+Theorem development0_cases =
   (GEN_ALL o CONV_RULE (RENAME_VARS_CONV ["sigma", "ps"]) o
    SIMP_RULE (srw_ss()) [pairTheory.FORALL_PROD,
                          development_f_def, GSYM development0_def] o
    CONV_RULE (REWR_CONV EXTENSION) o SYM o
    CONJUNCT1)
     (MATCH_MP fixedPointTheory.gfp_greatest_fixedpoint
-              (SPEC_ALL development_f_monotone)));
+              (SPEC_ALL development_f_monotone))
 
 Definition term_posset_development_def:
   term_posset_development M posset sigma <=>
@@ -2026,9 +2023,8 @@ val weight_at_vsubst = Store_Thm(
   SRW_TAC [][valid_posns_thm, SUB_THM] THEN
   SRW_TAC [][weight_at_def, term_weight_thm]);
 
-val weight_at_thm = save_thm(
-  "weight_at_thm",
-  LIST_CONJ (butlast (CONJUNCTS weight_at_def)));
+Theorem weight_at_thm =
+  LIST_CONJ (butlast (CONJUNCTS weight_at_def))
 
 Definition decreasing_def:
   decreasing t w <=>
@@ -3228,8 +3224,8 @@ val WF_path_finite0 = prove(
               pathTheory.path_cases THEN
   FULL_SIMP_TAC (srw_ss()) [] THEN PROVE_TAC []);
 
-val WF_path_finite = save_thm("WF_path_finite",
-                              SIMP_RULE bool_ss [] WF_path_finite0);
+Theorem WF_path_finite =
+                              SIMP_RULE bool_ss [] WF_path_finite0
 
 
 Definition path_case_def:
@@ -3394,7 +3390,7 @@ val theorem11_2_21 = store_thm(
   REWRITE_TAC [term_development_thm] THEN
   PROVE_TAC [lemma11_2_12, beta0_paths_finite, finite_lift_path]);
 
-val FD = save_thm("FD", theorem11_2_21)
+Theorem FD = theorem11_2_21
 
 val extend_path_maximally = store_thm(
   "extend_path_maximally",
@@ -3737,9 +3733,8 @@ val beta0_n_posns = store_thm(
 
 
 (* definitions 11_2_26 *)
-val SN_beta0 = save_thm(
-  "SN_beta0",
-  REWRITE_RULE [lrcc_lcompat_closure, inv_lemma, GSYM SN_def] prop11_2_20);
+Theorem SN_beta0 =
+  REWRITE_RULE [lrcc_lcompat_closure, inv_lemma, GSYM SN_def] prop11_2_20
 
 val cpl_uexists = store_thm(
   "cpl_uexists",

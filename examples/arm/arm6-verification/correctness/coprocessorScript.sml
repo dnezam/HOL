@@ -147,13 +147,12 @@ val EXISTS_BUSY_WAIT = prove(
 val LEAST_BETA = prove(`!n P. (LEAST n. P n) = $LEAST P`,
   METIS_TAC [WhileTheory.LEAST_DEF]);
 
-val EXISTS_BUSY_WAIT_IMP_BUSY_WAIT_DONE = save_thm
-  ("EXISTS_BUSY_WAIT_IMP_BUSY_WAIT_DONE",
+Theorem EXISTS_BUSY_WAIT_IMP_BUSY_WAIT_DONE =
    (SIMP_RULE std_ss [GSYM BUSY_WAIT_def,EXISTS_BUSY_WAIT,
       (GSYM o SPECL [`n`,`BUSY_WAIT_DONE x i`]) LEAST_BETA] o
     DISCH `i IN STRM_ARM6` o DISCH `Abbrev (t = $LEAST (BUSY_WAIT_DONE x i))` o
     SIMP_RULE std_ss [DECIDE ``a /\ b ==> b``] o
-    SPECL [`BUSY_WAIT_DONE x i`,`BUSY_WAIT_DONE x i`]) WhileTheory.LEAST_ELIM);
+    SPECL [`BUSY_WAIT_DONE x i`,`BUSY_WAIT_DONE x i`]) WhileTheory.LEAST_ELIM
 
 val BUSY_WAIT_COR = prove(
   `!i t. i IN STRM_ARM6 /\
@@ -285,8 +284,8 @@ val COPROC_BUSY_WAIT2 = prove(
     \\ Cases_on `t = 0` >> FINISH_OFF3
     \\ Cases_on `t = 1` \\ FINISH_OFF3));
 
-val COPROC_BUSY_WAIT2 = save_thm("COPROC_BUSY_WAIT2",
-  (PairRules.PBETA_RULE o REWRITE_RULE [LET_THM]) COPROC_BUSY_WAIT2);
+Theorem COPROC_BUSY_WAIT2 =
+  (PairRules.PBETA_RULE o REWRITE_RULE [LET_THM]) COPROC_BUSY_WAIT2
 
 (* ------------------------------------------------------------------------- *)
 
@@ -499,8 +498,8 @@ val x2 = (GEN_ALL o REWRITE_RULE [NOT_INTERRUPT] o
          `Abbrev (w = 1 + b + (LEAST n. IS_BUSY (ADVANCE b inp) n))`,
          `~IS_BUSY inp b`,`1 + b < w`]) x;
 
-val LDC_STC_THM2 = save_thm("LDC_STC_THM2",
-  (SIMP_RULE std_ss [x2,LESS_EQ_REFL] o SPEC `w`) LDC_STC_THM);
+Theorem LDC_STC_THM2 =
+  (SIMP_RULE std_ss [x2,LESS_EQ_REFL] o SPEC `w`) LDC_STC_THM
 
 (* ------------------------------------------------------------------------- *)
 

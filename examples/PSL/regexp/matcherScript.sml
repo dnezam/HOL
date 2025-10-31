@@ -258,7 +258,7 @@ val (dijkstra_def, dijkstra_ind) = Defn.tprove
   >> MP_TAC (Q.SPECL [`(t : 'a->'a->bool) s`, `w`, `x`, `y`] LENGTH_partition)
   >> RW_TAC arith_ss []);
 
-val _ = save_thm ("dijkstra_def", dijkstra_def);
+Theorem dijkstra_def = dijkstra_def
 
 Theorem dijkstra:
   !t a u v.

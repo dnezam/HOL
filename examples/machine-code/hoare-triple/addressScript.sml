@@ -172,7 +172,7 @@ val ADDR30_ADD = store_thm("ADDR30_ADD",
   \\ ONCE_REWRITE_TAC [ADD_COMM]
   \\ SIMP_TAC std_ss [GSYM ADD_DIV_ADD_DIV,AC MULT_COMM MULT_ASSOC]);
 
-val ADD_LSL = save_thm("ADD_LSL", WORD_ADD_LSL);
+Theorem ADD_LSL = WORD_ADD_LSL
 
 val ADDR32_11 = store_thm("ADDR32_11",
   ``!a b. ((ADDR32 a = ADDR32 b) = (a = b)) /\
@@ -584,7 +584,7 @@ val ALIGNED = store_thm("ALIGNED",
   \\ SIMP_TAC std_ss [ALIGNED_n2w,
        RW [WORD_ADD_0] (Q.SPECL [`x`,`0w`] ALIGNED_CLAUSES)]);
 
-val WORD_CMP_NORMALISE = save_thm("WORD_CMP_NORMALISE",let
+Theorem WORD_CMP_NORMALISE = let
   val rw = METIS_PROVE [] ``!x:'a y z:'b q. ~(x = y) /\ ~(z = q) = ~(x = y) /\ ~(q = z)``
   val nzcv_thm = RW1 [rw] nzcv_def
   val rw = [nzcv_thm,LET_DEF,GSYM word_add_n2w,n2w_w2n,GSYM word_sub_def,WORD_EQ_SUB_ZERO]
@@ -620,7 +620,7 @@ val WORD_CMP_NORMALISE = save_thm("WORD_CMP_NORMALISE",let
   val qs1 = [GSYM WORD_LESS_OR_EQ, GSYM (RW1 [DISJ_COMM] WORD_LESS_OR_EQ)]
   val qs2 = [GSYM WORD_LOWER_OR_EQ, GSYM (RW1 [DISJ_COMM] WORD_LOWER_OR_EQ)]
   val ls = [lemma1,lemma2,lemma3,lemma4,WORD_EQ_SUB_ZERO,WORD_SUB_RZERO]
-  in Q.GEN `a` (Q.GEN `b` (LIST_CONJ (map SPEC_ALL ([th] @ ys @ zs @ qs1 @ qs2 @ ls)))) end)
+  in Q.GEN `a` (Q.GEN `b` (LIST_CONJ (map SPEC_ALL ([th] @ ys @ zs @ qs1 @ qs2 @ ls)))) end
 
 val word_LSL_n2w = store_thm("word_LSL_n2w",
   ``!m k. ((n2w m):'a word) << k = n2w (m * 2 ** k)``,

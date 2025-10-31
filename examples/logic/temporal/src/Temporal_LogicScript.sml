@@ -2831,178 +2831,178 @@ val NEXT_LINORD = TAC_PROOF(
 (* ************************************************************ *)
 
 (* ----------------- from file lemmata.sml ------------------   *)
-val _ = save_thm("WATCH_EXISTS",WATCH_EXISTS);
-val _ = save_thm("WELL_ORDER",WELL_ORDER);
-val _ = save_thm("WELL_ORDER_UNIQUE",WELL_ORDER_UNIQUE);
+Theorem WATCH_EXISTS = WATCH_EXISTS
+Theorem WELL_ORDER = WELL_ORDER
+Theorem WELL_ORDER_UNIQUE = WELL_ORDER_UNIQUE
 
 (* ----------------- from file hw_imp.sml ------------------    *)
-val _ = save_thm("WHEN_IMP",WHEN_IMP);
-val _ = save_thm("UNTIL_IMP",UNTIL_IMP);
-val _ = save_thm("BEFORE_IMP",BEFORE_IMP);
-val _ = save_thm("SWHEN_IMP",SWHEN_IMP);
-val _ = save_thm("SUNTIL_IMP",SUNTIL_IMP);
-val _ = save_thm("SBEFORE_IMP",SBEFORE_IMP);
+Theorem WHEN_IMP = WHEN_IMP
+Theorem UNTIL_IMP = UNTIL_IMP
+Theorem BEFORE_IMP = BEFORE_IMP
+Theorem SWHEN_IMP = SWHEN_IMP
+Theorem SUNTIL_IMP = SUNTIL_IMP
+Theorem SBEFORE_IMP = SBEFORE_IMP
 
 (* ----------------- from file signal.sml ------------------    *)
-val _ = save_thm("ALWAYS_SIGNAL",ALWAYS_SIGNAL);
-val _ = save_thm("EVENTUAL_SIGNAL",EVENTUAL_SIGNAL);
-val _ = save_thm("WHEN_SIGNAL",WHEN_SIGNAL);
-val _ = save_thm("UNTIL_SIGNAL",UNTIL_SIGNAL);
-val _ = save_thm("BEFORE_SIGNAL",BEFORE_SIGNAL);
-val _ = save_thm("SWHEN_SIGNAL",SWHEN_SIGNAL);
-val _ = save_thm("SBEFORE_SIGNAL",SBEFORE_SIGNAL);
+Theorem ALWAYS_SIGNAL = ALWAYS_SIGNAL
+Theorem EVENTUAL_SIGNAL = EVENTUAL_SIGNAL
+Theorem WHEN_SIGNAL = WHEN_SIGNAL
+Theorem UNTIL_SIGNAL = UNTIL_SIGNAL
+Theorem BEFORE_SIGNAL = BEFORE_SIGNAL
+Theorem SWHEN_SIGNAL = SWHEN_SIGNAL
+Theorem SBEFORE_SIGNAL = SBEFORE_SIGNAL
 
 (* ----------------- from file temp2linord.sml ---------------- *)
-val _ = save_thm("NEXT_LINORD",NEXT_LINORD);
-val _ = save_thm("ALWAYS_LINORD",ALWAYS_LINORD);
-val _ = save_thm("EVENTUAL_LINORD",EVENTUAL_LINORD);
-val _ = save_thm("SUNTIL_LINORD",SUNTIL_LINORD);
-val _ = save_thm("UNTIL_LINORD",UNTIL_LINORD);
-val _ = save_thm("SBEFORE_LINORD",SBEFORE_LINORD);
-val _ = save_thm("BEFORE_LINORD",BEFORE_LINORD);
-val _ = save_thm("SWHEN_LINORD",SWHEN_LINORD);
-val _ = save_thm("WHEN_LINORD",WHEN_LINORD);
+Theorem NEXT_LINORD = NEXT_LINORD
+Theorem ALWAYS_LINORD = ALWAYS_LINORD
+Theorem EVENTUAL_LINORD = EVENTUAL_LINORD
+Theorem SUNTIL_LINORD = SUNTIL_LINORD
+Theorem UNTIL_LINORD = UNTIL_LINORD
+Theorem SBEFORE_LINORD = SBEFORE_LINORD
+Theorem BEFORE_LINORD = BEFORE_LINORD
+Theorem SWHEN_LINORD = SWHEN_LINORD
+Theorem WHEN_LINORD = WHEN_LINORD
 
 (* ----------------- from file when_expressive.sml ------------------ *)
-val _ = save_thm("ALWAYS_AS_WHEN",ALWAYS_AS_WHEN);
-val _ = save_thm("EVENTUAL_AS_WHEN",EVENTUAL_AS_WHEN);
-val _ = save_thm("UNTIL_AS_WHEN",UNTIL_AS_WHEN);
-val _ = save_thm("SWHEN_AS_WHEN",SWHEN_AS_WHEN);
-val _ = save_thm("SWHEN_AS_NOT_WHEN",SWHEN_AS_NOT_WHEN);
-val _ = save_thm("SUNTIL_AS_WHEN",SUNTIL_AS_WHEN);
-val _ = save_thm("SBEFORE_AS_WHEN",SBEFORE_AS_WHEN);
-val _ = save_thm("BEFORE_AS_WHEN_UNTIL",BEFORE_AS_WHEN_UNTIL);
-val _ = save_thm("BEFORE_HW",BEFORE_HW);
+Theorem ALWAYS_AS_WHEN = ALWAYS_AS_WHEN
+Theorem EVENTUAL_AS_WHEN = EVENTUAL_AS_WHEN
+Theorem UNTIL_AS_WHEN = UNTIL_AS_WHEN
+Theorem SWHEN_AS_WHEN = SWHEN_AS_WHEN
+Theorem SWHEN_AS_NOT_WHEN = SWHEN_AS_NOT_WHEN
+Theorem SUNTIL_AS_WHEN = SUNTIL_AS_WHEN
+Theorem SBEFORE_AS_WHEN = SBEFORE_AS_WHEN
+Theorem BEFORE_AS_WHEN_UNTIL = BEFORE_AS_WHEN_UNTIL
+Theorem BEFORE_HW = BEFORE_HW
 
 (* ----------------- from file until_expressive.sml ------------------ *)
-val _ = save_thm("ALWAYS_AS_UNTIL",ALWAYS_AS_UNTIL);
-val _ = save_thm("EVENTUAL_AS_UNTIL",EVENTUAL_AS_UNTIL);
-val _ = save_thm("WHEN_AS_UNTIL",WHEN_AS_UNTIL);
-val _ = save_thm("BEFORE_AS_UNTIL",BEFORE_AS_UNTIL);
-val _ = save_thm("SWHEN_AS_UNTIL",SWHEN_AS_UNTIL);
-val _ = save_thm("SUNTIL_AS_UNTIL",SUNTIL_AS_UNTIL);
-val _ = save_thm("SBEFORE_AS_UNTIL",SBEFORE_AS_UNTIL);
+Theorem ALWAYS_AS_UNTIL = ALWAYS_AS_UNTIL
+Theorem EVENTUAL_AS_UNTIL = EVENTUAL_AS_UNTIL
+Theorem WHEN_AS_UNTIL = WHEN_AS_UNTIL
+Theorem BEFORE_AS_UNTIL = BEFORE_AS_UNTIL
+Theorem SWHEN_AS_UNTIL = SWHEN_AS_UNTIL
+Theorem SUNTIL_AS_UNTIL = SUNTIL_AS_UNTIL
+Theorem SBEFORE_AS_UNTIL = SBEFORE_AS_UNTIL
 
 (* ----------------- from file before_expressive.sml ------------------ *)
-val _ = save_thm("ALWAYS_AS_BEFORE",ALWAYS_AS_BEFORE);
-val _ = save_thm("EVENTUAL_AS_BEFORE",EVENTUAL_AS_BEFORE);
-val _ = save_thm("WHEN_AS_BEFORE",WHEN_AS_BEFORE);
-val _ = save_thm("UNTIL_AS_BEFORE",UNTIL_AS_BEFORE);
-val _ = save_thm("SWHEN_AS_BEFORE",SWHEN_AS_BEFORE);
-val _ = save_thm("SUNTIL_AS_BEFORE",SUNTIL_AS_BEFORE);
-val _ = save_thm("SBEFORE_AS_BEFORE",SBEFORE_AS_BEFORE);
+Theorem ALWAYS_AS_BEFORE = ALWAYS_AS_BEFORE
+Theorem EVENTUAL_AS_BEFORE = EVENTUAL_AS_BEFORE
+Theorem WHEN_AS_BEFORE = WHEN_AS_BEFORE
+Theorem UNTIL_AS_BEFORE = UNTIL_AS_BEFORE
+Theorem SWHEN_AS_BEFORE = SWHEN_AS_BEFORE
+Theorem SUNTIL_AS_BEFORE = SUNTIL_AS_BEFORE
+Theorem SBEFORE_AS_BEFORE = SBEFORE_AS_BEFORE
 
 (* ----------------- from file swhen_expressive.sml ------------------ *)
-val _ = save_thm("WHEN_SWHEN_LEMMA",WHEN_SWHEN_LEMMA);
+Theorem WHEN_SWHEN_LEMMA = WHEN_SWHEN_LEMMA
 
-val _ = save_thm("ALWAYS_AS_SWHEN",ALWAYS_AS_SWHEN);
-val _ = save_thm("EVENTUAL_AS_SWHEN",EVENTUAL_AS_SWHEN);
-val _ = save_thm("WHEN_AS_SWHEN",WHEN_AS_SWHEN);
-val _ = save_thm("WHEN_AS_NOT_SWHEN",WHEN_AS_NOT_SWHEN);
-val _ = save_thm("UNTIL_AS_SWHEN",UNTIL_AS_SWHEN);
-val _ = save_thm("BEFORE_AS_SWHEN",BEFORE_AS_SWHEN);
-val _ = save_thm("BEFORE_AS_NOT_SWHEN",BEFORE_AS_NOT_SWHEN);
-val _ = save_thm("SUNTIL_AS_SWHEN",SUNTIL_AS_SWHEN);
-val _ = save_thm("SBEFORE_AS_SWHEN",SBEFORE_AS_SWHEN);
+Theorem ALWAYS_AS_SWHEN = ALWAYS_AS_SWHEN
+Theorem EVENTUAL_AS_SWHEN = EVENTUAL_AS_SWHEN
+Theorem WHEN_AS_SWHEN = WHEN_AS_SWHEN
+Theorem WHEN_AS_NOT_SWHEN = WHEN_AS_NOT_SWHEN
+Theorem UNTIL_AS_SWHEN = UNTIL_AS_SWHEN
+Theorem BEFORE_AS_SWHEN = BEFORE_AS_SWHEN
+Theorem BEFORE_AS_NOT_SWHEN = BEFORE_AS_NOT_SWHEN
+Theorem SUNTIL_AS_SWHEN = SUNTIL_AS_SWHEN
+Theorem SBEFORE_AS_SWHEN = SBEFORE_AS_SWHEN
 
 (* ----------------- from file suntil_expressive.sml ------------------ *)
-val _ = save_thm("ALWAYS_AS_SUNTIL",ALWAYS_AS_SUNTIL);
-val _ = save_thm("EVENTUAL_AS_SUNTIL",EVENTUAL_AS_SUNTIL);
-val _ = save_thm("WHEN_AS_SUNTIL",WHEN_AS_SUNTIL);
-val _ = save_thm("UNTIL_AS_SUNTIL",UNTIL_AS_SUNTIL);
-val _ = save_thm("BEFORE_AS_SUNTIL",BEFORE_AS_SUNTIL);
-val _ = save_thm("SWHEN_AS_SUNTIL",SWHEN_AS_SUNTIL);
-val _ = save_thm("SBEFORE_AS_SUNTIL",SBEFORE_AS_SUNTIL);
+Theorem ALWAYS_AS_SUNTIL = ALWAYS_AS_SUNTIL
+Theorem EVENTUAL_AS_SUNTIL = EVENTUAL_AS_SUNTIL
+Theorem WHEN_AS_SUNTIL = WHEN_AS_SUNTIL
+Theorem UNTIL_AS_SUNTIL = UNTIL_AS_SUNTIL
+Theorem BEFORE_AS_SUNTIL = BEFORE_AS_SUNTIL
+Theorem SWHEN_AS_SUNTIL = SWHEN_AS_SUNTIL
+Theorem SBEFORE_AS_SUNTIL = SBEFORE_AS_SUNTIL
 
 (* ----------------- from file sbefore_expressive.sml ------------------ *)
-val _ = save_thm("ALWAYS_AS_SBEFORE",ALWAYS_AS_SBEFORE);
-val _ = save_thm("EVENTUAL_AS_SBEFORE",EVENTUAL_AS_SBEFORE);
-val _ = save_thm("WHEN_AS_SBEFORE",WHEN_AS_SBEFORE);
-val _ = save_thm("UNTIL_AS_SBEFORE",UNTIL_AS_SBEFORE);
-val _ = save_thm("SWHEN_AS_SBEFORE",SWHEN_AS_SBEFORE);
-val _ = save_thm("SUNTIL_AS_SBEFORE",SUNTIL_AS_SBEFORE);
-val _ = save_thm("BEFORE_AS_SBEFORE",BEFORE_AS_SBEFORE);
+Theorem ALWAYS_AS_SBEFORE = ALWAYS_AS_SBEFORE
+Theorem EVENTUAL_AS_SBEFORE = EVENTUAL_AS_SBEFORE
+Theorem WHEN_AS_SBEFORE = WHEN_AS_SBEFORE
+Theorem UNTIL_AS_SBEFORE = UNTIL_AS_SBEFORE
+Theorem SWHEN_AS_SBEFORE = SWHEN_AS_SBEFORE
+Theorem SUNTIL_AS_SBEFORE = SUNTIL_AS_SBEFORE
+Theorem BEFORE_AS_SBEFORE = BEFORE_AS_SBEFORE
 
 (* ----------------- from file simplify.sml ------------------ *)
-val _ = save_thm("WHEN_SIMP",WHEN_SIMP);
-val _ = save_thm("UNTIL_SIMP",UNTIL_SIMP);
-val _ = save_thm("BEFORE_SIMP",BEFORE_SIMP);
-val _ = save_thm("SWHEN_SIMP",SWHEN_SIMP);
-val _ = save_thm("SUNTIL_SIMP",SUNTIL_SIMP);
-val _ = save_thm("SBEFORE_SIMP",SBEFORE_SIMP);
-val _ = save_thm("WHEN_EVENT",WHEN_EVENT);
-val _ = save_thm("UNTIL_EVENT",UNTIL_EVENT);
-val _ = save_thm("BEFORE_EVENT",BEFORE_EVENT);
-val _ = save_thm("SWHEN_EVENT",SWHEN_EVENT);
-val _ = save_thm("SUNTIL_EVENT",SUNTIL_EVENT);
-val _ = save_thm("SBEFORE_EVENT",SBEFORE_EVENT);
-val _ = save_thm("IMMEDIATE_EVENT",IMMEDIATE_EVENT);
-val _ = save_thm("NO_EVENT",NO_EVENT);
-val _ = save_thm("SOME_EVENT",SOME_EVENT);
-val _ = save_thm("MORE_EVENT",MORE_EVENT);
+Theorem WHEN_SIMP = WHEN_SIMP
+Theorem UNTIL_SIMP = UNTIL_SIMP
+Theorem BEFORE_SIMP = BEFORE_SIMP
+Theorem SWHEN_SIMP = SWHEN_SIMP
+Theorem SUNTIL_SIMP = SUNTIL_SIMP
+Theorem SBEFORE_SIMP = SBEFORE_SIMP
+Theorem WHEN_EVENT = WHEN_EVENT
+Theorem UNTIL_EVENT = UNTIL_EVENT
+Theorem BEFORE_EVENT = BEFORE_EVENT
+Theorem SWHEN_EVENT = SWHEN_EVENT
+Theorem SUNTIL_EVENT = SUNTIL_EVENT
+Theorem SBEFORE_EVENT = SBEFORE_EVENT
+Theorem IMMEDIATE_EVENT = IMMEDIATE_EVENT
+Theorem NO_EVENT = NO_EVENT
+Theorem SOME_EVENT = SOME_EVENT
+Theorem MORE_EVENT = MORE_EVENT
 
 (* ----------------- from file next_homo.sml ------------------ *)
-val _ = save_thm("NOT_NEXT",NOT_NEXT);
-val _ = save_thm("AND_NEXT",AND_NEXT);
-val _ = save_thm("OR_NEXT",OR_NEXT);
-val _ = save_thm("IMP_NEXT",IMP_NEXT);
-val _ = save_thm("EQUIV_NEXT",EQUIV_NEXT);
-val _ = save_thm("ALWAYS_NEXT",ALWAYS_NEXT);
-val _ = save_thm("EVENTUAL_NEXT",EVENTUAL_NEXT);
-val _ = save_thm("WHEN_NEXT",WHEN_NEXT);
-val _ = save_thm("UNTIL_NEXT",UNTIL_NEXT);
-val _ = save_thm("BEFORE_NEXT",BEFORE_NEXT);
-val _ = save_thm("SWHEN_NEXT",SWHEN_NEXT);
-val _ = save_thm("SUNTIL_NEXT",SUNTIL_NEXT);
-val _ = save_thm("SBEFORE_NEXT",SBEFORE_NEXT);
+Theorem NOT_NEXT = NOT_NEXT
+Theorem AND_NEXT = AND_NEXT
+Theorem OR_NEXT = OR_NEXT
+Theorem IMP_NEXT = IMP_NEXT
+Theorem EQUIV_NEXT = EQUIV_NEXT
+Theorem ALWAYS_NEXT = ALWAYS_NEXT
+Theorem EVENTUAL_NEXT = EVENTUAL_NEXT
+Theorem WHEN_NEXT = WHEN_NEXT
+Theorem UNTIL_NEXT = UNTIL_NEXT
+Theorem BEFORE_NEXT = BEFORE_NEXT
+Theorem SWHEN_NEXT = SWHEN_NEXT
+Theorem SUNTIL_NEXT = SUNTIL_NEXT
+Theorem SBEFORE_NEXT = SBEFORE_NEXT
 
 (* ----------------- from file recursion.sml ------------------ *)
-val _ = save_thm("ALWAYS_REC",ALWAYS_REC);
-val _ = save_thm("EVENTUAL_REC",EVENTUAL_REC);
-val _ = save_thm("WATCH_REC",WATCH_REC);
-val _ = save_thm("WHEN_REC",WHEN_REC);
-val _ = save_thm("UNTIL_REC",UNTIL_REC);
-val _ = save_thm("BEFORE_REC",BEFORE_REC);
-val _ = save_thm("SWHEN_REC",SWHEN_REC);
-val _ = save_thm("SUNTIL_REC",SUNTIL_REC);
-val _ = save_thm("SBEFORE_REC",SBEFORE_REC);
+Theorem ALWAYS_REC = ALWAYS_REC
+Theorem EVENTUAL_REC = EVENTUAL_REC
+Theorem WATCH_REC = WATCH_REC
+Theorem WHEN_REC = WHEN_REC
+Theorem UNTIL_REC = UNTIL_REC
+Theorem BEFORE_REC = BEFORE_REC
+Theorem SWHEN_REC = SWHEN_REC
+Theorem SUNTIL_REC = SUNTIL_REC
+Theorem SBEFORE_REC = SBEFORE_REC
 
 (* ----------------- from file fixpoints.sml ------------------ *)
-val _ = save_thm("ALWAYS_FIX",ALWAYS_FIX);
-val _ = save_thm("EVENTUAL_FIX",EVENTUAL_FIX);
-val _ = save_thm("WHEN_FIX",WHEN_FIX);
-val _ = save_thm("UNTIL_FIX",UNTIL_FIX);
-val _ = save_thm("BEFORE_FIX",BEFORE_FIX);
+Theorem ALWAYS_FIX = ALWAYS_FIX
+Theorem EVENTUAL_FIX = EVENTUAL_FIX
+Theorem WHEN_FIX = WHEN_FIX
+Theorem UNTIL_FIX = UNTIL_FIX
+Theorem BEFORE_FIX = BEFORE_FIX
 
 (* ----------------- from file invariant.sml ------------------ *)
-val _ = save_thm("WHEN_INVARIANT",WHEN_INVARIANT);
-val _ = save_thm("UNTIL_INVARIANT",UNTIL_INVARIANT);
-val _ = save_thm("BEFORE_INVARIANT",BEFORE_INVARIANT);
-val _ = save_thm("ALWAYS_INVARIANT",ALWAYS_INVARIANT);
-val _ = save_thm("EVENTUAL_INVARIANT",EVENTUAL_INVARIANT);
-val _ = save_thm("SWHEN_INVARIANT",SWHEN_INVARIANT);
-val _ = save_thm("SUNTIL_INVARIANT",SUNTIL_INVARIANT);
-val _ = save_thm("SBEFORE_INVARIANT",SBEFORE_INVARIANT);
+Theorem WHEN_INVARIANT = WHEN_INVARIANT
+Theorem UNTIL_INVARIANT = UNTIL_INVARIANT
+Theorem BEFORE_INVARIANT = BEFORE_INVARIANT
+Theorem ALWAYS_INVARIANT = ALWAYS_INVARIANT
+Theorem EVENTUAL_INVARIANT = EVENTUAL_INVARIANT
+Theorem SWHEN_INVARIANT = SWHEN_INVARIANT
+Theorem SUNTIL_INVARIANT = SUNTIL_INVARIANT
+Theorem SBEFORE_INVARIANT = SBEFORE_INVARIANT
 
 (* ----------------- from file idem.sml ------------------ *)
-val _ = save_thm("ALWAYS_IDEM",ALWAYS_IDEM);
-val _ = save_thm("EVENTUAL_IDEM",EVENTUAL_IDEM);
-val _ = save_thm("WHEN_IDEM",WHEN_IDEM);
-val _ = save_thm("UNTIL_IDEM",UNTIL_IDEM);
-val _ = save_thm("BEFORE_IDEM",BEFORE_IDEM);
-val _ = save_thm("SWHEN_IDEM",SWHEN_IDEM);
-val _ = save_thm("SUNTIL_IDEM",SUNTIL_IDEM);
-val _ = save_thm("SBEFORE_IDEM",SBEFORE_IDEM);
+Theorem ALWAYS_IDEM = ALWAYS_IDEM
+Theorem EVENTUAL_IDEM = EVENTUAL_IDEM
+Theorem WHEN_IDEM = WHEN_IDEM
+Theorem UNTIL_IDEM = UNTIL_IDEM
+Theorem BEFORE_IDEM = BEFORE_IDEM
+Theorem SWHEN_IDEM = SWHEN_IDEM
+Theorem SUNTIL_IDEM = SUNTIL_IDEM
+Theorem SBEFORE_IDEM = SBEFORE_IDEM
 
 (* ----------------- from file negation.sml ------------------ *)
-val _ = save_thm("NOT_ALWAYS",NOT_ALWAYS);
-val _ = save_thm("NOT_EVENTUAL",NOT_EVENTUAL);
-val _ = save_thm("NOT_WHEN",NOT_WHEN);
-val _ = save_thm("NOT_UNTIL",NOT_UNTIL);
-val _ = save_thm("NOT_BEFORE",NOT_BEFORE);
-val _ = save_thm("NOT_SWHEN",NOT_SWHEN);
-val _ = save_thm("NOT_SUNTIL",NOT_SUNTIL);
-val _ = save_thm("NOT_SBEFORE",NOT_SBEFORE);
+Theorem NOT_ALWAYS = NOT_ALWAYS
+Theorem NOT_EVENTUAL = NOT_EVENTUAL
+Theorem NOT_WHEN = NOT_WHEN
+Theorem NOT_UNTIL = NOT_UNTIL
+Theorem NOT_BEFORE = NOT_BEFORE
+Theorem NOT_SWHEN = NOT_SWHEN
+Theorem NOT_SUNTIL = NOT_SUNTIL
+Theorem NOT_SBEFORE = NOT_SBEFORE
 
 
 (* html_theory "-"; *)

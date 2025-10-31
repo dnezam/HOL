@@ -26,7 +26,7 @@ val (PID_C_cert,PID_C_def) = arm_decompLib.l3_arm_decompile "PID_C" `
   ee767aa7  (*  vadd.f32  s15, s13, s15   *)
   edc37a00  (*  vstr      s15, [r3]       *)`;
 
-val _ = save_thm("PID_C_cert",PID_C_cert);
+Theorem PID_C_cert = PID_C_cert
 
 val (PID_ADA_cert,PID_ADA_def) = arm_decompLib.l3_arm_decompile "PID_ADA" `
   e3003000  (*  movw      r3, #0          *)
@@ -46,7 +46,7 @@ val (PID_ADA_cert,PID_ADA_def) = arm_decompLib.l3_arm_decompile "PID_ADA" `
   ee767aa7  (*  vadd.f32  s15, s13, s15   *)
   edc37a06  (*  vstr      s15, [r3, #24]  *)`
 
-val _ = save_thm("PID_ADA_cert",PID_ADA_cert);
+Theorem PID_ADA_cert = PID_ADA_cert
 
 (* an attempt at proving them equivalent *)
 
@@ -286,4 +286,4 @@ val (PID_C2_cert, PID_C2_def) = core_decompilerLib.core_decompile "PID_C2" `
     edc37a00             (* vstr       s15, [r3]                *)
     e8bd0010             (* pop        {r4}                     *)`;
 
-val _ = save_thm("PID_C2_cert",PID_C2_cert);
+Theorem PID_C2_cert = PID_C2_cert

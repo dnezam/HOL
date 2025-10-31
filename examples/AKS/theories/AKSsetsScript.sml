@@ -226,7 +226,7 @@ val setN_closure = store_thm(
   rw[setN_def, poly_intro_mult, coprime_product_coprime]);
 
 (* Theorem alias *)
-val setN_has_product = save_thm("setN_has_product", setN_closure);
+Theorem setN_has_product = setN_closure
 (* val setN_has_product = |- !r k s. Ring r /\ 0 < k ==> !m n. m IN N /\ n IN N ==> m * n IN N: thm *)
 
 (* Theorem: 1 < k ==> 0 NOTIN N *)

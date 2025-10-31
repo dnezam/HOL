@@ -100,10 +100,10 @@ val _ = export_rewrites ["poly_peval_def"];
    Can this be exploited in the poly_eval proofs?
 *)
 
-val poly_peval_of_zero = save_thm("poly_peval_of_zero", poly_peval_def |> CONJUNCT1);
+Theorem poly_peval_of_zero = poly_peval_def |> CONJUNCT1
 (* > val poly_peval_of_zero = |- !r x. peval [] x = |0| : thm *)
 
-val poly_peval_cons = save_thm("poly_peval_cons", poly_peval_def |> CONJUNCT2);
+Theorem poly_peval_cons = poly_peval_def |> CONJUNCT2
 (* > val poly_peval_cons = |- !r h t x. peval (h::t) x = h * |1| + peval t x * x : thm *)
 
 (* Theorem: poly (peval p q) *)

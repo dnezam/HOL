@@ -1240,7 +1240,7 @@ val word4_distinct = let
         in
                 CONJ thm (GSYM thm)
         end;
-val _ = save_thm ("word4_distinct", word4_distinct);
+Theorem word4_distinct = word4_distinct
 
 val fupdate_lt_commutes_word4 = let
                 val fupdate_thm = let
@@ -1280,7 +1280,7 @@ val fupdate_lt_commutes_word4 = let
                 thm'
         end;
 
-val _ = save_thm ("fupdate_lt_commutes_word4", fupdate_lt_commutes_word4);
+Theorem fupdate_lt_commutes_word4 = fupdate_lt_commutes_word4
 
 
 val ADD_DIV = prove (

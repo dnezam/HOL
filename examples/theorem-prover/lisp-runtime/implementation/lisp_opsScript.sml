@@ -89,7 +89,7 @@ Definition zLISP_raw: zLISP = zLISP_ALT (\wsp wi we ds tw2. T)
 End
 val zLISP_def = SIMP_CONV std_ss [zLISP_ALT_def,zLISP_raw]
   ``zLISP (a1,a2,sl,sl1,e,ex,cs,rbp,ddd,cu) (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok)``
-val _ = save_thm("zLISP_def",zLISP_def);
+Theorem zLISP_def = zLISP_def
 
 val SEP_IMP_zLISP_ALT_zLISP = prove(
   ``SEP_IMP (zLISP_ALT side vars1 vars2 * p) (zLISP vars1 vars2 * p)``,
@@ -295,7 +295,7 @@ fun save_lisp_thm (name,th) = let
 
 (* stack operations *)
 
-val X64_LISP_CALL_R2 = save_thm("X64_LISP_CALL_R2", let
+Theorem X64_LISP_CALL_R2 = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 1
   val imp = lisp_inv_stack |> Q.SPECL [`p+3w::qs`,`tw2`]
   val def = zLISP_ALT_def
@@ -303,9 +303,9 @@ val X64_LISP_CALL_R2 = save_thm("X64_LISP_CALL_R2", let
   val post_tm = ``zLISP_ALT (\wsp wi we ds tw2. T) ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,p+3w::qs,code,amnt,ok) * zPC r2``
   val res = prove_spec th imp def pre_tm post_tm
   val res = RW [GSYM zLISP_raw] res
-  in res end);
+  in res end
 
-val X64_LISP_PUSH_R2 = save_thm("X64_LISP_PUSH_R2", let
+Theorem X64_LISP_PUSH_R2 = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 2
   val imp = lisp_inv_stack |> Q.SPECL [`r2::qs`,`tw2`]
   val def = zLISP_ALT_def
@@ -313,9 +313,9 @@ val X64_LISP_PUSH_R2 = save_thm("X64_LISP_PUSH_R2", let
   val post_tm = ``zLISP_ALT (\wsp wi we ds tw2. T) ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,r2::qs,code,amnt,ok) * zPC (p+2w)``
   val res = prove_spec th imp def pre_tm post_tm
   val res = RW [GSYM zLISP_raw] res
-  in res end);
+  in res end
 
-val X64_LISP_RET = save_thm("X64_LISP_RET", let
+Theorem X64_LISP_RET = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 3
   val imp = lisp_inv_stack |> Q.SPECL [`TL qs`,`tw2`] |> UNDISCH |> DISCH ``~(qs:word64 list = [])`` |> DISCH_ALL
   val def = zLISP_def
@@ -323,9 +323,9 @@ val X64_LISP_RET = save_thm("X64_LISP_RET", let
   val post_tm = ``zLISP ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,TL qs,code,amnt,ok) * zPC (HD qs)``
   val res = prove_spec th imp def pre_tm post_tm
   val res = res |> Q.INST [`qs`|->`q::qs`] |> SIMP_RULE std_ss [HD,TL,NOT_CONS_NIL,SEP_CLAUSES]
-  in res end);
+  in res end
 
-val X64_LISP_ALT_RET = save_thm("X64_LISP_ALT_RET", let
+Theorem X64_LISP_ALT_RET = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 3
   val th = SPEC_FRAME_RULE th ``~zS``
   val imp = lisp_inv_stack |> Q.SPECL [`TL qs`,`tw2`] |> UNDISCH |> DISCH ``~(qs:word64 list = [])`` |> DISCH_ALL
@@ -334,9 +334,9 @@ val X64_LISP_ALT_RET = save_thm("X64_LISP_ALT_RET", let
   val post_tm = ``zLISP_ALT b ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,TL qs,code,amnt,ok) * zPC (HD qs) * ~zS``
   val res = prove_spec th imp def pre_tm post_tm
   val res = res |> Q.INST [`qs`|->`q::qs`] |> SIMP_RULE std_ss [HD,TL,NOT_CONS_NIL,SEP_CLAUSES]
-  in res end);
+  in res end
 
-val X64_LISP_POP_R2 = save_thm("X64_LISP_POP_R2", let
+Theorem X64_LISP_POP_R2 = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 4
   val imp = lisp_inv_stack |> Q.SPECL [`TL qs`,`HD qs`] |> UNDISCH |> DISCH ``~(qs:word64 list = [])`` |> DISCH_ALL
   val def = zLISP_ALT_def
@@ -345,16 +345,16 @@ val X64_LISP_POP_R2 = save_thm("X64_LISP_POP_R2", let
   val res = prove_spec th imp def pre_tm post_tm
   val res = res |> Q.INST [`qs`|->`q::qs`] |> SIMP_RULE std_ss [HD,TL,NOT_CONS_NIL,SEP_CLAUSES]
   val res = RW [GSYM zLISP_raw] res
-  in res end);
+  in res end
 
-val X64_LISP_CALL_IMM = save_thm("X64_LISP_CALL_IMM", let
+Theorem X64_LISP_CALL_IMM = let
   val th = zSTACK_PROPS |> SPEC_ALL |> CONJUNCTS |> el 5
   val imp = lisp_inv_stack |> Q.SPECL [`p+6w::qs`,`tw2`]
   val def = zLISP_def
   val pre_tm = ``zLISP ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok) * zPC p``
   val post_tm = ``zLISP ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,p+6w::qs,code,amnt,ok) * zPC (p + n2w (6 + SIGN_EXTEND 32 64 (w2n (imm32:word32))))``
   val res = prove_spec th imp def pre_tm post_tm
-  in res end);
+  in res end
 
 
 (* move *)
@@ -757,7 +757,7 @@ val bound_lemma = prove(
   ``n < 1073741824 ==> 4 * n + 1 < 4294967296``,
   DECIDE_TAC);
 
-val X64_LISP_ASSIGN_ANY_VAL = save_thm("X64_LISP_ASSIGN_ANY_VAL",let
+Theorem X64_LISP_ASSIGN_ANY_VAL = let
   val (spec,_,sts,_) = x64_tools
   val ((th,_,_),_) = spec "41B8"
   val def = zLISP_def
@@ -771,7 +771,7 @@ val X64_LISP_ASSIGN_ANY_VAL = save_thm("X64_LISP_ASSIGN_ANY_VAL",let
             |> (fn th => CONJ th (UNDISCH bound_lemma))
             |> DISCH_ALL
   val result = prove_spec th imp def pre_tm post_tm
-  in result end);
+  in result end
 
 fun generate_assign_val n i = let
   val th1 = SIMP_RULE std_ss [] (SPEC n lisp_inv_Val_n2w);
@@ -876,7 +876,7 @@ val _ = map (fn x => allowing_rebinds (X64_LISP_SYM x) 0) all_syms;
 
 (* error *)
 
-val X64_LISP_ERROR = save_thm("X64_LISP_ERROR",let
+Theorem X64_LISP_ERROR = let
   val s = "jmp [r7-200]"
   val s = x64_encode s
   val (spec,_,sts,_) = x64_tools
@@ -896,7 +896,7 @@ val X64_LISP_ERROR = save_thm("X64_LISP_ERROR",let
     \\ Q.EXISTS_TAC `(x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok)`
     \\ FULL_SIMP_TAC (std_ss++star_ss) [SEP_CLAUSES])
   val th = MP th lemma
-  in th end);
+  in th end
 
 val X64_LISP_SET_OK_F = save_lisp_thm("X64_LISP_SET_OK_F",let
   val th = X64_LISP_ERROR
@@ -1939,7 +1939,7 @@ val X64_LISP_PRINT_SYMBOL = save_lisp_thm("X64_LISP_PRINT_SYMBOL",let
 
 (* init *)
 
-val X64_LISP_INIT = save_thm("X64_LISP_INIT",let
+Theorem X64_LISP_INIT = let
   val th = SPEC_FRAME_RULE mc_full_init_spec ``zIO (EL 0 cs,EL 1 cs,EL 2 cs,EL 0 ds) io * zCODE_MEMORY ddd dd d * zSTACK rbp qs * zCODE_UNCHANGED cu dd d * cond (lisp_init (a1,a2,sl,sl1,e,ex,cs) io (df,f,dg,g,dd,d,sp,sa1,sa_len,ds))``
   val th = Q.INST [`r7`|->`sp`] th
   val post = set_pc th ``zLISP ^STAT (Sym "NIL",Sym "NIL",Sym "NIL",Sym "NIL",Sym "NIL",Sym "NIL",[],[],io,0,qs,NO_CODE,w2n (EL 3 cs),T) * zPC p * ~zS``
@@ -1962,7 +1962,7 @@ val X64_LISP_INIT = save_thm("X64_LISP_INIT",let
     \\ SIMP_TAC (std_ss++star_ss) [] \\ SIMP_TAC std_ss [STAR_ASSOC]
     \\ ASM_SIMP_TAC std_ss [SEP_IMP_REFL,mc_full_init_pre_thm])
   val th = MP th lemma
-  in th end);
+  in th end
 
 
 (* Produce "syntax error" *)
@@ -1995,7 +1995,7 @@ val X64_LISP_SYNTAX_ERROR = save_lisp_thm("X64_LISP_SYNTAX_ERROR",let
   val th = MP th lemma
   in th end);
 
-val X64_LISP_RAW_RUNTIME_ERROR = save_thm("X64_LISP_RAW_RUNTIME_ERROR",let
+Theorem X64_LISP_RAW_RUNTIME_ERROR = let
   val s = x64_encode "mov r2d,4"
   val (spec,_,sts,_) = x64_tools
   val ((th,_,_),_) = spec s
@@ -2005,7 +2005,7 @@ val X64_LISP_RAW_RUNTIME_ERROR = save_thm("X64_LISP_RAW_RUNTIME_ERROR",let
   val post_tm = set_pc th ``zLISP ^STAT (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok) * zPC rip``
   val res = prove_spec th imp def pre_tm post_tm
   val th = SPEC_COMPOSE_RULE [res,X64_LISP_ERROR]
-  in th end);
+  in th end
 
 val X64_LISP_RUNTIME_ERROR = save_lisp_thm("X64_LISP_RUNTIME_ERROR",let
   val s = x64_encode "mov r2d,4"
@@ -2788,7 +2788,7 @@ fun sort_swap_conv tm = let
 
 fun SORT_CODE th = CONV_RULE (REDEPTH_CONV sort_swap_conv) th
 
-val X64_LISP_JUMP_TO_CODE_FOR_EVAL = save_thm("X64_LISP_JUMP_TO_CODE_FOR_EVAL",let
+Theorem X64_LISP_JUMP_TO_CODE_FOR_EVAL = let
   val i = 4
   val addr = "mov r2,[r7-" ^ int_to_string (192 - 8 * i) ^ "]"
   val code = assemble "x64" `
@@ -2816,7 +2816,7 @@ L:  jmp G`
           THENC ONCE_REWRITE_CONV [GSYM n2w_mod]
           THENC SIMP_CONV (std_ss++SIZES_ss) []
   val res = SORT_CODE (RW [f c] res)
-  in res end);
+  in res end
 
 val X64_LISP_JUMP_TO_CODE_NO_RET = let
   val th  = mc_calc_addr_spec
@@ -2863,7 +2863,7 @@ val X64_LISP_WEAKEN_CODE = store_thm("X64_LISP_WEAKEN_CODE",
 
 (* converting data into code *)
 
-val X64_LISP_STRENGTHEN_CODE = save_thm("X64_LISP_STRENGTHEN_CODE",let
+Theorem X64_LISP_STRENGTHEN_CODE = let
   val ((th0,_,_),_) = x64_spec (x64_encode "mov r15, r3")
   val ((th1,_,_),_) = x64_spec (x64_encode "xor rax, rax")
   val th4 = RW [GSYM zR_def] (Q.INST [`rip`|->`p`,`df`|->`dd`,`f`|->`d`] X64_SPEC_CPUID)
@@ -2899,7 +2899,7 @@ val X64_LISP_STRENGTHEN_CODE = save_thm("X64_LISP_STRENGTHEN_CODE",let
   val pre_tm = ``zLISP (a1,a2,sl,sl1,e,ex,cs,rbp,SOME F,cu) (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok) * zPC p * ~zS``
   val post_tm = set_pc th ``zLISP (a1,a2,sl,sl1,e,ex,cs,rbp,SOME T,cu) (x0,x1,x2,x3,x4,x5,xs,xs1,io,xbp,qs,code,amnt,ok) * zPC p * ~zS``
   val res = prove_spec th imp def pre_tm post_tm
-  in res end);
+  in res end
 
 
 

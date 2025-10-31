@@ -105,8 +105,8 @@ val mon_sem_e_assign = Q.prove(
   EVAL_TAC >>
   BasicProvers.EVERY_CASE_TAC);
 
-val monadic_sem_e = save_thm("monadic_sem_e",
-  LIST_CONJ[mon_sem_e_var,mon_sem_e_num,mon_sem_e_add,mon_sem_e_assign]);
+Theorem monadic_sem_e =
+  LIST_CONJ[mon_sem_e_var,mon_sem_e_num,mon_sem_e_add,mon_sem_e_assign]
 
 (* Statement evaluation *)
 
@@ -167,6 +167,6 @@ val mon_sem_t_for = Q.prove(
   BasicProvers.EVERY_CASE_TAC >>
   fs[mtry_def,mibind_def,mbind_def,BIND_DEF,IGNORE_BIND_DEF,get_clock_def,update_state_def,mtimeout_def,UNIT_DEF]);
 
-val monadic_sem_t = save_thm("monadic_sem_t",
-  LIST_CONJ[mon_sem_t_exp,mon_sem_t_dec,mon_sem_t_seq,mon_sem_t_seq,mon_sem_t_if,mon_sem_t_for]);
+Theorem monadic_sem_t =
+  LIST_CONJ[mon_sem_t_exp,mon_sem_t_dec,mon_sem_t_seq,mon_sem_t_seq,mon_sem_t_if,mon_sem_t_for]
 

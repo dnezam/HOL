@@ -106,7 +106,7 @@ THEN UNDISCH_TAC ``(ReachFromRec R s n' = ReachFromRec R s (SUC n')) ==>
 THEN SPEC_TAC (``ReachFromRec R s``,``P:num -> 'a -> bool``)
 THEN ASSUM_LIST PROVE_TAC);
 
-val ReachFromFP = save_thm("ReachFromFP",prove(``!R s n'. (ReachFromRec R s n' = ReachFromRec R s (SUC n')) ==> (ReachFrom R s = ReachFromRec R s n')``,
+Theorem ReachFromFP = prove(``!R s n'. (ReachFromRec R s n' = ReachFromRec R s (SUC n')) ==> (ReachFrom R s = ReachFromRec R s n')``,
 REPEAT STRIP_TAC
 THEN ASSUME_TAC (SPEC_ALL ReachFromLem2)
 THEN UNDISCH_TAC ``ReachFromRec R s n' = ReachFromRec R s (SUC n')``
@@ -117,7 +117,7 @@ THEN UNDISCH_TAC ``(ReachFromRec R s n' = ReachFromRec R s (SUC n')) ==>
 THEN REWRITE_TAC [ReachFrom_def]
 THEN SPEC_TAC (``ReachFromRec R s``,``P:num -> 'a -> bool``)
 THEN REWRITE_TAC [GSYM BIGUNION_SPLIT]
-THEN ASSUM_LIST PROVE_TAC));
+THEN ASSUM_LIST PROVE_TAC)
 
 val ReachToChain = prove(``!R s n. ReachToRec R s n SUBSET ReachToRec R s (SUC n)``,
 Induct_on `n` THENL [
@@ -196,7 +196,7 @@ THEN UNDISCH_TAC ``(ReachToRec R s n' = ReachToRec R s (SUC n')) ==>
 THEN SPEC_TAC (``ReachToRec R s``,``P:num -> 'a -> bool``)
 THEN ASSUM_LIST PROVE_TAC);
 
-val ReachToFP = save_thm("ReachToFP",prove(``!R s n'. (ReachToRec R s n' = ReachToRec R s (SUC n')) ==> (ReachTo R s = ReachToRec R s n')``,
+Theorem ReachToFP = prove(``!R s n'. (ReachToRec R s n' = ReachToRec R s (SUC n')) ==> (ReachTo R s = ReachToRec R s n')``,
 REPEAT STRIP_TAC
 THEN ASSUME_TAC (SPEC_ALL ReachToLem2)
 THEN UNDISCH_TAC ``ReachToRec R s n' = ReachToRec R s (SUC n')``
@@ -207,7 +207,7 @@ THEN UNDISCH_TAC ``(ReachToRec R s n' = ReachToRec R s (SUC n')) ==>
 THEN REWRITE_TAC [ReachTo_def]
 THEN SPEC_TAC (``ReachToRec R s``,``P:num -> 'a -> bool``)
 THEN REWRITE_TAC [GSYM BIGUNION_SPLIT]
-THEN ASSUM_LIST PROVE_TAC));
+THEN ASSUM_LIST PROVE_TAC)
 
 Definition R_REFL_def:   R_REFL R = !x. R(x,x)
 End
@@ -218,7 +218,7 @@ End
 Definition R_EQR_def:   R_EQR R = R_REFL R /\ R_SYM R /\ R_TRANS R
 End
 
-val ReachToClosed = save_thm("ReachToClosed",prove(``!si R s. R_EQR R ==> (s IN ReachTo R si = R(s,si))``,
+Theorem ReachToClosed = prove(``!si R s. R_EQR R ==> (s IN ReachTo R si = R(s,si))``,
 REPEAT STRIP_TAC
 THEN SIMP_TAC std_ss [BIGUNION,ReachTo_def,SET_SPEC]
 THEN EQ_TAC THENL [
@@ -246,9 +246,9 @@ THEN CONJ_TAC THENL [
  THEN EXISTS_TAC ``si:'a``
  THEN FULL_SIMP_TAC std_ss [IN_SING]
  ]
-]));
+])
 
-val ReachFromClosed = save_thm("ReachFromClosed",prove(``!si R s. R_EQR R ==> (s IN ReachFrom R si = R(si,s))``,
+Theorem ReachFromClosed = prove(``!si R s. R_EQR R ==> (s IN ReachFrom R si = R(si,s))``,
 REPEAT STRIP_TAC
 THEN SIMP_TAC std_ss [BIGUNION,ReachFrom_def,SET_SPEC]
 THEN EQ_TAC THENL [
@@ -276,23 +276,23 @@ THEN CONJ_TAC THENL [
  THEN EXISTS_TAC ``si:'a``
  THEN FULL_SIMP_TAC std_ss [IN_SING]
  ]
-]));
+])
 
-val SCC_def =  save_thm("SCC_def",Define `SCC R s = ReachFrom R s UNION ReachTo R s`);
+Theorem SCC_def = Define `SCC R s = ReachFrom R s UNION ReachTo R s`
 
 (* At the moment am not defining the ap field since we don't know that simply by looking at the formal M *)
 (* TODO: since aks.ap is simply the set of abstract state variables, we could pass it in to ABS_KS_def *)
 (* this is possible since the online abs ks would have been created before we use the definition below *)
-val ABS_KS_def =  save_thm("ABS_KS_def",Define `ABS_KS M (h:('a#'b)->bool) =
+Theorem ABS_KS_def = Define `ABS_KS M (h:('a#'b)->bool) =
                                        <| S := UNIV:'b->bool;
                                           S0:= { sh | ?s'. (s' IN M.S0) /\ h(s',sh)};
                                           T := \a. \(sh,sh'). ?s' s''. (M.T a)(s',s'') /\ h(s',sh) /\ h(s'',sh');
                                           L:= \sh. BIGUNION { X | ?s.  (X = (M.L s)) /\ h(s,sh)}
-                                        |>`);
+                                        |>`
 
 
-val wf_absKS = save_thm("wf_absKS",prove(``!ks h. wfKS ks ==> wfKS (ABS_KS ks h)``,
-FULL_SIMP_TAC std_ss [wfKS_def,ABS_KS_def,KS_accfupds,combinTheory.K_DEF,SUBSET_UNIV]));
+Theorem wf_absKS = prove(``!ks h. wfKS ks ==> wfKS (ABS_KS ks h)``,
+FULL_SIMP_TAC std_ss [wfKS_def,ABS_KS_def,KS_accfupds,combinTheory.K_DEF,SUBSET_UNIV])
 
 Definition def1:   QP2 h q q' = h(q,q')
 End
@@ -304,7 +304,7 @@ val lem1 = prove(``!h q. h(q,@qh. h(q,qh)) = ?qh. h(q,qh)``,
  THEN SPEC_TAC(``QP2 (h :'a # 'b -> bool) (q :'a)``,``Q:'b->bool``)
  THEN  REWRITE_TAC [SELECT_THM]);
 
-val ABS_CONS_LEM = save_thm("ABS_CONS_LEM",prove(``!(f:'prop mu) h (ks:('prop,'state) KS) s sh (e:string -> 'state -> bool) (eh:string -> 'astate -> bool).
+Theorem ABS_CONS_LEM = prove(``!(f:'prop mu) h (ks:('prop,'state) KS) s sh (e:string -> 'state -> bool) (eh:string -> 'astate -> bool).
 wfKS ks ==>
 (!Q. ~SUBFORMULA (~RV Q) (NNF f)) ==>
 (!s. ?sh. h(s,sh)) ==>
@@ -573,19 +573,19 @@ THEN (SUBGOAL_THEN (mk_forall(``n:num``,list_mk_forall([``sh:'astate``,``s:'stat
   THEN POP_ASSUM (fn t => POP_ASSUM_LIST (fn _ => ASSUME_TAC t))
   THEN ASSUM_LIST PROVE_TAC
  ] (* ~nu *)
-]));
+])
 
 
-val ABS_CONS_STATES = save_thm("ABS_CONS_STATES",SIMP_RULE std_ss [wf_absKS,STATES_NNF_ID] ABS_CONS_LEM);
+Theorem ABS_CONS_STATES = SIMP_RULE std_ss [wf_absKS,STATES_NNF_ID] ABS_CONS_LEM
 
-val ABS_INIT = save_thm("ABS_INIT",prove(``!ks h s sh. h(s,sh) ==> s IN ks.S0 ==> sh IN (ABS_KS ks h).S0``,
+Theorem ABS_INIT = prove(``!ks h s sh. h(s,sh) ==> s IN ks.S0 ==> sh IN (ABS_KS ks h).S0``,
 REPEAT STRIP_TAC
 THEN SIMP_TAC std_ss [ABS_KS_def,ksTheory.KS_accfupds,combinTheory.K_DEF,SET_SPEC]
 THEN Q.EXISTS_TAC `s`
-THEN ASM_REWRITE_TAC []));
+THEN ASM_REWRITE_TAC [])
 
 (* note <== direction is not provable because h may make unreachable s reachable *)
-val ABS_REACH = save_thm("ABS_REACH",prove(``!ks h a s sh. (!s. ?sh. h(s,sh)) ==> h(s,sh) ==> s IN Reachable (ks.T a) ks.S0 ==> sh IN Reachable ((ABS_KS ks h).T a) ((ABS_KS ks h).S0)``,
+Theorem ABS_REACH = prove(``!ks h a s sh. (!s. ?sh. h(s,sh)) ==> h(s,sh) ==> s IN Reachable (ks.T a) ks.S0 ==> sh IN Reachable ((ABS_KS ks h).T a) ((ABS_KS ks h).S0)``,
 NTAC 7 STRIP_TAC
 THEN SIMP_TAC std_ss [Reachable_def,BIGUNION,SET_SPEC]
 THEN STRIP_TAC
@@ -621,12 +621,12 @@ THEN CONJ_TAC THENL [
    ]
   ]
  ]
-]));
+])
 
 Definition IS_ABS_FUN_def:   IS_ABS_FUN (ks:('prop,'state) KS) e h = (!s. ?(sh:'astate). h(s,sh)) /\ (!s1 s2 (sh:'astate). h(s1,sh) /\ h(s2,sh) ==> !p. p IN ks.ap ==> (s1 IN STATES (AP p) ks e = s2 IN STATES (AP p) ks e))
 End
 
-val ABS_CONS_MODEL = save_thm("ABS_CONS_MODEL",prove(``!f h (ks:('prop,'state) KS) (e:string -> 'state -> bool) (eh:string -> 'astate -> bool). wfKS ks ==> (!Q. ~SUBFORMULA (~RV Q) (NNF f)) ==> (!a g. ~SUBFORMULA (<<a>> g) (NNF f)) ==> (!p. SUBFORMULA (AP p) f ==> p IN ks.ap) ==> IS_ABS_FUN (ks:('prop,'state) KS) e h ==> (!Q s sh. h(s,sh) ==> (sh IN eh Q ==> s IN e Q)) ==> MU_MODEL_SAT f (ABS_KS ks h) eh ==> MU_MODEL_SAT f ks e``,
+Theorem ABS_CONS_MODEL = prove(``!f h (ks:('prop,'state) KS) (e:string -> 'state -> bool) (eh:string -> 'astate -> bool). wfKS ks ==> (!Q. ~SUBFORMULA (~RV Q) (NNF f)) ==> (!a g. ~SUBFORMULA (<<a>> g) (NNF f)) ==> (!p. SUBFORMULA (AP p) f ==> p IN ks.ap) ==> IS_ABS_FUN (ks:('prop,'state) KS) e h ==> (!Q s sh. h(s,sh) ==> (sh IN eh Q ==> s IN e Q)) ==> MU_MODEL_SAT f (ABS_KS ks h) eh ==> MU_MODEL_SAT f ks e``,
 REPEAT STRIP_TAC
 THEN FULL_SIMP_TAC std_ss [MU_MODEL_SAT_def,MU_SAT_def,IS_ABS_FUN_def]
 THEN REPEAT STRIP_TAC
@@ -635,9 +635,9 @@ THEN FULL_SIMP_TAC std_ss []
 THEN Q.PAT_ASSUM `!s. s IN (ABS_KS ks h).S0 ==> s IN STATES f (ABS_KS ks h) eh` (fn t => ASSUME_TAC (Q.SPEC `sh` t))
 THEN IMP_RES_TAC ABS_INIT
 THEN IMP_RES_TAC ABS_CONS_STATES
-THEN FULL_SIMP_TAC std_ss []));
+THEN FULL_SIMP_TAC std_ss [])
 
-val SCC_FOLD_BASE = save_thm ("SCC_FOLD_BASE",
+Theorem SCC_FOLD_BASE =
                               prove(``!f g pf R s sh k. (s IN {s | !i. i<=k ==> SCC (R i) (f i (0:num)) (pf i s)} = g (0:num) sh)
                                     /\ (s IN {s | !i. i<=k ==> SCC (R i) (f i (1:num)) (pf i s)} = g (1:num) sh)
                                     =
@@ -655,9 +655,9 @@ REPEAT STRIP_TAC THEN EQ_TAC THENL [
   POP_ASSUM (fn t => ASSUME_TAC (SPEC ``1:num`` t))
   THEN FULL_SIMP_TAC arith_ss [IN_DEF]
  ]
-]));
+])
 
-val SCC_FOLD_STEP = save_thm("SCC_FOLD_STEP",prove(``!f g pf R s sh k n.
+Theorem SCC_FOLD_STEP = prove(``!f g pf R s sh k n.
                                                       s IN {s | !(j:num). j<=n ==> (s IN {s | !i. i<=k ==> SCC (R i) (f i j) (pf i s)} = (g j sh))}
                                                    /\ (s IN {s | !i. i<=k ==> SCC (R i) (f i (SUC n)) (pf i s)} = g (SUC n) sh)
                                                    = s IN {s | !(j:num). j<=(SUC n) ==> (s IN {s | !i. i<=k ==> SCC (R i) (f i j) (pf i s)} = (g j sh))}``,
@@ -668,12 +668,12 @@ THEN EQ_TAC THEN DISCH_TAC THEN (TRY CONJ_TAC) THEN (TRY (Induct_on `j`)) THEN R
  THEN FULL_SIMP_TAC arith_ss [],
  Cases_on `j=n`
  THEN FULL_SIMP_TAC arith_ss []
-]));
+])
 
-val SCC_INNER_FOLD_BASE1 = save_thm("SCC_INNER_FOLD_BASE1",prove(``!R j f pf s. SCC (R 0) (f 0 j) (pf 0 s) = s IN {s | !i. i<=0 ==> SCC (R i) (f i j) (pf i s)}``,
-SIMP_TAC arith_ss [SET_SPEC]));
+Theorem SCC_INNER_FOLD_BASE1 = prove(``!R j f pf s. SCC (R 0) (f 0 j) (pf 0 s) = s IN {s | !i. i<=0 ==> SCC (R i) (f i j) (pf i s)}``,
+SIMP_TAC arith_ss [SET_SPEC])
 
-val SCC_INNER_FOLD_BASE = save_thm("SCC_INNER_FOLD_BASE",prove(``!f pf R s sh j. (SCC (R 0) (f 0 j) (pf 0 s)) /\ (SCC (R 1) (f 1 j) (pf 1 s)) = s IN {s | !i. i<=1 ==> ((pf i s) IN SCC (R i) (f i j))}``,
+Theorem SCC_INNER_FOLD_BASE = prove(``!f pf R s sh j. (SCC (R 0) (f 0 j) (pf 0 s)) /\ (SCC (R 1) (f 1 j) (pf 1 s)) = s IN {s | !i. i<=1 ==> ((pf i s) IN SCC (R i) (f i j))}``,
 REPEAT STRIP_TAC THEN EQ_TAC THENL [
  STRIP_TAC THEN SIMP_TAC std_ss [SET_SPEC] THEN Induct_on `i` THENL [
   FULL_SIMP_TAC arith_ss [IN_DEF],
@@ -686,9 +686,9 @@ REPEAT STRIP_TAC THEN EQ_TAC THENL [
   POP_ASSUM (fn t => ASSUME_TAC (SPEC ``1:num`` t))
   THEN FULL_SIMP_TAC arith_ss [IN_DEF]
  ]
-]));
+])
 
-val SCC_INNER_FOLD_STEP = save_thm("SCC_INNER_FOLD_STEP",prove(``!f pf R s sh j n. s IN {s | !(i:num). i<=n ==> ((pf i s) IN SCC (R i) (f i j))} /\ (SCC (R (SUC n)) (f (SUC n) j) (pf (SUC n) s)) = s IN {s | !(i:num). i<=(SUC n) ==> ((pf i s) IN SCC (R i) (f i j))}``,
+Theorem SCC_INNER_FOLD_STEP = prove(``!f pf R s sh j n. s IN {s | !(i:num). i<=n ==> ((pf i s) IN SCC (R i) (f i j))} /\ (SCC (R (SUC n)) (f (SUC n) j) (pf (SUC n) s)) = s IN {s | !(i:num). i<=(SUC n) ==> ((pf i s) IN SCC (R i) (f i j))}``,
 REPEAT STRIP_TAC
 THEN FULL_SIMP_TAC std_ss [SET_SPEC,IN_DEF]
 THEN EQ_TAC THEN DISCH_TAC THEN (TRY CONJ_TAC) THEN (TRY (Induct_on `i`)) THEN RW_TAC std_ss [] THENL [
@@ -696,13 +696,13 @@ THEN EQ_TAC THEN DISCH_TAC THEN (TRY CONJ_TAC) THEN (TRY (Induct_on `i`)) THEN R
  THEN FULL_SIMP_TAC arith_ss []
  THEN PAT_ASSUM ``!i. t`` (fn t => ASSUME_TAC (SPEC ``SUC i`` t)) THEN FULL_SIMP_TAC arith_ss [],
  FULL_SIMP_TAC arith_ss []
-]));
+])
 
-val SCC_REL = save_thm("SCC_REL",prove(``!R s si. R_EQR R ==> (s IN SCC R si = R(s,si))``,
- FULL_SIMP_TAC std_ss [R_EQR_def,R_SYM_def,SCC_def,ReachFromClosed,ReachToClosed,UNION_DEF,SET_SPEC]));
+Theorem SCC_REL = prove(``!R s si. R_EQR R ==> (s IN SCC R si = R(s,si))``,
+ FULL_SIMP_TAC std_ss [R_EQR_def,R_SYM_def,SCC_def,ReachFromClosed,ReachToClosed,UNION_DEF,SET_SPEC])
 
-val SCC_REL_IMP = save_thm("SCC_REL_IMP",prove(``!R s1 s2 si. R_EQR R ==> (s1 IN SCC R si /\ s2 IN SCC R si) ==> R(s1,s2)``,
-PROVE_TAC [SCC_REL,R_EQR_def,R_SYM_def,R_TRANS_def]));
+Theorem SCC_REL_IMP = prove(``!R s1 s2 si. R_EQR R ==> (s1 IN SCC R si /\ s2 IN SCC R si) ==> R(s1,s2)``,
+PROVE_TAC [SCC_REL,R_EQR_def,R_SYM_def,R_TRANS_def])
 
 val BIGOR_OVER_AND = store_thm(
   "BIGOR_OVER_AND",
@@ -710,6 +710,6 @@ val BIGOR_OVER_AND = store_thm(
          =  ?i j. i<=k /\ j<=k /\ (P i /\ Q j)``,
   PROVE_TAC []);
 
-val abst_lem1 = save_thm("abst_lem1",prove(``!f sh k i j. ((!i. i<=k /\ f i sh ==> !j. j<=k /\ f j sh ==> (i=j)) ==> i<=k /\ j<=k /\ f i sh /\ f j sh ==> (i=j))``,
-REPEAT STRIP_TAC THEN RES_TAC));
+Theorem abst_lem1 = prove(``!f sh k i j. ((!i. i<=k /\ f i sh ==> !j. j<=k /\ f j sh ==> (i=j)) ==> i<=k /\ j<=k /\ f i sh /\ f j sh ==> (i=j))``,
+REPEAT STRIP_TAC THEN RES_TAC)
 

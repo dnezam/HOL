@@ -28,35 +28,35 @@ val tt = set_trace "types";
 
 (* ------------------------------------------------------------------------- *)
 
-val arm6inp_nchotomy = save_thm("arm6inp_nchotomy",
+Theorem arm6inp_nchotomy =
   armLib.tupleCases
   ``(NRESET:bool, ABORT:bool, NFQ:bool, NIQ:bool,
-     DATA:word32, CPA:bool, CPB:bool)``);
+     DATA:word32, CPA:bool, CPB:bool)``
 
-val arm6_nchotomy = save_thm("arm6_nchotomy",
+Theorem arm6_nchotomy =
   armLib.combCases ``ARM6 (DP reg psr areg din alua alub dout)
     (CTRL pipea pipeaval pipeb pipebval ireg iregval ointstart onewinst
         endinst obaselatch opipebll nxtic nxtis nopc1 oorst resetlatch onfq
         ooonfq oniq oooniq pipeaabt pipebabt iregabt2 dataabt2 aregn2 mrq2
-        nbw nrw sctrlreg psrfb oareg mask orp oorp mul mul2 borrow2 mshift)``);
+        nbw nrw sctrlreg psrfb oareg mask orp oorp mul mul2 borrow2 mshift)``
 
 fun Cases_on_arm6inp tm = FULL_STRUCT_CASES_TAC (SPEC tm arm6inp_nchotomy);
 
-val form_7tuple = save_thm("form_7tuple",
+Theorem form_7tuple =
   (GEN_ALL o simpLib.SIMP_PROVE std_ss [])
     ``(a:bool # bool # bool # bool # word32 # bool # bool) =
       (FST a,FST (SND a),FST (SND (SND a)),FST (SND (SND (SND a))),
        FST (SND (SND (SND (SND a)))),FST (SND (SND (SND (SND (SND a))))),
-       SND (SND (SND (SND (SND (SND a))))))``);
+       SND (SND (SND (SND (SND (SND a))))))``
 
-val SNEXT_NEXT_ARM6 = save_thm("SNEXT_NEXT_ARM6",
+Theorem SNEXT_NEXT_ARM6 =
   (ONCE_REWRITE_RULE [form_7tuple] o SIMP_RULE (srw_ss()) [] o
    SPEC `<|state := a; inp := i|>` o
-   REWRITE_RULE [FUN_EQ_THM] o ISPEC `NEXT_ARM6`) io_onestepTheory.SNEXT_def);
+   REWRITE_RULE [FUN_EQ_THM] o ISPEC `NEXT_ARM6`) io_onestepTheory.SNEXT_def
 
-val COND_PAIR = save_thm("COND_PAIR",
+Theorem COND_PAIR =
   (GEN_ALL o PROVE []) ``(if e then (a,b) else (c,d)) =
-                         (if e then a else c,if e then b else d)``);
+                         (if e then a else c,if e then b else d)``
 
 (* ------------------------------------------------------------------------- *)
 
@@ -83,11 +83,11 @@ val SND_LSL = store_thm("SND_LSL",
   `!n a c. SND (LSL a n c) = a << w2n n`,
   RW_TAC arith_ss [LSL_def,SHIFT_ZERO,word_0_n2w]);
 
-val LSL_ZERO = save_thm("LSL_ZERO",
-  (REWRITE_RULE [SHIFT_ZERO,word_0_n2w] o SPEC `0w`) SND_LSL);
+Theorem LSL_ZERO =
+  (REWRITE_RULE [SHIFT_ZERO,word_0_n2w] o SPEC `0w`) SND_LSL
 
-val LSL_TWO = save_thm("LSL_TWO",
-  (SIMP_RULE (arith_ss++SIZES_ss) [w2n_n2w] o SPEC `2w`) SND_LSL);
+Theorem LSL_TWO =
+  (SIMP_RULE (arith_ss++SIZES_ss) [w2n_n2w] o SPEC `2w`) SND_LSL
 
 val SND_ROR = store_thm("SND_ROR",
   `!a n c. SND (ROR a n c) = a #>> w2n n`,
@@ -257,12 +257,12 @@ val REG_READ_WRITE = store_thm("REG_READ_WRITE",
     \\ PROVE_TAC [r15,not_pc,not_reg_eq,mode_reg2num_lt,num2register_11,
          DECIDE ``15 < 31``]);
 
-val REG_READ_WRITE_PC = save_thm("REG_READ_WRITE_PC",
+Theorem REG_READ_WRITE_PC =
   let val thm = (SPEC_ALL o CONJUNCT1) REG_READ_WRITE in
     CONJ
       ((SIMP_RULE arith_ss [TO_WRITE_READ6] o INST [`n2` |-> `15w`]) thm)
       ((SIMP_RULE arith_ss [TO_WRITE_READ6] o INST [`n1` |-> `15w`]) thm)
-  end);
+  end
 
 val REG_READ_WRITE_NEQ = store_thm("REG_READ_WRITE_NEQ",
   `!r m1 m2 n1 n2 d. ~(n1 = n2) ==>
@@ -351,8 +351,8 @@ val NZ_ADD_lem = prove(
   SIMP_TAC (std_ss++SIZES_ss) [ADD_def,ALU_arith_def,DIVMOD_2EXP,
     MOD_MOD,MOD_2EXP_def,n2w_11]);
 
-val NZ_ADD = save_thm("NZ_ADD",
-  (REWRITE_RULE [ALUOUT_ADD] o SPEC `F`) NZ_ADD_lem);
+Theorem NZ_ADD =
+  (REWRITE_RULE [ALUOUT_ADD] o SPEC `F`) NZ_ADD_lem
 
 val ALUOUT_ADD_CARRY = store_thm("ALUOUT_ADD_CARRY",
   `!a b. SND (ADD a b T) = a + b + 1w`,
@@ -374,8 +374,8 @@ val NZ_SUB_lem = prove(
   SIMP_TAC (std_ss++SIZES_ss) [SUB_def,ADD_def,ALU_arith_def,DIVMOD_2EXP,
     MOD_MOD,MOD_2EXP_def,n2w_11]);
 
-val NZ_SUB = save_thm("NZ_SUB",
-  (REWRITE_RULE [ALUOUT_SUB] o SPEC `T`) NZ_SUB_lem);
+Theorem NZ_SUB =
+  (REWRITE_RULE [ALUOUT_SUB] o SPEC `T`) NZ_SUB_lem
 
 (* ------------------------------------------------------------------------- *)
 
@@ -508,8 +508,8 @@ val CPSR_WRITE_WRITE = store_thm("CPSR_WRITE_WRITE",
   `!psr a b. CPSR_WRITE (CPSR_WRITE psr a) b = CPSR_WRITE psr b`,
   SIMP_TAC bool_ss [CPSR_WRITE_def,UPDATE_EQ]);
 
-val USER_usr = save_thm("USER_usr",
-  simpLib.SIMP_PROVE bool_ss [USER_def] ``USER usr``);
+Theorem USER_usr =
+  simpLib.SIMP_PROVE bool_ss [USER_def] ``USER usr``
 
 val PSR_WRITE_COMM = store_thm("PSR_WRITE_COMM",
   `!psr m x y. SPSR_WRITE (CPSR_WRITE psr x) m y =

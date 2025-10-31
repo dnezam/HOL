@@ -584,7 +584,7 @@ REPEAT STRIP_TAC THENL [
 Definition BIN_OPTION_MAP_ALL_DEF_def:   BIN_OPTION_MAP_ALL_DEF f = BIN_OPTION_MAP f (K (K T))
 End
 
-val BIN_OPTION_MAP_ALL_DEF_THM = save_thm ("BIN_OPTION_MAP_ALL_DEF_THM",
+Theorem BIN_OPTION_MAP_ALL_DEF_THM =
    let
       val thm0 = Q.GEN `c` BIN_OPTION_MAP_THM;
       val thm1 = Q.SPEC `K (K T)` thm0;
@@ -592,7 +592,7 @@ val BIN_OPTION_MAP_ALL_DEF_THM = save_thm ("BIN_OPTION_MAP_ALL_DEF_THM",
       val thm3 = SIMP_RULE std_ss [prove (``COMM (K (K T))``, SIMP_TAC std_ss [COMM_DEF]), GSYM COMM_DEF, GSYM ASSOC_DEF] thm2;
    in
       thm3
-   end);
+   end
 
 
 
@@ -916,16 +916,14 @@ MATCH_MP_TAC ASL_IS_SUBSTATE___IS_PREORDER THEN
 REWRITE_TAC [IS_SEPARATION_COMBINATOR___FINITE_MAP]);
 
 
-val ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___TRANS =
-    save_thm ("ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___TRANS",
+Theorem ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___TRANS =
 CONJUNCT2 (
-REWRITE_RULE[PreOrder, transitive_def] ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___IS_PREORDER));
+REWRITE_RULE[PreOrder, transitive_def] ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___IS_PREORDER)
 
 
-val ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___REFL =
-    save_thm ("ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___REFL",
+Theorem ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___REFL =
 CONJUNCT1 (
-REWRITE_RULE[PreOrder, reflexive_def] ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___IS_PREORDER));
+REWRITE_RULE[PreOrder, reflexive_def] ASL_IS_SUBSTATE___DISJOINT_FMAP_UNION___IS_PREORDER)
 
 
 
@@ -1147,14 +1145,14 @@ SIMP_TAC std_ss [asl_exists_def, asl_or_def, IN_ABS] THEN
 METIS_TAC[]);
 
 
-val fasl_star_REWRITE = save_thm ("fasl_star_REWRITE",
+Theorem fasl_star_REWRITE =
    let
       val thm = (GEN ``f:'a ->'a ->'a`` BIN_OPTION_MAP_ALL_DEF_THM);
       val thm2 = ISPEC ``asl_star f`` thm;
       val thm3 = REWRITE_RULE [GSYM fasl_star_def] thm2;
    in
       thm3
-   end);
+   end
 
 val fasl_star_DIRECT_DEF = store_thm ("fasl_star_DIRECT_DEF",
 ``(fasl_star f NONE Qopt = NONE) /\
@@ -1162,9 +1160,9 @@ val fasl_star_DIRECT_DEF = store_thm ("fasl_star_DIRECT_DEF",
   (fasl_star f (SOME P) (SOME Q) = SOME (asl_star f P Q))``,
 SIMP_TAC std_ss [fasl_star_REWRITE]);
 
-val asl_star___PROPERTIES = save_thm ("asl_star___PROPERTIES",
+Theorem asl_star___PROPERTIES =
 SIMP_RULE std_ss [COMM_MONOID_def, MONOID_DEF,
-   LEFT_ID_DEF, RIGHT_ID_DEF] IS_COMM_MONOID___asl_star_emp);
+   LEFT_ID_DEF, RIGHT_ID_DEF] IS_COMM_MONOID___asl_star_emp
 
 
 val asl_star___swap = store_thm ("asl_star___swap",
@@ -2386,10 +2384,10 @@ SIMP_TAC std_ss [TRANS_FUNC_SAFETY_MONOTONICITY_def, ASL_IS_SUBSTATE_def,
 PROVE_TAC[]);
 
 
-val ASL_IS_LOCAL_ACTION___ALTERNATIVE_DEF = save_thm ("ASL_IS_LOCAL_ACTION___ALTERNATIVE_DEF",
+Theorem ASL_IS_LOCAL_ACTION___ALTERNATIVE_DEF =
 SIMP_RULE std_ss [TRANS_FUNC_SAFETY_MONOTONICITY_REWRITE,
    TRANS_FUNC_FRAME_PROPERTY_def]
-LOCALITY_CHARACTERISATION);
+LOCALITY_CHARACTERISATION
 
 
 val ASL_IS_LOCAL_ACTION___ALTERNATIVE_EXT_DEF = store_thm ("ASL_IS_LOCAL_ACTION___ALTERNATIVE_EXT_DEF",
@@ -3062,11 +3060,11 @@ SIMP_TAC std_ss [asl_star_def, IN_ABS, IN_SING] THEN
 METIS_TAC[SUBSET_DEF]);
 
 
-val best_local_action_THM = save_thm ("best_local_action_THM",
+Theorem best_local_action_THM =
 
 SIMP_RULE std_ss [GSYM FORALL_AND_THM, GSYM IMP_CONJ_THM]
 (LIST_CONJ [best_local_action_IS_LOCAL, best_local_action_SPEC, best_local_action_BEST])
-);
+
 
 
 
@@ -4208,12 +4206,12 @@ Definition asla_choice_def:
    asla_choice = SUP_fasl_action_order
 End
 
-val asla_choice_REWRITE = save_thm ("asla_choice_REWRITE",
-REWRITE_CONV [asla_choice_def, SUP_fasl_action_order_def] ``asla_choice actions``);
+Theorem asla_choice_REWRITE =
+REWRITE_CONV [asla_choice_def, SUP_fasl_action_order_def] ``asla_choice actions``
 
 
-val ASL_IS_LOCAL_ACTION___asla_choice = save_thm ("ASL_IS_LOCAL_ACTION___asla_choice",
-   REWRITE_RULE [GSYM asla_choice_def] SUP_fasl_action_order_LOCAL);
+Theorem ASL_IS_LOCAL_ACTION___asla_choice =
+   REWRITE_RULE [GSYM asla_choice_def] SUP_fasl_action_order_LOCAL
 
 
 Definition asla_bin_choice_def:
@@ -4781,7 +4779,7 @@ Definition ASL_IS_SING_LOCK_ATOMIC_ACTION_def:
    ASL_IS_LOCK_ATOMIC_ACTION {l}
 End
 
-val ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE = save_thm ("ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE",
+Theorem ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE =
    let
       val thm = SPEC_ALL ASL_IS_LOCK_ATOMIC_ACTION_def;
       val thm2 = Q.GEN `L` thm;
@@ -4790,7 +4788,7 @@ val ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE = save_thm ("ASL_IS_SING_LOCK_ATOMIC_
       val thm5 = REWRITE_RULE [GSYM ASL_IS_SING_LOCK_ATOMIC_ACTION_def, IN_SING] thm4;
    in
       thm5
-   end);
+   end
 
 val ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE2 = store_thm ("ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE2",
    ``ASL_IS_SING_LOCK_ATOMIC_ACTION l aa =
@@ -5868,17 +5866,17 @@ val comments_thmL = [asl_comment_location_def,
       asl_comment_loop_spec_def,
       asl_comment_loop_unroll_def,
       asl_comment_block_spec_def];
-val asl_comments_ELIM = save_thm ("asl_comments_ELIM",
-LIST_CONJ comments_thmL);
+Theorem asl_comments_ELIM =
+LIST_CONJ comments_thmL
 
-val asl_comments_TF_ELIM = save_thm ("asl_comments_TF_ELIM",
+Theorem asl_comments_TF_ELIM =
 let
    val thmL = map (CONV_RULE (RESORT_FORALL_CONV rev)) comments_thmL;
    val thmLT = map (ISPEC T) thmL
    val thmLF = map (ISPEC F) thmL
 in
    LIST_CONJ (append thmLT thmLF)
-end);
+end
 val _ = export_rewrites ["asl_comments_TF_ELIM"]
 
 
@@ -6173,7 +6171,7 @@ REPEAT STRIP_TAC THENL [
 
 
 
-val ASL_PROTO_TRACES_EVAL_THM = save_thm ("ASL_PROTO_TRACES_EVAL_THM",
+Theorem ASL_PROTO_TRACES_EVAL_THM =
 let
    val thm1 = Q.GEN `t` ASL_PROTO_TRACES_EVAL_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6182,7 +6180,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end);
+end
 
 
 val ASL_PROGRAM_TRACES_PROC_IN_THM = store_thm ("ASL_PROGRAM_TRACES_PROC_IN_THM",
@@ -6301,7 +6299,7 @@ REPEAT STRIP_TAC THENL [
 
 
 
-val ASL_PROGRAM_TRACES_PROC_THM = save_thm ("ASL_PROGRAM_TRACES_PROC_THM",
+Theorem ASL_PROGRAM_TRACES_PROC_THM =
 let
    val thm1 = Q.GEN `t` ASL_PROGRAM_TRACES_PROC_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6310,7 +6308,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end);
+end
 
 
 val ASL_PROGRAM_TRACES_PROC_SING_THM = store_thm ("ASL_PROGRAM_TRACES_PROC_SING_THM",
@@ -6431,7 +6429,7 @@ REPEAT CONJ_TAC THENL [
 
 
 
-val ASL_PROGRAM_TRACES_THM = save_thm ("ASL_PROGRAM_TRACES_THM",
+Theorem ASL_PROGRAM_TRACES_THM =
 let
    val thm1 = Q.GEN `t` ASL_PROGRAM_TRACES_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6440,7 +6438,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end);
+end
 
 
 
@@ -12758,8 +12756,7 @@ ASM_SIMP_TAC std_ss [asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prim_command]);
 
 
 
-val asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___ASL_REWRITES =
-  save_thm ("asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___ASL_REWRITES",
+Theorem asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___ASL_REWRITES =
   LIST_CONJ (map GEN_ALL [
     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prim_command,
     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___SIMPLE_REWRITES,
@@ -12774,4 +12771,4 @@ val asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___ASL_REWRITES =
     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prog_repeat_num,
     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prog_kleene_star,
     asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prog_while,
-    asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___comments]))
+    asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___comments])

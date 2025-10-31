@@ -602,9 +602,8 @@ val CARD_LESS = store_thm
    >> Suff `~(n IN (\x. x < n))` >- SIMP_TAC std_ss []
    >> SIMP_TAC std_ss [SPECIFICATION]);
 
-val FINITE_COUNTABLE = save_thm(
-  "FINITE_COUNTABLE",
-  pred_setTheory.finite_countable);
+Theorem FINITE_COUNTABLE =
+  pred_setTheory.finite_countable
 
 val FINITE_REST = store_thm
   ("FINITE_REST",

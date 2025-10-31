@@ -88,10 +88,10 @@ val (InvRound_def,InvRound_ind) = Defn.tprove
                (AddRoundKey (FST keys) (InvSubBytes (InvShiftRows state))))`,
   WF_REL_TAC `measure FST`);
 
-val _ = save_thm ("Round_def", Round_def);
-val _ = save_thm ("Round_ind", Round_ind);
-val _ = save_thm ("InvRound_def", InvRound_def);
-val _ = save_thm ("InvRound_ind", InvRound_ind);
+Theorem Round_def = Round_def
+Theorem Round_ind = Round_ind
+Theorem InvRound_def = InvRound_def
+Theorem InvRound_ind = InvRound_ind
 
 (*---------------------------------------------------------------------------*)
 (* Encrypt and Decrypt                                                       *)
@@ -175,8 +175,8 @@ Defn.tprove
   WF_REL_TAC `measure ($- 44 o FST)`);
 
 
-val _ = save_thm ("expand_def", expand_def);
-val _ = save_thm ("expand_ind", expand_ind);
+Theorem expand_def = expand_def
+Theorem expand_ind = expand_ind
 val _ = computeLib.add_persistent_funs ["expand_def"];
 
 Definition mk_keysched_def:

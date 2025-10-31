@@ -16,8 +16,8 @@ val (th,defs) = m1_progLib.decompile_m1 "fact" `
   List [sym "M1" "GOTO"; int (-10)]
   List [sym "M1" "ILOAD"; nat 1]`
 
-val _ = save_thm("acl2_fact_definition",defs);
-val _ = save_thm("acl2_fact_certificate",th);
+Theorem acl2_fact_definition = defs
+Theorem acl2_fact_certificate = th
 
 
 val (th2,defs2) = m1_progLib.decompile_m1 "alt_fact" `
@@ -40,8 +40,8 @@ val (th2,defs2) = m1_progLib.decompile_m1 "alt_fact" `
   List [sym "M1" "GOTO"; int (-12)]
   List [sym "M1" "ILOAD"; nat 1]`
 
-val _ = save_thm("acl2_alt_fact_definition",defs2);
-val _ = save_thm("acl2_alt_fact_certificate",th2);
+Theorem acl2_alt_fact_definition = defs2
+Theorem acl2_alt_fact_certificate = th2
 
 
 (* export result *)

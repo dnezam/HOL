@@ -123,7 +123,7 @@ val fresh_NOT_IN_FDOM = (SIMP_RULE std_ss [IN_INSERT] o prove)(
   ``!h. ~(fresh h IN 0 INSERT FDOM h)``,
   REWRITE_TAC [fresh_def] \\ METIS_TAC [NOT_IN_FINITE,INFINITE_num,FINITE_INSERT,FDOM_FINITE]);
 
-val _ = save_thm("fresh_NOT_IN_FDOM",fresh_NOT_IN_FDOM);
+Theorem fresh_NOT_IN_FDOM = fresh_NOT_IN_FDOM
 
 val fresh_THM = prove(
   ``FEVERY (\(x,y,z,d). {y; z} SUBSET0 FDOM h) h ==>

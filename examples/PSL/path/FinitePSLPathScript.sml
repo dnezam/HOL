@@ -743,10 +743,8 @@ val SEL_APPEND =
       (SIMP_RULE arith_ss
         [ASSUME``m<=n``] (Q.SPECL[`m`,`w1`,`n-m+1`,`w2`]FINITE_SEL_REC_APPEND))]);
 
-val SEL_APPEND_COR =
- save_thm
-  ("SEL_APPEND_COR",
-   SIMP_RULE arith_ss [SEL_ELEM,ELEM_EL] (Q.SPECL[`0`,`list$LENGTH w1`,`w1`,`w2`]SEL_APPEND));
+Theorem SEL_APPEND_COR =
+   SIMP_RULE arith_ss [SEL_ELEM,ELEM_EL] (Q.SPECL[`0`,`list$LENGTH w1`,`w1`,`w2`]SEL_APPEND)
 
 val RESTN_LENGTH =
  store_thm

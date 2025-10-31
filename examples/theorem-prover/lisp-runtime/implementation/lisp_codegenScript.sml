@@ -91,7 +91,7 @@ val (mc_is_quote_full_spec,mc_is_quote_full_def) = basic_decompile_strings x64_t
       mov r1d,1
    `)
 
-val _ = save_thm("mc_is_quote_full_spec",mc_is_quote_full_spec);
+Theorem mc_is_quote_full_spec = mc_is_quote_full_spec
 
 val mc_is_quote_full_thm = prove(
   ``^LISP ==>
@@ -107,7 +107,7 @@ val mc_is_quote_full_thm = prove(
   THEN1 (Q.EXISTS_TAC `0x3w` \\ FULL_SIMP_TAC wstd_ss [w2w_def,w2n_n2w]
     \\ IMP_RES_TAC (el 1 (CONJUNCTS lisp_inv_Sym)))) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_is_quote_full_thm",mc_is_quote_full_thm);
+Theorem mc_is_quote_full_thm = mc_is_quote_full_thm
 
 
 (* lookup constant *)
@@ -186,8 +186,8 @@ val mc_const_load_thm = prove(
   \\ ASM_SIMP_TAC std_ss [align_add_blast,n2w_and_3,RW1[MULT_COMM]MOD_EQ_0])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_const_load_spec",mc_const_load_spec);
-val _ = save_thm("mc_const_load_thm",mc_const_load_thm);
+Theorem mc_const_load_spec = mc_const_load_spec
+Theorem mc_const_load_thm = mc_const_load_thm
 
 
 (* store new constant *)
@@ -305,8 +305,8 @@ val mc_const_store_thm = prove(
   \\ FULL_SIMP_TAC std_ss [STAR_ASSOC])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_const_store_spec",mc_const_store_spec);
-val _ = save_thm("mc_const_store_thm",mc_const_store_thm);
+Theorem mc_const_store_spec = mc_const_store_spec
+Theorem mc_const_store_thm = mc_const_store_thm
 
 
 (* xbp set *)
@@ -353,8 +353,8 @@ val mc_xbp_set_thm = prove(
   \\ FULL_SIMP_TAC std_ss [AC WORD_ADD_ASSOC WORD_ADD_COMM]
   \\ REPEAT STRIP_TAC \\ SEP_WRITE_TAC) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_xbp_set_spec",mc_xbp_set_spec);
-val _ = save_thm("mc_xbp_set_thm",mc_xbp_set_thm);
+Theorem mc_xbp_set_spec = mc_xbp_set_spec
+Theorem mc_xbp_set_thm = mc_xbp_set_thm
 
 
 (* load based on xbp *)
@@ -417,8 +417,8 @@ val mc_xbp_load_thm = prove(
   \\ Q.EXISTS_TAC `tw2` \\ ASM_SIMP_TAC std_ss [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_xbp_load_spec",mc_xbp_load_spec);
-val _ = save_thm("mc_xbp_load_thm",mc_xbp_load_thm);
+Theorem mc_xbp_load_spec = mc_xbp_load_spec
+Theorem mc_xbp_load_thm = mc_xbp_load_thm
 
 
 (* load amnt *)
@@ -448,8 +448,8 @@ val mc_load_amnt_thm = prove(
   \\ Q.SPEC_TAC (`f (sp - 0x28w)`,`w1`)
   \\ blastLib.BBLAST_TAC);
 
-val _ = save_thm("mc_load_amnt_spec",mc_load_amnt_spec);
-val _ = save_thm("mc_load_amnt_thm",mc_load_amnt_thm);
+Theorem mc_load_amnt_spec = mc_load_amnt_spec
+Theorem mc_load_amnt_thm = mc_load_amnt_thm
 
 
 (* pops by x1 *)
@@ -486,8 +486,8 @@ val mc_pops_by_var_thm = prove(
     \\ Q.SPEC_TAC (`(n2w a):word30`,`w`) \\ blastLib.BBLAST_TAC)
   \\ FULL_SIMP_TAC wstd_ss [w2w_def,w2n_n2w]);
 
-val _ = save_thm("mc_pops_by_var_spec",mc_pops_by_var_spec);
-val _ = save_thm("mc_pops_by_var_thm",mc_pops_by_var_thm);
+Theorem mc_pops_by_var_spec = mc_pops_by_var_spec
+Theorem mc_pops_by_var_thm = mc_pops_by_var_thm
 
 
 (* store based on xbp *)
@@ -544,8 +544,8 @@ val mc_xbp_store_thm = prove(
   \\ Q.EXISTS_TAC `tw2` \\ ASM_SIMP_TAC std_ss [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_xbp_store_spec",mc_xbp_store_spec);
-val _ = save_thm("mc_xbp_store_thm",mc_xbp_store_thm);
+Theorem mc_xbp_store_spec = mc_xbp_store_spec
+Theorem mc_xbp_store_thm = mc_xbp_store_thm
 
 
 (* read code_ptr code *)
@@ -584,8 +584,8 @@ val mc_read_snd_code_thm = prove(
   \\ ASM_SIMP_TAC wstd_ss [w2w_def,w2n_n2w])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_read_snd_code_spec",mc_read_snd_code_spec);
-val _ = save_thm("mc_read_snd_code_thm",mc_read_snd_code_thm);
+Theorem mc_read_snd_code_spec = mc_read_snd_code_spec
+Theorem mc_read_snd_code_thm = mc_read_snd_code_thm
 
 
 (* safe versions of car and cdr, i.e. total versions *)
@@ -746,10 +746,10 @@ val mc_safe_cdr_thm = prove(
          \\ METIS_TAC [lisp_inv_swap5]))
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_safe_car_spec",mc_safe_car_spec);
-val _ = save_thm("mc_safe_cdr_spec",mc_safe_cdr_spec);
-val _ = save_thm("mc_safe_car_thm",mc_safe_car_thm);
-val _ = save_thm("mc_safe_cdr_thm",mc_safe_cdr_thm);
+Theorem mc_safe_car_spec = mc_safe_car_spec
+Theorem mc_safe_cdr_spec = mc_safe_cdr_spec
+Theorem mc_safe_car_thm = mc_safe_car_thm
+Theorem mc_safe_cdr_thm = mc_safe_cdr_thm
 
 
 (* code heap space test *)
@@ -768,7 +768,7 @@ val mc_code_heap_space_thm = prove(
   \\ MATCH_MP_TAC lisp_inv_ignore_tw2 \\ METIS_TAC [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("mc_code_heap_space_thm",mc_code_heap_space_thm);
+Theorem mc_code_heap_space_thm = mc_code_heap_space_thm
 
 
 (* lemmas for code heap write *)
@@ -1989,8 +1989,8 @@ val calls = LIST_CONJ [CONJ (mc_write_call_spec) (mc_write_call_thm),
 val updates = LIST_CONJ [CONJ mc_update_jump_spec mc_update_jump_thm,
                          CONJ mc_update_jnil_spec mc_update_jnil_thm]
 
-val lisp_inv_write_consts_thm = save_thm("lisp_inv_write_consts_thm",
-  LIST_CONJ [numsym,updates,pops,calls,consts]);
+Theorem lisp_inv_write_consts_thm =
+  LIST_CONJ [numsym,updates,pops,calls,consts]
 
 
 (* load pointer into code (used by eval) *)
@@ -2004,7 +2004,7 @@ val (mc_calc_addr_spec,mc_calc_addr_def) = basic_decompile_strings x64_tools "mc
        add r2,[r7-160]
    `)
 
-val _ = save_thm("mc_calc_addr_spec",mc_calc_addr_spec);
+Theorem mc_calc_addr_spec = mc_calc_addr_spec
 
 val mc_calc_addr_thm = store_thm("mc_calc_addr_thm",
   ``^LISP ==> isVal x2 ==>
@@ -2073,6 +2073,6 @@ val lisp_inv_stack = prove(
   ``!qs2 tw3. ^LISP ==> let qs = qs2 in let tw2 = tw3 in ^LISP``,
   SIMP_TAC std_ss [lisp_inv_def,LET_DEF]) |> SIMP_RULE std_ss [LET_DEF];
 
-val _ = save_thm("lisp_inv_stack",lisp_inv_stack);
+Theorem lisp_inv_stack = lisp_inv_stack
 
 

@@ -87,13 +87,12 @@ val normorder_bvc_gen_ind = store_thm(
   ]);
 
 infix |> fun x |> f = f x
-val normorder_bvc_ind = save_thm(
-  "normorder_bvc_ind",
+Theorem normorder_bvc_ind =
   normorder_bvc_gen_ind |> SPEC_ALL
                         |> Q.INST [`P` |-> `λM N x. P1 M N`, `f` |-> `λx. X`]
                         |> SIMP_RULE (srw_ss()) []
                         |> Q.INST [`P1` |-> `P`]
-                        |> Q.GEN `X` |> Q.GEN `P`);
+                        |> Q.GEN `X` |> Q.GEN `P`
 
 val normorder_ccbeta = store_thm(
   "normorder_ccbeta",
@@ -901,9 +900,8 @@ Proof
   simp[listTheory.EVERY_MEM] >> qexists ‘[]’ >> simp[]
 QED
 
-val norm_varhead = save_thm(
-  "norm_varhead",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] norm_varhead0);
+Theorem norm_varhead =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] norm_varhead0
 
 val normstar_varhead0 = prove(
   ``∀M N. M -n->* N ⇒
@@ -932,9 +930,8 @@ val normstar_varhead0 = prove(
     ASM_SIMP_TAC (srw_ss() ++ ARITH_ss) [rich_listTheory.EL_APPEND2]
   ]);
 
-val normstar_varhead = save_thm(
-  "normstar_varhead",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] normstar_varhead0);
+Theorem normstar_varhead =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] normstar_varhead0
 
 val normstar_to_abs_wstar0 = prove(
   ``∀M N. M -n->* N ⇒
@@ -964,9 +961,8 @@ val normstar_to_abs_wstar0 = prove(
     METIS_TAC [relationTheory.RTC_RULES]
   ]);
 
-val normstar_to_abs_wstar = save_thm(
-  "normstar_to_abs_wstar",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [AND_IMP_INTRO] normstar_to_abs_wstar0);
+Theorem normstar_to_abs_wstar =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [AND_IMP_INTRO] normstar_to_abs_wstar0
 
 val varappstar_not_is_abs = store_thm(
   "varappstar_not_is_abs",
@@ -1010,9 +1006,8 @@ val normstar_to_vhead_wstar0 = prove(
     ]
   ]);
 
-val normstar_to_vhead_wstar = save_thm(
-  "normstar_to_vhead_wstar",
-  SIMP_RULE (srw_ss() ++ DNF_ss) [] normstar_to_vhead_wstar0);
+Theorem normstar_to_vhead_wstar =
+  SIMP_RULE (srw_ss() ++ DNF_ss) [] normstar_to_vhead_wstar0
 
 val leneq1 = prove(
   ``(LENGTH list = 1) ⇔ ∃e. list = [e]``,
@@ -1021,23 +1016,20 @@ val leneq2 = prove(
   ``(LENGTH list = 2) ⇔ ∃e₁ e₂. list = [e₁; e₂]``,
   Cases_on `list` THEN SRW_TAC [][leneq1]);
 
-val normstar_to_vheadnullary_wstar = save_thm(
-  "normstar_to_vheadnullary_wstar",
+Theorem normstar_to_vheadnullary_wstar =
   normstar_to_vhead_wstar
     |> SPEC_ALL |> Q.INST [`Ns` |-> `[]`]
-    |> SIMP_RULE (srw_ss()) [listTheory.LENGTH_NIL]);
+    |> SIMP_RULE (srw_ss()) [listTheory.LENGTH_NIL]
 
-val normstar_to_vheadunary_wstar = save_thm(
-  "normstar_to_vheadunary_wstar",
+Theorem normstar_to_vheadunary_wstar =
   normstar_to_vhead_wstar
     |> SPEC_ALL |> Q.INST [`Ns` |-> `[N]`]
-    |> SIMP_RULE (srw_ss() ++ DNF_ss) [leneq1, DECIDE ``x < 1 ⇔ (x = 0)``]);
+    |> SIMP_RULE (srw_ss() ++ DNF_ss) [leneq1, DECIDE ``x < 1 ⇔ (x = 0)``]
 
-val normstar_to_vheadbinary_wstar = save_thm(
-  "normstar_to_vheadbinary_wstar",
+Theorem normstar_to_vheadbinary_wstar =
   normstar_to_vhead_wstar
     |> SPEC_ALL |> Q.INST [`Ns` |-> `[N₁; N₂]`]
     |> SIMP_RULE (srw_ss() ++ DNF_ss)
-                 [leneq2, DECIDE ``x < 2 ⇔ (x = 0) ∨ (x = 1)``]);
+                 [leneq2, DECIDE ``x < 2 ⇔ (x = 0) ∨ (x = 1)``]
 
 val _ = html_theory "normal_order";

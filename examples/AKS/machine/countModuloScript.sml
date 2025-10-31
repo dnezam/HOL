@@ -358,26 +358,26 @@ Definition msqM_def:
 End
 
 (* Obtain theorems *)
-val msqM_value = save_thm("msqM_value[simp]",
+Theorem msqM_value[simp] =
     mmulM_value |> SPEC ``m:num`` |> SPEC ``x:num`` |> SPEC ``x:num``
-                |> REWRITE_RULE [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``);
+                |> REWRITE_RULE [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``
 (* val msqM_value = |- !m x. valueOf (msqM m x) = SQ x MOD m: thm *)
 
-val msqM_steps = save_thm("msqM_steps[simp]",
+Theorem msqM_steps[simp] =
     mmulM_steps |> SPEC ``m:num`` |> SPEC ``x:num`` |> SPEC ``x:num``
-                |> REWRITE_RULE [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``);
+                |> REWRITE_RULE [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``
 (* val msqM_steps = |- !m x. stepsOf (msqM m x) = SQ (size x) + size (SQ x) * size m: thm *)
 
-val msqM_steps_upper = save_thm("msqM_steps_upper",
+Theorem msqM_steps_upper =
     mmulM_steps_upper |> SPEC ``m:num`` |> SPEC ``x:num`` |> SPEC ``x:num``
-                |> SIMP_RULE arith_ss [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``);
+                |> SIMP_RULE arith_ss [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``
 (* val msqM_steps_upper =
    |- !m x. stepsOf (msqM m x) <= TWICE (size m * size x) + size x ** 2: thm
 *)
 
-val msqM_steps_bound = save_thm("msqM_steps_bound",
+Theorem msqM_steps_bound =
     mmulM_steps_bound |> SPEC ``m:num`` |> SPEC ``x:num`` |> SPEC ``x:num``
-                |> SIMP_RULE arith_ss [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``);
+                |> SIMP_RULE arith_ss [GSYM msqM_def] |> GEN ``x:num`` |> GEN ``m:num``
 (* val msqM_steps_bound =
    |- !m x. stepsOf (msqM m x) <= 3 * (size m * size x ** 2): thm
 *)

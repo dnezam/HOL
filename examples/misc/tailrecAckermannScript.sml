@@ -42,7 +42,7 @@ val (A'_def, A'_ind) = Defn.tprove(A'_defn,
     simp[bagTheory.BAG_UNION_INSERT, DISJ_IMP_THM, FORALL_AND_THM]
   ])
 
-val _ = save_thm("A'_def", A'_def)
+Theorem A'_def = A'_def
 val _ = computeLib.add_persistent_funs ["A'_def"]
 
 (* computing A(3,4) = 125 terminates in reasonable time:

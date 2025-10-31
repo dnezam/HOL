@@ -449,8 +449,8 @@ val isTrue_if_lemma = prove(
   ``!b x y. isTrue (if b then x else y) =  b /\ isTrue x \/ ~b /\ isTrue y``,
   Cases \\ SIMP_TAC std_ss []);
 
-val isTrue_if = save_thm("isTrue_if",LIST_CONJ
-  [EVAL ``isTrue (Sym "T")``,EVAL ``isTrue (Sym "NIL")``,isTrue_if_lemma]);
+Theorem isTrue_if = LIST_CONJ
+  [EVAL ``isTrue (Sym "T")``,EVAL ``isTrue (Sym "NIL")``,isTrue_if_lemma]
 
 val isTrue_LISP_TEST = store_thm("isTrue_LISP_TEST",
   ``!b. isTrue (LISP_TEST b) = b``,Cases \\ EVAL_TAC);
@@ -533,7 +533,7 @@ val FST_SND_IF = store_thm("FST_SND_IF",
     (SND (if b then x else y) = if b then SND x else SND y)``,
   Cases_on `b` \\ FULL_SIMP_TAC std_ss []);
 
-val isTrue_T = save_thm("isTrue_T",EVAL ``isTrue (Sym "T")``);
+Theorem isTrue_T = EVAL ``isTrue (Sym "T")``
 
 val isTrue_INTRO = store_thm("isTrue_INTRO",
   ``((x = y) = isTrue (LISP_EQUAL x y)) /\

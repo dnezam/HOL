@@ -399,7 +399,7 @@ Definition aHEAP_def:
       cond (ch_rel ([v1;v2;v3;v4;v5;v6],h,l) (r3,r4,r5,r6,r7,r8,a,x,xs))
 End
 
-val SPEC_ARM_ALLOC = save_thm("SPEC_ARM_ALLOC",let
+Theorem SPEC_ARM_ALLOC = let
   val th = arm_alloc_thm
   val th = SIMP_RULE std_ss [LET_DEF] th
   val th = MATCH_MP SPEC_FRAME th
@@ -445,4 +445,4 @@ val SPEC_ARM_ALLOC = save_thm("SPEC_ARM_ALLOC",let
     \\ IMP_RES_TAC ch_arm_alloc
     \\ FULL_SIMP_TAC (bool_ss++star_ss) [] \\ METIS_TAC [])
   val th = MP th lemma
-  in th end);
+  in th end

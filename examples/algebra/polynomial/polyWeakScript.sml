@@ -441,12 +441,12 @@ How about multiplication, which involves cpair, pair and shift?
 
 (* Theorem: weak [] *)
 (* Proof: by defintion. *)
-val weak_of_zero = save_thm("weak_of_zero", Weak_def |> CONJUNCT1);
+Theorem weak_of_zero = Weak_def |> CONJUNCT1
 (* > val weak_of_zero = |- !r. weak [] <=> T : thm *)
 
 (* Theorem: weak (h::t) iff h IN R /\ weak t *)
 (* Proof: by definition. *)
-val weak_cons = save_thm("weak_cons", Weak_def |> CONJUNCT2);
+Theorem weak_cons = Weak_def |> CONJUNCT2
 (* > val weak_cons = |- !r h t. weak (h::t) <=> h IN R /\ weak t : thm *)
 
 (* definition exported already *)
@@ -454,7 +454,7 @@ val weak_cons = save_thm("weak_cons", Weak_def |> CONJUNCT2);
 
 (* Theorem: weak |0| *)
 (* Proof: by weak_of_zero and poly_zero. *)
-val weak_zero = save_thm("weak_zero", weak_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_zero = weak_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_zero = |- !r. weak |0| : thm *)
 
 val _ = export_rewrites ["weak_zero"];
@@ -633,12 +633,12 @@ val weak_tail = store_thm(
 
 (* Theorem: zerop []. *)
 (* Proof: by definition. *)
-val zero_poly_of_zero = save_thm("zero_poly_of_zero", zero_poly_def |> CONJUNCT1);
+Theorem zero_poly_of_zero = zero_poly_def |> CONJUNCT1
 (* > val zero_poly_of_zero = |- !r. zerop [] <=> T : thm *)
 
 (* Theorem: zerop (h::t) iff h = #0 /\ zerop t *)
 (* Proof: by definition. *)
-val zero_poly_cons = save_thm("zero_poly_cons", zero_poly_def |> CONJUNCT2);
+Theorem zero_poly_cons = zero_poly_def |> CONJUNCT2
 (* > val zero_poly_cons = |- !r h t. zerop (h::t) <=> (h = #0) /\ zerop t : thm *)
 
 (* definition already exported *)
@@ -646,7 +646,7 @@ val zero_poly_cons = save_thm("zero_poly_cons", zero_poly_def |> CONJUNCT2);
 
 (* Theorem: zerop |0| <=> T  *)
 (* Proof: by weak_mult_of_lzero and poly_zero. *)
-val zero_poly_zero = save_thm("zero_poly_zero", zero_poly_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem zero_poly_zero = zero_poly_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val zero_poly_zero = |- !r. zerop |0| <=> T : thm *)
 
 val _ = export_rewrites ["zero_poly_zero"];
@@ -842,7 +842,7 @@ val weak_add_nil = store_thm(
   rw[]);
 
 (* Theorem alias *)
-val weak_add_of_zero = save_thm("weak_add_of_zero", weak_add_nil);
+Theorem weak_add_of_zero = weak_add_nil
 (* val weak_add_of_zero = |- !r p. (p || [] = p) /\ ([] || p = p): thm *)
 
 (* Theorem: (p || |0| = p) /\ ( |0| || p = p) *)
@@ -854,24 +854,24 @@ val weak_add_zero = store_thm(
 
 (* Theorem: |0| || |0| = |0| *)
 (* Proof: by weak_add_zero_zero and poly_zero. *)
-val weak_add_zero_zero = save_thm("weak_add_zero_zero", weak_add_of_zero_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_add_zero_zero = weak_add_of_zero_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_add_zero_zero = |- |0| || |0| = |0| : thm *)
 
 (* Theorem: |0||| p = p *)
 (* Proof: by weak_add_of_lzero and poly_zero. *)
-val weak_add_lzero = save_thm("weak_add_lzero", weak_add_of_lzero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_add_lzero = weak_add_of_lzero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_add_lzero = |- !p. |0| || p = p : thm *)
 
 (* Theorem: p || |0| = p *)
 (* Proof: by weak_add_of_rzero and poly_zero. *)
-val weak_add_rzero = save_thm("weak_add_rzero", weak_add_of_rzero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_add_rzero = weak_add_of_rzero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_add_rzero = |- !p. p || |0| = p : thm *)
 
 val _ = export_rewrites ["weak_add_zero_zero", "weak_add_lzero", "weak_add_rzero"];
 
 (* Theorem: weak_add (r:'a ring) (ph:'a :: pt) (qh:'a :: qt) = ph + qh :: weak_add r pt qt *)
 (* Proof: by definition. *)
-val weak_add_cons = save_thm("weak_add_cons", weak_add_def |> CONJUNCTS |> last);
+Theorem weak_add_cons = weak_add_def |> CONJUNCTS |> last
 (* > val weak_add_cons = |- !qt qh pt ph f. (ph::pt) || (qh::qt) = ph + qh::pt || qt : thm *)
 
 val _ = export_rewrites ["weak_add_cons"];
@@ -926,7 +926,7 @@ val weak_add_eq_of_zero = store_thm(
 
 (* Theorem: p || q = |0| <=> p = |0| /\ q = |0| *)
 (* Proof: by weak_add_eq_of_zero and poly_zero. *)
-val weak_add_eq_zero = save_thm("weak_add_eq_zero", weak_add_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_add_eq_zero = weak_add_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_add_eq_zero = |- !r p q. (p || q = |0|) <=> (p = |0|) /\ (q = |0|) : thm *)
 
 (* Theorem: zerop p ==> p || q = q  *)
@@ -1256,12 +1256,12 @@ val weak_add_front = store_thm(
 
 (* Theorem: c o [] = []  *)
 (* Proof: by definitions. *)
-val weak_cmult_of_zero = save_thm("weak_cmult_of_zero", weak_cmult_def |> CONJUNCT1);
+Theorem weak_cmult_of_zero = weak_cmult_def |> CONJUNCT1
 (* > val weak_cmult_of_zero = |- !r c. c o [] = [] : thm *)
 
 (* Theorem: c o (h::t) = c * h::c o t  *)
 (* Proof: by definition. *)
-val weak_cmult_cons = save_thm("weak_cmult_cons", weak_cmult_def |> CONJUNCT2);
+Theorem weak_cmult_cons = weak_cmult_def |> CONJUNCT2
 (* > val weak_cmult_cons = |- !r c h t. c o (h::t) = c * h::c o t : thm *)
 
 (* definition exported already *)
@@ -1276,7 +1276,7 @@ val weak_cmult_clauses = store_thm(
 
 (* Theorem: c o |0| = |0| *)
 (* Proof: by weak_cmult_of_zero and poly_zero. *)
-val weak_cmult_zero = save_thm("weak_cmult_zero", weak_cmult_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_cmult_zero = weak_cmult_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_cmult_zero = |- !r c. c o |0| = |0| : thm *)
 
 val _ = export_rewrites ["weak_cmult_zero"];
@@ -1325,7 +1325,7 @@ val weak_cmult_eq_of_zero = store_thm(
 
 (* Theorem: c o p = |0| <=> p = |0| *)
 (* Proof: by weak_cmult_eq_of_zero and poly_zero. *)
-val weak_cmult_eq_zero = save_thm("weak_cmult_eq_zero", weak_cmult_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_cmult_eq_zero = weak_cmult_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_cmult_eq_zero = |- !r c p. (c o p = |0|) <=> (p = |0|): thm *)
 
 (* Theorem: LENGTH q <= LENGTH p ==> (LENGTH (h o p || q) = LENGTH p) *)
@@ -1563,11 +1563,11 @@ val weak_cmult_cmult_comm = store_thm(
 
 (* Theorem: neg [] = [] *)
 (* Proof: by definition. *)
-val weak_neg_of_zero = save_thm("weak_neg_of_zero", weak_neg_def |>  CONJUNCT1);
+Theorem weak_neg_of_zero = weak_neg_def |>  CONJUNCT1
 (* > val weak_neg_of_zero = |- !r. neg [] = [] : thm *)
 
 (* Theorem: neg (h::t) = (- h) :: (neg t)  *)
-val weak_neg_cons = save_thm("weak_neg_cons", weak_neg_def |> CONJUNCT2);
+Theorem weak_neg_cons = weak_neg_def |> CONJUNCT2
 (* > val weak_neg_cons = |- !r h t. neg (h::t) = -h::neg t : thm *)
 
 (* definition already exported *)
@@ -1586,7 +1586,7 @@ val weak_neg_clauses = save_thm("weak_neg_clauses", CONJ weak_neg_of_zero weak_n
 
 (* Theorem: neg |0| = |0| *)
 (* Proof: by weak_neg_of_zero and poly_zero. *)
-val weak_neg_zero = save_thm("weak_neg_zero", weak_neg_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_neg_zero = weak_neg_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_neg_zero = |- !r. neg |0| = |0| : thm *)
 
 val _ = export_rewrites ["weak_neg_zero"];
@@ -1630,7 +1630,7 @@ val weak_neg_eq_of_zero = store_thm(
 
 (* Theorem: neg p = |0| <=> p = |0| *)
 (* Proof: by weak_neg_eq_of_zero and poly_zero. *)
-val weak_neg_eq_zero = save_thm("weak_neg_eq_zero", weak_neg_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_neg_eq_zero = weak_neg_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_neg_eq_zero = |- !r p. (neg p = |0|) <=> (p = |0|): thm *)
 
 (* Theorem: neg (neg p) = p *)
@@ -1797,10 +1797,10 @@ val weak_neg_front = store_thm(
 (* ------------------------------------------------------------------------- *)
 
 (* Theorem alias *)
-val turn_eq_of_zero = save_thm("turn_eq_of_zero", turn_eq_nil);
+Theorem turn_eq_of_zero = turn_eq_nil
 
 (* Obtain theorem *)
-val turn_eq_zero = save_thm("turn_eq_zero", turn_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem turn_eq_zero = turn_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* val turn_eq_zero = |- !p. (turn p = |0|) <=> (p = |0|): thm *)
 
 (* Theorem: weak p ==> weak (turn p) *)
@@ -1963,7 +1963,7 @@ val _ = export_rewrites ["poly_shift_of_zero"];
 
 (* Theorem: |0| >> n = |0| *)
 (* Proof: by poly_shift_of_zero and poly_zero. *)
-val poly_shift_zero = save_thm("poly_shift_zero", poly_shift_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_shift_zero = poly_shift_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_shift_zero = |- !n. |0| >> n = |0| : thm *)
 
 val _ = export_rewrites ["poly_shift_zero"];
@@ -1977,7 +1977,7 @@ val poly_shift_eq_of_zero = store_thm(
 
 (* Theorem: p >> n = |0| <=> p = |0| *)
 (* Proof: by poly_shift_eq_of_zero and poly_zero. *)
-val poly_shift_eq_zero = save_thm("poly_shift_eq_zero", poly_shift_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_shift_eq_zero = poly_shift_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_shift_eq_zero = |- !p n. (p >> n = |0|) <=> (p = |0|) : th *)
 
 (* Theorem: weak p ==> weak (p >> n) *)
@@ -2328,12 +2328,12 @@ val weak_cmult_shift = store_thm(
 
 (* Theorem: [] o q = []  *)
 (* Proof: by definition. *)
-val weak_mult_of_lzero = save_thm("weak_mult_of_lzero", weak_mult_def |> CONJUNCT1);
+Theorem weak_mult_of_lzero = weak_mult_def |> CONJUNCT1
 (* > val weak_mult_of_lzero = |- !r q. [] o q = [] : thm *)
 
 (* Theorem: (h::t) o p = h o p || (t o p) >> 1 *)
 (* Proof: by definition. *)
-val weak_mult_cons = save_thm("weak_mult_cons", weak_mult_def |> CONJUNCT2);
+Theorem weak_mult_cons = weak_mult_def |> CONJUNCT2
 (* > val weak_mult_cons = |- !r h t q. (h::t) o q = h o q || t o q >> 1 : thm *)
 
 (* definition already exported *)
@@ -2431,7 +2431,7 @@ val weak_mult_eq_of_zero = store_thm(
 
 (* Theorem: p o q = |0| <=> p = |0| \/ q = |0|  *)
 (* Proof: by weak_mult_eq_of_zero and poly_zero. *)
-val weak_mult_eq_zero = save_thm("weak_mult_eq_zero", weak_mult_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem weak_mult_eq_zero = weak_mult_eq_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val weak_mult_eq_zero = |- !r p q. (p o q = |0|) <=> (p = |0|) \/ (q = |0|) : thm *)
 
 (* Theorem: weak p /\ weak q ==> weak (p o q) *)
@@ -3430,14 +3430,14 @@ val _ = export_rewrites ["poly_lead_const"];
 
 (* Theorem: lead [] = #0 *)
 (* Proof: by definition. *)
-val poly_lead_of_zero = save_thm("poly_lead_of_zero", poly_lead_def |> CONJUNCT1);
+Theorem poly_lead_of_zero = poly_lead_def |> CONJUNCT1
 (* > val poly_lead_of_zero = |- !r. lead [] = #0 : thm *)
 
 val _ = export_rewrites ["poly_lead_of_zero"];
 
 (* Theorem: lead |0| = #0 *)
 (* Proof: by poly_lead_of_zero and poly_zero. *)
-val poly_lead_zero = save_thm("poly_lead_zero", poly_lead_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_lead_zero = poly_lead_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_lead_zero = |- !r. lead |0| = #0 *)
 
 val _ = export_rewrites ["poly_lead_zero"];
@@ -3566,7 +3566,7 @@ val _ = export_rewrites["weak_lead_element"];
 
 (* Theorem: chop [] = [] *)
 (* Proof: by definition. *)
-val poly_chop_of_zero = save_thm("poly_chop_of_zero", poly_chop_def |> CONJUNCT1);
+Theorem poly_chop_of_zero = poly_chop_def |> CONJUNCT1
 (* > val poly_chop_of_zero = |- !r. chop [] = [] : thm *)
 
 (* This is useful. *)
@@ -3575,7 +3575,7 @@ val poly_chop_of_zero = save_thm("poly_chop_of_zero", poly_chop_def |> CONJUNCT1
 
 (* Theorem: chop (h::t) = if zerop (h::t) then [] else (h::%t) *)
 (* Proof: by definition. *)
-val poly_chop_cons = save_thm("poly_chop_cons", poly_chop_def |> CONJUNCT2);
+Theorem poly_chop_cons = poly_chop_def |> CONJUNCT2
 (* > val poly_chop_cons = |- !r h t. chop (h::t) = if zerop (h::t) then [] else h:: chop t : thm *)
 
 (* This leads to resolving zerop (h::t), no good. But this is useful, use it. *)
@@ -3622,7 +3622,7 @@ val poly_chop_zero_poly = store_thm(
 
 (* Theorem: chop |0| = |0| *)
 (* Proof: by poly_chop_of_zero and poly_zero. *)
-val poly_chop_zero = save_thm("poly_chop_zero", poly_chop_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_chop_zero = poly_chop_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_chop_zero = |- !r. chop |0| = |0| : thm *)
 
 val _ = export_rewrites ["poly_chop_zero"];
@@ -4059,7 +4059,7 @@ val poly_chop_of_last_nonzero = store_thm(
 
 (* Theorem: !p. chop p <> |0| ==> LAST (chop p) <> #0  *)
 (* Proof: by poly_chop_of_last_nonzero and poly_zero. *)
-val poly_chop_last_nonzero = save_thm("poly_chop_last_nonzero", poly_chop_of_last_nonzero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_chop_last_nonzero = poly_chop_of_last_nonzero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_chop_last_nonzero = |- !p. chop p <> |0| ==> LAST (chop p) <> #0 : thm *)
 
 (* Theorem: chop (SNOC #0 p) = chop p *)
@@ -4421,7 +4421,7 @@ val _ = export_rewrites ["poly_deg_of_zero"];
 
 (* Theorem: deg |0| = 0 *)
 (* Proof: by poly_deg_of_zero and poly_zero. *)
-val poly_deg_zero = save_thm("poly_deg_zero", poly_deg_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_deg_zero = poly_deg_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_deg_zero = |- deg |0| = 0 : thm *)
 
 val _ = export_rewrites ["poly_deg_zero"];
@@ -4772,21 +4772,21 @@ This is a bit useless for actual computation, but it is a theorem: LHS = RHS.
 
 (* Theorem: [] ' n = #0  *)
 (* Proof: by definition. *)
-val poly_coeff_of_zero = save_thm("poly_coeff_of_zero", poly_coeff_def |> CONJUNCT1);
+Theorem poly_coeff_of_zero = poly_coeff_def |> CONJUNCT1
 (* > val poly_coeff_of_zero = !r n. [] ' n = #0 : thm *)
 
 val _ = export_rewrites ["poly_coeff_of_zero"];
 
 (* Theorem: |0| ' n = #0  *)
 (* Proof: by poly_coeff_of_zero and poly_zero. *)
-val poly_coeff_zero = save_thm("poly_coeff_zero", poly_coeff_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_coeff_zero = poly_coeff_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_coeff_zero = |- !r n. |0| ' n = #0 : thm *)
 
 val _ = export_rewrites ["poly_coeff_zero"];
 
 (* Theorem: (h::t) ' n = if deg (h::t) < n then #0 else EL n (h::t) *)
 (* Proof: by definition. *)
-val poly_coeff_cons = save_thm("poly_coeff_cons", poly_coeff_def |> CONJUNCT2);
+Theorem poly_coeff_cons = poly_coeff_def |> CONJUNCT2
 (* > val poly_coeff_cons = |- !r h t n. (h::t) ' n = if deg (h::t) < n then #0 else EL n (h::t) : thm *)
 
 (* definition already exported *)
@@ -5230,7 +5230,7 @@ EVAL ``poly_eval (GF 7) [2;2] 3``;
 
 (* Theorem: [](a) = #0 *)
 (* Proof: by definition. *)
-val poly_eval_of_zero = save_thm("poly_eval_of_zero", poly_eval_def |> CONJUNCT1);
+Theorem poly_eval_of_zero = poly_eval_def |> CONJUNCT1
 (* > val poly_eval_of_zero = |- !r x. eval [] x = #0 : thm *)
 
 (* definition already exported *)
@@ -5238,7 +5238,7 @@ val poly_eval_of_zero = save_thm("poly_eval_of_zero", poly_eval_def |> CONJUNCT1
 
 (* Theorem: (h::t)(x) = h + t(x) * x *)
 (* Proof: by definition. *)
-val poly_eval_cons = save_thm("poly_eval_cons", poly_eval_def |> CONJUNCT2);
+Theorem poly_eval_cons = poly_eval_def |> CONJUNCT2
 (* > val poly_eval_cons = |- !r h t x. eval (h::t) x = h + eval t x * x : thm *)
 
 (* definition already exported *)
@@ -5246,7 +5246,7 @@ val poly_eval_cons = save_thm("poly_eval_cons", poly_eval_def |> CONJUNCT2);
 
 (* Theorem: eval |0| x = #0  *)
 (* Proof: by poly_eval_of_zero and poly_zero. *)
-val poly_eval_zero = save_thm("poly_eval_zero", poly_eval_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_eval_zero = poly_eval_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_eval_zero = |- !r x. eval |0| x = #0 : thm *)
 
 val _ = export_rewrites ["poly_eval_zero"];
@@ -5593,7 +5593,7 @@ val _ = export_rewrites ["poly_root_of_zero"];
 
 (* Theorem: root |0| x  *)
 (* Proof: by poly_root_of_zero and poly_zero. *)
-val poly_root_zero = save_thm("poly_root_zero", poly_root_of_zero |> REWRITE_RULE [GSYM poly_zero]);
+Theorem poly_root_zero = poly_root_of_zero |> REWRITE_RULE [GSYM poly_zero]
 (* > val poly_root_zero = |- !r x. x IN R ==> root |0| x : thm *)
 
 val _ = export_rewrites ["poly_root_zero"];

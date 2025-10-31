@@ -80,13 +80,13 @@ Definition InvSbox_def[nocompute]:
      0xE1; 0x69; 0x14; 0x63; 0x55; 0x21; 0x0C; 0x7D]) : word8
 End
 
-val Sbox = save_thm("Sbox",
+Theorem Sbox =
   LIST_CONJ (map (REWRITE_CONV [Sbox_def] THENC EVAL) (for 0 255
-    (fn i => ``Sbox (n2w ^(numSyntax.term_of_int i))``))));
+    (fn i => ``Sbox (n2w ^(numSyntax.term_of_int i))``)))
 
-val InvSbox = save_thm("InvSbox",
+Theorem InvSbox =
   LIST_CONJ (map (REWRITE_CONV [InvSbox_def] THENC EVAL) (for 0 255
-    (fn i => ``InvSbox (n2w ^(numSyntax.term_of_int i))``))));
+    (fn i => ``InvSbox (n2w ^(numSyntax.term_of_int i))``)))
 
 val _ = computeLib.add_persistent_funs ["Sbox", "InvSbox"];
 

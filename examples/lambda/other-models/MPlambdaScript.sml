@@ -167,9 +167,8 @@ val MPpm_raw = store_thm(
     Induct THEN SRW_TAC [][]
   ]);
 
-val MPpm_thm = save_thm(
-"MPpm_thm",
-raw_MPpm_def |> SUBS [GSYM MPpm_raw]);
+Theorem MPpm_thm =
+raw_MPpm_def |> SUBS [GSYM MPpm_raw]
 val _ = export_rewrites["MPpm_thm"];
 
 val MPpm_fresh = Store_thm(
@@ -347,9 +346,8 @@ val cvclosed_p_indep = prove(
     METIS_TAC []
   ]);
 
-val cvclosed_pickany = save_thm(
-  "cvclosed_pickany",
-  SIMP_RULE (srw_ss() ++ boolSimps.DNF_ss) [] cvclosed_p_indep);
+Theorem cvclosed_pickany =
+  SIMP_RULE (srw_ss() ++ boolSimps.DNF_ss) [] cvclosed_p_indep
 
 val cvclosed_vclosed = prove(
   ``!t. cvclosed t ==> vclosed t``,
@@ -368,9 +366,8 @@ val cv_eq_vclosed = store_thm(
   ``cvclosed = vclosed``,
   SRW_TAC [] [FUN_EQ_THM, vclosed_cvclosed, cvclosed_vclosed, EQ_IMP_THM]);
 
-val vclosed_strong_ind = save_thm(
-  "vclosed_strong_ind",
-  REWRITE_RULE [cv_eq_vclosed] cvclosed_strong_ind)
+Theorem vclosed_strong_ind =
+  REWRITE_RULE [cv_eq_vclosed] cvclosed_strong_ind
 
 val double_pvsub = Store_thm(
   "double_pvsub",
@@ -454,9 +451,8 @@ val avclosed_eq_vclosed = prove(
   ``avclosed = vclosed``,
   SRW_TAC [][FUN_EQ_THM, EQ_IMP_THM, vclosed_avclosed, avclosed_vclosed]);
 
-val vclosed_avclosed_ind = save_thm(
-  "vclosed_avclosed_ind",
-  REWRITE_RULE [avclosed_eq_vclosed] avclosed_ind);
+Theorem vclosed_avclosed_ind =
+  REWRITE_RULE [avclosed_eq_vclosed] avclosed_ind
 
 val sub = ``\t (p,v). vsub (Parameter p) v t``
 val FOLDL_Parameter = prove(
@@ -547,9 +543,8 @@ val convert_app = store_thm(
   CONV_TAC (LAND_CONV (ONCE_REWRITE_CONV [convert_cases])) THEN
   SRW_TAC [][] THEN METIS_TAC []);
 
-val convert_abs = save_thm(
-  "convert_abs",
-  (SIMP_RULE (srw_ss()) [] o Q.SPEC `Abs v M`) convert_cases)
+Theorem convert_abs =
+  (SIMP_RULE (srw_ss()) [] o Q.SPEC `Abs v M`) convert_cases
 
 val UNION_DELETE = prove(
   ``(s UNION t) DELETE e = (s DELETE e) UNION (t DELETE e)``,
@@ -672,9 +667,8 @@ val convert_vsub = prove(
     ]
   ]);
 
-val convert_vsub_thm = save_thm(
-  "convert_vsub_thm",
-  SIMP_RULE (srw_ss() ++ boolSimps.DNF_ss) [] convert_vsub)
+Theorem convert_vsub_thm =
+  SIMP_RULE (srw_ss() ++ boolSimps.DNF_ss) [] convert_vsub
 
 val convert_unique = store_thm(
   "convert_unique",

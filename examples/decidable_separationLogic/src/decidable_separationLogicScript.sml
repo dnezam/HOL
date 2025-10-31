@@ -1728,8 +1728,8 @@ val SF_STAR_CONG = store_thm ("SF_STAR_CONG",
 
 
 (*access just a part of SF_SEM_def, technical theorem used for rewriting*)
-val SF_SEM___STAR_THM = save_thm ("SF_SEM___STAR_THM",
-   SIMP_CONV std_ss [SF_SEM_def] “SF_SEM s h (sf_star sf1 sf2)”);
+Theorem SF_SEM___STAR_THM =
+   SIMP_CONV std_ss [SF_SEM_def] “SF_SEM s h (sf_star sf1 sf2)”
 
 val SF_SEM___STAR_EMP = store_thm ("SF_SEM___STAR_EMP",
    “(SF_EQUIV (sf_star sf sf_emp) sf) /\
@@ -3491,12 +3491,12 @@ METIS_TAC[]);
 
 
 
-val LIST_DS_SEM_EVAL = save_thm ("LIST_DS_SEM_EVAL",
+Theorem LIST_DS_SEM_EVAL =
    LIST_CONJ [LIST_DS_SEM_EVAL1,
               LIST_DS_SEM_EVAL2,
               LIST_DS_SEM_EVAL3a,
               LIST_DS_SEM_EVAL3b,
-              LIST_DS_SEM_EVAL4]);
+              LIST_DS_SEM_EVAL4]
 
 
 
@@ -4157,9 +4157,8 @@ Definition DS_POINTS_TO___IN_DISTANCE_def:
 End
 
 
-val DS_POINTS_TO___IN_DISTANCE___RIGHT = save_thm (
-   "DS_POINTS_TO___IN_DISTANCE___RIGHT",
-   DS_POINTS_TO___IN_DISTANCE_def);
+Theorem DS_POINTS_TO___IN_DISTANCE___RIGHT =
+   DS_POINTS_TO___IN_DISTANCE_def
 
 val DS_POINTS_TO___IN_DISTANCE___LEFT = store_thm (
    "DS_POINTS_TO___IN_DISTANCE___LEFT",

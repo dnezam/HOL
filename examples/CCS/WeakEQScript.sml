@@ -667,8 +667,7 @@ val EQUAL_IMP_WEAK_EQUIV = store_thm (
  >> PURE_ASM_REWRITE_TAC [WEAK_EQUIV_REFL]);
 
 (* Observation equivalence satisfies the property [*] *)
-val WEAK_PROPERTY_STAR = save_thm ((* NEW *)
-   "WEAK_PROPERTY_STAR", WEAK_EQUIV_cases);
+Theorem WEAK_PROPERTY_STAR = WEAK_EQUIV_cases
 
 (* Half versions of WEAK_PROPERTY_STAR *)
 val WEAK_EQUIV_TRANS_label = store_thm (
@@ -1286,26 +1285,24 @@ val WEAK_EQUIV_PRESD_BY_PAR = store_thm (
 (* Observation equivalence is substitutive under parallel operator on the right:
    !E E'. WEAK_EQUIV E E' ==> !E''. WEAK_EQUIV (E || E'') (E' || E'')
  *)
-val WEAK_EQUIV_SUBST_PAR_R = save_thm (
-   "WEAK_EQUIV_SUBST_PAR_R",
+Theorem WEAK_EQUIV_SUBST_PAR_R =
     Q.GENL [`E`, `E'`]
       (DISCH ``WEAK_EQUIV E E'``
         (Q.GEN `E''`
            (MATCH_MP WEAK_EQUIV_PRESD_BY_PAR
                      (CONJ (ASSUME ``WEAK_EQUIV E E'``)
-                           (Q.SPEC `E''` WEAK_EQUIV_REFL))))));
+                           (Q.SPEC `E''` WEAK_EQUIV_REFL)))))
 
 (* Observation equivalence is substitutive under parallel operator on the left:k
    !E E'. WEAK_EQUIV E E' ==> !E''. WEAK_EQUIV (E'' || E) (E'' || E')
  *)
-val WEAK_EQUIV_SUBST_PAR_L = save_thm (
-   "WEAK_EQUIV_SUBST_PAR_L",
+Theorem WEAK_EQUIV_SUBST_PAR_L =
     Q.GENL [`E`, `E'`]
       (DISCH ``WEAK_EQUIV E E'``
         (Q.GEN `E''`
            (MATCH_MP WEAK_EQUIV_PRESD_BY_PAR
                      (CONJ (Q.SPEC `E''` WEAK_EQUIV_REFL)
-                           (ASSUME ``WEAK_EQUIV E E'``))))));
+                           (ASSUME ``WEAK_EQUIV E E'``)))))
 
 (* The epsilon relation is preserved by the restriction operator. *)
 val EPS_RESTR = store_thm (

@@ -259,10 +259,10 @@ val IMP_PPC_SPEC_LEMMA = prove(
   \\ FULL_SIMP_TAC bool_ss [rel_sequence_def,PPC_NEXT_REL_def]
   \\ Q.EXISTS_TAC `SUC 0` \\ METIS_TAC [optionTheory.SOME_11,PAIR]);
 
-val IMP_PPC_SPEC = save_thm("IMP_PPC_SPEC",
+Theorem IMP_PPC_SPEC =
   (RW1 [STAR_COMM] o RW [PPC_SPEC_CODE] o
    SPECL [``CODE_POOL PPC_INSTR {(p,c)} * p'``,
-          ``CODE_POOL PPC_INSTR {(p,c)} * q'``]) IMP_PPC_SPEC_LEMMA);
+          ``CODE_POOL PPC_INSTR {(p,c)} * q'``]) IMP_PPC_SPEC_LEMMA
 
 val pS_HIDE = store_thm("pS_HIDE",
   ``~pS = ~pS1 (PPC_CR0 0w) * ~pS1 (PPC_CR0 1w) * ~pS1 (PPC_CR0 2w) *

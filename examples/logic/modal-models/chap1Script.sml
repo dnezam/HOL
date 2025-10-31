@@ -461,15 +461,14 @@ NMLG (Γ:form set) = BIGINTER {A | (NML A) /\ (Γ SUBSET A)}
 End
 
 
-val NMLG_ind = save_thm(
-  "NMLG_ind",
+Theorem NMLG_ind =
   ``phi ∈ NMLG G``
     |> SIMP_CONV (srw_ss()) [NMLG_def, normal_modal_logic]
     |> EQ_IMP_RULE |> #1
     |> UNDISCH |> SPEC_ALL |> UNDISCH
     |> DISCH ``(phi : form) ∈ NMLG G``
     |> Q.GEN `phi`
-    |> DISCH_ALL |> Q.GEN `P`)
+    |> DISCH_ALL |> Q.GEN `P`
 
 
 

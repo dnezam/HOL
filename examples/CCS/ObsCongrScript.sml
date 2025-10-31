@@ -304,26 +304,24 @@ val OBS_CONGR_PRESD_BY_SUM = store_thm (
 (* Observation congruence is substitutive under binary summation on the left:
    !E E'. OBS_CONGR E E' ==> !E''. OBS_CONGR (sum E'' E) (sum E'' E')
  *)
-val OBS_CONGR_SUBST_SUM_L = save_thm (
-   "OBS_CONGR_SUBST_SUM_L",
+Theorem OBS_CONGR_SUBST_SUM_L =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_CONGR E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_CONGR_PRESD_BY_SUM
                    (CONJ (Q.SPEC `E''` OBS_CONGR_REFL)
-                         (ASSUME ``OBS_CONGR E E'``))))));
+                         (ASSUME ``OBS_CONGR E E'``)))))
 
 (* Observation congruence is substitutive under binary summation on the right:
    !E E'. OBS_CONGR E E' ==> !E''. OBS_CONGR (sum E E'') (sum E' E'')
  *)
-val OBS_CONGR_SUBST_SUM_R = save_thm (
-   "OBS_CONGR_SUBST_SUM_R",
+Theorem OBS_CONGR_SUBST_SUM_R =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_CONGR E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_CONGR_PRESD_BY_SUM
                    (CONJ (ASSUME ``OBS_CONGR E E'``)
-                         (Q.SPEC `E''` OBS_CONGR_REFL))))));
+                         (Q.SPEC `E''` OBS_CONGR_REFL)))))
 
 (* Observation congruence is preserved by parallel composition. *)
 val OBS_CONGR_PRESD_BY_PAR = store_thm (
@@ -460,26 +458,24 @@ val OBS_CONGR_PRESD_BY_PAR = store_thm (
 (* Observation congruence is substitutive under parallel operator on the left:
    !E E'. OBS_CONGR E E' ==> (!E''. OBS_CONGR (par E'' E) (par E'' E'))
  *)
-val OBS_CONGR_SUBST_PAR_L = save_thm (
-   "OBS_CONGR_SUBST_PAR_L",
+Theorem OBS_CONGR_SUBST_PAR_L =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_CONGR E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_CONGR_PRESD_BY_PAR
                    (CONJ (Q.SPEC `E''` OBS_CONGR_REFL)
-                         (ASSUME ``OBS_CONGR E E'``))))));
+                         (ASSUME ``OBS_CONGR E E'``)))))
 
 (* Observation congruence is substitutive under parallel operator on the right:
    !E E'. OBS_CONGR E E' ==> (!E''. OBS_CONGR (par E E'') (par E' E''))
  *)
-val OBS_CONGR_SUBST_PAR_R = save_thm (
-   "OBS_CONGR_SUBST_PAR_R",
+Theorem OBS_CONGR_SUBST_PAR_R =
     Q.GENL [`E`, `E'`]
        (DISCH ``OBS_CONGR E E'``
         (Q.GEN `E''`
          (MATCH_MP OBS_CONGR_PRESD_BY_PAR
                    (CONJ (ASSUME ``OBS_CONGR E E'``)
-                         (Q.SPEC `E''` OBS_CONGR_REFL))))));
+                         (Q.SPEC `E''` OBS_CONGR_REFL)))))
 
 (* Observation congruence is substitutive under the restriction operator. *)
 val OBS_CONGR_SUBST_RESTR = store_thm (

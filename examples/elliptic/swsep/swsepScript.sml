@@ -742,13 +742,13 @@ Definition WELL_FORMED_SHIFT_def:
 End
 
 
-val STATE_ARM_MEM_EVAL = save_thm ("STATE_ARM_MEM_EVAL",
+Theorem STATE_ARM_MEM_EVAL =
    let
       val def1 = (Q.ISPEC `NO_CP:'a coproc` (SIMP_RULE std_ss [Once (GSYM FORALL_AND_THM)] systemTheory.STATE_ARM_MMU_def));
       val def2 = REWRITE_RULE [GSYM systemTheory.NEXT_ARM_MEM_def, GSYM systemTheory.STATE_ARM_MEM_def] def1
    in
       def2
-   end)
+   end
 
 val STATE_ARM_MEM_SPLIT = store_thm ("STATE_ARM_MEM_SPLIT",
   ``(!t1 t2 s. STATE_ARM_MEM (t1 + t2) s = (STATE_ARM_MEM t1 (STATE_ARM_MEM t2 s)))``,
@@ -1050,7 +1050,7 @@ REWRITE_TAC[IS_MEMORY_DOPER_def, IS_WELL_FORMED_DOPER_def, DOPER2INSTRUCTION_def
   doper_shift ``ROR:word4->shift``
 ]);
 
-val DOPER2INSTRUCTION_thm = save_thm ("DOPER2INSTRUCTION_thm", DOPER2INSTRUCTION_NO_MEM_thm);
+Theorem DOPER2INSTRUCTION_thm = DOPER2INSTRUCTION_NO_MEM_thm
 
 Definition MEMORY_SLICE_def:
         MEMORY_SLICE (base, length) =

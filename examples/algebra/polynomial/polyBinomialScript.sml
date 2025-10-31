@@ -309,19 +309,19 @@ val _ = overload_on ("poly_sum", ``ring_sum (PolyRing r)``);
 (* Theorem: (p + q) **2 = p ** 2 + ## 2 * p * q + q ** 2 *)
 (* Proof: by lifting from ring_binomial_two. *)
 val pamr = poly_add_mult_ring |> SPEC_ALL |> UNDISCH;
-val poly_binomial_2 = save_thm("poly_binomial_2",
+Theorem poly_binomial_2 =
     ring_binomial_2 |> ISPEC ``PolyRing r`` |> UNDISCH |> PROVE_HYP pamr
     |> REWRITE_RULE [GSYM poly_ring_property] |> SPEC ``p:'a poly`` |> SPEC ``q:'a poly``
-    |> DISCH_ALL |> GEN ``q:'a poly`` |> GEN ``p:'a poly`` |> GEN ``r:'a ring``);
+    |> DISCH_ALL |> GEN ``q:'a poly`` |> GEN ``p:'a poly`` |> GEN ``r:'a ring``
 (* > val poly_binomial_2 = |- !r p q. Ring r ==> poly p /\ poly q ==>
                                       ((p + q) ** 2 = p ** 2 + ### 2 * (p * q) + q ** 2) : thm *)
 
 (* Theorem: (x + y) ** n = poly_sum (GENLIST (\k. ## (binomial n k) * x ** (n - k) * y ** k) (SUC n)) *)
 (* Proof: by lifting from ring_binomial_thm. *)
-val poly_binomial_thm = save_thm("poly_binomial_thm",
+Theorem poly_binomial_thm =
     ring_binomial_thm |> ISPEC ``PolyRing r`` |> UNDISCH |> PROVE_HYP pamr
     |> REWRITE_RULE [GSYM poly_ring_property] |> SPEC ``x:'a poly`` |> SPEC ``y:'a poly``
-    |> DISCH_ALL |> GEN ``y:'a poly`` |> GEN ``x:'a poly`` |> GEN ``r:'a ring``);
+    |> DISCH_ALL |> GEN ``y:'a poly`` |> GEN ``x:'a poly`` |> GEN ``r:'a ring``
 (* > val poly_binomial_thm =
     |- !r x y. Ring r ==> poly x /\ poly y ==>
        !n. (x + y) ** n = poly_sum (GENLIST (\k. ### (binomial n k) * x ** (n - k) * y ** k) (SUC n)) : thm *)
@@ -463,11 +463,11 @@ val _ = overload_on ("plist", ``poly_weak_list r``);
 val _ = export_rewrites ["poly_weak_list_def"];
 
 (* Theorem: plist [] = T *)
-val poly_weak_list_nil = save_thm("poly_weak_list_nil", poly_weak_list_def |> CONJUNCT1);
+Theorem poly_weak_list_nil = poly_weak_list_def |> CONJUNCT1
 (* > val poly_weak_list_nil = |- !r. plist [] <=> T : thm *)
 
 (* Theorem: plist (h::t)= weak h /\ plist t *)
-val poly_weak_list_cons = save_thm("poly_weak_list_cons", poly_weak_list_def |> CONJUNCT2);
+Theorem poly_weak_list_cons = poly_weak_list_def |> CONJUNCT2
 (* > val poly_weak_list_cons = |- !r h t. plist (h::t) <=> weak h /\ plist t : thm *)
 
 (* Theorem: weak p /\ plist s ==> plist (SNOC p s) *)
@@ -521,11 +521,11 @@ val _ = overload_on ("psum", ``poly_weak_sum r``);
 val _ = export_rewrites ["poly_weak_sum_def"];
 
 (* Theorem: psum [] = |0| *)
-val poly_weak_sum_nil = save_thm("poly_weak_sum_nil", poly_weak_sum_def |> CONJUNCT1);
+Theorem poly_weak_sum_nil = poly_weak_sum_def |> CONJUNCT1
 (* > val poly_weak_sum_nil = |- !r. psum [] = |0| : thm *)
 
 (* Theorem: psum (h::t) = h || psum t *)
-val poly_weak_sum_cons = save_thm("poly_weak_sum_cons", poly_weak_sum_def |> CONJUNCT2);
+Theorem poly_weak_sum_cons = poly_weak_sum_def |> CONJUNCT2
 (* > val poly_weak_sum_cons = |- !r h t. psum (h::t) = h || psum t : thm *)
 
 (* Theorem: plist s ==> weak (psum s) *)
@@ -1649,8 +1649,8 @@ val poly_ZN_prime_thm = store_thm(
   metis_tac[poly_ring_prime_identity]);
 
 (* obtain a corollary *)
-val poly_ZN_prime_simple = save_thm("poly_ZN_prime_simple",
-    poly_ZN_prime_thm |> ISPEC ``n:num`` |> ISPEC ``1`` |> SIMP_RULE bool_ss[GCD_1] |> GEN_ALL);
+Theorem poly_ZN_prime_simple =
+    poly_ZN_prime_thm |> ISPEC ``n:num`` |> ISPEC ``1`` |> SIMP_RULE bool_ss[GCD_1] |> GEN_ALL
 (* val poly_ZN_prime_simple =
    |- !n. prime n <=> 1 < n /\ (x+^ n 1 n = x^+ n 1 n): thm *)
 

@@ -181,9 +181,8 @@ val dpm_raw = store_thm(
                          nomsetTheory.permeq_thm] THEN
     Induct_on `x` THEN SRW_TAC [][lswapstr_inc_pm]
   ]);
-val dpm_thm = save_thm(
-"dpm_thm",
-raw_dpm_def |> SUBS [GSYM dpm_raw]);
+Theorem dpm_thm =
+raw_dpm_def |> SUBS [GSYM dpm_raw]
 val _ = export_rewrites ["dpm_thm"]
 
 (* being a nominal set gives us properties of dpm "for free" *)
@@ -520,9 +519,8 @@ val fromTerm_eqlam = prove(
         ?t1 t2. t = t1 @@ t2 /\ d1 = fromTerm t1 /\ d2 = fromTerm t2)) /\
       (fromTerm t = dLAM i d <=> ?t0. t = LAM (n2s i) t0 /\ d = fromTerm t0)
  *)
-val fromTerm_eqn = save_thm(
-  "fromTerm_eqn",
-  CONJ fromTerm_eq0 fromTerm_eqlam)
+Theorem fromTerm_eqn =
+  CONJ fromTerm_eq0 fromTerm_eqlam
 
 (* fromTerm is injective *)
 Theorem fromTerm_11[simp]:
@@ -979,7 +977,7 @@ val toTerm_def = new_specification(
   "toTerm_def", ["toTerm"],
   CONV_RULE SKOLEM_CONV fromTerm_onto);
 
-val fromtoTerm = save_thm("fromtoTerm", GSYM toTerm_def)
+Theorem fromtoTerm = GSYM toTerm_def
 val _ = export_rewrites ["fromtoTerm"]
 
 Theorem toTerm_11[simp] :

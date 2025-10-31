@@ -828,12 +828,12 @@ val loop_list_count_le = store_thm(
   metis_tac[loop_list_count_cover_le, LESS_EQ_REFL]);
 
 (* Obtain corollaries when cover is constant *)
-val loop_list_count_constant_cover_exit_le = save_thm("loop_list_count_constant_cover_exit_le",
+Theorem loop_list_count_constant_cover_exit_le =
     loop_list_count_cover_exit_le
          |> SPEC_ALL
          |> Q.INST [`cover` |-> `\x. k`]
          |> CONV_RULE (LAND_CONV (SIMP_CONV (srw_ss())[]))
-         |> BETA_RULE |> GEN_ALL);
+         |> BETA_RULE |> GEN_ALL
 (*
 > val loop_list_count_constant_cover_exit_le =
    |- !loop k exit c body.
@@ -844,12 +844,12 @@ val loop_list_count_constant_cover_exit_le = save_thm("loop_list_count_constant_
           !x. loop x <= c + k * LENGTH x: thm
 *)
 
-val loop_list_count_constant_cover_le = save_thm("loop_list_count_constant_cover_le",
+Theorem loop_list_count_constant_cover_le =
     loop_list_count_cover_le
          |> SPEC_ALL
          |> Q.INST [`cover` |-> `\x. k`]
          |> CONV_RULE (LAND_CONV (SIMP_CONV (srw_ss())[]))
-         |> BETA_RULE |> GEN_ALL);
+         |> BETA_RULE |> GEN_ALL
 (*
 val loop_list_count_constant_cover_le =
    |- !loop k c body.

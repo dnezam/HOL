@@ -89,10 +89,10 @@ val (InvRoundTuple_def,InvRoundTuple_ind) = Defn.tprove
                  (InvSubBytes (InvShiftRows state)))))`,
   WF_REL_TAC `measure FST` THEN REPEAT PairRules.PGEN_TAC THEN DECIDE_TAC);
 
-val _ = save_thm ("RoundTuple_def", RoundTuple_def);
-val _ = save_thm ("RoundTuple_ind", RoundTuple_ind);
-val _ = save_thm ("InvRoundTuple_def", InvRoundTuple_def);
-val _ = save_thm ("InvRoundTuple_ind", InvRoundTuple_ind);
+Theorem RoundTuple_def = RoundTuple_def
+Theorem RoundTuple_ind = RoundTuple_ind
+Theorem InvRoundTuple_def = InvRoundTuple_def
+Theorem InvRoundTuple_ind = InvRoundTuple_ind
 
 Definition Round_def:   Round n k s = SND(SND(RoundTuple(n,k,s)))
 End
@@ -183,8 +183,8 @@ Defn.tprove
   WF_REL_TAC `measure ($- 44 o FST)`);
 
 
-val _ = save_thm ("expand_def", expand_def);
-val _ = save_thm ("expand_ind", expand_ind);
+Theorem expand_def = expand_def
+Theorem expand_ind = expand_ind
 val _ = computeLib.add_persistent_funs ["expand_def"];
 
 Definition mk_keysched_def:

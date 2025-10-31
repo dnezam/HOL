@@ -254,11 +254,10 @@ val pmact_eql = store_thm(
   SRW_TAC [][pmact_decompose]);
 
 (* |- x = pmact pm p y <=> pmact pm (REVERSE p) x = y *)
-val pmact_eqr = save_thm(
-  "pmact_eqr",
+Theorem pmact_eqr =
   pmact_eql |> Q.INST [`y` |-> `pmact pm p y`,
                        `x` |-> `pmact pm p⁻¹ x`]
-            |> REWRITE_RULE [pmact_inverse]);
+            |> REWRITE_RULE [pmact_inverse]
 
 Theorem pmact_injective[simp] :
     (pmact pm p x = pmact pm p y) = (x = y)
@@ -334,21 +333,18 @@ val stringpm_raw = store_thm(
 ``stringpm = perm_of``,
 srw_tac [][GSYM pmact_bijections]);
 
-val permeq_swap_ends = save_thm(
-  "permeq_swap_ends",
-  SUBS [GSYM stringpm_raw] permeq_swap_ends0);
+Theorem permeq_swap_ends =
+  SUBS [GSYM stringpm_raw] permeq_swap_ends0
 
-val lswapstr_swapstr = save_thm(
-  "lswapstr_swapstr",
-  ONCE_REWRITE_RULE [GSYM stringpm_raw] perm_of_swapstr);
+Theorem lswapstr_swapstr =
+  ONCE_REWRITE_RULE [GSYM stringpm_raw] perm_of_swapstr
 
 val _ = remove_ovl_mapping "perm_of" {Thy="basic_swap", Name = "raw_lswapstr"}
 
 (* l1 == l2 <=> !x. lswapstr l1 x = lswapstr l2 x *)
-val permeq_thm = save_thm(
-  "permeq_thm",
+Theorem permeq_thm =
   permeq_def |> ONCE_REWRITE_RULE [GSYM stringpm_raw]
-             |> REWRITE_RULE [FUN_EQ_THM])
+             |> REWRITE_RULE [FUN_EQ_THM]
 
 (* |- (!s. lswapstr [] s = s) /\
       !h t s. lswapstr (h::t) s = swapstr (FST h) (SND h) (lswapstr t s)
@@ -1180,10 +1176,9 @@ val pm_pm_cpmpm = store_thm(
      by SRW_TAC [][supp_pm_fresh, pmact_supp_empty] THEN
   METIS_TAC []);
 
-val stringpm_stringpm_cpmpm = save_thm(
-  "stringpm_stringpm_cpmpm",
+Theorem stringpm_stringpm_cpmpm =
   (SIMP_RULE std_ss []  o Q.INST [`pm` |-> `string_pmact`] o
-   INST_TYPE [alpha |-> ``:string``]) pm_pm_cpmpm);
+   INST_TYPE [alpha |-> ``:string``]) pm_pm_cpmpm
 
 val patoms_cpmpm = store_thm(
   "patoms_cpmpm",

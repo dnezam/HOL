@@ -98,9 +98,8 @@ val _ = TeX_notation { hol = UTF8.chr 0x223C,
               !q'. q --l-> q' ==> ?p'. p --l-> p' /\ STRONG_EQUIV p' q') ==>
          STRONG_EQUIV p q
  *)
-val STRONG_EQUIV_rules = save_thm
-  ("STRONG_EQUIV_rules",
-    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_rules));
+Theorem STRONG_EQUIV_rules =
+    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_rules)
 
 (* |- !BISIM_REL'.
          (!a0 a1.
@@ -110,9 +109,8 @@ val STRONG_EQUIV_rules = save_thm
                   !q'. a1 --l-> q' ==> ?p'. a0 --l-> p' /\ BISIM_REL' p' q') ==>
          !a0 a1. BISIM_REL' a0 a1 ==> STRONG_EQUIV a0 a1
  *)
-val STRONG_EQUIV_coind = save_thm
-  ("STRONG_EQUIV_coind",
-    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_coind));
+Theorem STRONG_EQUIV_coind =
+    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_coind)
 
 (* |- !a0 a1.
          STRONG_EQUIV a0 a1 <=>
@@ -120,9 +118,8 @@ val STRONG_EQUIV_coind = save_thm
              (!p'. a0 --l-> p' ==> ?q'. a1 --l-> q' /\ STRONG_EQUIV p' q') /\
              !q'. a1 --l-> q' ==> ?p'. a0 --l-> p' /\ STRONG_EQUIV p' q'
  *)
-val STRONG_EQUIV_cases = save_thm
-  ("STRONG_EQUIV_cases",
-    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_cases));
+Theorem STRONG_EQUIV_cases =
+    REWRITE_RULE [SYM STRONG_EQUIV_def] (Q.ISPEC `TRANS` BISIM_REL_cases)
 
 Theorem STRONG_EQUIV_IS_STRONG_BISIM :
     STRONG_BISIM STRONG_EQUIV
@@ -244,8 +241,7 @@ val STRONG_EQUIV_PRESD_BY_SUM = store_thm (
 (* Strong equivalence is substitutive under summation operator on the right.
    |- !E E'. STRONG_EQUIV E E' ==> (!E''. STRONG_EQUIV (sum E E'') (sum E' E''))
  *)
-val STRONG_EQUIV_SUBST_SUM_R = save_thm (
-   "STRONG_EQUIV_SUBST_SUM_R",
+Theorem STRONG_EQUIV_SUBST_SUM_R =
    (GEN_ALL o
     DISCH_ALL o
     GEN_ALL o
@@ -254,13 +250,12 @@ val STRONG_EQUIV_SUBST_SUM_R = save_thm (
     DISCH_ALL)
        (MATCH_MP STRONG_EQUIV_PRESD_BY_SUM
                  (CONJ (ASSUME ``STRONG_EQUIV E E'``)
-                       (ASSUME ``STRONG_EQUIV E'' E''``))));
+                       (ASSUME ``STRONG_EQUIV E'' E''``)))
 
 (* Strong equivalence is substitutive under summation operator on the left.
    |- !E E'. STRONG_EQUIV E E' ==> (!E''. STRONG_EQUIV (sum E'' E) (sum E'' E'))
  *)
-val STRONG_EQUIV_SUBST_SUM_L = save_thm (
-   "STRONG_EQUIV_SUBST_SUM_L",
+Theorem STRONG_EQUIV_SUBST_SUM_L =
    (GEN_ALL o
     DISCH_ALL o
     GEN_ALL o
@@ -269,7 +264,7 @@ val STRONG_EQUIV_SUBST_SUM_L = save_thm (
     DISCH_ALL)
        (MATCH_MP STRONG_EQUIV_PRESD_BY_SUM
                  (CONJ (ASSUME ``STRONG_EQUIV E'' E''``)
-                       (ASSUME ``STRONG_EQUIV E E'``))));
+                       (ASSUME ``STRONG_EQUIV E E'``)))
 
 (* Strong equivalence is preserved by parallel composition. *)
 val STRONG_EQUIV_PRESD_BY_PAR = store_thm (
@@ -383,8 +378,7 @@ val STRONG_EQUIV_PRESD_BY_PAR = store_thm (
 (* Strong equivalence is substitutive under parallel operator on the right:
    |- !E E'. STRONG_EQUIV E E' ==> (!E''. STRONG_EQUIV (par E E'') (par E' E''))
  *)
-val STRONG_EQUIV_SUBST_PAR_R = save_thm (
-   "STRONG_EQUIV_SUBST_PAR_R",
+Theorem STRONG_EQUIV_SUBST_PAR_R =
     Q.GENL [`E`, `E'`]
        (DISCH_ALL
         (GEN_ALL
@@ -393,13 +387,12 @@ val STRONG_EQUIV_SUBST_PAR_R = save_thm (
            (DISCH_ALL
             (MATCH_MP STRONG_EQUIV_PRESD_BY_PAR
              (CONJ (ASSUME ``STRONG_EQUIV E E'``)
-                   (ASSUME ``STRONG_EQUIV E'' E''``)))))))));
+                   (ASSUME ``STRONG_EQUIV E'' E''``))))))))
 
 (* Strong equivalence is substitutive under parallel operator on the left:
    |- !E E'. STRONG_EQUIV E E' ==> (!E''. STRONG_EQUIV (par E'' E) (par E'' E'))
  *)
-val STRONG_EQUIV_SUBST_PAR_L = save_thm (
-   "STRONG_EQUIV_SUBST_PAR_L",
+Theorem STRONG_EQUIV_SUBST_PAR_L =
     Q.GENL [`E`, `E'`]
        (DISCH_ALL
         (GEN_ALL
@@ -408,7 +401,7 @@ val STRONG_EQUIV_SUBST_PAR_L = save_thm (
            (DISCH_ALL
             (MATCH_MP STRONG_EQUIV_PRESD_BY_PAR
              (CONJ (ASSUME ``STRONG_EQUIV E'' E''``)
-                   (ASSUME ``STRONG_EQUIV E E'``)))))))));
+                   (ASSUME ``STRONG_EQUIV E E'``))))))))
 
 (* Strong equivalence is substitutive under restriction operator. *)
 val STRONG_EQUIV_SUBST_RESTR = store_thm (

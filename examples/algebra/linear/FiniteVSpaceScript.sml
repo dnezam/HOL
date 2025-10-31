@@ -88,9 +88,9 @@ val finite_vspace_is_vspace = store_thm(
   ``!(r:'a field) (g:'b group) op. FiniteVSpace r g op ==> VSpace r g op``,
   rw[FiniteVSpace_def]);
 *)
-val finite_vspace_is_vspace = save_thm("finite_vspace_is_vspace",
+Theorem finite_vspace_is_vspace =
    FiniteVSpace_def |> SPEC_ALL |> (#1 o EQ_IMP_RULE) |>
-                       UNDISCH |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL);
+                       UNDISCH |> CONJUNCTS |> el 1 |> DISCH_ALL |> GEN_ALL
 (* val finite_vspace_is_vspace = |- !r op g. FiniteVSpace r g op ==> VSpace r g op: thm *)
 
 (* Theorem: FiniteVSpace r g op ==> FINITE R /\ FINITE V *)

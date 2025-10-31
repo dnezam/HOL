@@ -228,10 +228,9 @@ val n_exists_lemma =
 (* We now show that |- !sig t. sig t ==> (?n. Istimeof n sig t).        *)
 (* I.e., whenever sig is true at some time t, there exists an n such    *)
 (* that n is the nth time sig is true.                                  *)
-val Istimeof_thm1 =
-    save_thm("Istimeof_thm1",
+Theorem Istimeof_thm1 =
              GEN_ALL(REWRITE_RULE [LESS_EQ_REFL]
-                  (SPECL [``sig:num->bool``,``t:num``,``t:num``] n_exists_lemma)));
+                  (SPECL [``sig:num->bool``,``t:num``,``t:num``] n_exists_lemma))
 
 (* We now show that if (Istimeof n sig t) holds then sig(t).            *)
 val Istimeof_thm2 =

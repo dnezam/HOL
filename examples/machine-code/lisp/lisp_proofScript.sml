@@ -40,8 +40,7 @@ End
 
 val x2sexp = x2sexp_def |> CONJUNCTS |> map SPEC_ALL |> LIST_CONJ
 
-val term2sexp_def = save_thm(
-  "func2sexp_def[allow_rebind]",
+Theorem func2sexp_def[allow_rebind] =
   save_thm(
     "term2sexp_def[allow_rebind]",
     let
@@ -49,7 +48,7 @@ val term2sexp_def = save_thm(
       val func2sexp_deff = Define `func2sexp y = x2sexp (F,Var "nil",y)`;
       val th = Q.INST [`xx`|->`Var "nil"`,`yy`|->`FunVar "nil"`] x2sexp
       val th = REWRITE_RULE [GSYM term2sexp_deff,GSYM func2sexp_deff] th
-    in th end));
+    in th end)
 
 val zip_yz_lemma = prove(
   ``!xs ys zs x (stack:SExp) alist (l:num).

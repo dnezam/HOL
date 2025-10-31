@@ -95,21 +95,21 @@ val expand_mem_read_bytes =
   ONCE_REWRITE_CONV [XREAD_MEM_BYTES_def,word2bytes_def] THENC
   SIMP_CONV std_ss [GSYM WORD_ADD_ASSOC,word_add_n2w,ASR_ADD])
 
-val XREAD_MEM_BYTES_thm = save_thm("XREAD_MEM_BYTES_thm",
+Theorem XREAD_MEM_BYTES_thm =
    CONJ (expand_mem_read_bytes ``XREAD_MEM_BYTES 1 a s``)
   (CONJ (expand_mem_read_bytes ``XREAD_MEM_BYTES 2 a s``)
-        (expand_mem_read_bytes ``XREAD_MEM_BYTES 4 a s``)));
+        (expand_mem_read_bytes ``XREAD_MEM_BYTES 4 a s``))
 
-val word2bytes_thm = save_thm("word2bytes_thm",
+Theorem word2bytes_thm =
    CONJ (expand_mem_read_bytes ``word2bytes 1 w``)
   (CONJ (expand_mem_read_bytes ``word2bytes 2 w``)
-        (expand_mem_read_bytes ``word2bytes 4 w``)));
+        (expand_mem_read_bytes ``word2bytes 4 w``))
 
-val EL_thm = save_thm("EL_thm",
+Theorem EL_thm =
   CONJ (EVAL ``EL 0 ((x0:'a)::xs)``)
  (CONJ (EVAL ``EL 1 ((x0:'a)::x2::xs)``)
  (CONJ (EVAL ``EL 2 ((x0:'a)::x2::x3::xs)``)
-       (EVAL ``EL 3 ((x0:'a)::x2::x3::x4::xs)``))))
+       (EVAL ``EL 3 ((x0:'a)::x2::x3::x4::xs)``)))
 
 
 (* ---------------------------------------------------------------------------------- *>
@@ -327,10 +327,10 @@ val monad_simp_lemma = prove(
   THEN Cases_on `t r` THEN SRW_TAC [] [option_apply_def] THEN FULL_SIMP_TAC std_ss []
   THEN Cases_on `x` THEN SRW_TAC [] [option_apply_def]);
 
-val seq_monad_thm = save_thm("seq_monad_thm",let
+Theorem seq_monad_thm = let
   val xs = option_apply_SOME :: mem_seq_lemma :: read_eflag_seq_lemma ::
            parT_unit_seq_lemma :: (CONJUNCTS monad_simp_lemma)
-  in LIST_CONJ (map GEN_ALL xs) end);
+  in LIST_CONJ (map GEN_ALL xs) end
 
 val CAN_XWRITE_MEM = store_thm("CAN_XWRITE_MEM",
   ``CAN_XWRITE_MEM a (r,e,s,m,i) =

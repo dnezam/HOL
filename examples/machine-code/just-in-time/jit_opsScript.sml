@@ -505,5 +505,5 @@ val execute_code_and_return = let
   val th3 = MP th3 lemma
   in th3 end;
 
-val _ = save_thm("execute_code_and_return",execute_code_and_return);
+Theorem execute_code_and_return = execute_code_and_return
 

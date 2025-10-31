@@ -295,7 +295,7 @@ val thmAbstractSpecification =
                         *)
 ;
 
-val _ = save_thm("PREDICATIVE_SPEC_EQ_THM",thmAbstractSpecification);
+Theorem PREDICATIVE_SPEC_EQ_THM = thmAbstractSpecification
 
 val thmOnePointLemma=
         store_thm

@@ -2439,12 +2439,12 @@ val ring_iso_poly = store_thm(
 
 (* Theorem: (p = |0|) <=> (p_ = |0|_) *)
 (* Proof: by ring_homo_eq_poly_zero *)
-val ring_iso_eq_poly_zero = save_thm("ring_iso_eq_poly_zero", ring_homo_eq_poly_zero);
+Theorem ring_iso_eq_poly_zero = ring_homo_eq_poly_zero
 (* val ring_iso_eq_poly_zero = |- !r r_ f p. (p = |0|) <=> (p_ = |0|_): thm *)
 
 (* Theorem: MAP f |0| = |0|_ *)
 (* Proof: by ring_homo_poly_zero *)
-val ring_iso_poly_zero = save_thm("ring_iso_poly_zero", ring_homo_poly_zero);
+Theorem ring_iso_poly_zero = ring_homo_poly_zero
 (* val ring_iso_poly_zero = |- !r s f.MAP f |0| = |0|_: thm *)
 
 (* Theorem: (r =r= r_) f ==> (MAP f |1| = |1|_) *)
@@ -2498,7 +2498,7 @@ val ring_iso_poly_sub = store_thm(
 
 (* Theorem: deg_ p_ = deg p *)
 (* Proof: by ring_homo_poly_deg *)
-val ring_iso_poly_deg = save_thm("ring_iso_poly_deg", ring_homo_poly_deg);
+Theorem ring_iso_poly_deg = ring_homo_poly_deg
 (* val ring_iso_poly_deg = |- !r r_ f p. deg_ p_ = deg p: thm *)
 
 (* Theorem: (r =r= r_) f ==> !p. lead_ p_ = f (lead p) *)

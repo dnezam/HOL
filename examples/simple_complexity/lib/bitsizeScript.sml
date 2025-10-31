@@ -197,9 +197,9 @@ val it = |- encode 0 = []: thm
 *)
 
 (* Extract theorems *)
-val encode_0 = save_thm("encode_0", encode_def |> CONJUNCT1);
-val encode_1 = save_thm("encode_1", encode_def |> CONJUNCT2 |> SPEC ``0`` |> SIMP_RULE arith_ss[encode_0]);
-val encode_2 = save_thm("encode_2", encode_def |> CONJUNCT2 |> SPEC ``1`` |> SIMP_RULE arith_ss[encode_1]);
+Theorem encode_0 = encode_def |> CONJUNCT1
+Theorem encode_1 = encode_def |> CONJUNCT2 |> SPEC ``0`` |> SIMP_RULE arith_ss[encode_0]
+Theorem encode_2 = encode_def |> CONJUNCT2 |> SPEC ``1`` |> SIMP_RULE arith_ss[encode_1]
 
 (*
 val encode_0 = |- encode 0 = []: thm
@@ -270,10 +270,10 @@ val decode_genlist_zero = store_thm(
   rw[decode_all_zero, EVERY_GENLIST]);
 
 (* Extract theorems from definition *)
-val decode_nil = save_thm("decode_nil", decode_def |> CONJUNCT1);
+Theorem decode_nil = decode_def |> CONJUNCT1
 (* val decode_nil = |- decode [] = 0: thm *)
 
-val decode_cons = save_thm("decode_cons", decode_def |> CONJUNCT2);
+Theorem decode_cons = decode_def |> CONJUNCT2
 (* val decode_cons = |- !h t. decode (h::t) = h + TWICE (decode t): thm *)
 
 (* Theorem: decode [x] = x *)
@@ -342,9 +342,9 @@ val it = |- binary 4 = [0; 0; 1]: thm
 val it = |- binary 5 = [1; 0; 1]: thm
 *)
 
-val binary_0 = save_thm("binary_0", EVAL ``binary 0``);
+Theorem binary_0 = EVAL ``binary 0``
 (* val binary_0 = |- binary 0 = [0]: thm *)
-val binary_1 = save_thm("binary_1", EVAL ``binary 1``);
+Theorem binary_1 = EVAL ``binary 1``
 (* val binary_1 = |- binary 1 = [1]: thm *)
 
 (* Theorem: LENGTH (binary n) = if n = 0 then 1 else 1 + LOG2 n *)
@@ -434,11 +434,11 @@ val one_le_size = store_thm(
   metis_tac[size_nonzero, NOT_ZERO_GE_ONE]);
 
 (* Extract theorems from definition *)
-val size_0 = save_thm("size_0[simp]", size_def |> SPEC ``0`` |> SIMP_RULE arith_ss[]);
+Theorem size_0[simp] = size_def |> SPEC ``0`` |> SIMP_RULE arith_ss[]
 (* val size_0 = |- size 0 = 1: thm *)
-val size_1 = save_thm("size_1[simp]", size_def |> SPEC ``1`` |> SIMP_RULE arith_ss[]);
+Theorem size_1[simp] = size_def |> SPEC ``1`` |> SIMP_RULE arith_ss[]
 (* val size_1 = |- size 1 = 1: thm *)
-val size_2 = save_thm("size_2[simp]", size_def |> SPEC ``2`` |> SIMP_RULE arith_ss[size_1]);
+Theorem size_2[simp] = size_def |> SPEC ``2`` |> SIMP_RULE arith_ss[size_1]
 (* val size_2 = |- size 2 = 2: thm *)
 
 (* Note:
@@ -1457,10 +1457,10 @@ val it = |- decode (to_bits 5 2) = 1: thm
 *)
 
 (* Extract theorems from definition *)
-val to_bits_n_0 = save_thm("to_bits_n_0", to_bits_def |> CONJUNCT1);
+Theorem to_bits_n_0 = to_bits_def |> CONJUNCT1
 (* val to_bits_n_0 = |- !n. to_bits n 0 = []: thm *)
 
-val to_bits_n_SUC = save_thm("to_bits_n_SUC", to_bits_def |> CONJUNCT2);
+Theorem to_bits_n_SUC = to_bits_def |> CONJUNCT2
 (* val to_bits_n_SUC = |- !n m. to_bits n (SUC m) = n MOD 2::to_bits (HALF n) m: thm *)
 
 (* Theorem: to_bits n (SUC m) = SNOC ((n DIV (2 ** m)) MOD 2) (to_bits n m) *)

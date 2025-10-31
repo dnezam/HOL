@@ -178,9 +178,7 @@ Definition SUB_xnum_xnum_def:
    ($SUB_xnum_xnum INFINITY (XNUM (n:num)) = INFINITY)
 End
 
-val SUB =
- save_thm
-  ("SUB", LIST_CONJ[SUB_num_xnum_def,SUB_xnum_num_def,SUB_xnum_xnum_def]);
+Theorem SUB = LIST_CONJ[SUB_num_xnum_def,SUB_xnum_num_def,SUB_xnum_xnum_def]
 
 val _ = overload_on("-", ``SUB_num_xnum``);
 val _ = overload_on("-", ``SUB_xnum_num``);
@@ -209,9 +207,7 @@ Definition LS_xnum_xnum_def:
    ($LS_xnum_xnum INFINITY (XNUM (n:num)) = F)
 End
 
-val LS =
- save_thm
-  ("LS", LIST_CONJ[LS_num_xnum_def,LS_xnum_num_def,LS_xnum_xnum_def]);
+Theorem LS = LIST_CONJ[LS_num_xnum_def,LS_xnum_num_def,LS_xnum_xnum_def]
 
 val _ = overload_on("<", ``LS_num_xnum``);
 val _ = overload_on("<", ``LS_xnum_num``);
@@ -242,8 +238,7 @@ Definition LE_xnum_xnum_def:
    ($LE_xnum_xnum INFINITY INFINITY = T)
 End
 
-val LE =
- save_thm("LE",LIST_CONJ[LE_num_xnum_def,LE_xnum_num_def,LE_xnum_xnum_def]);
+Theorem LE = LIST_CONJ[LE_num_xnum_def,LE_xnum_num_def,LE_xnum_xnum_def]
 
 val _ = overload_on("<=", ``LE_num_xnum``);
 val _ = overload_on("<=", ``LE_xnum_num``);
@@ -273,8 +268,7 @@ Definition GT_xnum_xnum_def:
    ($GT_xnum_xnum INFINITY (XNUM (n:num)) = T)
 End
 
-val GT =
- save_thm("GT",LIST_CONJ[GT_num_xnum_def,GT_xnum_num_def,GT_xnum_xnum_def]);
+Theorem GT = LIST_CONJ[GT_num_xnum_def,GT_xnum_num_def,GT_xnum_xnum_def]
 
 val _ = overload_on(">", ``GT_num_xnum``);
 val _ = overload_on(">", ``GT_xnum_num``);
@@ -304,8 +298,7 @@ Definition GE_xnum_xnum_def:
    ($GE_xnum_xnum INFINITY (XNUM (n:num)) = T)
 End
 
-val GE =
- save_thm("GE",LIST_CONJ[GE_num_xnum_def,GE_xnum_num_def,GE_xnum_xnum_def]);
+Theorem GE = LIST_CONJ[GE_num_xnum_def,GE_xnum_num_def,GE_xnum_xnum_def]
 
 val _ = overload_on(">=", ``GE_num_xnum``);
 val _ = overload_on(">=", ``GE_xnum_num``);
@@ -418,11 +411,9 @@ val RESTN_REST_INFINITE =
 (******************************************************************************
 * RESTN (REST (INFINITE f)) k = RESTN (INFINITE f) (k + 1)
 ******************************************************************************)
-val RESTN_REST_INFINITE_COR =
- save_thm
-  ("RESTN_REST_INFINITE_COR",
+Theorem RESTN_REST_INFINITE_COR =
    SIMP_RULE arith_ss
-    [DECIDE``(k+1)-1=k``](Q.SPECL[`f`,`k+1`]RESTN_REST_INFINITE));
+    [DECIDE``(k+1)-1=k``](Q.SPECL[`f`,`k+1`]RESTN_REST_INFINITE)
 
 (******************************************************************************
 * Form needeed for computeLib
@@ -552,10 +543,8 @@ val ELEM_FINITE_TL =
 (******************************************************************************
 * 0 < LENGTH l ==> (ELEM (FINITE (TL l)) k = ELEM (FINITE l) (k + 1))
 ******************************************************************************)
-val ELEM_FINITE_TL_COR =
- save_thm
-  ("ELEM_FINITE_TL_COR",
-   SIMP_RULE arith_ss [DECIDE``(k+1)-1=k``](Q.SPECL[`l`,`k+1`]ELEM_FINITE_TL));
+Theorem ELEM_FINITE_TL_COR =
+   SIMP_RULE arith_ss [DECIDE``(k+1)-1=k``](Q.SPECL[`l`,`k+1`]ELEM_FINITE_TL)
 
 (******************************************************************************
 * REST(INFINITE f) = INFINITE(\n. f(n+1))
@@ -609,10 +598,8 @@ val ELEM_REST_INFINITE =
 (******************************************************************************
 * ELEM (REST (INFINITE l)) k = ELEM (INFINITE l) (k + 1)
 ******************************************************************************)
-val ELEM_REST_INFINITE_COR =
- save_thm
-  ("ELEM_REST_INFINITE_COR",
-   SIMP_RULE arith_ss [DECIDE``(k+1)-1=k``](Q.SPECL[`l`,`k+1`]ELEM_REST_INFINITE));
+Theorem ELEM_REST_INFINITE_COR =
+   SIMP_RULE arith_ss [DECIDE``(k+1)-1=k``](Q.SPECL[`l`,`k+1`]ELEM_REST_INFINITE)
 
 (******************************************************************************
 * CAT(w,p) creates a new path by concatenating w in front of p
@@ -666,8 +653,7 @@ val LENGTH_CAT_INFINITE =
     THEN IMP_RES_TAC IS_INFINITE_EXISTS
     THEN RW_TAC std_ss [CONS_def,LENGTH_def]);
 
-val LENGTH_CAT =
- save_thm("LENGTH_CAT",CONJ LENGTH_CAT_FINITE LENGTH_CAT_INFINITE);
+Theorem LENGTH_CAT = CONJ LENGTH_CAT_FINITE LENGTH_CAT_INFINITE
 
 
 (******************************************************************************

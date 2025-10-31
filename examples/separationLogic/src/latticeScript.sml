@@ -188,15 +188,15 @@ PROVE_TAC [BIGSUP_THM, INF_SUP_inv_THM, rest_WeakOrder_THM]);
 
 
 
-val INF_REWRITE = save_thm ("INF_REWRITE",
+Theorem INF_REWRITE =
    SIMP_RULE std_ss [BIGINF_def, IS_INFIMUM_def,
       IS_LOWER_BOUND_def, IN_INSERT, NOT_IN_EMPTY,
-      DISJ_IMP_THM, FORALL_AND_THM] INF_def);
+      DISJ_IMP_THM, FORALL_AND_THM] INF_def
 
-val SUP_REWRITE = save_thm ("SUP_REWRITE",
+Theorem SUP_REWRITE =
    SIMP_RULE std_ss [BIGSUP_def, IS_SUPREMUM_def,
       IS_UPPER_BOUND_def, IN_INSERT, NOT_IN_EMPTY,
-      DISJ_IMP_THM, FORALL_AND_THM] SUP_def);
+      DISJ_IMP_THM, FORALL_AND_THM] SUP_def
 
 
 

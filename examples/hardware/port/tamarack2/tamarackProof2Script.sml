@@ -126,7 +126,7 @@ expandf (EXEC_MPC_TAC MPC_3_THM ``t+4`` (ASM_REWRITE_TAC []));
 expandf (EXEC_MPC_TAC MPC_4_THM ``t+5`` ALL_TAC);
 expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 
-val JZR_T_INST_THM = save_thm ("JZR_T_INST_THM",top_thm());
+Theorem JZR_T_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -148,7 +148,7 @@ expandf (EXEC_MPC_TAC MPC_10_THM ``t+5`` ALL_TAC);
 expandf (EXEC_MPC_TAC MPC_11_THM ``t+6`` ALL_TAC);
 expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 
-val JZR_F_INST_THM = save_thm ("JZR_F_INST_THM",top_thm());
+Theorem JZR_F_INST_THM = top_thm()
 val _ = drop();
 
 
@@ -170,7 +170,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val JMP_INST_THM = save_thm ("JMP_INST_THM",top_thm());
+Theorem JMP_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -195,7 +195,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val ADD_INST_THM = save_thm ("ADD_INST_THM",top_thm());
+Theorem ADD_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -220,7 +220,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val SUB_INST_THM = save_thm ("SUB_INST_THM",top_thm());
+Theorem SUB_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -243,7 +243,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val LD_INST_THM = save_thm ("LD_INST_THM",top_thm());
+Theorem LD_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -266,7 +266,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val ST_INST_THM = save_thm ("ST_INST_THM",top_thm());
+Theorem ST_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -289,7 +289,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val NOP1_INST_THM = save_thm ("NOP1_INST_THM",top_thm());
+Theorem NOP1_INST_THM = top_thm()
 val _ = drop();
 
 set_goal ([],
@@ -311,7 +311,7 @@ expandf (ASM_REWRITE_TAC [nextstate,Inst,Opc,Addr,Bits,DIV_2_EXP_0_THM]);
 expandf (CONV_TAC (DEPTH_CONV not_eq_CONV));
 expandf (REWRITE_TAC []);
 
-val NOP2_INST_THM = save_thm ("NOP2_INST_THM",top_thm());
+Theorem NOP2_INST_THM = top_thm()
 val _ = drop();
 
 export_theory ();

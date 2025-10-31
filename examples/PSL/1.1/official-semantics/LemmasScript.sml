@@ -205,8 +205,7 @@ End
 * Structural induction rule for SEREs
 ******************************************************************************)
 
-val sere_induct = save_thm
-  ("sere_induct",
+Theorem sere_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -218,7 +217,7 @@ val sere_induct = save_thm
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\ (r,b). P r`, `\ (r1,r2). P r1 /\ P r2`]
-         (TypeBase.induction_of ``:'a sere``)))));
+         (TypeBase.induction_of ``:'a sere``))))
 
 val LAST_APPEND_CONS =
  store_thm

@@ -22,9 +22,7 @@ End
 
 
 
-val explicit_acceptance_condition_induct =
- save_thm
-  ("explicit_acceptance_condition_induct",
+Theorem explicit_acceptance_condition_induct =
    Q.GEN
     `P`
     (MATCH_MP
@@ -36,7 +34,7 @@ val explicit_acceptance_condition_induct =
         PROVE[]``(!x y. P y ==> Q(x,y)) = !y. P y ==> !x. Q(x,y)``]
        (Q.SPECL
          [`P`,`\(f1,f2). P f1 /\ P f2`]
-         (TypeBase.induction_of ``:('a, 'b) explicit_acceptance_condition``)))));
+         (TypeBase.induction_of ``:('a, 'b) explicit_acceptance_condition``))))
 
 
 

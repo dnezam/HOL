@@ -50,12 +50,12 @@ val APEXT_RVNEG = prove(
     FULL_SIMP_TAC std_ss ([AP_EXT_def,RVNEG_def]@(tsimps ``:'a mu``))
   ]);
 
-val APEXT_NNF =  save_thm("APEXT_NNF",prove(``!f. AP_EXT (NNF f) = NNF (AP_EXT f)``,
+Theorem APEXT_NNF = prove(``!f. AP_EXT (NNF f) = NNF (AP_EXT f)``,
 recInduct NNF_IND_def THEN REPEAT CONJ_TAC THEN BETA_TAC
 THEN RW_TAC std_ss ([MU_SUB_def,NNF_def,RVNEG_def,AP_EXT_def]@(tsimps ``:'a mu``))
-THEN  FULL_SIMP_TAC std_ss ([APEXT_RVNEG,AP_EXT_def,RVNEG_def]@(tsimps ``:'a mu``))))
+THEN  FULL_SIMP_TAC std_ss ([APEXT_RVNEG,AP_EXT_def,RVNEG_def]@(tsimps ``:'a mu``)))
 
-val APEXT_IMF = save_thm("APEXT_IMF",prove(``!f. IMF f = IMF (AP_EXT f)``,
+Theorem APEXT_IMF = prove(``!f. IMF f = IMF (AP_EXT f)``,
 recInduct NNF_IND_def THEN REPEAT CONJ_TAC THEN BETA_TAC
 THEN RW_TAC std_ss ([IMF_def,MU_SUB_def,NNF_def,RVNEG_def,AP_EXT_def]@(tsimps ``:'a mu``)) THENL [
  METIS_TAC ([APEXT_NNF,APEXT_RV_SUBF,AP_EXT_def,RVNEG_def]@(tsimps ``:'a mu``)),
@@ -64,7 +64,7 @@ THEN RW_TAC std_ss ([IMF_def,MU_SUB_def,NNF_def,RVNEG_def,AP_EXT_def]@(tsimps ``
  THEN METIS_TAC [APEXT_RVNEG,IMF_INV_RVNEG],
  REWRITE_TAC [GSYM APEXT_NNF,GSYM APEXT_RV_SUBF]
  THEN METIS_TAC [APEXT_RVNEG,IMF_INV_RVNEG]
-]))
+])
 
 val pair_rwts = BasicProvers.thy_ssfrag "pair"
 
@@ -367,7 +367,7 @@ val DECOMP2 =
 (CONV_RULE (LAST_FORALL_CONV FORALL_IMP_CONV)
 (CONV_RULE (QUANT_CONV (QUANT_CONV (QUANT_CONV (PUSH_QUANT_CONV SWAP_VARS_CONV 2)))) DECOMP))))
 
-val DECOMP3 = save_thm("PAR_SYNC_DECOMP", prove(``!s e ks1 ks2 f.
+Theorem PAR_SYNC_DECOMP = prove(``!s e ks1 ks2 f.
          wfKS ks1 ==>
          wfKS ks2 ==>
          (ks1.ap = ks2.ap) ==>
@@ -376,5 +376,5 @@ val DECOMP3 = save_thm("PAR_SYNC_DECOMP", prove(``!s e ks1 ks2 f.
          (IMF f) ==>
          (!a g. ~(<<a>> g SUBF NNF f)) ==>
          s IN STATES f ks1 e ==>
-         s IN STATES f ks2 e``, METIS_TAC [IMF_MU_EXT,DECOMP2]))
+         s IN STATES f ks2 e``, METIS_TAC [IMF_MU_EXT,DECOMP2])
 

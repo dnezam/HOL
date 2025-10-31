@@ -308,12 +308,12 @@ Definition ITAdvance_def[nocompute]:
       ((7 '' 5) IT || w2w (((4 >< 0) IT) : word5 << 1))
 End
 
-val ITAdvance_n2w = save_thm("ITAdvance_n2w",
+Theorem ITAdvance_n2w =
    ITAdvance_def
      |> SIMP_RULE (srw_ss()++wordsLib.WORD_EXTRACT_ss) []
      |> Q.SPEC `n2w n`
      |> RIGHT_CONV_RULE EVAL
-     |> GEN_ALL);
+     |> GEN_ALL
 
 Definition decode_psr_def:
   decode_psr (psr:word32) =
@@ -401,10 +401,10 @@ val rule =
     [GSYM bitTheory.TIMES_2EXP_def, MOD_2EXP_DIMINDEX, w2n_n2w] o
   Q.SPECL [`n2w n`,`SUC sh`];
 
-val NUMERIC_LSL_C = save_thm("NUMERIC_LSL_C", rule LSL_C_def);
-val NUMERIC_LSR_C = save_thm("NUMERIC_LSR_C", rule LSR_C_def);
-val NUMERIC_ASR_C = save_thm("NUMERIC_ASR_C", rule ASR_C_def);
-val NUMERIC_ROR_C = save_thm("NUMERIC_ROR_C", rule ROR_C_def);
+Theorem NUMERIC_LSL_C = rule LSL_C_def
+Theorem NUMERIC_LSR_C = rule LSR_C_def
+Theorem NUMERIC_ASR_C = rule ASR_C_def
+Theorem NUMERIC_ROR_C = rule ROR_C_def
 
 local
   val rule = GEN_ALL o SIMP_RULE (srw_ss()) [] o Q.SPEC `n2w a`
@@ -429,9 +429,9 @@ val align_id = Q.store_thm("align_id",
     \\ SRW_TAC [ARITH_ss] [MIN_DEF]
     \\ `n = 0` by DECIDE_TAC \\ SRW_TAC [] []);
 
-val align_id_248 = save_thm("align_id_248",
+Theorem align_id_248 =
   numLib.REDUCE_RULE
-    (Drule.LIST_CONJ (List.map (fn t => Q.SPEC t align_id) [`1`,`2`,`3`])));
+    (Drule.LIST_CONJ (List.map (fn t => Q.SPEC t align_id) [`1`,`2`,`3`]))
 
 val word_index = Q.prove(
   `!i n. i < dimindex (:'a) ==> ((n2w n : 'a word) ' i = BIT i n)`,
@@ -476,8 +476,8 @@ val lowest_set_bit_compute = Q.store_thm("lowest_set_bit_compute",
     \\ MATCH_MP_TAC LEAST_BIT_INTRO
     \\ METIS_TAC [BIT_EXISTS]);
 
-val NOT_IN_EMPTY_SPECIFICATION = save_thm("NOT_IN_EMPTY_SPECIFICATION",
-  (GSYM o SIMP_RULE (srw_ss()) [] o Q.SPEC `{}`) pred_setTheory.SPECIFICATION);
+Theorem NOT_IN_EMPTY_SPECIFICATION =
+  (GSYM o SIMP_RULE (srw_ss()) [] o Q.SPEC `{}`) pred_setTheory.SPECIFICATION
 
 (* ------------------------------------------------------------------------ *)
 

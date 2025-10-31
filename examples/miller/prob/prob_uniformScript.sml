@@ -23,8 +23,8 @@ val (prob_unif_def, prob_unif_ind) = Defn.tprove
   in (d, WF_REL_TAC g >> STRIP_TAC)
   end;
 
-val _ = save_thm ("prob_unif_def", prob_unif_def);
-val _ = save_thm ("prob_unif_ind", prob_unif_ind);
+Theorem prob_unif_def = prob_unif_def
+Theorem prob_unif_ind = prob_unif_ind
 
 Definition prob_uniform_cut_def:
    (prob_uniform_cut 0 (SUC n) s = (0, s)) /\

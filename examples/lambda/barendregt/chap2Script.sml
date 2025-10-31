@@ -214,7 +214,7 @@ val lemma2_11 = store_thm(
   SRW_TAC [][SUB_THM, SUB_VAR, lemma14b] THEN
   Cases_on `u IN FV N` THEN SRW_TAC [][SUB_THM, lemma14b, lemma14c]);
 
-val substitution_lemma = save_thm("substitution_lemma", lemma2_11);
+Theorem substitution_lemma = lemma2_11
 
 val NOT_IN_FV_SUB = store_thm(
   "NOT_IN_FV_SUB",
@@ -246,9 +246,8 @@ val lemma2_12 = store_thm( (* p. 19 *)
   ]);
 
 (* |- M == M' ==> N == N' ==> [N/x] M == [N'/x] M' *)
-val lameq_sub_cong = save_thm(
-  "lameq_sub_cong",
-  REWRITE_RULE [GSYM AND_IMP_INTRO] (last (CONJUNCTS lemma2_12)));
+Theorem lameq_sub_cong =
+  REWRITE_RULE [GSYM AND_IMP_INTRO] (last (CONJUNCTS lemma2_12))
 
 Theorem lameq_isub_cong :
     !ss M N. M == N ==> M ISUB ss == N ISUB ss

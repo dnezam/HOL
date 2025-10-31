@@ -500,13 +500,13 @@ val abbrev_defs = [IDLE_def,BUSY_def,NOSEQ_def,SEQ_def,OKAY_def,ERROR_def,RETRY_
                    MASK_def,BUSREQ_def,HSPLIT_def,NO_BUSREQ_def,NO_HSPLIT_def,NO_MASK_def,INIT_GRANT_def,GRANT_def,
                    INIT_MASTER_def, MASTER_def,HSLVSPLT_def,SLVSPLT_def,NO_HSLVSPLT_def,HSEL_def,BB_INC_def,WS_INC_def]
 
-val I1rh = save_thm("amba_ahb_I1rh",SIMP_RULE (pure_ss++BETA_ss++pairSimps.PAIR_ss++ARITH_ss)
-                     ([INIT_M_def,INIT_S_def,INIT_A_def,COND_CLAUSES]@abbrev_defs@m16n2b@m16exp) INIT_AHB_def)
+Theorem amba_ahb_I1rh = SIMP_RULE (pure_ss++BETA_ss++pairSimps.PAIR_ss++ARITH_ss)
+                     ([INIT_M_def,INIT_S_def,INIT_A_def,COND_CLAUSES]@abbrev_defs@m16n2b@m16exp) INIT_AHB_def
 
 val Rc = rhs(concl(SPEC_ALL TRANS_AHB_def))
 
-val R1rh = save_thm("amba_ahb_R1rh", EVERY_CONJ_CONV (STRIP_QUANT_CONV
+Theorem amba_ahb_R1rh = EVERY_CONJ_CONV (STRIP_QUANT_CONV
                 (EVERY_CONJ_CONV (STRIP_QUANT_CONV (EVERY_CONJ_CONV
                 (unroll_ahb_CONV [TRANS_AHB_M_def,TRANS_X_def,(*TRANS_D_def,*)TRANS_CNT_def,TRANS_AHB_S_def,I1rh]
-                                 TRANS_A_def abbrev_defs))))) Rc)
+                                 TRANS_A_def abbrev_defs))))) Rc
 

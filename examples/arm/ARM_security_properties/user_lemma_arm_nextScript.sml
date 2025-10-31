@@ -427,7 +427,7 @@ val _ = e(Cases_on `take_irq_exception <|proc := 0|> (s1 with accesses := [])` T
           THEN UNDISCH_ALL_TAC THEN RW_TAC (srw_ss()) [updated_int_wait_untouched_lem, updated_int_wait_mode_lem, updated_int_wait_priv_mode_constraints_v2a_lem, untouched_mmu_setup_lem, updated_int_wait_similar_lem]);
 
 
-val mmu_arm_next_thm = save_thm("mmu_arm_next_thm", top_thm());
+Theorem mmu_arm_next_thm = top_thm()
 
 
 

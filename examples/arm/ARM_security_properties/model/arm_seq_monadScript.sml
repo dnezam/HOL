@@ -252,14 +252,14 @@ val rule =
     arm_coretypesTheory.security_support_def,
     arm_coretypesTheory.jazelle_support_def]
 
-val have_security_ext = save_thm("have_security_ext",
-  rule have_security_ext_def);
+Theorem have_security_ext =
+  rule have_security_ext_def
 
-val have_thumbEE = save_thm("have_thumbEE",
-  rule have_thumbEE_def);
+Theorem have_thumbEE =
+  rule have_thumbEE_def
 
-val have_jazelle = save_thm("have_jazelle",
-  rule have_jazelle_def);
+Theorem have_jazelle =
+  rule have_jazelle_def
 
 Definition bad_mode_def:
   bad_mode (ii:iiid) (mode:word5) =

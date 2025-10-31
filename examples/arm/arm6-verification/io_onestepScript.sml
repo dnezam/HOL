@@ -439,8 +439,8 @@ val ADVANCE_COMP = store_thm("ADVANCE_COMP",
   `!t1 t2 i. ADVANCE (t1 + t2) i = ADVANCE t1 (ADVANCE t2 i)`,
   SIMP_TAC arith_ss [FUN_EQ_THM,ADVANCE_def]);
 
-val ADVANCE_ONE = save_thm("ADVANCE_ONE",
-  (GEN_ALL o REWRITE_RULE [GSYM SUC_ONE_ADD] o SPECL [`1`,`t`]) ADVANCE_COMP);
+Theorem ADVANCE_ONE =
+  (GEN_ALL o REWRITE_RULE [GSYM SUC_ONE_ADD] o SPECL [`1`,`t`]) ADVANCE_COMP
 
 val PMAP2 = prove(
   `!f. IS_PMAP f ==> !t x. (f t x).inp = ADVANCE t x.inp`,
@@ -1012,8 +1012,8 @@ Definition TCON_IMMERSION_def:
         ((f (s1 + s2) x).state = (f s1 x2).state)
 End
 
-val TCON_IMMERSION = save_thm("TCON_IMMERSION",
-  SIMP_RULE (bool_ss++boolSimps.LET_ss) [] TCON_IMMERSION_def);
+Theorem TCON_IMMERSION =
+  SIMP_RULE (bool_ss++boolSimps.LET_ss) [] TCON_IMMERSION_def
 
 (*---------------------------------------------------------------------------
   - Time-Consistent Sampling ------------------------------------------------
@@ -1119,9 +1119,9 @@ val TCON_IMMERSION_TCON = prove(
           (init (f 1 x).state = (f 1 x).state))
 *)
 
-val TCON_ONE_STEP_THM = save_thm("TCON_ONE_STEP_THM",
+Theorem TCON_ONE_STEP_THM =
   (GEN_ALL o SIMP_RULE std_ss [UNIFORM_ID,TCON_IMMERSION_TCON] o
-      SPECL [`strm`,`f`,`init`,`out`,`\a t. t`]) TCON_IMMERSION_ONE_STEP_THM);
+      SPECL [`strm`,`f`,`init`,`out`,`\a t. t`]) TCON_IMMERSION_ONE_STEP_THM
 
 (*
  |- !strm f.
@@ -1129,9 +1129,9 @@ val TCON_ONE_STEP_THM = save_thm("TCON_ONE_STEP_THM",
        (TCON f strm = !x. SND x IN strm ==> ADVANCE 1 (SND x) IN strm)
 *)
 
-val TCON_I_THM = save_thm("TCON_I_THM",
+Theorem TCON_I_THM =
   (GEN `strm` o GEN `f` o SIMP_RULE std_ss [I_THM] o
-   SPECL [`strm`,`I`,`f`]) TCON_ONE_STEP_THM);
+   SPECL [`strm`,`I`,`f`]) TCON_ONE_STEP_THM
 
 val IMAP_TCON = prove(
   `!sstrm f init next out. IMAP f init next out ==>
@@ -1470,51 +1470,51 @@ End
 
 (* - Simplifications ------------------------------------------------------- *)
 
-val TCONa = save_thm("TCONa",
+Theorem TCONa =
   (GEN_ALL o REWRITE_RULE [GSYM TCONa_def,GSYM UNIV_DEF] o
-   SIMP_RULE bool_ss [IN_UNIV] o SPECL [`f`,`UNIV`]) TCON_def);
+   SIMP_RULE bool_ss [IN_UNIV] o SPECL [`f`,`UNIV`]) TCON_def
 
-val TCON_IMMERSIONa = save_thm("TCON_IMMERSIONa",
+Theorem TCON_IMMERSIONa =
   (REWRITE_RULE [GSYM TCON_IMMERSIONa_def,GSYM UNIV_DEF] o
    SIMP_RULE bool_ss [IN_UNIV] o INST [`strm` |-> `UNIV`] o SPEC_ALL)
-  TCON_IMMERSION);
+  TCON_IMMERSION
 
-val TCON_SMPLa = save_thm("TCON_SMPLa",
+Theorem TCON_SMPLa =
   (GEN_ALL o REWRITE_RULE [GSYM TCON_SMPLa_def,GSYM UNIV_DEF] o
    SIMP_RULE bool_ss [IN_UNIV] o INST [`strm` |-> `UNIV`] o SPEC_ALL)
-  TCON_SMPL_def);
+  TCON_SMPL_def
 
-val CORRECTa = save_thm("CORRECTa",
+Theorem CORRECTa =
   (GEN_ALL o
    REWRITE_RULE [GSYM CORRECTa_def,STREAM_ABSTRACTIONa,GSYM UNIV_DEF] o
    SIMP_RULE bossLib.bool_ss [IN_UNIV] o
-   INST [`sstrm` |-> `UNIV`,`istrm` |-> `UNIV`] o SPEC_ALL) CORRECT_def);
+   INST [`sstrm` |-> `UNIV`,`istrm` |-> `UNIV`] o SPEC_ALL) CORRECT_def
 
 
 (* ------------------------------------------------------------------------- *)
 
-val TCON_IMMERSION_ONE_STEP_THMa = save_thm("TCON_IMMERSION_ONE_STEP_THMa",
+Theorem TCON_IMMERSION_ONE_STEP_THMa =
   (GEN_ALL o REWRITE_RULE [GSYM TCON_IMMERSIONa_def,GSYM UNIV_DEF] o
-   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_IMMERSION_ONE_STEP_THM);
+   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_IMMERSION_ONE_STEP_THM
 
-val TCON_IMP_TCON_IMMERSIONa = save_thm("TCON_IMP_TCON_IMMERSIONa",
+Theorem TCON_IMP_TCON_IMMERSIONa =
   (GEN_ALL o
    REWRITE_RULE [GSYM TCON_IMMERSIONa_def,GSYM TCONa_def,GSYM UNIV_DEF] o
-   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_IMP_TCON_IMMERSION);
+   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_IMP_TCON_IMMERSION
 
-val TCON_ONE_STEP_THMa = save_thm("TCON_ONE_STEP_THMa",
+Theorem TCON_ONE_STEP_THMa =
   (GEN_ALL o REWRITE_RULE [GSYM TCONa_def,GSYM UNIV_DEF] o
-   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_ONE_STEP_THM);
+   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_ONE_STEP_THM
 
-val TCON_I_THMa = save_thm("TCON_I_THMa",
+Theorem TCON_I_THMa =
   (GEN_ALL o REWRITE_RULE [GSYM TCONa_def,GSYM UNIV_DEF] o
-   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_I_THM);
+   SIMP_RULE bool_ss [IN_UNIV] o SPEC `UNIV`) TCON_I_THM
 
-val ONE_STEP_THMa = save_thm("ONE_STEP_THMa",
+Theorem ONE_STEP_THMa =
   (GEN_ALL o REWRITE_RULE (map GSYM
       [CORRECTa_def,TCON_SMPLa_def,TCON_IMMERSIONa_def,
        TCONa_def,STREAM_ABSTRACTIONa,UNIV_DEF]) o
-   SIMP_RULE bool_ss [IN_UNIV] o SPECL [`UNIV`,`UNIV`]) ONE_STEP_THM);
+   SIMP_RULE bool_ss [IN_UNIV] o SPECL [`UNIV`,`UNIV`]) ONE_STEP_THM
 
 (* ------------------------------------------------------------------------- *)
 

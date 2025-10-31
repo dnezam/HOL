@@ -51,8 +51,8 @@ val (ConstMult_def,ConstMult_ind) =
            else       ((b1 >>> 1) ** xtime b2)`,
    WF_REL_TAC `measure (w2n o FST)`);
 
-val _ = save_thm("ConstMult_def",ConstMult_def);
-val _ = save_thm("ConstMult_ind",ConstMult_ind);
+Theorem ConstMult_def = ConstMult_def
+Theorem ConstMult_ind = ConstMult_ind
 val _ = computeLib.add_persistent_funs ["ConstMult_def"];
 
 val ConstMultDistrib = Q.store_thm
@@ -78,8 +78,8 @@ val (IterConstMult_def,IterConstMult_ind) =
  Defn.tprove
   (defn, WF_REL_TAC `measure (w2n o FST)`);
 
-val _ = save_thm("IterConstMult_def",IterConstMult_def);
-val _ = save_thm("IterConstMult_ind",IterConstMult_ind);
+Theorem IterConstMult_def = IterConstMult_def
+Theorem IterConstMult_ind = IterConstMult_ind
 val _ = computeLib.add_persistent_funs ["IterConstMult_def"];
 
 (*---------------------------------------------------------------------------*)
@@ -118,10 +118,10 @@ val IterMult2 = UNROLL_RULE 1 IterConstMult_def
 (*       (14w ** x = xtime (x # xtime (x # xtime x)))                        *)
 (*---------------------------------------------------------------------------*)
 
-val mult_unroll = save_thm("mult_unroll",
+Theorem mult_unroll =
   LIST_CONJ (map instantiate
     [``0x2w ** x``, ``0x3w ** x``, ``0x9w ** x``,
-     ``0xBw ** x``, ``0xDw ** x``, ``0xEw ** x``]));
+     ``0xBw ** x``, ``0xDw ** x``, ``0xEw ** x``])
 
 val eval_mult = WORD_EVAL_RULE o PURE_REWRITE_CONV [mult_unroll, xtime_def]
 
@@ -141,7 +141,7 @@ val mult_tables =
 (* Multiplication by constant implemented by one-step rewrites.              *)
 (*---------------------------------------------------------------------------*)
 
-val _ = save_thm ("mult_tables", mult_tables)
+Theorem mult_tables = mult_tables
 
 (*---------------------------------------------------------------------------*)
 (* Multiplication by constant implemented by lookup into balanced binary     *)

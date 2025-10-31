@@ -51,14 +51,14 @@ val sem_t_pull_if = prove(
     (if b then sem_t s1 t1 else sem_t s1 t2)``,
   SRW_TAC [] []);
 
-val sem_t_eval = save_thm("sem_t_eval",
+Theorem sem_t_eval =
   (EVAL THENC REWRITE_CONV [sem_t_pull_if] THENC EVAL)
-    ``sem_t s (If b (Exp (Num 0)) Break)``);
+    ``sem_t s (If b (Exp (Num 0)) Break)``
 
-val sem_t_Loop = save_thm("sem_t_Loop",
+Theorem sem_t_Loop =
   ``sem_t s (Loop t)``
   |> (SIMP_CONV (srw_ss()) [Once sem_t_def,sem_e_def,Loop_def] THENC
-      REWRITE_CONV [GSYM Loop_def]));
+      REWRITE_CONV [GSYM Loop_def])
 
 val sem_e_break = prove(
   ``!b1 s. ~(sem_e s b1 = (Rbreak,r)) /\ ~(sem_e s b1 = (Rtimeout,r))``,

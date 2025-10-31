@@ -79,8 +79,7 @@ in
         prove (tm, before_tac >> after_tac)
 end;
 
-val John_works_thm3 = save_thm (
-   "John_works_thm3", check_arrow ``sentence ^John_works``);
+Theorem John_works_thm3 = check_arrow ``sentence ^John_works``
 
 (******************************************************************************)
 (*                                                                            *)

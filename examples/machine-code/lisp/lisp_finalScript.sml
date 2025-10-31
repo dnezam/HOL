@@ -573,9 +573,9 @@ val x86_eval_th = LISP_SPEC_COMPOSE_RULE
    Q.INST [`w`|->`edi`,`esp`|->`esp-4w`] x86_sexp2string_th]
 
 
-val _ = save_thm("arm_eval_th",arm_eval_th);
-val _ = save_thm("ppc_eval_th",ppc_eval_th);
-val _ = save_thm("x86_eval_th",x86_eval_th);
+Theorem arm_eval_th = arm_eval_th
+Theorem ppc_eval_th = ppc_eval_th
+Theorem x86_eval_th = x86_eval_th
 
 val _ = write_code_to_file "arm_eval.s" arm_eval_th
 val _ = write_code_to_file "ppc_eval.s" ppc_eval_th

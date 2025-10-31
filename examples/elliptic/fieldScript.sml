@@ -1156,8 +1156,7 @@ val context = subtypeTools.add_rewrite2'' field_distrib_radd context;
 val {simplify = alg_ss, normalize = alg_ss'} = subtypeTools.simpset2 context;
 ***)
 
-val field_distrib = save_thm
-  ("field_distrib", CONJ field_distrib_ladd field_distrib_radd);
+Theorem field_distrib = CONJ field_distrib_ladd field_distrib_radd
 
 val field_mult_lneg = store_thm
   ("field_mult_lneg",

@@ -506,15 +506,15 @@ End
 
 (* Theorem: A Field is a Ring. *)
 (* Proof: by definitions. *)
-val field_is_ring = save_thm("field_is_ring",
-  Field_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL);
+Theorem field_is_ring =
+  Field_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT1 |> DISCH_ALL |> GEN_ALL
 (* > val field_is_ring = |- !r:'a field. Field r ==> Ring r : thm *)
 
 val _ = export_rewrites ["field_is_ring"];
 
 (* Theorem: FiniteField r is a Field r. *)
 (* Proof: by definition. *)
-val finite_field_is_field = save_thm("finite_field_is_field", FiniteField_def |> SPEC_ALL |> #1 o EQ_IMP_RULE |> GEN_ALL);
+Theorem finite_field_is_field = FiniteField_def |> SPEC_ALL |> #1 o EQ_IMP_RULE |> GEN_ALL
 (* > val finite_field_is_field = |- !r. FiniteField r ==> Field r /\ FINITE R : thm *)
 
 (* Theorem: FiniteField r ==> FiniteRing r *)
@@ -720,7 +720,7 @@ val field_mult_rone = lift_ring_thm "mult_rone";
 (* ------------------------------------------------------------------------- *)
 
 (* Theorem: ##0 is #0. *)
-val field_num_0 = save_thm("field_num_0", ring_num_0); (* theorem alias *)
+Theorem field_num_0 = ring_num_0 (* theorem alias *)
 (* > val field_num_0 = |- !r:'a field. ##0 = #0 : thm *)
 
 (* Theorem: ##1 is #1. *)
@@ -1117,7 +1117,7 @@ There is a better field_exp_mod_order below.
 (* ------------------------------------------------------------------------- *)
 
 (* Define field_sub r as ring_sub r *)
-val field_sub_def = save_thm("field_sub_def", ring_sub_def);
+Theorem field_sub_def = ring_sub_def
 (* > val field_sub_def = |- !r x y. x - y = x + -y : thm *)
 
 (* Theorem: x - #0 = x *)
@@ -1238,18 +1238,18 @@ val field_binomial_4 = lift_ring_thm "binomial_4";
 
 (* Theorem: R DIFF {#0} = R+ *)
 (* Proof: by ring_nonzero_def. *)
-val field_nonzero_def = save_thm("field_nonzero_def", ring_nonzero_def);
+Theorem field_nonzero_def = ring_nonzero_def
 (* > val field_nonzero_def = |- !r. R+ = R DIFF {#0} : thm *)
 
 (* Theorem: Field nonzero are those not equal to #0. *)
-val field_nonzero_eq = save_thm("field_nonzero_eq", ring_nonzero_eq);
+Theorem field_nonzero_eq = ring_nonzero_eq
 (* > val field_nonzero_eq = |- !r x. x IN R+ <=> x IN R /\ x <> #0 : thm *)
 
 (* val _ = export_rewrites ["field_nonzero_eq"]; *)
 
 (* Theorem: Field nonzeroes are in carrier. *)
 (* Proof: by ring_nonzero_element. *)
-val field_nonzero_element = save_thm("field_nonzero_element", ring_nonzero_element);
+Theorem field_nonzero_element = ring_nonzero_element
 (* > val field_nonzero_element = |- !r x. x IN R+ ==> x IN R : thm *)
 
 (* val _ = export_rewrites ["field_nonzero_element"]; *)
@@ -1292,8 +1292,8 @@ val field_nonzero_group = store_thm(
 
 (* Theorem: Field r ==> Group f*. *)
 (* Proof: by definition. *)
-val field_nonzero_mult_is_group = save_thm("field_nonzero_mult_is_group",
-  Field_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL);
+Theorem field_nonzero_mult_is_group =
+  Field_def |> SPEC_ALL |> EQ_IMP_RULE |> #1 |> UNDISCH |> CONJUNCT2 |> DISCH_ALL |> GEN_ALL
 (* > val field_nonzero_mult_is_group = |- !r:'a field. Field r ==> Group f* : thm *)
 
 (* Theorem: properties of f*. *)
@@ -1401,7 +1401,7 @@ val field_mult_eq_zero = store_thm(
   metis_tac[field_mult_nonzero, field_nonzero_eq, field_mult_lzero, field_mult_rzero]);
 
 (* another popular name *)
-val field_zero_product = save_thm("field_zero_product", field_mult_eq_zero);
+Theorem field_zero_product = field_mult_eq_zero
 
 (* Theorem: Field r ==> ##2 = #1 + #1 *)
 (* Proof: by field_num_add. *)

@@ -52,11 +52,11 @@ val EXISTS_LEAST_NOT_RESET = prove(
     \\ FULL_SIMP_TAC arith_ss [ADD1] \\ FULL_SIMP_TAC bool_ss []
     \\ `n = t` by DECIDE_TAC \\ ASM_REWRITE_TAC []);
 
-val LEAST_NOT_RESET = save_thm("LEAST_NOT_RESET",
+Theorem LEAST_NOT_RESET =
   GEN_ALL (MATCH_MP (PROVE [] ``((a ==> b) /\ (b ==> c)) ==> (a ==> c)``)
     (CONJ (SPEC_ALL EXISTS_LEAST_NOT_RESET) ((SIMP_RULE std_ss [] o
        SPEC `\t. IS_RESET i t /\ ~IS_RESET i (t + 1) /\ ~IS_RESET i (t + 2)`)
-         WhileTheory.LEAST_EXISTS_IMP))));
+         WhileTheory.LEAST_EXISTS_IMP)))
 
 val IS_RESET_LEM = prove(
   `!i t. ~IS_RESET i t ==> FST (i t)`,
@@ -204,10 +204,10 @@ val lem = prove(
   `!t1 t2 i. IS_RESET (ADVANCE t1 i) t2 = IS_RESET i (t1 + t2)`,
   SIMP_TAC bool_ss [IS_RESET_def,ADVANCE_def]);
 
-val SPEC_AFTER_NRESET2 = save_thm("SPEC_AFTER_NRESET2",
+Theorem SPEC_AFTER_NRESET2 =
   (GEN_ALL o SIMP_RULE arith_ss [] o DISCH `2 < t` o SPEC_ALL o
    INST [`t` |-> `t - 3`] o SIMP_RULE (srw_ss()) [lem] o
-   SPEC `<| state := a; inp := ADVANCE t i|>`) AFTER_NRESET2_THM2);
+   SPEC `<| state := a; inp := ADVANCE t i|>`) AFTER_NRESET2_THM2
 
 val AFTER_NRESET2_THM3 = store_thm("AFTER_NRESET2_THM3",
   `!a.  AFTER_NRESET2 a ==> (INIT_ARM6 a = a)`,
@@ -323,9 +323,9 @@ val INTERRUPT_ADDRESS = store_thm("INTERRUPT_ADDRESS",
     \\ FULL_SIMP_TAC (std_ss++SIZES_ss)
          [word_mul_def,w2n_w2w,w2n_n2w,exception2num_num2exception]);
 
-val SOFTWARE_ADDRESS = save_thm("SOFTWARE_ADDRESS",
+Theorem SOFTWARE_ADDRESS =
   (REWRITE_RULE [EVAL ``w2n (2w:word3)``,num2exception_thm] o
-    SPEC `2w`) INTERRUPT_ADDRESS);
+    SPEC `2w`) INTERRUPT_ADDRESS
 
 val NOT_RESET = store_thm("NOT_RESET",
   `!x n irqactl iregabt2 fiqactl dataabt1 coproc1.
@@ -396,9 +396,9 @@ val SIMP_interrupt2exception = store_thm("SIMP_interrupt2exception",
           interrupt2exception_def]
     \\ FULL_SIMP_TAC std_ss [num2exception_word3]);
 
-val SIMP_interrupt2exception2 = save_thm("SIMP_interrupt2exception2",
+Theorem SIMP_interrupt2exception2 =
   (GEN_ALL o REWRITE_RULE [] o INST [`ointstart` |-> `T`] o
-   SPEC_ALL) SIMP_interrupt2exception);
+   SPEC_ALL) SIMP_interrupt2exception
 
 val SIMP_interrupt2exception3 = store_thm("SIMP_interrupt2exception3",
   `!y resetstart reg psr n irqactl iregabt2 ireg i fiqactl f dataabt1 coproc1.
@@ -440,9 +440,9 @@ val SIMP_interrupt2exception5 = prove(
   RW_TAC (std_ss++SIZES_ss) [DECODE_PSR_def,AREGN1_def,
     interrupt2exception_def,exc2exception_def,num2exception_thm,w2n_n2w]);
 
-val SIMP_interrupt2exception5 = save_thm("SIMP_interrupt2exception5",
+Theorem SIMP_interrupt2exception5 =
   SIMP_RULE (std_ss++boolSimps.COND_elim_ss)
-    [DECODE_PSR_def] SIMP_interrupt2exception5);
+    [DECODE_PSR_def] SIMP_interrupt2exception5
 
 (* ------------------------------------------------------------------------- *)
 

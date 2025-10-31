@@ -14,11 +14,11 @@ Definition ReachableRec_def:
     (ReachableRec R s (SUC n) = {s' | s' IN ReachableRec R s n \/ ?s''. ReachNext R s'' s'  /\ s'' IN ReachableRec R s n})
 End
 
-val ReachableRecSimp = save_thm("ReachableRecSimp",prove(``!R s n state. ReachableRec R s (SUC n) state = ReachableRec R s n state \/ ?state'. R (state',state) /\ ReachableRec R s n state'``,
+Theorem ReachableRecSimp = prove(``!R s n state. ReachableRec R s (SUC n) state = ReachableRec R s n state \/ ?state'. R (state',state) /\ ReachableRec R s n state'``,
 REWRITE_TAC [ReachableRec_def]
 THEN CONV_TAC (STRIP_QUANT_CONV (LHS_CONV (ONCE_REWRITE_CONV [GSYM (prove(``!x P. x IN P = P x``,PROVE_TAC [IN_DEF]))])))
 THEN REWRITE_TAC [SET_SPEC_CONV ``state IN {s' | s' IN ReachableRec R s n \/ ?s''. ReachNext R s'' s' /\ s'' IN ReachableRec R s n}``]
-THEN SIMP_TAC std_ss [IN_DEF,ReachNext_def]));
+THEN SIMP_TAC std_ss [IN_DEF,ReachNext_def])
 
 Definition Reachable_def:   Reachable R s = BIGUNION {P | ?n. P = ReachableRec R s n}
 End
@@ -101,7 +101,7 @@ THEN UNDISCH_TAC ``(ReachableRec R s n' = ReachableRec R s (SUC n')) ==>
 THEN SPEC_TAC (``ReachableRec R s``,``P:num -> 'a -> bool``)
 THEN ASSUM_LIST PROVE_TAC);
 
-val ReachableFP = save_thm("ReachableFP",prove(``!R s n'. (ReachableRec R s n' = ReachableRec R s (SUC n')) ==> (Reachable R s = ReachableRec R s n')``,
+Theorem ReachableFP = prove(``!R s n'. (ReachableRec R s n' = ReachableRec R s (SUC n')) ==> (Reachable R s = ReachableRec R s n')``,
 REPEAT STRIP_TAC
 THEN ASSUME_TAC (SPEC_ALL ReachableLem2)
 THEN UNDISCH_TAC ``ReachableRec R s n' = ReachableRec R s (SUC n')``
@@ -112,5 +112,5 @@ THEN UNDISCH_TAC ``(ReachableRec R s n' = ReachableRec R s (SUC n')) ==>
 THEN REWRITE_TAC [Reachable_def]
 THEN SPEC_TAC (``ReachableRec R s``,``P:num -> 'a -> bool``)
 THEN REWRITE_TAC [GSYM BIGUNION_SPLIT]
-THEN ASSUM_LIST PROVE_TAC));
+THEN ASSUM_LIST PROVE_TAC)
 

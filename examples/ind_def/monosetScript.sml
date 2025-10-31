@@ -52,9 +52,8 @@ val (alleven_rules, alleven_ind, alleven_cases) = Hol_reln `
   (!ts. EVERY alleven ts ==> alleven (app ts))
 `;
 
-val strong_alleven_ind = save_thm(
-  "strong_alleven_ind",
-  derive_strong_induction (alleven_rules, alleven_ind));
+Theorem strong_alleven_ind =
+  derive_strong_induction (alleven_rules, alleven_ind)
 
 (* ----------------------------------------------------------------------
     now we define our own version EVERY, putting the arguments in a
@@ -84,9 +83,8 @@ val (allbigger_rules, allbigger_ind, allbigger_cases) = Hol_reln`
   (!ts. every ts (allbigger m) ==> allbigger m (app ts))
 `;
 
-val strong_allbigger_ind = save_thm(
-  "strong_allbigger_ind",
-  derive_strong_induction (allbigger_rules, allbigger_ind))
+Theorem strong_allbigger_ind =
+  derive_strong_induction (allbigger_rules, allbigger_ind)
 
 (* --------------------------------------------------------------------- *)
 (* End of example.                                                       *)

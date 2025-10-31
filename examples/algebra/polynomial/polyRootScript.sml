@@ -259,7 +259,7 @@ val poly_deg_factor = store_thm(
   rw[poly_factor_def, poly_one]);
 
 (* Provide another form *)
-val poly_factor_deg = save_thm("poly_factor_deg", poly_deg_factor);
+Theorem poly_factor_deg = poly_deg_factor
 (* val poly_factor_deg = |- !r. Ring r /\ #1 <> #0 ==> !c. c IN R ==> (deg (factor c) = 1): thm *)
 
 (* Theorem: lead (factor c) = #1 *)
@@ -271,7 +271,7 @@ val poly_lead_factor = store_thm(
   metis_tac[ring_one_eq_zero, IN_SING]);
 
 (* Provide another form *)
-val poly_factor_lead = save_thm("poly_factor_lead", poly_lead_factor);
+Theorem poly_factor_lead = poly_lead_factor
 (* val poly_factor_lead = |- !r. Ring r ==> !c. c IN R ==> (lead (factor c) = #1): thm *)
 
 (*
@@ -447,7 +447,7 @@ val poly_eval_factor = store_thm(
   rw[poly_factor_def, ring_add_comm]);
 
 (* Provide another form *)
-val poly_factor_eval = save_thm("poly_factor_eval", poly_eval_factor);
+Theorem poly_factor_eval = poly_eval_factor
 (* val val poly_factor_eval = |- !r. Ring r ==> !c x. c IN R /\ x IN R ==> (eval (factor c) x = x - c): thm *)
 
 (* Theorem: properties of factor (X - |c|). *)
@@ -856,7 +856,7 @@ val poly_roots_has_subset = store_thm(
   rw[poly_roots_def, SUBSET_DEF]);
 
 (* Either theorem alias, or just another similar proof. *)
-val poly_roots_factor = save_thm("poly_roots_factor", poly_factor_roots);
+Theorem poly_roots_factor = poly_factor_roots
 (*
 val poly_roots_factor = |- !r. Ring r ==> !c. c IN R ==> (roots (factor c) = {c}): thm
 *)

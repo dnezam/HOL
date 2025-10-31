@@ -158,9 +158,8 @@ val mk_cone_proj = Q.store_thm(
 `∀d v ps. (proj (mk_cone d v ps) = restrict ps d.dom.obj)`,
 srw_tac [][mk_cone_def,FUN_EQ_THM,mk_nt_def]);
 
-val mk_cone_proj_ext = save_thm(
-"mk_cone_proj_ext",
-GEN_ALL(SIMP_RULE std_ss [FUN_EQ_THM] (SPEC_ALL mk_cone_proj)));
+Theorem mk_cone_proj_ext =
+GEN_ALL(SIMP_RULE std_ss [FUN_EQ_THM] (SPEC_ALL mk_cone_proj))
 
 val is_cone_mk_cone = Q.store_thm(
 "is_cone_mk_cone",

@@ -253,10 +253,10 @@ val (ALT_FV,ALT_SUB_THM,ALT_ALPHA,ALT_ITERATOR)
     in
        (f FV_THM, f SUB_THM, f ALPHA, f nc_ITERATOR)
     end;
-val _ = save_thm("ALT_FV", ALT_FV);
-val _ = save_thm("ALT_SUB_THM", ALT_SUB_THM);
-val _ = save_thm("ALT_ALPHA", ALT_ALPHA);
-val _ = save_thm("ALT_ITERATOR", ALT_ITERATOR);
+Theorem ALT_FV = ALT_FV
+Theorem ALT_SUB_THM = ALT_SUB_THM
+Theorem ALT_ALPHA = ALT_ALPHA
+Theorem ALT_ITERATOR = ALT_ITERATOR
 
 
 (* ===================================================================== *)
@@ -599,7 +599,7 @@ val nc_INDUCTION =
                     (DISCH_ALL th5))
  end;
 
-val _ = save_thm("nc_INDUCTION", nc_INDUCTION);
+Theorem nc_INDUCTION = nc_INDUCTION
 
 
 (* --------------------------------------------------------------------- *)
@@ -955,9 +955,9 @@ val (RENAMING_DEF,RENAMING_IND,RENAMING_CASES) = Hol_reln
      `RENAMING ([]:('a nc # string) list)
   /\  (!R x y. RENAMING R ==> RENAMING ((VAR y,x)::R))`;
 
-val _ = save_thm("RENAMING_DEF",RENAMING_DEF);
-val _ = save_thm("RENAMING_IND",RENAMING_IND);
-val _ = save_thm("RENAMING_CASES",RENAMING_CASES);
+Theorem RENAMING_DEF = RENAMING_DEF
+Theorem RENAMING_IND = RENAMING_IND
+Theorem RENAMING_CASES = RENAMING_CASES
 
 Definition RENAME_DEF:
       (RENAME [] x          = x)
@@ -1057,13 +1057,12 @@ val FV_SUB = store_thm(
                            else FV u``,
   PROVE_TAC [lemma14b, lemma14c]);
 
-val nc_RECURSION2 = save_thm(
-  "nc_RECURSION2",
+Theorem nc_RECURSION2 =
   (SIMP_RULE bool_ss [ABS_DEF] o
    Q.INST [`lam'` |-> `lam`] o
    Q.INST [`lam` |-> `\r t. let v = NEW (FV (ABS t) UNION X)
                             in lam' (r v) v (t v)`] o
-   SPEC_ALL) nc_RECURSION)
+   SPEC_ALL) nc_RECURSION
 
 val size_def = new_specification (
   "size", ["size"],
@@ -1110,9 +1109,8 @@ val size_vsubst = store_thm(
   SRW_TAC [][size_isub, SUB_ISUB_SINGLETON, RENAMING_DEF]);
 val _ = export_rewrites ["size_vsubst"]
 
-val size_thm = save_thm(
-  "size_thm",
-  SIMP_RULE (srw_ss()) [size_vsubst] size_def);
+Theorem size_thm =
+  SIMP_RULE (srw_ss()) [size_vsubst] size_def
 
 val size_nonzero = store_thm(
   "size_nonzero",

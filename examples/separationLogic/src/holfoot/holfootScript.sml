@@ -153,13 +153,12 @@ SIMP_TAC std_ss [VAR_RES_STACK_COMBINE_REWRITE]);
 
 
 
-val holfoot_separation_combinator___REWRITE =
-save_thm ("holfoot_separation_combinator___REWRITE",
+Theorem holfoot_separation_combinator___REWRITE =
 
 let
    val thm0 = IS_SEPARATION_ALGEBRA___holfoot_separation_combinator;
    val thm1 = SIMP_RULE std_ss [IS_SEPARATION_ALGEBRA_EXPAND_THM] thm0;
-in CONJ thm1 holfoot_separation_combinator___REWRITE_helper end);
+in CONJ thm1 holfoot_separation_combinator___REWRITE_helper end
 
 
 
@@ -268,15 +267,13 @@ PROVE_TAC[HOLFOOT_IS_SUBSTATE_def, ASL_IS_SUBSTATE___IS_PREORDER,
 
 
 
-val HOLFOOT_IS_SUBSTATE___TRANS =
-    save_thm ("HOLFOOT_IS_SUBSTATE___TRANS",
+Theorem HOLFOOT_IS_SUBSTATE___TRANS =
 CONJUNCT2 (
-REWRITE_RULE[PreOrder, transitive_def] HOLFOOT_IS_SUBSTATE___IS_PREORDER));
+REWRITE_RULE[PreOrder, transitive_def] HOLFOOT_IS_SUBSTATE___IS_PREORDER)
 
-val HOLFOOT_IS_SUBSTATE___REFL =
-    save_thm ("HOLFOOT_IS_SUBSTATE___REFL",
+Theorem HOLFOOT_IS_SUBSTATE___REFL =
 CONJUNCT1 (
-REWRITE_RULE[PreOrder, reflexive_def] HOLFOOT_IS_SUBSTATE___IS_PREORDER));
+REWRITE_RULE[PreOrder, reflexive_def] HOLFOOT_IS_SUBSTATE___IS_PREORDER)
 
 
 
@@ -1306,7 +1303,7 @@ MATCH_MP_TAC DIRECT_SUBTREES_size THEN
 SIMP_TAC std_ss [DIRECT_SUBTREES_EXISTS, tree_11] THEN
 PROVE_TAC[MEM_EL]);
 
-val _ = save_thm ("holfoot_ap_data_tree_seg_def", holfoot_ap_data_tree_seg_def);
+Theorem holfoot_ap_data_tree_seg_def = holfoot_ap_data_tree_seg_def
 
 Definition holfoot_ap_data_tree___WELL_FORMED_DATA_def:
  holfoot_ap_data_tree___WELL_FORMED_DATA tagL data =
@@ -3461,14 +3458,14 @@ Definition holfoot_ap_list_seg_def:
 End
 
 
-val holfoot_ap_list_seg_REWRITE = save_thm ("holfoot_ap_list_seg_REWRITE",
+Theorem holfoot_ap_list_seg_REWRITE =
   let
      val thm0 = CONV_RULE (ONCE_REWRITE_CONV [holfoot_ap_data_list_seg_REWRITE]) holfoot_ap_list_seg_def;
      val thm1 = SIMP_RULE list_ss [asl_bool_REWRITES, LIST_TO_FMAP_def] thm0;
      val thm2 = CONV_RULE (ONCE_REWRITE_CONV [GSYM holfoot_ap_list_seg_def]) thm1;
   in
      thm2
-  end);
+  end
 
 Definition holfoot_ap_data_list_def:
    holfoot_ap_data_list tl startExp data =
@@ -3574,13 +3571,12 @@ Induct_on `n` THENL [
 ]);
 
 
-val VAR_RES_IS_STACK_IMPRECISE___data_list_seg_num =
-save_thm ("VAR_RES_IS_STACK_IMPRECISE___data_list_seg_num",
+Theorem VAR_RES_IS_STACK_IMPRECISE___data_list_seg_num =
 
 SIMP_RULE std_ss [VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___UNIV_REWRITE,
         GSYM VAR_RES_IS_STACK_IMPRECISE___ALTERNATIVE_DEF]
  (SPEC ``UNIV:holfoot_var set`` VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list_seg_num)
-);
+
 
 
 
@@ -3601,14 +3597,13 @@ ASM_SIMP_TAC std_ss [VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list_seg_num]
 
 
 
-val VAR_RES_IS_STACK_IMPRECISE___data_list_seg =
-save_thm ("VAR_RES_IS_STACK_IMPRECISE___data_list_seg",
+Theorem VAR_RES_IS_STACK_IMPRECISE___data_list_seg =
 
 SIMP_RULE std_ss [VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___UNIV_REWRITE,
         GSYM VAR_RES_IS_STACK_IMPRECISE___ALTERNATIVE_DEF]
  (SPEC ``UNIV:holfoot_var set`` VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list_seg)
 
-);
+
 
 
 val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list =
@@ -3623,14 +3618,13 @@ SIMP_TAC std_ss [holfoot_ap_data_list_def,
        VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list_seg]);
 
 
-val VAR_RES_IS_STACK_IMPRECISE___data_list =
-save_thm ("VAR_RES_IS_STACK_IMPRECISE___data_list",
+Theorem VAR_RES_IS_STACK_IMPRECISE___data_list =
 
 SIMP_RULE std_ss [VAR_RES_IS_STACK_IMPRECISE_EXPRESSION___USED_VARS_SUBSET___UNIV_REWRITE,
         GSYM VAR_RES_IS_STACK_IMPRECISE___ALTERNATIVE_DEF]
  (SPEC ``UNIV:holfoot_var set`` VAR_RES_IS_STACK_IMPRECISE___USED_VARS___data_list)
 
-);
+
 
 
 
@@ -6325,9 +6319,8 @@ SIMP_TAC list_ss [var_res_exp_add_sub_REWRITES, MAP_MAP_o, o_DEF,
    EL, GSYM arithmeticTheory.ADD1]);
 
 
-val holfoot_ap_data_array_MAP_LIST___REWRITE_EVAL = save_thm
- ("holfoot_ap_data_array_MAP_LIST___REWRITE_EVAL",
-   CONV_RULE numLib.SUC_TO_NUMERAL_DEFN_CONV holfoot_ap_data_array_MAP_LIST___REWRITE);
+Theorem holfoot_ap_data_array_MAP_LIST___REWRITE_EVAL =
+   CONV_RULE numLib.SUC_TO_NUMERAL_DEFN_CONV holfoot_ap_data_array_MAP_LIST___REWRITE
 
 
 val holfoot_ap_data_array___CONST = store_thm ("holfoot_ap_data_array___CONST",
@@ -8027,34 +8020,31 @@ in
    LIST_CONJ thmL3
 end;
 
-val holfoot_var_res_map_REWRITES = save_thm ("holfoot_var_res_map_REWRITES",
-init_holfoot_sep_comb_RULE [var_res_map___REWRITES]);
+Theorem holfoot_var_res_map_REWRITES =
+init_holfoot_sep_comb_RULE [var_res_map___REWRITES]
 
 
 (***************************************
  * Export some informations
  **************************************)
 
-val holfoot_ap_data_array___SIMP_THMS =
-  save_thm ("holfoot_ap_data_array___SIMP_THMS",
+Theorem holfoot_ap_data_array___SIMP_THMS =
   LIST_CONJ [
         holfoot_ap_data_array_0,
         holfoot_ap_data_array_0_start,
         holfoot_ap_data_array___NOT_EMPTY_DATA_0,
         holfoot_ap_data_interval_0,
         holfoot_ap_data_interval_0_start,
-        holfoot_ap_data_interval___NOT_EMPTY_DATA_0]);
+        holfoot_ap_data_interval___NOT_EMPTY_DATA_0]
 
-val holfoot_ap_data_array___SIMP_THMS___PRECOND =
-  save_thm ("holfoot_ap_data_array___SIMP_THMS___PRECOND",
+Theorem holfoot_ap_data_array___SIMP_THMS___PRECOND =
   LIST_CONJ [
         holfoot_ap_data_array___LENGTH_NOT_EQ_REWRITE,
         holfoot_ap_data_interval___LENGTH_NOT_EQ_REWRITE,
-        holfoot_ap_data_interval___end_before_begin])
+        holfoot_ap_data_interval___end_before_begin]
 
 
-val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___HOLFOOT_REWRITES =
-  save_thm ("VAR_RES_IS_STACK_IMPRECISE___USED_VARS___HOLFOOT_REWRITES",
+Theorem VAR_RES_IS_STACK_IMPRECISE___USED_VARS___HOLFOOT_REWRITES =
   LIST_CONJ [
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___asl_star___holfoot,
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___points_to,
@@ -8067,11 +8057,10 @@ val VAR_RES_IS_STACK_IMPRECISE___USED_VARS___HOLFOOT_REWRITES =
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___holfoot_ap_array,
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___holfoot_ap_data_array,
      VAR_RES_IS_STACK_IMPRECISE___USED_VARS___holfoot_ap_data_interval,
-     VAR_RES_IS_STACK_IMPRECISE___USED_VARS___holfoot_ap_data_queue])
+     VAR_RES_IS_STACK_IMPRECISE___USED_VARS___holfoot_ap_data_queue]
 
 
-val holfoot___varlist_update_NO_VAR_THM =
-  save_thm ("holfoot___varlist_update_NO_VAR_THM",
+Theorem holfoot___varlist_update_NO_VAR_THM =
   LIST_CONJ [
      var_res_prop_varlist_update___holfoot_ap_data_list_seg_num,
      var_res_prop_varlist_update___holfoot_ap_data_list_seg,
@@ -8084,7 +8073,7 @@ val holfoot___varlist_update_NO_VAR_THM =
      var_res_prop_varlist_update___holfoot_ap_array,
      var_res_prop_varlist_update___holfoot_ap_data_array,
      var_res_prop_varlist_update___holfoot_ap_data_interval,
-     var_res_prop_varlist_update___holfoot_ap_data_queue])
+     var_res_prop_varlist_update___holfoot_ap_data_queue]
 
 
 
@@ -8476,8 +8465,7 @@ SIMP_TAC (std_ss++CONJ_ss) [var_res_prop_equal_unequal_EXPAND, IN_ABS,
 
 
 
-val var_res_prop___asl_star___holfoot =
-save_thm ("var_res_prop___asl_star___holfoot",
+Theorem var_res_prop___asl_star___holfoot =
 let
   val thm0 = ISPEC ``(VAR_RES_COMBINATOR DISJOINT_FMAP_UNION):holfoot_state bin_option_function``
         var_res_prop___asl_star
@@ -8487,7 +8475,7 @@ let
   val thm2 = SIMP_RULE std_ss [holfoot_separation_combinator_def] thm1
 in
   thm2
-end);
+end
 
 
 
@@ -10014,7 +10002,6 @@ SIMP_TAC std_ss [holfoot_prog_dispose_def,
    asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___prim_command]);
 
 
-val asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___HOLFOOT_REWRITES =
-  save_thm ("asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___HOLFOOT_REWRITES",
+Theorem asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___HOLFOOT_REWRITES =
   LIST_CONJ [
-    asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___HOLFOOT_SIMPLE_REWRITES])
+    asl_prog_IS_RESOURCE_AND_PROCCALL_FREE___HOLFOOT_SIMPLE_REWRITES]

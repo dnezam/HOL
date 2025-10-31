@@ -439,7 +439,7 @@ Division of polynomials with remainder is defined by the Division Algorithm.
 
 (* Theorem: poly [] *)
 (* Proof: by defintion. *)
-val zero_poly_poly = save_thm("zero_poly_poly", Poly_def |> CONJUNCT1);
+Theorem zero_poly_poly = Poly_def |> CONJUNCT1
 (* > val zero_poly_poly = |- !r. poly [] <=> T : thm *)
 
 (* definition already exported *)
@@ -447,7 +447,7 @@ val zero_poly_poly = save_thm("zero_poly_poly", Poly_def |> CONJUNCT1);
 
 (* Theorem: poly (h::t) iff h IN R /\ poly t /\ ~ zerop (h::t) *)
 (* Proof: by definition. *)
-val poly_cons_poly = save_thm("poly_cons_poly", Poly_def |> CONJUNCT2);
+Theorem poly_cons_poly = Poly_def |> CONJUNCT2
 (* > val poly_cons_poly = |- !r h t. poly (h::t) <=> h IN R /\ poly t /\ ~zerop (h::t) : thm *)
 (*
 val poly_cons_poly = save_thm("poly_cons_poly", Poly_def |> CONJUNCT2 |>
@@ -595,7 +595,7 @@ val _ = export_rewrites ["poly_one_poly"];
 
 (* Theorem: [#1] <> [] *)
 (* Proof: by weak_one_ne_zero. *)
-val poly_one_ne_zero = save_thm("poly_one_ne_zero", weak_one_ne_zero);
+Theorem poly_one_ne_zero = weak_one_ne_zero
 (* > val poly_one_ne_zero = |- [#1] <> [] : thm *)
 
 (* Theorem: #1 <> #0 ==> ( |1| = [#1]) *)
@@ -867,9 +867,9 @@ val poly_add_zero = save_thm("poly_add_zero", CONJ poly_add_lzero poly_add_rzero
 > val poly_add_zero =
     |- (!p. poly p ==> ([] + p = p)) /\ !p. poly p ==> (p + [] = p) : thm
 *)
-val poly_add_zero = save_thm("poly_add_zero",
+Theorem poly_add_zero =
     (CONJ (poly_add_lzero |> SPEC_ALL |> UNDISCH)
-          (poly_add_rzero |> SPEC_ALL |> UNDISCH)) |> DISCH_ALL |> GEN_ALL);
+          (poly_add_rzero |> SPEC_ALL |> UNDISCH)) |> DISCH_ALL |> GEN_ALL
 (* > val poly_add_zero = |- !r p. poly p ==> ( |0| + p = p) /\ (p + |0| = p) : thm *)
 
 (* To show closure for Group (PolyRing r).sum. *)
@@ -1233,11 +1233,11 @@ val _ = export_rewrites ["poly_mult_radd", "poly_mult_ladd"];
 
 (* Theorem: p * (q + t) = p * q + p * t /\ (p + q) * t = p * t + q * t *)
 (* Proof: by poly_mult_radd and poly_mult_ladd. *)
-val poly_mult_add = save_thm("poly_mult_add",
+Theorem poly_mult_add =
     CONJ (poly_mult_ladd |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH)
          (poly_mult_radd |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH)
          |> DISCH ``poly p /\ poly q /\ poly t`` |> GEN ``(t:'a poly)`` |> GEN ``(q:'a poly)`` |> GEN ``(p:'a poly)``
-         |> DISCH_ALL |> GEN_ALL);
+         |> DISCH_ALL |> GEN_ALL
 (* > val poly_mult_add = |- !r. Ring r ==> !p q t. poly p /\ poly q /\ poly t ==>
                                            ((p + q) * t = p * t + q * t) /\ (p * (q + t) = p * q + p * t) : thm *)
 
@@ -1263,7 +1263,7 @@ val poly_add_mult_ring = store_thm(
   rw_tac std_ss[poly_mult_radd]);
 
 (* Theorem: Ring r ==> Ring (PolyRing r) *)
-val poly_ring_ring = save_thm("poly_ring_ring", poly_add_mult_ring);
+Theorem poly_ring_ring = poly_add_mult_ring
 (* val poly_ring_ring = |- !r. Ring r ==> Ring (PolyRing r): thm *)
 
 (* ------------------------------------------------------------------------- *)
@@ -1669,9 +1669,9 @@ val poly_neg_cons = store_thm(
 val _ = export_rewrites ["poly_neg_cons"];
 
 (* Theorem: Polynomial negation clauses. *)
-val poly_neg_clauses = save_thm("poly_neg_clauses",
+Theorem poly_neg_clauses =
    CONJ (poly_neg_zero |> SPEC_ALL |> UNDISCH)
-        (poly_neg_cons |> SPEC_ALL |> UNDISCH) |> DISCH_ALL |> GEN_ALL);
+        (poly_neg_cons |> SPEC_ALL |> UNDISCH) |> DISCH_ALL |> GEN_ALL
 (* > val poly_neg_clauses = |- !r. Ring r ==> (-|0| = |0|) /\ !h t. poly (h::t) ==> (-(h::t) = -h::-t) : thm *)
 
 (*
@@ -2319,9 +2319,9 @@ val _ = export_rewrites ["poly_mult_lzero", "poly_mult_rzero"];
 
 (* Theorem: |0| * p = |0| and p * |0| = |0| *)
 (* Proof: combine poly_mult_lzero and poly_mult_rzero. *)
-val poly_mult_zero = save_thm("poly_mult_zero",
+Theorem poly_mult_zero =
     CONJ (poly_mult_lzero |> SPEC_ALL)
-         (poly_mult_rzero |> SPEC_ALL) |> GEN ``(p:'a poly)``);
+         (poly_mult_rzero |> SPEC_ALL) |> GEN ``(p:'a poly)``
 (* > val poly_mult_zero = |- !p. ( |0| * p = |0|) /\ (p * |0| = |0|) : thm *)
 
 (* Theorem: (p * [] = []) /\ ([] * p = []) *)
@@ -2632,11 +2632,11 @@ val _ = export_rewrites ["poly_mult_rsub", "poly_mult_lsub"];
 
 (* Theorem: p * (q - r) = p * q  - p * t /\ (p - q) * t = p * t - q * t *)
 (* Proof: by poly_mult_rsub and poly_mult_lsub. *)
-val poly_mult_sub = save_thm("poly_mult_sub",
+Theorem poly_mult_sub =
     CONJ (poly_mult_rsub |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH)
          (poly_mult_lsub |> SPEC_ALL |> UNDISCH |> SPEC_ALL |> UNDISCH)
          |> DISCH ``poly p /\ poly q /\ poly t`` |> GEN ``t:'a poly`` |> GEN ``q:'a poly`` |> GEN ``p:'a poly``
-         |> DISCH_ALL |> GEN_ALL);
+         |> DISCH_ALL |> GEN_ALL
 (* > val poly_mult_sub = |- !r. Ring r ==> !p q t. poly p /\ poly q /\ poly t ==>
                                            (p * (q - t) = p * q - p * t) /\ ((p - q) * t = p * t - q * t) : thm *)
 
@@ -3626,7 +3626,7 @@ val poly_exp_suc = store_thm("poly_exp_suc",
 
 (* Theorem: !p. p ** 0 = |1| *)
 (* Proof: by monoid_exp_0 *)
-val poly_exp_0 = save_thm("poly_exp_0", weak_exp_0);
+Theorem poly_exp_0 = weak_exp_0
 (* val weak_exp_0 = |- !p. p ** 0 = |1|: thm *)
 
 val _ = export_rewrites ["poly_exp_0"];

@@ -1189,10 +1189,8 @@ val GraphFnType =
 (* GraphFnTypeCor =                                                          *)
 (* |- !f X Y. (!x. x In X ==> (f x) In Y) ==> (GraphFn X f) In (X -> Y)      *)
 (*---------------------------------------------------------------------------*)
-val GraphFnTypeCor =
- save_thm
-  ("GraphFnTypeCor",
-   REWRITE_RULE[HasFnType_def]GraphFnType);
+Theorem GraphFnTypeCor =
+   REWRITE_RULE[HasFnType_def]GraphFnType
 
 val GraphGraphFn =
  store_thm

@@ -1136,8 +1136,7 @@ val thlist =
     `!u. I <> K u = C ($,) u`,
     `I<>I = S $, I`];
 
-val BUS_CONCAT_LIFTERS = save_thm
-  ("BUS_CONCAT_LIFTERS",LIST_CONJ thlist);
+Theorem BUS_CONCAT_LIFTERS = LIST_CONJ thlist
 
 val BUS_CONCAT_LIFTERS1 = Q.store_thm
    ("BUS_CONCAT_LIFTERS1",

@@ -469,12 +469,10 @@ in
   REWRITE_RULE [GSYM alg_subtyping_def] exs_in
 end
 
-val alg_subtyping_rules = save_thm(
-  "alg_subtyping_rules",
-  LIST_CONJ (map derive_rule (CONJUNCTS algn_subtyping_rules)));
+Theorem alg_subtyping_rules =
+  LIST_CONJ (map derive_rule (CONJUNCTS algn_subtyping_rules))
 
-val alg_subtyping_ind = save_thm(
-  "alg_subtyping_ind",
+Theorem alg_subtyping_ind =
     (Q.GEN `P` o
      SIMP_RULE (srw_ss()) [GSYM alg_subtyping_def] o
      CONV_RULE (RAND_CONV
@@ -483,10 +481,9 @@ val alg_subtyping_ind = save_thm(
                                 BINDER_CONV (SWAP_VARS_CONV THENC
                                              BINDER_CONV FORALL_IMP_CONV)))) o
      SIMP_RULE (srw_ss()) [] o
-     Q.SPEC `\n G ty1 ty2. P G ty1 ty2`) algn_subtyping_ind);
+     Q.SPEC `\n G ty1 ty2. P G ty1 ty2`) algn_subtyping_ind
 
-val alg_subtyping_cases = save_thm(
-  "alg_subtyping_cases",
+Theorem alg_subtyping_cases =
     (REWRITE_CONV [alg_subtyping_def] THENC
      ONCE_REWRITE_CONV [algn_subtyping_cases] THENC
      SIMP_CONV (srw_ss()) [EXISTS_OR_THM] THENC
@@ -494,7 +491,7 @@ val alg_subtyping_cases = save_thm(
                (map (INST_TYPE [alpha |-> numSyntax.num])
                     [LEFT_EXISTS_AND_THM, RIGHT_EXISTS_AND_THM]) THENC
      REWRITE_CONV [GSYM alg_subtyping_def])
-      ``Gamma |-> ty1 <: ty2``);
+      ``Gamma |-> ty1 <: ty2``
 
 val alg_subtyping_swap1_eqn = store_thm(
   "alg_subtyping_swap1_eqn",

@@ -339,7 +339,7 @@ Definition hop_def:
 End
 
 (* alternate form *)
-val hop_alt = save_thm("hop_alt", hop_def |> REWRITE_RULE [SUC_ONE_ADD]);
+Theorem hop_alt = hop_def |> REWRITE_RULE [SUC_ONE_ADD]
 (* val hop_alt = |- !n b. hop b n = if b = 0 \/ n = 0 then 0 else 1 + hop b (n - b): thm *)
 
 (* Theorem: ((b = 0) \/ (n = 0) ==> (hop b n = 0) *)
@@ -1650,9 +1650,9 @@ val decrease_by_member = store_thm(
 (* Theorem: 0 < b /\ 0 < n ==> MEM n (decrease_by b n) *)
 (* Proof: put j = 0 in decrease_by_member *)
 (* Derive a theorem: put j = 0 in decrease_by_member *)
-val decrease_by_head = save_thm("decrease_by_head",
+Theorem decrease_by_head =
     decrease_by_member |> SPEC ``b:num`` |> SPEC ``n:num`` |> SPEC ``0``
-      |> SIMP_RULE (srw_ss()) [] |> GEN ``n:num`` |> GEN ``b:num``);
+      |> SIMP_RULE (srw_ss()) [] |> GEN ``n:num`` |> GEN ``b:num``
 (* val decrease_by_head = |- !b n. 0 < b /\ 0 < n ==> MEM n (decrease_by b n): thm *)
 
 (* Theorem: LENGTH (decrease_by b n) = hop b n *)
