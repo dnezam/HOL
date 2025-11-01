@@ -828,14 +828,12 @@ Theorem aligned_con_rrx_thms =
 Definition aligned_bx_def[nocompute]:   aligned_bx a = (1 >< 0) a <> (0b10w:word2)
 End
 
-Theorem aligned_bx_n2w =
+Theorem aligned_bx_n2w[compute] = (
 let val thm = aligned_bx_def |> Q.SPEC `n2w a` |> GEN_ALL in
   CONJ (INST_TYPE [alpha |-> ``:32``] thm)
        (INST_TYPE [alpha |-> ``:8``] thm)
     |> SIMP_RULE (srw_ss()) [bitTheory.BITS_ZERO3, word_extract_n2w]
-end
-
-val _ = computeLib.add_persistent_funs ["aligned_bx_n2w"];
+end)
 
 val aligned_bx_0w = EVAL ``aligned_bx (0w:word32)``;
 val aligned_bx_1w = EVAL ``aligned_bx (1w:word32)``;
@@ -4180,4 +4178,3 @@ val arm_next_thm2 = Q.store_thm("arm_next_thm2",
     \\ FULL_SIMP_TAC (srw_ss()) []);
 
 (* ------------------------------------------------------------------------- *)
-

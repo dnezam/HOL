@@ -147,7 +147,7 @@ fun set_pc th = let
 
 (* cons *)
 
-Theorem ARM_LISP_CONS = let
+Theorem ARM_LISP_CONS = (let
   val th = arm_alloc_thm
   val imp = lisp_inv_cons
   val def = aLISP_def
@@ -157,9 +157,9 @@ Theorem ARM_LISP_CONS = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("arm_alloc_code",mk_eq(``(arm_alloc_code:word32->(word32 # word32) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
-Theorem PPC_LISP_CONS = let
+Theorem PPC_LISP_CONS = (let
   val th = RW [ppc_alloc_EQ] ppc_alloc_thm
   val imp = lisp_inv_cons
   val def = pLISP_def
@@ -169,9 +169,9 @@ Theorem PPC_LISP_CONS = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("ppc_alloc_code",mk_eq(``(ppc_alloc_code:word32->(word32 # word32) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
-Theorem X86_LISP_CONS = let
+Theorem X86_LISP_CONS = (let
   val th = RW [x86_alloc_EQ] x86_alloc_thm
   val imp = lisp_inv_cons
   val def = xLISP_def
@@ -181,12 +181,12 @@ Theorem X86_LISP_CONS = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("x86_alloc_code",mk_eq(``(x86_alloc_code:word32->(word32 # word8 list # bool) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
 
 (* equal *)
 
-Theorem ARM_LISP_EQUAL = let
+Theorem ARM_LISP_EQUAL = (let
   val th = arm_eq_thm
   val imp = lisp_inv_equal
   val def = aLISP_def
@@ -196,9 +196,9 @@ Theorem ARM_LISP_EQUAL = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("arm_equal_code",mk_eq(``(arm_equal_code:word32->(word32 # word32) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
-Theorem PPC_LISP_EQUAL = let
+Theorem PPC_LISP_EQUAL = (let
   val th = ppc_eq_thm
   val imp = lisp_inv_equal
   val def = pLISP_def
@@ -208,9 +208,9 @@ Theorem PPC_LISP_EQUAL = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("ppc_equal_code",mk_eq(``(ppc_equal_code:word32->(word32 # word32) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
-Theorem X86_LISP_EQUAL = let
+Theorem X86_LISP_EQUAL = (let
   val th = x86_eq_thm
   val imp = lisp_inv_equal
   val def = xLISP_def
@@ -220,7 +220,7 @@ Theorem X86_LISP_EQUAL = let
   val (_,_,c,_) = dest_spec (concl res)
   val def = new_definition("x86_equal_code",mk_eq(``(x86_equal_code:word32->(word32 # word8 list # bool) set) p``,c))
   val res = RW [GSYM def] res
-  in res end
+  in res end)
 
 
 (* isDot and isSym *)
@@ -1432,5 +1432,3 @@ fun PPC_LISP_EQ_ZERO i = let
 val _ = map ARM_LISP_EQ_ZERO [1,2,3,4,5,6];
 val _ = map X86_LISP_EQ_ZERO [1,2,3,4,5,6];
 val _ = map PPC_LISP_EQ_ZERO [1,2,3,4,5,6];
-
-

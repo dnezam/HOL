@@ -433,7 +433,7 @@ fun expand th = let
 
 (* top-level correctness statement *)
 
-Theorem jitawa_correctness_thm = let
+Theorem jitawa_correctness_thm = (let
   val th =
     [X64_LISP_WEAKEN_CODE,X64_LISP_PUSH_0,X64_LISP_XBP_SET,X64_LISP_WRITE_12,X64_LISP_CONS_50]
     |> map (Q.INST [`ddd`|->`SOME F`,`cu`|->`NONE`])
@@ -464,7 +464,7 @@ Theorem jitawa_correctness_thm = let
     THEN1 (METIS_TAC [])
     \\ SIMP_TAC std_ss [zERROR_MESSAGE_def,SEP_EXISTS_THM] \\ METIS_TAC [])
   val th = MP th lemma
-  in th end
+  in th end)
 
 
 (* write verified code to file *)
@@ -476,5 +476,3 @@ val _ = print "Expanding code abbreviations, "
 val th = expand th
 val _ = print "done.\n"
 in val _ = export_codeLib.write_code_to_file filename th end
-
-

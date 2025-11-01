@@ -453,7 +453,7 @@ E := sctlr.EE|>))) 27w``,
                   THEN RW_TAC (srw_ss()) []
                   THEN FULL_SIMP_TAC (srw_ss()) []);
 
-Theorem take_undef_writing_part_spf_thm =
+Theorem take_undef_writing_part_spf_thm = (
               let
                   val a = SIMP_CONV (bool_ss) [take_undef_instr_exception_def]
                                     ``take_undef_instr_exception <|proc:=0|> ``;
@@ -509,7 +509,7 @@ Theorem take_undef_writing_part_spf_thm =
                                                   seqT_priv_spsr_flags_constraints_before_thm)) thm5;
               in
                   (GEN_ALL thm6)
-              end
+              end)
 
 
 (* to be replaced *)
@@ -597,4 +597,3 @@ val take_undef_instr_exception_spsr_flags_thm =
                ])
     end);
 *)
-

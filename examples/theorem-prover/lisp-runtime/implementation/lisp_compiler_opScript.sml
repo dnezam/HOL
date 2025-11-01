@@ -4186,7 +4186,7 @@ val X64_LISP_CODE_INTRO_RETURN_CLEAR_CACHE = prove(
          \\ METIS_TAC [SIMP_RULE (std_ss++star_ss) [] RETURN_CLEAR_CACHE])
   \\ FULL_SIMP_TAC std_ss [zLISP_FAIL_def,SPEC_REFL]);
 
-Theorem X64_LISP_COMPILE = let
+Theorem X64_LISP_COMPILE = (let
   val th = MATCH_MP X64_LISP_CODE_INTRO_RETURN_CLEAR_CACHE
              (Q.INST [`qs`|->`q::qs`] mc_only_compile_spec)
   val ff = Q.INST [`ddd`|->`SOME F`,`cu`|->`NONE`]
@@ -4196,7 +4196,7 @@ Theorem X64_LISP_COMPILE = let
   val th = SPEC_COMPOSE_RULE [ff X64_LISP_WEAKEN_CODE,ff X64_LISP_CALL_EL8,th]
   val th = RW [STAR_ASSOC] th
   val _ = add_compiled [th]
-  in th end
+  in th end)
 
 
 (* code for iCOMPILE -- stores function definition into bc_state, i.e. x5 *)
@@ -4542,7 +4542,7 @@ val X64_LISP_COMPILE_AUX = let
   val th = abbrev_code (th,def_name)
   in th end
 
-Theorem X64_LISP_COMPILE_INST = let
+Theorem X64_LISP_COMPILE_INST = (let
   val th = X64_LISP_COMPILE_AUX
   val th = Q.INST [`x0`|->`body`,`x5`|->`bc_state_tree bc`,
                    `xs`|->`params::fname::xs`,
@@ -4551,7 +4551,7 @@ Theorem X64_LISP_COMPILE_INST = let
            |> DISCH ``bc_inv bc /\ (FUN_LOOKUP bc.compiled (getSym fname) = NONE)``
            |> SIMP_RULE std_ss [mc_compile_inst_thm,LET_DEF,SEP_CLAUSES]
            |> RW [GSYM SPEC_MOVE_COND]
-  in th end
+  in th end)
 
 val mc_compile_inst_thm_alt = prove(
   ``bc_inv bc /\ ~(FUN_LOOKUP bc.compiled (getSym fname) = NONE) ==>
@@ -4569,7 +4569,7 @@ val mc_compile_inst_thm_alt = prove(
   \\ FULL_SIMP_TAC (srw_ss()) [bc_inv_def,BC_CODE_OK_def] \\ METIS_TAC [])
   |> SIMP_RULE std_ss [LET_DEF];
 
-Theorem X64_LISP_COMPILE_INST_FAIL = let
+Theorem X64_LISP_COMPILE_INST_FAIL = (let
   val th = X64_LISP_COMPILE_AUX
   val th = Q.INST [`x0`|->`body`,`x5`|->`bc_state_tree bc`,
                    `xs`|->`params::fname::xs`,
@@ -4578,7 +4578,7 @@ Theorem X64_LISP_COMPILE_INST_FAIL = let
            |> DISCH ``bc_inv bc /\ ~(FUN_LOOKUP bc.compiled (getSym fname) = NONE)``
            |> SIMP_RULE std_ss [mc_compile_inst_thm_alt,LET_DEF,SEP_CLAUSES]
            |> RW [GSYM SPEC_MOVE_COND]
-  in th end
+  in th end)
 
 val (mc_compile_for_eval_spec,mc_compile_for_eval_def,mc_compile_for_eval_pre_def) = compile "x64" ``
   mc_compile_for_eval (x0:SExp,x1,x2:SExp,x3:SExp,x4:SExp,x5,xs,xs1,code) =
@@ -4617,14 +4617,14 @@ val mc_compile_for_eval_thm = store_thm("mc_compile_for_eval_thm",
   \\ FULL_SIMP_TAC std_ss [list2sexp_def,NOT_CONS_NIL,code_ptr_def,HD,TL])
   |> SIMP_RULE std_ss [LET_DEF];
 
-Theorem X64_LISP_COMPILE_FOR_EVAL = let
+Theorem X64_LISP_COMPILE_FOR_EVAL = (let
   val th = mc_compile_for_eval_spec
   val th = Q.INST [`x0`|->`body`,`x5`|->`bc_state_tree bc`,
                    `xs1`|->`bc.consts`,
                    `code`|->`BC_CODE (bc.code,bc.code_end)`] th
            |> SIMP_RULE std_ss [UNDISCH mc_compile_for_eval_thm,LET_DEF,SEP_CLAUSES]
            |> DISCH_ALL |> RW [GSYM SPEC_MOVE_COND]
-  in th end
+  in th end)
 
 
 (* reload all primitive ops with ddd as a variable *)
@@ -4790,4 +4790,3 @@ Theorem X64_BYTECODE_JUMP_SYM =
   |> DISCH_ALL |> SIMP_RULE (std_ss++sep_cond_ss) [GSYM SPEC_MOVE_COND]
   |> (fn th => SPEC_COMPOSE_RULE [th,X64_LISP_JUMP_TO_CODE_NO_RET])
   |> SIMP_RULE std_ss [isVal_def,getVal_def,SEP_CLAUSES]
-

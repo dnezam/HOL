@@ -72,7 +72,7 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT___eval =
                        GSYM AND_IMP_INTRO]
               CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NOT;
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -80,9 +80,9 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_AND___eval =
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -90,9 +90,9 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_OR___eval =
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_IV_BINDING_LTL_TO_GEN_BUECHI_DS_def,
                        EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY
@@ -100,7 +100,7 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_EQUIV___eval =
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
 Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_NEXT___eval =
       SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY,
@@ -117,41 +117,41 @@ Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT___eval =
                        GSYM AND_IMP_INTRO]
               CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PNEXT
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_SUNTIL;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PSUNTIL;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_BEFORE;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
-Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE___eval =
+Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE___eval = (
     let
       val thm = SIMP_RULE list_ss [EXTEND_LTL_TO_GEN_BUECHI_DS_def, UNION_SING, UNION_EMPTY]
                           CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PBEFORE;
       val thm = ONCE_REWRITE_RULE [GSYM AND_IMP_INTRO] thm
     in
       thm
-    end
+    end)
 
 (* forget bindings specicalised version *)
 Theorem CONSTRUCTION_LTL_TO_GEN_BUECHI_DS___CASE_PROP___forget_eval =
@@ -798,4 +798,3 @@ Proof
     SIMP_TAC std_ss [res_quanTheory.RES_FORALL, IN_INSERT, DISJ_IMP_THM, FORALL_AND_THM] THEN
     METIS_TAC[]
 QED
-

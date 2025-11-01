@@ -470,14 +470,13 @@ val SUB_COMM = prove(
   srw_tac [][SUB_DEF, supp_fresh]);
 
 
-Theorem SUB_THM =
+Theorem SUB_THM[simp] = (
   let val (eqns,_) = CONJ_PAIR SUB_DEF
   in
     CONJ (REWRITE_RULE [GSYM CONJ_ASSOC]
                        (LIST_CONJ (SUB_THMv :: tl (CONJUNCTS eqns))))
          SUB_COMM
-  end
-val _ = export_rewrites ["SUB_THM"]
+  end)
 Theorem SUB_VAR = hd (CONJUNCTS SUB_DEF)
 
 (* |- !v u N t. v <> u /\ v # N ==> [N/u] (LAM v t) = LAM v ([N/u] t) *)

@@ -6,22 +6,6 @@ Ancestors
 Libs
   bagSimps ConseqConv boolSimps quantHeuristicsLib Sanity
 
-(*
-quietdec := true;
-loadPath := (concat [Globals.HOLDIR, "/examples/separationLogic/src"]) ::
-            !loadPath;
-open vars_as_resourceTheory
-map load ["finite_mapTheory", "relationTheory", "congLib", "sortingTheory",
-   "rich_listTheory", "generalHelpersTheory", "latticeTheory", "separationLogicTheory",
-   "bagSimps", "ConseqConv", "quantHeuristicsLib"];
-show_assums := true;
-*)
-
-(*
-quietdec := false;
-open Sanity
-*)
-
 val _ = ParseExtras.temp_loose_equality()
 val std_ss = std_ss -* ["lift_disj_eq", "lift_imp_disj"]
 val list_ss = list_ss -* ["lift_disj_eq", "lift_imp_disj"]
@@ -1624,14 +1608,14 @@ SIMP_TAC std_ss [VAR_RES_COMBINATOR_def,
    asl_emp___VAR_RES_STACK_COMBINE, IN_SING]);
 
 
-Theorem VAR_RES_COMBINATOR_REWRITE =
+Theorem VAR_RES_COMBINATOR_REWRITE = (
 let
    val thm0 = Q.GEN `f1` PRODUCT_SEPARATION_COMBINATOR_REWRITE
    val thm1 = ISPEC ``VAR_RES_STACK_COMBINE:('c, 'a) var_res_state bin_option_function`` thm0
    val thm2 = REWRITE_RULE [GSYM VAR_RES_COMBINATOR_def] thm1
 in
    thm2
-end
+end)
 
 
 Definition IS_VAR_RES_COMBINATOR_def:

@@ -327,10 +327,10 @@ val monad_simp_lemma = prove(
   THEN Cases_on `t r` THEN SRW_TAC [] [option_apply_def] THEN FULL_SIMP_TAC std_ss []
   THEN Cases_on `x` THEN SRW_TAC [] [option_apply_def]);
 
-Theorem seq_monad_thm = let
+Theorem seq_monad_thm = (let
   val xs = option_apply_SOME :: mem_seq_lemma :: read_eflag_seq_lemma ::
            parT_unit_seq_lemma :: (CONJUNCTS monad_simp_lemma)
-  in LIST_CONJ (map GEN_ALL xs) end
+  in LIST_CONJ (map GEN_ALL xs) end)
 
 val CAN_XWRITE_MEM = store_thm("CAN_XWRITE_MEM",
   ``CAN_XWRITE_MEM a (r,e,s,m,i) =
@@ -401,4 +401,3 @@ val x86_address_lemma = store_thm("x86_address_lemma",
   ``~(0w = 1w:word32) /\ ~(0w = 2w:word32) /\ ~(0w = 3w:word32) /\
     ~(1w = 2w:word32) /\ ~(1w = 3w:word32) /\ ~(2w = 3w:word32)``,
   EVAL_TAC);
-

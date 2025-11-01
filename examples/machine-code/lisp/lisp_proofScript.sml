@@ -40,15 +40,15 @@ End
 
 val x2sexp = x2sexp_def |> CONJUNCTS |> map SPEC_ALL |> LIST_CONJ
 
-Theorem func2sexp_def[allow_rebind] =
-  save_thm(
-    "term2sexp_def[allow_rebind]",
+Theorem term2sexp_def[allow_rebind] = (
     let
       val term2sexp_deff = Define `term2sexp x = x2sexp (T,x,FunVar "nil")`;
       val func2sexp_deff = Define `func2sexp y = x2sexp (F,Var "nil",y)`;
       val th = Q.INST [`xx`|->`Var "nil"`,`yy`|->`FunVar "nil"`] x2sexp
       val th = REWRITE_RULE [GSYM term2sexp_deff,GSYM func2sexp_deff] th
     in th end)
+
+Theorem func2sexp_def[allow_rebind] = term2sexp_def
 
 val zip_yz_lemma = prove(
   ``!xs ys zs x (stack:SExp) alist (l:num).
@@ -955,4 +955,3 @@ val LISP_EVAL_LIMIT_CORRECT = store_thm("LISP_EVAL_LIMIT_CORRECT",
   THEN REWRITE_TAC [EVAL ``TASK_CONT = TASK_FUNC``]
   THEN REWRITE_TAC [EVAL ``TASK_CONT = TASK_EVAL``]
   THEN REWRITE_TAC [TASK_EVAL_def,isDot_def]);
-

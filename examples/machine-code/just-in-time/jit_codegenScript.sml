@@ -535,7 +535,7 @@ val x86_codegen_loop_lemma = prove(
     \\ ASM_SIMP_TAC std_ss []
     \\ SEP_WRITE_TAC));
 
-Theorem x86_codegen_thm = let
+Theorem x86_codegen_thm = (let
   val th = SPEC_ALL x86_codegen_loop_lemma
   val th = Q.INST [`y`|->`x`,`r4`|->`a`,`ns1`|->`ns`,`r3`|->`r2`] th
   val th = RW [GSYM CONJ_ASSOC,GSYM SEP_CODE_IN_MEM_def] (RW [CONJ_ASSOC] th)
@@ -544,7 +544,7 @@ Theorem x86_codegen_thm = let
   val def1 = CONV_RULE cc x86_codegen_def
   val pre1 = CONV_RULE cc x86_codegen_pre_def
   val th = RW [GSYM def1,GSYM pre1] (Q.INST [`a`|->`r1`] th)
-  in th end
+  in th end)
 
 val SEP_CODE_IN_MEM_LOOP_thm = prove(
   ``!ns a ns1 a2 x.
@@ -586,7 +586,7 @@ fun subst_SPEC_PC th tm = let
 
 val _ = write_code_to_file "codegen.s" x86_codegen_th
 
-Theorem x86_codegen_better = let
+Theorem x86_codegen_better = (let
   val th = Q.INST [`eax`|->`r1`,`edx`|->`r2`] x86_codegen_th
   val tm = (fst o dest_imp o concl) x86_codegen_thm
   val th = SPEC_BOOL_FRAME_RULE th tm
@@ -614,4 +614,4 @@ Theorem x86_codegen_better = let
     \\ IMP_RES_TAC x86_codegen_thm);
   val th = DISCH_ALL (MP th (UNDISCH lemma))
   val th = RW [GSYM SPEC_MOVE_COND] th
-  in th end
+  in th end)

@@ -17,7 +17,7 @@ val R_exec_T_11 = prove(
   \\ IMP_RES_TAC R_ev_T_11
   \\ FULL_SIMP_TAC std_ss [] \\ RES_TAC   \\ FULL_SIMP_TAC std_ss []);
 
-Theorem milawa_soundness_thm = let
+Theorem milawa_soundness_thm = (let
   val th1 = milawa_main_soundness
   val th = jitawa_correctness_thm
   val assum = fst (dest_imp (concl th1))
@@ -43,5 +43,4 @@ Theorem milawa_soundness_thm = let
   val lemma = prove(goal,SIMP_TAC std_ss [R_exec_TERMINATES_def] \\ METIS_TAC [th1])
   val th = DISCH_ALL (MP th (UNDISCH lemma))
   val th = REWRITE_RULE [GSYM SPEC_MOVE_COND] th
-  in th end
-
+  in th end)

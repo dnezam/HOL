@@ -584,7 +584,7 @@ REPEAT STRIP_TAC THENL [
 Definition BIN_OPTION_MAP_ALL_DEF_def:   BIN_OPTION_MAP_ALL_DEF f = BIN_OPTION_MAP f (K (K T))
 End
 
-Theorem BIN_OPTION_MAP_ALL_DEF_THM =
+Theorem BIN_OPTION_MAP_ALL_DEF_THM = (
    let
       val thm0 = Q.GEN `c` BIN_OPTION_MAP_THM;
       val thm1 = Q.SPEC `K (K T)` thm0;
@@ -592,7 +592,7 @@ Theorem BIN_OPTION_MAP_ALL_DEF_THM =
       val thm3 = SIMP_RULE std_ss [prove (``COMM (K (K T))``, SIMP_TAC std_ss [COMM_DEF]), GSYM COMM_DEF, GSYM ASSOC_DEF] thm2;
    in
       thm3
-   end
+   end)
 
 
 
@@ -1145,14 +1145,14 @@ SIMP_TAC std_ss [asl_exists_def, asl_or_def, IN_ABS] THEN
 METIS_TAC[]);
 
 
-Theorem fasl_star_REWRITE =
+Theorem fasl_star_REWRITE = (
    let
       val thm = (GEN ``f:'a ->'a ->'a`` BIN_OPTION_MAP_ALL_DEF_THM);
       val thm2 = ISPEC ``asl_star f`` thm;
       val thm3 = REWRITE_RULE [GSYM fasl_star_def] thm2;
    in
       thm3
-   end
+   end)
 
 val fasl_star_DIRECT_DEF = store_thm ("fasl_star_DIRECT_DEF",
 ``(fasl_star f NONE Qopt = NONE) /\
@@ -4779,7 +4779,7 @@ Definition ASL_IS_SING_LOCK_ATOMIC_ACTION_def:
    ASL_IS_LOCK_ATOMIC_ACTION {l}
 End
 
-Theorem ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE =
+Theorem ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE = (
    let
       val thm = SPEC_ALL ASL_IS_LOCK_ATOMIC_ACTION_def;
       val thm2 = Q.GEN `L` thm;
@@ -4788,7 +4788,7 @@ Theorem ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE =
       val thm5 = REWRITE_RULE [GSYM ASL_IS_SING_LOCK_ATOMIC_ACTION_def, IN_SING] thm4;
    in
       thm5
-   end
+   end)
 
 val ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE2 = store_thm ("ASL_IS_SING_LOCK_ATOMIC_ACTION_REWRITE2",
    ``ASL_IS_SING_LOCK_ATOMIC_ACTION l aa =
@@ -5869,15 +5869,14 @@ val comments_thmL = [asl_comment_location_def,
 Theorem asl_comments_ELIM =
 LIST_CONJ comments_thmL
 
-Theorem asl_comments_TF_ELIM =
+Theorem asl_comments_TF_ELIM[simp] = (
 let
    val thmL = map (CONV_RULE (RESORT_FORALL_CONV rev)) comments_thmL;
    val thmLT = map (ISPEC T) thmL
    val thmLF = map (ISPEC F) thmL
 in
    LIST_CONJ (append thmLT thmLF)
-end
-val _ = export_rewrites ["asl_comments_TF_ELIM"]
+end)
 
 
 (* ------------------------------------ *)
@@ -6171,7 +6170,7 @@ REPEAT STRIP_TAC THENL [
 
 
 
-Theorem ASL_PROTO_TRACES_EVAL_THM =
+Theorem ASL_PROTO_TRACES_EVAL_THM = (
 let
    val thm1 = Q.GEN `t` ASL_PROTO_TRACES_EVAL_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6180,7 +6179,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end
+end)
 
 
 val ASL_PROGRAM_TRACES_PROC_IN_THM = store_thm ("ASL_PROGRAM_TRACES_PROC_IN_THM",
@@ -6299,7 +6298,7 @@ REPEAT STRIP_TAC THENL [
 
 
 
-Theorem ASL_PROGRAM_TRACES_PROC_THM =
+Theorem ASL_PROGRAM_TRACES_PROC_THM = (
 let
    val thm1 = Q.GEN `t` ASL_PROGRAM_TRACES_PROC_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6308,7 +6307,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end
+end)
 
 
 val ASL_PROGRAM_TRACES_PROC_SING_THM = store_thm ("ASL_PROGRAM_TRACES_PROC_SING_THM",
@@ -6429,7 +6428,7 @@ REPEAT CONJ_TAC THENL [
 
 
 
-Theorem ASL_PROGRAM_TRACES_THM =
+Theorem ASL_PROGRAM_TRACES_THM = (
 let
    val thm1 = Q.GEN `t` ASL_PROGRAM_TRACES_IN_THM;
    val thm2 = prove (``(\t. if C then P t else Q t) = (if C then (\t. P t) else (\t. Q t))``, METIS_TAC[]);
@@ -6438,7 +6437,7 @@ let
       thm2, thm3] thm1;
 in
    thm4
-end
+end)
 
 
 

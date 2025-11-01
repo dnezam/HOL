@@ -1023,14 +1023,13 @@ Theorem SUB_COMM = prove(
         (tpm [(x',y)] ([N/x] t) = [N/x] (tpm [(x',y)] t))”,
   srw_tac [][SUB_DEF, supp_fresh]);
 
-Theorem SUB_THM =
+Theorem SUB_THM[simp] = (
   let val (eqns,_) = CONJ_PAIR SUB_DEF
   in
     CONJ (REWRITE_RULE [GSYM CONJ_ASSOC]
                        (LIST_CONJ (SUB_THMv :: tl (CONJUNCTS eqns))))
          SUB_COMM
-  end
-val _ = export_rewrites ["SUB_THM"];
+  end)
 
 (* |- !Y X E. [E/X] (var Y) = if Y = X then E else var Y *)
 Theorem SUB_VAR = hd (CONJUNCTS SUB_DEF) |> Q.SPECL [‘Y’, ‘X’] |> GEN_ALL

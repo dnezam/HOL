@@ -584,7 +584,7 @@ val ALIGNED = store_thm("ALIGNED",
   \\ SIMP_TAC std_ss [ALIGNED_n2w,
        RW [WORD_ADD_0] (Q.SPECL [`x`,`0w`] ALIGNED_CLAUSES)]);
 
-Theorem WORD_CMP_NORMALISE = let
+Theorem WORD_CMP_NORMALISE = (let
   val rw = METIS_PROVE [] ``!x:'a y z:'b q. ~(x = y) /\ ~(z = q) = ~(x = y) /\ ~(q = z)``
   val nzcv_thm = RW1 [rw] nzcv_def
   val rw = [nzcv_thm,LET_DEF,GSYM word_add_n2w,n2w_w2n,GSYM word_sub_def,WORD_EQ_SUB_ZERO]
@@ -620,7 +620,7 @@ Theorem WORD_CMP_NORMALISE = let
   val qs1 = [GSYM WORD_LESS_OR_EQ, GSYM (RW1 [DISJ_COMM] WORD_LESS_OR_EQ)]
   val qs2 = [GSYM WORD_LOWER_OR_EQ, GSYM (RW1 [DISJ_COMM] WORD_LOWER_OR_EQ)]
   val ls = [lemma1,lemma2,lemma3,lemma4,WORD_EQ_SUB_ZERO,WORD_SUB_RZERO]
-  in Q.GEN `a` (Q.GEN `b` (LIST_CONJ (map SPEC_ALL ([th] @ ys @ zs @ qs1 @ qs2 @ ls)))) end
+  in Q.GEN `a` (Q.GEN `b` (LIST_CONJ (map SPEC_ALL ([th] @ ys @ zs @ qs1 @ qs2 @ ls)))) end)
 
 val word_LSL_n2w = store_thm("word_LSL_n2w",
   ``!m k. ((n2w m):'a word) << k = n2w (m * 2 ** k)``,
@@ -738,4 +738,3 @@ val w2w_CLAUSES = store_thm("w2w_CLAUSES",
 val LESS_SUB_MOD = store_thm("LESS_SUB_MOD",
   ``!n m k. n < k ==> ((n - m) MOD k = n - m)``,
   REPEAT STRIP_TAC THEN `n - m < k` by DECIDE_TAC THEN ASM_SIMP_TAC std_ss []);
-

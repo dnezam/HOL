@@ -429,10 +429,10 @@ val monad_simp_lemma = prove(
   THEN Cases_on `t r` THEN SRW_TAC [] [option_apply_def] THEN FULL_SIMP_TAC std_ss []
   THEN Cases_on `x` THEN SRW_TAC [] [option_apply_def]);
 
-Theorem seq_monad_thm = let
+Theorem seq_monad_thm = (let
   val xs = option_apply_SOME :: mem_seq_lemma :: read_eflag_seq_lemma ::
            parT_unit_seq_lemma :: (CONJUNCTS monad_simp_lemma)
-  in LIST_CONJ (map GEN_ALL xs) end
+  in LIST_CONJ (map GEN_ALL xs) end)
 
 val CAN_ZWRITE_MEM = store_thm("CAN_ZWRITE_MEM",
   ``CAN_ZWRITE_MEM a (r,e,s,m,i) =
@@ -502,4 +502,3 @@ val ZREAD_RIP_ADD_0 = store_thm("ZREAD_RIP_ADD_0",
 Theorem x64_address_lemma =
   SIMP_RULE std_ss [listTheory.ALL_DISTINCT,MEM,GSYM CONJ_ASSOC]
     (EVAL ``ALL_DISTINCT [0w;1w;2w;3w;4w;5w;6w;7w:word64]``)
-

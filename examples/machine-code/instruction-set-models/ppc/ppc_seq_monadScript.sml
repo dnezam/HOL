@@ -159,10 +159,10 @@ val monad_simp_lemma = prove(
   THEN Cases_on `t r` THEN SRW_TAC [] [option_apply_def] THEN FULL_SIMP_TAC std_ss []
   THEN Cases_on `x` THEN SRW_TAC [] [option_apply_def]);
 
-Theorem seq_monad_thm = let
+Theorem seq_monad_thm = (let
   val xs = option_apply_SOME :: mem_seq_lemma :: read_status_seq_lemma ::
            parT_unit_seq_lemma :: (CONJUNCTS monad_simp_lemma)
-  in LIST_CONJ (map GEN_ALL xs) end
+  in LIST_CONJ (map GEN_ALL xs) end)
 
 val PREAD_CLAUSES = store_thm("PREAD_CLAUSES",
   ``!s. (PREAD_R r (PWRITE_M a x s) = PREAD_R r s) /\
@@ -186,4 +186,3 @@ val ppc_else_none_status_lemma = store_thm("ppc_else_none_status_lemma",
   ``!m a f. ~(m a = NONE) ==>
             (option_apply ((m:ppc_state->bool option) a) (f:bool->'a option) = f (THE (m a)))``,
   SIMP_TAC std_ss [option_apply_def]);
-

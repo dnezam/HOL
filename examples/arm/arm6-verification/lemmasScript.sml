@@ -257,12 +257,12 @@ val REG_READ_WRITE = store_thm("REG_READ_WRITE",
     \\ PROVE_TAC [r15,not_pc,not_reg_eq,mode_reg2num_lt,num2register_11,
          DECIDE ``15 < 31``]);
 
-Theorem REG_READ_WRITE_PC =
+Theorem REG_READ_WRITE_PC = (
   let val thm = (SPEC_ALL o CONJUNCT1) REG_READ_WRITE in
     CONJ
       ((SIMP_RULE arith_ss [TO_WRITE_READ6] o INST [`n2` |-> `15w`]) thm)
       ((SIMP_RULE arith_ss [TO_WRITE_READ6] o INST [`n1` |-> `15w`]) thm)
-  end
+  end)
 
 val REG_READ_WRITE_NEQ = store_thm("REG_READ_WRITE_NEQ",
   `!r m1 m2 n1 n2 d. ~(n1 = n2) ==>
@@ -526,4 +526,3 @@ val SPSR_READ_WRITE = store_thm("SPSR_READ_WRITE",
     \\ SIMP_TAC (srw_ss()) [APPLY_UPDATE_ID]);
 
 (* ------------------------------------------------------------------------- *)
-

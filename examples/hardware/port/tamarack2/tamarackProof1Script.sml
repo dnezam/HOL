@@ -169,7 +169,7 @@ expandf tac4;
 
 Theorem MPC_1_THM = top_thm()
 
-set_goal ([],
+val _ = set_goal ([],
         ``!n mpc mem mar pc acc ir arg buf.
           Tamarack n (mpc,mem,mar,pc,acc,ir,arg,buf)
           ==>
@@ -206,7 +206,7 @@ expandf (PURE_REWRITE_TAC [ADDn,Bits] THEN
 
 Theorem MPC_2_THM = top_thm()
 
-set_goal ([],
+val _ = set_goal ([],
         ``!n mpc mem mar pc acc ir arg buf.
           Tamarack n (mpc,mem,mar,pc,acc,ir,arg,buf)
           ==>
@@ -388,4 +388,3 @@ expandf tac4;
 
 Theorem MPC_14_THM = top_thm()
 val _ = drop();
-

@@ -153,12 +153,12 @@ SIMP_TAC std_ss [VAR_RES_STACK_COMBINE_REWRITE]);
 
 
 
-Theorem holfoot_separation_combinator___REWRITE =
+Theorem holfoot_separation_combinator___REWRITE = (
 
 let
    val thm0 = IS_SEPARATION_ALGEBRA___holfoot_separation_combinator;
    val thm1 = SIMP_RULE std_ss [IS_SEPARATION_ALGEBRA_EXPAND_THM] thm0;
-in CONJ thm1 holfoot_separation_combinator___REWRITE_helper end
+in CONJ thm1 holfoot_separation_combinator___REWRITE_helper end)
 
 
 
@@ -3458,14 +3458,14 @@ Definition holfoot_ap_list_seg_def:
 End
 
 
-Theorem holfoot_ap_list_seg_REWRITE =
+Theorem holfoot_ap_list_seg_REWRITE = (
   let
      val thm0 = CONV_RULE (ONCE_REWRITE_CONV [holfoot_ap_data_list_seg_REWRITE]) holfoot_ap_list_seg_def;
      val thm1 = SIMP_RULE list_ss [asl_bool_REWRITES, LIST_TO_FMAP_def] thm0;
      val thm2 = CONV_RULE (ONCE_REWRITE_CONV [GSYM holfoot_ap_list_seg_def]) thm1;
   in
      thm2
-  end
+  end)
 
 Definition holfoot_ap_data_list_def:
    holfoot_ap_data_list tl startExp data =
@@ -8465,7 +8465,7 @@ SIMP_TAC (std_ss++CONJ_ss) [var_res_prop_equal_unequal_EXPAND, IN_ABS,
 
 
 
-Theorem var_res_prop___asl_star___holfoot =
+Theorem var_res_prop___asl_star___holfoot = (
 let
   val thm0 = ISPEC ``(VAR_RES_COMBINATOR DISJOINT_FMAP_UNION):holfoot_state bin_option_function``
         var_res_prop___asl_star
@@ -8475,7 +8475,7 @@ let
   val thm2 = SIMP_RULE std_ss [holfoot_separation_combinator_def] thm1
 in
   thm2
-end
+end)
 
 
 

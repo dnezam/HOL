@@ -186,7 +186,7 @@ Theorem Fact_cir =
 (* Print Verilog to file FACT.vl                                             *)
 (*****************************************************************************)
 
-val _ = PRINT_VERILOG FACT_cir;  (* N.B. FACT.vl overwritten by stuff below! *)
+val _ = PRINT_VERILOG Fact_cir;  (* N.B. FACT.vl overwritten by stuff below! *)
 
 (*****************************************************************************)
 (* Print Verilog + a simulation environment to FACT.vl                       *)

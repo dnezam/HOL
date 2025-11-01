@@ -238,12 +238,12 @@ fun generate_copy i j =
     in DISCH_ALL (MATCH_MP sw1 (MATCH_MP sw2 th)) end;
   (* e.g. to copy 5 into 3 do generate_copy 3 5 *)
 
-Theorem lisp_inv_move = let
+Theorem lisp_inv_move = (let
   fun pairs x [] = [] | pairs x (y::ys) = (x,y) :: pairs x ys
   fun cross [] ys = [] | cross (x::xs) ys = pairs x ys @ cross xs ys
   val list = filter (fn (x,y) => not (x = y)) (cross [1,2,3,4,5,6] [1,2,3,4,5,6])
   val thms = map (fn (x,y) => UNDISCH (generate_copy y x)) list
-  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end
+  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end)
 
 
 (* assignments *)
@@ -305,26 +305,26 @@ fun generate_CAR i j is_car = let
   in DISCH_ALL th end;
   (* to put car of 5 in 2 do generate_CAR 2 5 false *)
 
-Theorem lisp_inv_address = let
+Theorem lisp_inv_address = (let
   val thms = [MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap1),
               MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap2),
               MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap3),
               MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap4),
               MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap5),
               MATCH_MP lisp_inv_address_lemma (UNDISCH lisp_inv_swap6)]
-  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end
+  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end)
 
-Theorem lisp_inv_car = let
+Theorem lisp_inv_car = (let
   fun pairs x [] = [] | pairs x (y::ys) = (x,y) :: pairs x ys
   fun cross [] ys = [] | cross (x::xs) ys = pairs x ys @ cross xs ys
   val thms = map (fn (x,y) => UNDISCH (generate_CAR y x true)) (cross [1,2,3,4,5,6] [1,2,3,4,5,6])
-  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end
+  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end)
 
-Theorem lisp_inv_cdr = let
+Theorem lisp_inv_cdr = (let
   fun pairs x [] = [] | pairs x (y::ys) = (x,y) :: pairs x ys
   fun cross [] ys = [] | cross (x::xs) ys = pairs x ys @ cross xs ys
   val thms = map (fn (x,y) => UNDISCH (generate_CAR y x false)) (cross [1,2,3,4,5,6] [1,2,3,4,5,6])
-  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end
+  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end)
 
 
 (* test *)
@@ -355,14 +355,14 @@ val lisp_inv_test_lemma = prove(
   \\ REWRITE_TAC [ADDR32_n2w,word_add_n2w,DECIDE ``4*n+3 = 2*(2*n+1)+1:num``]
   \\ REWRITE_TAC [GSYM word_mul_n2w,GSYM word_add_n2w,n2w_and_1_lemma]);
 
-Theorem lisp_inv_test = let
+Theorem lisp_inv_test = (let
   val thms = [MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap1),
               MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap2),
               MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap3),
               MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap4),
               MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap5),
               MATCH_MP lisp_inv_test_lemma (UNDISCH lisp_inv_swap6)]
-  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end
+  in RW [] (DISCH_ALL (foldr (uncurry CONJ) TRUTH thms)) end)
 
 
 (* basic equality *)
@@ -958,5 +958,3 @@ val lisp_inv_LDEPTH = store_thm("lisp_inv_LDEPTH",
   \\ IMP_RES_TAC lisp_inv_swap5
   \\ IMP_RES_TAC lisp_inv_swap6
   \\ IMP_RES_TAC lisp_inv_LDEPTH_LEMMA \\ ASM_SIMP_TAC std_ss []);
-
-
